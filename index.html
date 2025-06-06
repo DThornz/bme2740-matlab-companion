@@ -4,14 +4,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BME 2740 MATLAB Companion — Asad Mirza</title>
+<meta name="description" content="An interactive, client-side MATLAB and numerical methods practice companion for BME 2740 — Biomedical Engineering Modeling and Simulation.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600&display=swap" rel="stylesheet">
-<!-- Remove the two KaTeX lines below if this page has no math -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <link rel="stylesheet" href="style.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-    onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+    onload="window.renderMath = () => renderMathInElement(document.getElementById('appRoot'), {delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false}); window.renderMath();"></script>
 </head>
 <body class="light-mode">
 
@@ -31,178 +31,17 @@
       <a class="nav-dropdown-item" href="https://dthornz.github.io/1D-Energy-Transport-Sim/">🌡 1D Energy Transport Sim</a>
       <a class="nav-dropdown-item" href="https://dthornz.github.io/curve-fitting-studio/">📈 Curve Fitting Studio</a>
       <a class="nav-dropdown-item" href="https://dthornz.github.io/website-cv-tools/dissertation.html">📋 PhD Dissertation</a>
-      <!-- TODO: replace the item below with this page's entry; add it to every other page's dropdown too (keep PhD Dissertation last) -->
-      <a class="nav-dropdown-item" style="color:var(--teal);font-weight:600" href="#">🆕 This Page</a>
+      <a class="nav-dropdown-item" style="color:var(--teal);font-weight:600" href="https://dthornz.github.io/bme2740-matlab-companion/">🧮 BME 2740 MATLAB Companion</a>
     </div>
   </div>
 </div>
 
 <div class="page-wrap">
-
-<!-- ══════════════════════════════════════════════════════════
-     HERO
-══════════════════════════════════════════════════════════ -->
-<div class="hero">
-  <!-- Small all-caps label above the title — describe the category or domain -->
-  <div class="hero-kicker">TODO: Category / Domain</div>
-
-  <!-- Main title — use <br> for a two-line break if needed -->
-  <h1 class="hero-title">BME 2740 MATLAB Companion</h1>
-
-  <!-- One or two sentences summarising the project -->
-  <p class="hero-sub">Interactive Practice for MATLAB, Numerical Methods &amp; Biomedical Modeling</p>
-
-  <!-- Tags / keywords shown as pills -->
-  <div class="hero-pills">
-    <span class="pill">Keyword One</span>
-    <span class="pill">Keyword Two</span>
-    <span class="pill">Method / Tool</span>
-    <span class="pill">Another Tag</span>
-  </div>
-
-  <!-- 3–4 headline numbers shown below the pills -->
-  <div class="hero-meta">
-    <div><div class="hero-stat-num">2024</div><div class="hero-stat-label">Year</div></div>
-    <div><div class="hero-stat-num">42</div><div class="hero-stat-label">Key stat</div></div>
-    <div><div class="hero-stat-num">2nd</div><div class="hero-stat-label">Order accuracy</div></div>
-    <div><div class="hero-stat-num">O(n)</div><div class="hero-stat-label">Complexity</div></div>
-  </div>
+  <!-- Every screen (dashboard, unit/topic browsing, quiz, results,
+       reference, search, instructor mode) is rendered into this
+       container by js/app.js — see js/views.js for the view functions. -->
+  <main id="appRoot" aria-live="polite"></main>
 </div>
-
-<!-- ══════════════════════════════════════════════════════════
-     §1  BACKGROUND
-══════════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-num">§ 1</div>
-  <h2 class="section-title">Background</h2>
-  <div class="section-body">
-    <p>TODO: opening paragraph. Use <strong>bold</strong> for key terms on first use and <em>italics</em> for titles or emphasis. Inline superscript for citations: like this.<sup>[1]</sup></p>
-    <p>Second paragraph. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.</p>
-    <p>Third paragraph if needed. Vivamus lacinia odio vitae vestibulum habitant morbi tristique senectus et netus malesuada.</p>
-  </div>
-
-  <!-- Teal left-border callout — use for informational notes / historical context -->
-  <div class="callout">
-    <div class="callout-title">Note</div>
-    TODO: callout body text. Teal callouts suit background notes, fun facts, or supplementary context that does not block the main narrative.
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     §2  MATHEMATICAL FORMULATION
-══════════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-num">§ 2</div>
-  <h2 class="section-title">Mathematical Formulation</h2>
-  <div class="section-body">
-    <p>TODO: describe the governing equations. KaTeX renders inline math like $E = mc^2$ and display blocks inside <code>.eq-block</code> elements below.</p>
-
-    <!-- eq-block: labelled equation rows separated by eq-sep dividers -->
-    <div class="eq-block">
-      <div class="eq-row">
-        <span class="eq-label">General form:</span>
-        <span class="eq-main">$\dfrac{\partial u}{\partial t} = \alpha\,\nabla^2 u + f(\mathbf{x},t)$</span>
-        <span class="eq-comment">governing PDE</span>
-      </div>
-      <div class="eq-sep"></div>
-      <div class="eq-row">
-        <span class="eq-label">Discretised:</span>
-        <span class="eq-main">$u_i^{n+1} = u_i^n + r\!\left(u_{i+1}^n - 2u_i^n + u_{i-1}^n\right)$</span>
-        <span class="eq-comment">$r = \alpha\Delta t/\Delta x^2$</span>
-      </div>
-      <div class="eq-note">TODO: annotation — explain symbols, units, and any key constraints or assumptions here.</div>
-    </div>
-
-    <p>TODO: follow-up paragraph expanding on the equations above, discussing assumptions, limitations, or derivation steps.</p>
-
-    <!-- Parameter table — Symbol | Value | Unit | Description -->
-    <table class="param-table" style="margin-top:24px">
-      <thead><tr><th>Symbol</th><th>Value (default)</th><th>Unit</th><th>Description</th></tr></thead>
-      <tbody>
-        <tr><td>$\alpha$</td><td>$1.17\times10^{-2}$</td><td>mm² s⁻¹</td><td>Diffusivity (ratio of conduction to storage)</td></tr>
-        <tr><td>$k$</td><td>$0.237$</td><td>W mm⁻¹ °C⁻¹</td><td>Conductivity</td></tr>
-        <tr><td>$L$</td><td>$100$</td><td>mm</td><td>Domain length</td></tr>
-        <tr><td>$N$</td><td>$51$</td><td>—</td><td>Number of grid nodes</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     §3  NUMERICAL METHOD
-══════════════════════════════════════════════════════════ -->
-<div class="section">
-  <div class="section-num">§ 3</div>
-  <h2 class="section-title">Numerical Method</h2>
-  <div class="section-body">
-    <p>TODO: describe the algorithm or method in plain language before giving equations. Explain why this approach was chosen.</p>
-
-    <!-- Another equation block — multiple rows without a sep show as a tight group -->
-    <div class="eq-block">
-      <div class="eq-row">
-        <span class="eq-label">Stability:</span>
-        <span class="eq-main">$\Delta t \leq \dfrac{\Delta x^2}{2\alpha}$</span>
-        <span class="eq-comment">$r \leq 0.5$</span>
-      </div>
-      <div class="eq-note">TODO: note explaining the stability criterion, its origin, and how it is enforced in practice.</div>
-    </div>
-
-    <!-- Bulleted list inside section-body -->
-    <ul style="margin:8px 0 14px 20px;line-height:1.7">
-      <li><strong>Step one:</strong> description of algorithm step.</li>
-      <li><strong>Step two:</strong> description of algorithm step.</li>
-      <li><strong>Step three:</strong> description of algorithm step.</li>
-    </ul>
-  </div>
-
-  <!-- Amber left-border callout — use for warnings, caveats, or stability notes -->
-  <div class="callout callout-amber">
-    <div class="callout-title">Stability Note</div>
-    TODO: amber callout text. Use for warnings about numerical stability, known limitations, or important caveats the reader must know before using the tool.
-  </div>
-</div>
-
-<!-- section-divider: full-width horizontal rule, typically placed before the interactive section -->
-<div class="section-divider"></div>
-
-<!-- ══════════════════════════════════════════════════════════
-     §4  INTERACTIVE DEMO  (replace with your simulator/canvas)
-══════════════════════════════════════════════════════════ -->
-<div class="section" id="demo">
-  <div class="section-num">§ 4</div>
-  <h2 class="section-title">Interactive Demo</h2>
-</div>
-
-<!-- TODO: place your simulator panel, canvas, or interactive widget here.
-     Copy the .sim-section / .sim-header / .sim-body structure from the
-     1D Thermal Diffusion page if you need the full controls + canvas layout. -->
-<div style="background:var(--bg3);border:1px dashed var(--border2);border-radius:10px;padding:48px;text-align:center;margin-bottom:40px;color:var(--dim);font-family:var(--mono);font-size:.85em">
-  Interactive widget placeholder — replace with your content
-</div>
-
-<!-- ══════════════════════════════════════════════════════════
-     REFERENCES
-══════════════════════════════════════════════════════════ -->
-<div class="section" style="margin-top:56px">
-  <div class="section-num">References</div>
-  <h2 class="section-title">References</h2>
-  <ol class="ref-list">
-    <li class="ref-item">
-      <span class="ref-num">[1]</span>
-      <span>Author, A.B. (Year). <em>Title of Book or Report</em>. Publisher.</span>
-    </li>
-    <li class="ref-item">
-      <span class="ref-num">[2]</span>
-      <span>Author, C.D. &amp; Author, E.F. (Year). Article title. <em>Journal Name</em>, <em>vol</em>(issue), pages. <a href="#">doi:10.xxxx/xxxxx</a></span>
-    </li>
-    <li class="ref-item">
-      <span class="ref-num">[3]</span>
-      <span>Author, G.H. (Year). <em>Another Book</em> (2nd ed.). Publisher.</span>
-    </li>
-  </ol>
-</div>
-
-</div><!-- end page-wrap -->
 
 <!-- ── Accessibility panel ──────────────────────────────── -->
 <button class="acc-btn" id="accBtn" title="Display settings">⚙</button>
@@ -231,14 +70,23 @@
       <button class="acc-opt" data-font="mono">Mono</button>
     </div>
   </div>
+  <div class="acc-row">
+    <div class="acc-row-label">Experimental</div>
+    <div class="acc-toggle-row">
+      <span class="acc-toggle-label">Live MATLAB grading</span>
+      <label class="acc-switch"><input type="checkbox" id="liveGradingToggle"><span class="acc-slider"></span></label>
+    </div>
+    <div class="acc-toggle-hint">Runs your code-entry answers through a real MATLAB interpreter (~15 MB download) instead of just comparing text.</div>
+  </div>
 </div>
 
 <script src="script.js"></script>
+<script type="module" src="js/app.js"></script>
 
 <!-- Copyright footer -->
 <footer style="text-align:center;padding:20px 24px;font-family:'DM Mono',monospace;font-size:.72em;color:var(--dim);border-top:1px solid var(--border);margin-top:auto">
   © <span id="cur-year">2026</span> Asad Mirza, Ph.D. · Research Assistant Professor · FIU Biomedical Engineering ·
-  <a href="https://github.com/DThornz/website-cv-tools" target="_blank" style="color:var(--dim)">GitHub</a>
+  <a href="https://github.com/DThornz/bme2740-matlab-companion" target="_blank" style="color:var(--dim)">GitHub</a>
 </footer>
 <script>document.getElementById('cur-year').textContent=new Date().getFullYear();</script>
 </body>
