@@ -57,7 +57,7 @@ export const UNITS = [
       'Recognize and interpret common MATLAB errors.',
     ],
     materials: ['Lecture 3', 'Lecture 4', 'Assignment 1', 'Quiz 1', 'Numerical Computation Lab', 'Plotting Examples', 'App Designer Examples'],
-    hasContent: false,
+    hasContent: true,
     topics: [
       { id: 'fundamentals-review', title: 'Variables, Arrays & Indexing Review', description: 'Consolidating Unit 0 fundamentals with logical indexing and element-wise operations.' },
       { id: 'io-and-scripts',      title: 'Functions, Input/Output & Scripts',   description: 'Writing functions, reading input, and organizing multi-file MATLAB projects.' },
@@ -161,18 +161,6 @@ export const UNITS = [
       { id: 'nonlinear-roots',    title: 'Nonlinear Equations & Root Finding', description: 'Graphical root finding, fzero, and convergence.' },
       { id: 'optimization-basics', title: 'Optimization Fundamentals',        description: 'Objective functions, local vs. global extrema, fminbnd, fminsearch.' },
     ],
-  },
-  {
-    id: 'future-nn',
-    slug: 'future-nn',
-    title: 'Introduction to Neural Networks',
-    short: 'Neural Networks',
-    description: 'A forward-looking unit identified on the official course schedule. The question bank for this unit has not been written yet.',
-    objectives: [],
-    materials: [],
-    hasContent: false,
-    comingSoon: true,
-    topics: [],
   },
 ];
 

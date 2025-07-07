@@ -13,9 +13,11 @@
 
 import { UNITS, DIFFICULTIES, getUnit, getTopic } from '../data/units.js';
 import { unit0Questions } from '../data/questions/unit0.js';
+import { unit1Questions } from '../data/questions/unit1.js';
 
 const QUESTION_MODULES = {
   0: unit0Questions,
+  1: unit1Questions,
 };
 
 // unitId -> topicId -> difficulty -> Question[]
