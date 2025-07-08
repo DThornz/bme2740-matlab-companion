@@ -191,3 +191,146 @@ export function setLiveGradingEnabled(enabled) {
     // ignore — preference just won't persist this session
   }
 }
+
+// ─── Export / Import (backup & restore, cross-device transfer) ──────────
+// Everything lives only in this browser's localStorage (see file header),
+// so it's one "clear browsing data" away from being gone — this is the
+// student's way to back it up or move it to another device.
+//
+// Two independent version numbers are involved and shouldn't be confused:
+//   - `EXPORT_FORMAT_VERSION` (this section) is the shape of the *export
+//     file itself* (the envelope: exportedAt/progress/preferences).
+//   - `VERSION` (top of this file) is the shape of the *progress object*
+//     inside it, unchanged from what's already stored under `bme2740_progress`.
+// Each can evolve independently without breaking the other.
+const EXPORT_FORMAT_VERSION = 1;
+
+// Registry for future envelope migrations: MIGRATIONS[v] takes an envelope
+// at format version v and returns one at v+1. Empty for now (v1 is the
+// only format that has ever existed) — this is the seam a v2 change would
+// hook into, so a file exported today keeps importing correctly forever.
+const MIGRATIONS = {};
+
+function migrateEnvelope(envelope, warnings) {
+  let e = envelope;
+  const declared = typeof e.exportFormat === 'number' ? e.exportFormat : null;
+  if (declared === null) {
+    warnings.push('This file has no export-format version — importing on a best-effort basis.');
+    return e;
+  }
+  if (declared > EXPORT_FORMAT_VERSION) {
+    warnings.push(`This file was exported from a newer version of the app (format v${declared}; this app supports up to v${EXPORT_FORMAT_VERSION}) — importing what this version recognizes, the rest is ignored.`);
+    return e; // forward compat: fields this version doesn't know about are simply never read below
+  }
+  while (e.exportFormat < EXPORT_FORMAT_VERSION) {
+    const step = MIGRATIONS[e.exportFormat];
+    if (!step) { warnings.push(`No migration path from format v${e.exportFormat} to v${EXPORT_FORMAT_VERSION} — importing as-is.`); break; }
+    e = step(e);
+  }
+  return e;
+}
+
+function isFiniteNumber(v) { return typeof v === 'number' && Number.isFinite(v); }
+
+function sanitizeAttempt(a) {
+  if (!a || typeof a !== 'object') return null;
+  return {
+    correct: !!a.correct,
+    unit: a.unit,
+    topic: typeof a.topic === 'string' ? a.topic : undefined,
+    difficulty: typeof a.difficulty === 'string' ? a.difficulty : undefined,
+    timesCorrect: isFiniteNumber(a.timesCorrect) ? a.timesCorrect : 0,
+    timesIncorrect: isFiniteNumber(a.timesIncorrect) ? a.timesIncorrect : 0,
+    lastAttempt: isFiniteNumber(a.lastAttempt) ? a.lastAttempt : Date.now(),
+  };
+}
+
+/**
+ * Rebuilds a guaranteed-valid progress object from whatever a (possibly
+ * older, newer, hand-edited, or partially corrupted) parsed progress blob
+ * contains — every field is defaulted rather than trusted, so this never
+ * throws on unexpected shapes. This is what makes import forward- *and*
+ * backward-compatible in practice: a field this code doesn't recognize is
+ * silently dropped (forward compat — a newer export just has extra fields
+ * ignored here), and a field that's missing/malformed just falls back to
+ * its default (backward compat — an older/thinner export still imports).
+ */
+function sanitizeProgress(raw) {
+  const out = emptyProgress();
+  if (!raw || typeof raw !== 'object') return out;
+
+  if (raw.attempts && typeof raw.attempts === 'object') {
+    Object.entries(raw.attempts).forEach(([id, a]) => {
+      const s = sanitizeAttempt(a);
+      if (s) out.attempts[id] = s;
+    });
+  }
+  if (raw.streak && typeof raw.streak === 'object') {
+    out.streak.current = isFiniteNumber(raw.streak.current) ? raw.streak.current : 0;
+    out.streak.best = isFiniteNumber(raw.streak.best) ? raw.streak.best : 0;
+  }
+  if (Array.isArray(raw.history)) {
+    out.history = raw.history
+      .filter(h => h && typeof h === 'object' && typeof h.questionId === 'string')
+      .map(h => ({
+        questionId: h.questionId,
+        unit: h.unit, topic: h.topic, difficulty: h.difficulty,
+        correct: !!h.correct,
+        timestamp: isFiniteNumber(h.timestamp) ? h.timestamp : Date.now(),
+      }))
+      .slice(-MAX_HISTORY);
+  }
+  return out;
+}
+
+/** Everything this device has stored, as a pretty-printed JSON string ready to download. */
+export function exportProgressJSON() {
+  const envelope = {
+    app: 'bme2740-matlab-companion',
+    exportFormat: EXPORT_FORMAT_VERSION,
+    exportedAt: new Date().toISOString(),
+    progress: loadProgress(),
+    preferences: { liveGrading: isLiveGradingEnabled() },
+  };
+  return JSON.stringify(envelope, null, 2);
+}
+
+/**
+ * Restores progress from a previously-exported JSON string, REPLACING
+ * whatever is currently stored on this device. Never throws on a
+ * recognizable-but-unusual shape (older format, newer format, missing
+ * optional fields) — see sanitizeProgress()/migrateEnvelope() above —
+ * it only throws for input that isn't parseable JSON or isn't an object
+ * at all, since there's nothing reasonable to import from that.
+ *
+ * Returns { warnings } — a (possibly empty) array of human-readable notes
+ * about anything unusual encountered (format mismatch, missing fields),
+ * worth surfacing to the student so a partial/lossy import isn't silent.
+ */
+export function importProgressJSON(jsonText) {
+  let parsed;
+  try {
+    parsed = JSON.parse(jsonText);
+  } catch (e) {
+    throw new Error('That file is not valid JSON.');
+  }
+  if (!parsed || typeof parsed !== 'object') {
+    throw new Error('That file does not look like a progress export.');
+  }
+
+  const warnings = [];
+  // Backward compat with a hypothetical un-enveloped export (or someone
+  // pointing this at the raw progress object itself, e.g. copied straight
+  // out of localStorage) — treat the whole parsed object as the progress
+  // blob directly if it isn't wrapped in the expected envelope shape.
+  const envelope = ('progress' in parsed) ? migrateEnvelope(parsed, warnings) : { progress: parsed };
+
+  const sanitized = sanitizeProgress(envelope.progress);
+  saveProgress(sanitized);
+
+  if (envelope.preferences && typeof envelope.preferences === 'object' && typeof envelope.preferences.liveGrading === 'boolean') {
+    setLiveGradingEnabled(envelope.preferences.liveGrading);
+  }
+
+  return { warnings };
+}

@@ -6,7 +6,7 @@
 // (see app.js) picks up — no click-interception needed.
 // ─────────────────────────────────────────────────────────────
 
-import { UNITS, DIFFICULTIES, getUnit, getTopic, countQuestions, countByDifficulty, getAllQuestions } from './bank.js';
+import { UNITS, DIFFICULTIES, getUnit, getTopic, countQuestions, countByDifficulty, getAllQuestions, getQuestions, getUnitQuestions } from './bank.js';
 import { FUNCTION_REFERENCE } from '../data/functions.js';
 import * as store from './store.js';
 import * as quiz from './quiz.js';
@@ -47,7 +47,7 @@ export function renderDashboard(container) {
 
   const unitCards = UNITS.map(unit => unitCardHtml(unit)).join('');
 
-  const courseMap = UNITS.filter(u => u.id !== 'future-nn').map(u => `<div class="map-node"><span class="map-node-num">U${u.id}</span>${escapeHtml(u.short)}</div>`).join('<div class="map-arrow">→</div>');
+  const courseMap = UNITS.map(u => `<div class="map-node"><span class="map-node-num">U${u.id}</span>${escapeHtml(u.short)}</div>`).join('<div class="map-arrow">→</div>');
 
   container.innerHTML = `
     <div class="hero app-hero">
@@ -81,10 +81,15 @@ export function renderDashboard(container) {
       </div>
       <div class="dashboard-actions">
         <a href="#/quiz/config?unit=all&topic=weak&difficulty=mixed" class="btn btn-outline">Practice Weak Topics</a>
+        <a href="#/browse" class="btn btn-outline">Browse All Questions</a>
         <a href="#/reference" class="btn btn-outline">MATLAB Function Reference</a>
         <a href="#/sandbox" class="btn btn-outline">MATLAB Sandbox <span class="soon-badge" style="margin-left:6px">Experimental</span></a>
+        <button type="button" class="btn btn-outline" id="exportProgressBtn">Export Progress</button>
+        <button type="button" class="btn btn-outline" id="importProgressBtn">Import Progress</button>
+        <input type="file" id="importProgressInput" accept="application/json,.json" hidden>
         <button type="button" class="btn btn-outline" id="resetProgressBtn">Reset My Progress</button>
       </div>
+      <div id="progressIoMsg" class="input-hint" style="margin-top:10px"></div>
     </div>
 
     <div class="section" id="units">
@@ -107,6 +112,45 @@ export function renderDashboard(container) {
     store.resetProgress();
     renderDashboard(container);
   });
+
+  const ioMsg = container.querySelector('#progressIoMsg');
+  container.querySelector('#exportProgressBtn').addEventListener('click', () => {
+    const json = store.exportProgressJSON();
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `bme2740-progress-${new Date().toISOString().slice(0, 10)}.json`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+    ioMsg.textContent = 'Progress exported.';
+  });
+
+  const importInput = container.querySelector('#importProgressInput');
+  container.querySelector('#importProgressBtn').addEventListener('click', () => {
+    const ok = window.confirm('Importing will REPLACE all locally stored practice progress on this device with the contents of the file you pick. This cannot be undone.\n\nContinue?');
+    if (!ok) return;
+    importInput.value = '';
+    importInput.click();
+  });
+  importInput.addEventListener('change', async () => {
+    const file = importInput.files && importInput.files[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const { warnings } = store.importProgressJSON(text);
+      // renderDashboard() below rebuilds the whole container (including a
+      // fresh #progressIoMsg), so the message has to be set on that new
+      // element afterward — setting it on the pre-rerender `ioMsg` reference
+      // here would just get immediately thrown away.
+      renderDashboard(container);
+      container.querySelector('#progressIoMsg').textContent = warnings.length ? `Progress imported. ${warnings.join(' ')}` : 'Progress imported.';
+    } catch (e) {
+      ioMsg.textContent = `Import failed: ${e && e.message ? e.message : e}`;
+    }
+  });
 }
 
 function unitCardHtml(unit) {
@@ -119,7 +163,7 @@ function unitCardHtml(unit) {
   return `
     <a class="unit-card ${comingSoon ? 'unit-card-soon' : ''}" href="#/unit/${unit.id}">
       <div class="unit-card-top">
-        <span class="unit-card-num">${unit.id === 'future-nn' ? 'Future' : `Unit ${unit.id}`}</span>
+        <span class="unit-card-num">Unit ${unit.id}</span>
         ${comingSoon ? '<span class="soon-badge">Coming Soon</span>' : ''}
       </div>
       <h3 class="unit-card-title">${escapeHtml(unit.title)}</h3>
@@ -155,12 +199,12 @@ export function renderUnit(container, unitId) {
   container.innerHTML = `
     <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><span>${escapeHtml(unit.title)}</span></nav>
     <div class="section">
-      <div class="section-num">${unit.id === 'future-nn' ? 'Future Unit' : `§ Unit ${unit.id}`}</div>
+      <div class="section-num">§ Unit ${unit.id}</div>
       <h1 class="section-title" style="font-size:2.1em">${escapeHtml(unit.title)}</h1>
       <div class="section-body"><p>${escapeHtml(unit.description)}</p></div>
       ${objectives ? `<h3 class="mini-heading">Learning Objectives</h3>${objectives}` : ''}
       ${materials ? `<h3 class="mini-heading">Course Material</h3>${materials}` : ''}
-      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unit.id}&topic=all&difficulty=mixed">Random Quiz — Whole Unit (${total} questions)</a></div>` : ''}
+      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unit.id}&topic=all&difficulty=mixed">Random Quiz — Whole Unit (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unit.id}">Browse Questions</a></div>` : ''}
     </div>
     <div class="section">
       <h2 class="section-title">Topics</h2>
@@ -215,7 +259,7 @@ export function renderTopic(container, unitId, topicId) {
       <div class="section-num">Topic</div>
       <h1 class="section-title" style="font-size:2.1em">${escapeHtml(topic.title)}</h1>
       <div class="section-body"><p>${escapeHtml(topic.description)}</p></div>
-      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unitId}&topic=${topicId}&difficulty=mixed">Mixed-Difficulty Quiz (${total} questions)</a></div>` : ''}
+      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unitId}&topic=${topicId}&difficulty=mixed">Mixed-Difficulty Quiz (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unitId}&topic=${topicId}">Browse Questions</a></div>` : ''}
     </div>
     <div class="section">
       <h2 class="section-title">Choose a Difficulty</h2>
@@ -281,20 +325,40 @@ export function renderQuizConfig(container, params) {
             <label class="qc-radio"><input type="radio" name="mode" value="exam"> Exam <span class="qc-radio-hint">Feedback only at the end</span></label>
           </div>
         </div>
+        <div class="qc-row" id="qcTimeLimitRow" hidden>
+          <label for="qcTimeLimit">Time Limit</label>
+          <select id="qcTimeLimit" name="timeLimitMinutes">
+            <option value="">No limit</option>
+            <option value="10">10 minutes</option>
+            <option value="20">20 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">60 minutes</option>
+          </select>
+          <p class="input-hint">The quiz auto-submits when time runs out — anything not yet answered is graded as skipped, same as ending the quiz manually.</p>
+        </div>
         <button type="submit" class="btn btn-primary">Start Quiz</button>
       </form>
     </div>
   `;
 
-  container.querySelector('#quizConfigForm').addEventListener('submit', e => {
+  const form = container.querySelector('#quizConfigForm');
+  const timeLimitRow = form.querySelector('#qcTimeLimitRow');
+  form.querySelectorAll('input[name="mode"]').forEach(radio => {
+    radio.addEventListener('change', () => { timeLimitRow.hidden = radio.value !== 'exam' || !radio.checked; });
+  });
+
+  form.addEventListener('submit', e => {
     e.preventDefault();
     const fd = new FormData(e.target);
+    const mode = fd.get('mode');
     const config = {
       unitId, topicId,
       difficulty: fd.get('difficulty'),
       count: fd.get('count') === 'all' ? 'all' : Number(fd.get('count')),
       selection: fd.get('selection'),
-      mode: fd.get('mode'),
+      mode,
+      timeLimitMinutes: mode === 'exam' && fd.get('timeLimitMinutes') ? Number(fd.get('timeLimitMinutes')) : null,
     };
     const session = quiz.buildQuizSession(config);
     if (!session.questions.length) {
@@ -362,7 +426,10 @@ function renderQuizQuestion(container, session) {
           <div class="quiz-header-unit">${unit ? escapeHtml(unit.title) : ''}${topic ? ' · ' + escapeHtml(topic.title) : ''}</div>
           ${difficultyBadge(q.difficulty)}
         </div>
-        <div class="quiz-header-progress">Question ${i + 1} of ${total} · ${session.mode === 'practice' ? 'Practice' : 'Exam'} mode</div>
+        <div style="text-align:right">
+          <div class="quiz-header-progress">Question ${i + 1} of ${total} · ${session.mode === 'practice' ? 'Practice' : 'Exam'} mode</div>
+          ${session.timeLimitMs ? '<div class="exam-timer" id="examTimer"></div>' : ''}
+        </div>
       </div>
       <div class="qnav-strip" role="tablist" aria-label="Question navigator">${bubbles}</div>
     </div>
@@ -401,6 +468,47 @@ function renderQuizQuestion(container, session) {
   wireCodeCopyButtons(container);
   wireScratchpad(container);
   wireQuizInteractions(container, session, q, i);
+  wireExamTimer(container, session);
+}
+
+// Module-level, not per-call — renderQuizQuestion() runs again on every
+// question navigation, and each run must replace the previous interval
+// rather than stack another one alongside it (same class of bug as the
+// scratchpad's listener-stacking issue — see matlab-scratchpad.js).
+let examTimerInterval = null;
+
+function clearExamTimer() {
+  if (examTimerInterval) { clearInterval(examTimerInterval); examTimerInterval = null; }
+}
+
+function wireExamTimer(container, session) {
+  clearExamTimer();
+  if (!session.timeLimitMs) return;
+  const el = container.querySelector('#examTimer');
+  if (!el) return;
+
+  // Anchored to an absolute deadline (startedAt + timeLimitMs), never to a
+  // locally-decremented counter — so it self-corrects across page
+  // refreshes, tab backgrounding (where setInterval throttles/pauses), and
+  // renders triggered by question navigation, instead of drifting or
+  // resetting.
+  function tick() {
+    const remaining = session.startedAt + session.timeLimitMs - Date.now();
+    if (remaining <= 0) {
+      clearExamTimer();
+      el.textContent = 'Time’s up — submitting…';
+      finishAndShowResults(session);
+      return;
+    }
+    const totalSec = Math.ceil(remaining / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    el.textContent = `⏱ ${m}:${String(s).padStart(2, '0')} remaining`;
+    el.classList.toggle('exam-timer-warn', remaining <= 60000);
+  }
+
+  tick();
+  examTimerInterval = setInterval(tick, 1000);
 }
 
 function questionTypeLabel(type) {
@@ -751,6 +859,7 @@ function goToQuestionOrFinish(container, session, i) {
 }
 
 function finishAndShowResults(session) {
+  clearExamTimer();
   const summary = quiz.finishQuiz(session);
   sessionStore.saveLastResults(summary, session);
   sessionStore.clearActiveSession();
@@ -974,6 +1083,133 @@ export function renderSearch(container, query) {
     history.replaceState(null, '', `#/search?q=${encodeURIComponent(input.value)}`);
   });
   draw(query);
+}
+
+// ─── Browse mode ─────────────────────────────────────────────
+// A read-only way to page through the question bank with answers shown
+// up front — no "answer to continue" gate, and nothing here touches
+// progress/store.js. Good for studying or previewing content rather than
+// self-testing (the quiz flow, above, is still the way to actually practice).
+
+const BROWSE_PAGE_SIZE = 20;
+
+export function renderBrowse(container, params) {
+  const unitId = params.get('unit') || 'all';
+  const topicId = params.get('topic') || 'all';
+  const difficulty = params.get('difficulty') || 'mixed';
+  let shown = BROWSE_PAGE_SIZE;
+
+  const unitOptionsHtml = ['<option value="all">All Units</option>']
+    .concat(UNITS.filter(u => u.hasContent).map(u => `<option value="${u.id}" ${String(u.id) === unitId ? 'selected' : ''}>Unit ${u.id} — ${escapeHtml(u.short)}</option>`))
+    .join('');
+
+  container.innerHTML = `
+    <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><span>Browse Questions</span></nav>
+    <div class="section">
+      <div class="section-num">Study Mode</div>
+      <h1 class="section-title" style="font-size:2.1em">Browse Questions</h1>
+      <div class="section-body"><p>Page through the question bank with answers and explanations shown right away — no need to answer anything to move on. For self-testing, use a regular practice quiz instead.</p></div>
+      <div class="quiz-config-form" style="flex-direction:row;flex-wrap:wrap;gap:14px;align-items:flex-end;max-width:none">
+        <div class="qc-row" style="min-width:200px"><label for="browseUnit">Unit</label><select id="browseUnit">${unitOptionsHtml}</select></div>
+        <div class="qc-row" style="min-width:200px"><label for="browseTopic">Topic</label><select id="browseTopic"></select></div>
+        <div class="qc-row" style="min-width:160px"><label for="browseDifficulty">Difficulty</label>
+          <select id="browseDifficulty">${['mixed', ...DIFFICULTIES].map(d => `<option value="${d}" ${d === difficulty ? 'selected' : ''}>${d === 'mixed' ? 'Mixed' : d[0].toUpperCase() + d.slice(1)}</option>`).join('')}</select>
+        </div>
+      </div>
+      <input type="text" id="browseFilter" class="ref-filter-input" placeholder="Filter by keyword, concept, or tag…">
+      <div id="browseCount" class="input-hint" style="margin:-8px 0 16px"></div>
+      <div id="browseList"></div>
+      <div class="dashboard-actions"><button type="button" class="btn btn-outline" id="browseMoreBtn" hidden>Show More</button></div>
+    </div>
+  `;
+
+  const unitSelect = container.querySelector('#browseUnit');
+  const topicSelect = container.querySelector('#browseTopic');
+  const difficultySelect = container.querySelector('#browseDifficulty');
+  const filterInput = container.querySelector('#browseFilter');
+  const list = container.querySelector('#browseList');
+  const countEl = container.querySelector('#browseCount');
+  const moreBtn = container.querySelector('#browseMoreBtn');
+
+  function refreshTopicOptions() {
+    const uid = unitSelect.value;
+    const unit = uid !== 'all' ? getUnit(uid) : null;
+    const options = ['<option value="all">All Topics</option>']
+      .concat((unit ? unit.topics : []).map(t => `<option value="${t.id}" ${t.id === topicId ? 'selected' : ''}>${escapeHtml(t.title)}</option>`));
+    topicSelect.innerHTML = options.join('');
+    topicSelect.disabled = !unit;
+    if (!unit) topicSelect.value = 'all';
+  }
+  refreshTopicOptions();
+
+  function pool() {
+    const uid = unitSelect.value;
+    const tid = topicSelect.value;
+    const diff = difficultySelect.value;
+    let qs;
+    if (uid === 'all') qs = getAllQuestions();
+    else if (tid === 'all') qs = getUnitQuestions(uid);
+    else qs = getQuestions(uid, tid, 'mixed');
+    if (diff !== 'mixed') qs = qs.filter(q => q.difficulty === diff);
+    const f = filterInput.value.toLowerCase().trim();
+    if (f) qs = qs.filter(q => [q.question, q.concept, ...(q.tags || [])].join(' ').toLowerCase().includes(f));
+    return qs;
+  }
+
+  function draw() {
+    shown = BROWSE_PAGE_SIZE;
+    redraw();
+  }
+
+  function redraw() {
+    const qs = pool();
+    countEl.textContent = `${qs.length} question${qs.length === 1 ? '' : 's'} match this filter.`;
+    list.innerHTML = qs.length
+      ? qs.slice(0, shown).map(q => renderBrowseCard(q)).join('')
+      : emptyState('No questions match this filter yet.');
+    moreBtn.hidden = shown >= qs.length;
+    wireCodeCopyButtons(list);
+  }
+
+  unitSelect.addEventListener('change', () => { refreshTopicOptions(); draw(); });
+  topicSelect.addEventListener('change', draw);
+  difficultySelect.addEventListener('change', draw);
+  filterInput.addEventListener('input', draw);
+  moreBtn.addEventListener('click', () => { shown += BROWSE_PAGE_SIZE; redraw(); });
+
+  draw();
+}
+
+function renderBrowseCard(q) {
+  const unit = getUnit(q.unit);
+  const topic = getTopic(q.unit, q.topic);
+  const mistakesHtml = q.commonMistakes && q.commonMistakes.length
+    ? `<div class="common-mistakes"><strong>Common mistake${q.commonMistakes.length > 1 ? 's' : ''}:</strong><ul>${q.commonMistakes.map(m => `<li>${escapeHtml(m)}</li>`).join('')}</ul></div>`
+    : '';
+  return `
+    <div class="question-card review-card">
+      <div class="question-card-top-row">
+        <div class="question-type-tag">${questionTypeLabel(q.type)}</div>
+        ${difficultyBadge(q.difficulty)}
+      </div>
+      <div class="quiz-header-unit">${unit ? escapeHtml(unit.title) : ''}${topic ? ' · ' + escapeHtml(topic.title) : ''}</div>
+      <p class="question-text">${escapeHtml(q.question)}</p>
+      ${q.code ? codeBlock(q.code) : ''}
+      ${renderBrowseAnswer(q)}
+      <div class="feedback-banner feedback-correct" style="margin-top:14px">
+        <div class="feedback-headline">Answer</div>
+        <p class="feedback-explanation">${escapeHtml(q.explanation || '')}</p>
+        ${mistakesHtml}
+        <div class="feedback-meta">Concept: <strong>${escapeHtml(q.concept || '—')}</strong>${q.references && q.references.length ? ` · Reference: ${q.references.map(escapeHtml).join(', ')}` : ''}</div>
+      </div>
+    </div>`;
+}
+
+function renderBrowseAnswer(q) {
+  if (CHOICE_TYPES.includes(q.type) && Array.isArray(q.options)) {
+    return `<div class="choice-list" style="margin:14px 0">${q.options.map((opt, idx) => `<div class="choice-option ${idx === q.correctAnswer ? 'choice-option-selected' : ''}">${idx === q.correctAnswer ? '✓ ' : ''}${escapeHtml(opt)}</div>`).join('')}</div>`;
+  }
+  return `<p class="input-hint" style="margin:10px 0"><strong>Correct answer:</strong> ${escapeHtml(describeCorrectAnswer(q))}</p>`;
 }
 
 // ─── Instructor mode ────────────────────────────────────────

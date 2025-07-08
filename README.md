@@ -10,7 +10,11 @@ Built on top of the shared [dthornz.github.io](https://dthornz.github.io/website
 
 ## Current status
 
-The **application skeleton is complete** (router, quiz engine, progress tracking, search, MATLAB reference, instructor mode) and **Unit 0 — MATLAB Overview** has a fully populated question bank (6 topics × 4 difficulties × 25 questions = 600 questions, across every supported question type). Units 1–6 and the future Neural Networks unit exist as metadata (topics, objectives, course materials) with empty question banks — they render as "Coming Soon" until their question files are written. See "Adding a new unit" below.
+The **application skeleton is complete** (router, quiz engine, progress tracking, search, MATLAB reference, instructor mode, a browse-all-questions study mode) with two populated units:
+- **Unit 0 — MATLAB Overview:** 600 questions (6 topics × 4 difficulties × 25 questions), across every supported question type, hand-fact-checked topic by topic.
+- **Unit 1 — MATLAB (deeper pass):** 400 questions (4 topics × 4 difficulties × 25 questions, matching Unit 0's density) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
+
+Units 2–6 exist as metadata (topics, objectives, course materials) with empty question banks — they render as "Coming Soon" until their question files are written. See "Adding a new unit" below.
 
 ---
 
@@ -36,11 +40,12 @@ data/
   units.js                 Course structure: units, topics, objectives, course materials (metadata only)
   functions.js              MATLAB function reference entries
   questions/
-    unit0.js                 Unit 0 question bank (only unit with content so far)
+    unit0.js                 Unit 0 question bank (600 questions)
+    unit1.js                 Unit 1 question bank (400 questions)
 
 js/
   app.js                    Hash router + bootstrap
-  views.js                   All screen renderers (dashboard, unit, topic, quiz config, quiz, results, review, reference, search, instructor)
+  views.js                   All screen renderers (dashboard, unit, topic, quiz config, quiz, results, review, reference, browse, search, instructor)
   bank.js                    Combines units.js + question modules; counts, lookups, validateQuestionBank()
   quiz.js                    Quiz session builder, answer grading, scoring — no DOM code
   store.js                   localStorage-backed progress tracking (falls back to in-memory if storage is unavailable)
@@ -102,7 +107,13 @@ Run `validateQuestionBank()` (imported automatically on every page load, logs to
 
 Everything lives in `localStorage` under `bme2740_progress` — no student identity, nothing sent anywhere. `js/store.js` degrades to an in-memory object if `localStorage` is unavailable (private browsing, disabled storage), so the app still works, it just won't remember anything between reloads. "Reset My Progress" on the dashboard clears it after a confirmation.
 
+**Export / Import** ("Export Progress" / "Import Progress" on the dashboard) — since progress only lives in this one browser's `localStorage`, it's one "clear site data" away from being gone, and doesn't follow a student to a different device. Export downloads a JSON snapshot; Import replaces current progress with a chosen file's contents (after a confirmation, same pattern as Reset). Explicitly designed to be backward/forward compatible rather than just "works today": two independent version numbers are involved — `exportFormat` (the shape of the export file's envelope) and the progress object's own internal `version` — and `js/store.js`'s `sanitizeProgress()` rebuilds a guaranteed-valid progress object field-by-field from whatever a parsed import actually contains, defaulting anything missing/malformed instead of trusting it. Verified directly (not just by inspection): a file from a hypothetical newer app version (an unrecognized `exportFormat`, extra unknown fields) imports the fields this version recognizes and warns about the rest instead of failing; a file missing fields entirely, or not wrapped in the expected envelope at all, still imports without throwing.
+
 The in-progress quiz and most recent results live separately in `sessionStorage` (`js/session.js`) so a refresh mid-quiz doesn't lose your place, but a closed tab doesn't leave stale quiz state behind.
+
+## Browse mode (`#/browse`)
+
+A read-only way to page through the question bank — filterable by unit/topic/difficulty/keyword — with the correct answer and full explanation shown immediately, no "answer to continue" gate. Entry points: "Browse All Questions" on the dashboard, and a "Browse Questions" button on every unit/topic page (pre-scoped to that unit/topic via query params). Deliberately isolated from `js/quiz.js`/`js/store.js` — it never touches progress or grading, so it can't be used to accidentally inflate or corrupt practice stats. Meant for studying/previewing content, not self-testing (use a real practice quiz for that).
 
 ## MATLAB Sandbox (experimental — `#/sandbox`)
 
@@ -121,12 +132,12 @@ A free-play page where students write real MATLAB-syntax code and see it actuall
 
 **Memory:** the WASM linear memory (several MB, grows with use) stays resident in the worker for as long as the page is open, even after navigating away from the sandbox — an SPA route change doesn't destroy the worker, and live grading (below) intentionally reuses the same runtime rather than re-downloading it. The sandbox shows a live "Runtime memory: ~N MB" readout (via `session.memoryUsage()`) so this is visible rather than silent, and the Reload button doubles as a way to release it.
 
-**Plotting — implemented, but *not* verified end-to-end:** `plot()` etc. render through RunMat's WebGPU-backed pipeline. The naive approach (call its image-export function directly) was tested and caused a **hard, uncatchable WASM panic** when no plot surface had been established first — confirmed this bypasses normal `try`/`catch` entirely. The implementation here instead follows RunMat's actual intended flow: transfer the sandbox's `<canvas>` to the worker via `OffscreenCanvas` (`canvas.transferControlToOffscreen()`), call `createPlotSurface()` once to bind it, then `presentFigureOnSurface()` after each run to draw directly onto it. This could not be exercised against a real GPU/browser in the environment this was built in, so **it may not actually render a visible plot yet** — the sandbox's disclaimer says so explicitly, and this is the one piece that most needs a hands-on check.
+**Plotting:** `plot()` etc. render through RunMat's WebGPU-backed pipeline. The naive approach (call its image-export function directly) was tested and caused a **hard, uncatchable WASM panic** when no plot surface had been established first — confirmed this bypasses normal `try`/`catch` entirely. The implementation here instead follows RunMat's actual intended flow: transfer the sandbox's `<canvas>` to the worker via `OffscreenCanvas` (`canvas.transferControlToOffscreen()`), call `createPlotSurface()` once to bind it, then `presentFigureOnSurface()` after each run to draw directly onto it — this exact sequence was confirmed to match RunMat's own documented "advanced hosts" multi-canvas pattern (checked directly against its published TypeScript bindings source), and `createPlotSurface()`'s argument validation (rejects anything that isn't a real canvas) was confirmed directly, headless, via Deno's real WebGPU backend against the actual published `runmat@0.6.1` build. What still can't be confirmed without a real browser is whether the GPU surface visibly paints on a given student's machine — WebGPU support varies by browser/driver. Rather than staying silent about that, the sandbox now uses RunMat's own `plotRendererReady()` and `session.gpuStatus()` diagnostics: if the renderer isn't ready, the output panel tells the student *why* (e.g. the specific WebGPU error) instead of just showing empty output, the moment their code contains a plotting call. If you hit this, it's a real browser/GPU support gap, not a bug to report.
 
 **Known MATLAB-compatibility gaps** (found by direct testing, not exhaustive — treat this as a practice sandbox, not a certified MATLAB clone). A broad battery of ~60 functions and constructs across arrays, strings, structs, linear algebra, control flow, and numerical methods (`fzero`, `fminbnd`, `ode45`, `polyfit`, `trapz`, `interp1`, ...) was run against this build — 46/48 and then 14/15 passed across two rounds; these are the specific exceptions found:
 - `s.field = value` on an undefined `s` does not auto-create a struct the way real MATLAB does (throws "Undefined variable" instead). **Workaround, verified working:** write `s = struct();` first.
 - On a failed assignment (e.g. adding two arrays of mismatched size), the target variable is left set to `0` and echoed ("`z = 0`") instead of staying undefined with no output, as real MATLAB does.
-- An anonymous function applying `.^` to a range argument failed in testing (`f = @(x) x.^2 + 1; f(1:5)` → "Slicing only supported on tensors") — re-verify before relying on this pattern.
+- Calling an anonymous function with an inline range literal as the call argument fails: `f = @(x) x.^2 + 1; f(1:5)` → `"Slicing only supported on tensors"`. Confirmed directly (headless, against the real WASM build) exactly where this breaks: it's specific to an inline `a:b` expression *at the call site* — the identical function called on an explicit array (`f([1 2 3 4 5])`), a scalar (`f(3)`), or the same range pre-assigned to a variable first (`r = 1:5; f(r)`) all work correctly and return the right values. **Workaround, verified working:** assign the range to a variable before calling. The Sandbox's own "Anonymous functions" example was updated to use this working form instead of demonstrating the broken one.
 - `switch`/`case` with a cell-array case value for OR-matching multiple values at once (`case {'a','b'}`, valid real MATLAB) errors instead ("cannot convert Cell ... to f64") — use separate `case` lines, or `if`/`elseif` with `||`.
 - `fminsearch` is entirely undefined in this build ("Undefined function: fminsearch") despite being a real MATLAB function — `fzero` and `fminbnd` were both verified working correctly with mathematically correct results (e.g. `fzero(@(x) x^2-2, 1)` → `1.4142`).
 - Default numeric display (`format short`, e.g. `z = 2.5000`), control flow, indexing, `switch`/`case` (single-value), `disp`/`fprintf`, cell arrays, structs (once initialized), string functions, and every linear-algebra/numerical-methods function tested all matched real MATLAB exactly.
@@ -164,13 +175,19 @@ The panel's code and open/closed state are kept in module-level state (not the D
 
 **A real bug found and fixed here:** the panel's Run/Clear buttons are *not* replaced when the panel is merely toggled closed and reopened within the same question (only the full quiz re-render replaces them) — an earlier version re-attached click listeners to those same button nodes on every reopen, so opening the panel three times stacked three listeners and clicking Run fired three concurrent runs. Fixed with a `dataset.wired` guard so each button's listeners attach exactly once per DOM node.
 
+## Exam mode timer
+
+Choosing Exam mode in the quiz config form reveals an optional Time Limit (10/20/30/45/60 minutes, or none). The countdown shown during the quiz is anchored to an absolute deadline (`session.startedAt + session.timeLimitMs`) rather than a locally-decremented counter, so it self-corrects across question navigation (which re-renders the whole quiz view), a page refresh, or the tab being backgrounded — it can never drift or silently reset. Hitting zero auto-submits the quiz through the same `finishQuiz()`/results path as manually ending it — anything not yet answered is graded as skipped, not treated specially.
+
 ## Instructor mode
 
 Visit the site with `?mode=instructor` in the URL (e.g. `index.html?mode=instructor#/instructor`) to see a full table of every question in the bank (ID, unit, topic, difficulty, cognitive level, type, tags, references) and an "Export Question Bank (JSON)" button. There's no authentication and no link to it from student-facing navigation — it's a course-maintenance convenience, not a security boundary.
 
 ## Deploying
 
-Push to GitHub Pages as-is — it's a static site with relative paths and no build step.
+Push to GitHub Pages as-is — it's a static site with relative paths and no build step. GitHub Pages is enabled on this repo (serving `main` at the root), which also registers a `github-pages` deployment/environment on every push — that's what shows the "Deployments" indicator on the repo's GitHub homepage; no separate Actions workflow is needed for it.
+
+**Mobile:** a real, user-reported bug — the page rendered "left-justified with a blank strip on the right" on phones. Root cause: `.nav-dropdown-menu` (the "Projects ▾" dropdown in the shared site nav) is centered under its trigger via `left:50%; transform:translateX(-50%)`, which pushed its layout box past the right edge of a narrow viewport even while fully invisible (`opacity:0`) — an off-screen but still-laid-out element still counts toward the page's scrollable width. That inflated width is what `.page-wrap`'s `margin:0 auto` was centering against, not the actual visible viewport, producing the left-justified/blank-gutter look. Fixed with `overflow-x:hidden` on `html`/`body` (safe here since every element that can genuinely get wide — tables, code blocks, equations — already scrolls internally via its own `overflow-x:auto`) plus a mobile media query that right-anchors the dropdown instead of centering it.
 
 ## Design system at a glance
 

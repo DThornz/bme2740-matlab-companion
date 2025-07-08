@@ -42,11 +42,12 @@ function prepareForDisplay(question) {
 /**
  * config: {
  *   unitId, topicId ('weak' | 'all' | topic id), difficulty ('mixed' | one of DIFFICULTIES),
- *   count: number | 'all', selection: 'random' | 'unseen' | 'incorrect' | 'mixed', mode: 'practice' | 'exam'
+ *   count: number | 'all', selection: 'random' | 'unseen' | 'incorrect' | 'mixed', mode: 'practice' | 'exam',
+ *   timeLimitMinutes?: number — exam mode only; ignored in practice mode
  * }
  */
 export function buildQuizSession(config) {
-  const { unitId, topicId, difficulty, count, selection, mode } = config;
+  const { unitId, topicId, difficulty, count, selection, mode, timeLimitMinutes } = config;
   let pool;
 
   if (topicId === 'weak') {
@@ -92,6 +93,11 @@ export function buildQuizSession(config) {
     answers: {},          // index -> { response, correct, checked }
     marked: {},           // index -> true
     startedAt: Date.now(),
+    // Deadline is always recomputed from startedAt + timeLimitMs rather than
+    // storing/decrementing a "remaining" value — self-correcting across page
+    // refreshes, tab backgrounding, and clock drift, since it's anchored to
+    // an absolute point in time instead of an elapsed-ticks counter.
+    timeLimitMs: (mode === 'exam' && timeLimitMinutes) ? Number(timeLimitMinutes) * 60000 : null,
     fallbackNotice: usedFallback,
   };
 }

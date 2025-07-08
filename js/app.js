@@ -7,7 +7,7 @@ import { validateQuestionBank } from './bank.js';
 import {
   renderDashboard, renderUnit, renderTopic, renderQuizConfig,
   renderQuiz, renderResults, renderReview, renderReference,
-  renderSearch, renderInstructor,
+  renderSearch, renderInstructor, renderBrowse,
 } from './views.js';
 import { errorState } from './render.js';
 import { isLiveGradingEnabled, setLiveGradingEnabled } from './store.js';
@@ -24,6 +24,7 @@ const ROUTES = [
   { pattern: /^\/quiz\/results$/, render: () => renderResults(app) },
   { pattern: /^\/quiz\/review$/, render: () => renderReview(app) },
   { pattern: /^\/reference$/, render: () => renderReference(app) },
+  { pattern: /^\/browse$/, render: (m, params) => renderBrowse(app, params) },
   // Dynamically imported — sandbox.js pulls in matlab-runtime.js, which owns a
   // Web Worker. Keeping that out of the eagerly-loaded module graph means
   // visitors who never open the sandbox never pay for it (see README "MATLAB
