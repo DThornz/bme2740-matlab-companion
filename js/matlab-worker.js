@@ -8,17 +8,29 @@
 // main thread via Worker.terminate() when a run overruns its
 // timeout; nothing short of that reliably recovers from it.
 //
-// PLOTTING — verified UNSAFE if done the "obvious" way: calling
-// RunMat's renderFigureImage() with no plot surface ever bound
-// caused a hard WASM panic ("unreachable") that escaped a normal
-// try/catch entirely in testing. RunMat's plotting is WebGPU-backed
-// and expects a canvas surface to be established first via
-// createPlotSurface(canvas) before anything is drawn. This worker
-// only uses that documented flow (createPlotSurface once, then
-// presentFigureOnSurface per run) and never calls the raw image
-// export path. This could not be verified end-to-end in a real
-// browser (no GPU/canvas available in the environment this was
-// built in) — treat plotting as unverified until checked by hand.
+// PLOTTING — the call sequence here (createPlotSurface(canvas) once, then
+// presentFigureOnSurface(surfaceId, handle) per run) matches RunMat's own
+// documented "advanced hosts" pattern for multi-canvas setups (see
+// https://github.com/runmat-org/runmat, docs/wasm/index.md) — confirmed
+// directly against the published TypeScript bindings source, not guessed.
+// What CANNOT be confirmed without a real browser (no GPU/canvas available
+// in the environment this was built in): whether the WebGPU surface
+// actually paints pixels onto the transferred canvas. What CAN be, and
+// was, confirmed directly (headless, via Deno + its real WebGPU/wgpu
+// backend, against the actual published runmat@0.6.1 WASM build):
+//   - createPlotSurface() strictly requires a real HTMLCanvasElement or
+//     OffscreenCanvas argument (throws "Expected an HTMLCanvasElement or
+//     OffscreenCanvas" otherwise) — the OffscreenCanvas this worker passes
+//     is the right shape.
+//   - RunMat exposes `plotRendererReady()` and `session.gpuStatus()` as
+//     genuine diagnostics (requested/active/error fields) — previously
+//     unused here. A GPU/WebGPU failure on the student's end (unsupported
+//     browser, blocked GPU, etc.) is a real, expected failure mode, not a
+//     bug in this code — so instead of silently doing nothing, this
+//     worker now reports both back on `canvasBound` (and folds gpuStatus's
+//     error into `workerError` on an outright bind failure) so the caller
+//     can tell the student *why* plotting isn't available instead of just
+//     showing empty output.
 //
 // Message protocol (all messages carry the request's `id` back):
 //   in:  { id, type: 'preload', cacheBust? }
@@ -46,7 +58,14 @@
 //                                                         rendered to the
 //                                                         bound canvas)
 //   out: { id, type: 'memoryUsage', usage }
-//   out: { id, type: 'canvasBound' }
+//   out: { id, type: 'canvasBound', rendererReady, gpuStatus } — rendererReady
+//                                                         (bool) and gpuStatus
+//                                                         ({requested,active,
+//                                                         error?}) let the
+//                                                         caller warn the
+//                                                         student up front if
+//                                                         plotting won't work
+//                                                         in their browser
 //   out: { id, type: 'workerError', message }          — the RUNTIME itself is
 //                                                         broken (load failure or
 //                                                         an unexpected exception);
@@ -179,18 +198,30 @@ self.onmessage = async (e) => {
     }
 
     if (type === 'bindCanvas') {
+      let session;
       try {
-        await loadSession((stage, detail) => self.postMessage({ id, type: 'progress', stage, ...(detail || {}) }), cacheBust);
+        session = await loadSession((stage, detail) => self.postMessage({ id, type: 'progress', stage, ...(detail || {}) }), cacheBust);
+      } catch (err) {
+        self.postMessage({ id, type: 'workerError', message: `MATLAB runtime failed to load: ${String((err && err.message) || err)}` });
+        return;
+      }
+      try {
         // Re-binding within the same worker (e.g. revisiting the sandbox without a
         // full runtime reload) would otherwise leak the previous GPU surface.
         if (plotSurfaceId !== null && typeof modRef.destroyPlotSurface === 'function') {
           try { modRef.destroyPlotSurface(plotSurfaceId); } catch { /* best-effort cleanup */ }
         }
         plotSurfaceId = await modRef.createPlotSurface(canvas);
-        self.postMessage({ id, type: 'canvasBound' });
+        const rendererReady = typeof modRef.plotRendererReady === 'function' ? modRef.plotRendererReady() : true;
+        let gpuStatus = null;
+        try { gpuStatus = typeof session.gpuStatus === 'function' ? session.gpuStatus() : null; } catch { /* best-effort */ }
+        self.postMessage({ id, type: 'canvasBound', rendererReady, gpuStatus });
       } catch (err) {
         plotSurfaceId = null;
-        self.postMessage({ id, type: 'workerError', message: `Could not set up the plot canvas: ${String((err && err.message) || err)}` });
+        let gpuStatus = null;
+        try { gpuStatus = typeof session.gpuStatus === 'function' ? session.gpuStatus() : null; } catch { /* best-effort */ }
+        const gpuNote = gpuStatus && gpuStatus.error ? ` (GPU: ${gpuStatus.error})` : '';
+        self.postMessage({ id, type: 'workerError', message: `Could not set up the plot canvas: ${String((err && err.message) || err)}${gpuNote}` });
       }
       return;
     }

@@ -19,7 +19,14 @@ const EXAMPLES = [
   { label: 'Vectors & loops', code: 'total = 0;\nfor i = 1:5\n    total = total + i^2;\nend\ndisp(total)' },
   { label: 'Matrix indexing', code: 'A = [1 2 3; 4 5 6; 7 8 9];\ndisp(A(2,:))\ndisp(A(:,3))' },
   { label: 'Conditionals', code: "bp = 138;\nif bp > 140\n    disp('Stage 2 Hypertension')\nelseif bp > 130\n    disp('Stage 1 Hypertension')\nelse\n    disp('Normal / Elevated')\nend" },
-  { label: 'Anonymous functions', code: 'f = @(x) x.^2 + 1;\ndisp(f(1:5))' },
+  // Deliberately NOT `f(1:5)` (an inline range literal as the call argument) —
+  // verified directly against the real runmat@0.6.1 WASM build that this
+  // exact pattern throws "Slicing only supported on tensors" inside an
+  // anonymous function, even though the equivalent non-anonymous `x.^2` on
+  // the same range, or the same anonymous function called on an explicit
+  // array or a pre-assigned variable, both work fine. Assigning the range to
+  // a variable first (as below) sidesteps it entirely.
+  { label: 'Anonymous functions', code: 'x = 1:5;\nf = @(v) v.^2 + 1;\ndisp(f(x))' },
   { label: 'Plot (experimental)', code: "x = linspace(0, 2*pi, 100);\ny = sin(x);\nplot(x, y)\ntitle('sin(x)')\nxlabel('x')\nylabel('sin(x)')" },
 ];
 
@@ -36,7 +43,23 @@ const LSP_STAGE_LABEL = {
 };
 
 let plotCanvasBound = false;
+let plotUnavailableReason = null;
 let editor = null;
+
+// Turns bindPlotCanvas()'s diagnostic result into a one-line, student-facing
+// reason — see matlab-runtime.js's bindPlotCanvas JSDoc for the field shapes.
+function describePlotUnavailable(bindResult) {
+  if (!bindResult) return 'Plotting is unavailable in this browser.';
+  if (!bindResult.bound) return bindResult.reason || 'Plotting is unavailable in this browser.';
+  const gpuErr = bindResult.gpuStatus && bindResult.gpuStatus.error;
+  return gpuErr
+    ? `This browser's GPU (WebGPU) support isn't sufficient for plotting: ${gpuErr}`
+    : "The GPU-based plot renderer isn't ready in this browser — plotting is unavailable, but the rest of your code still ran normally.";
+}
+
+function codeLooksLikeItPlots(code) {
+  return /\b(plot|scatter|bar|histogram|surf|mesh|contour|stem|stairs|pie|imagesc)\s*\(/.test(code || '');
+}
 
 // Warms up the connection to the CDN the runtime downloads from, so the
 // first real fetch (on Run) starts a little faster. Injected only when the
@@ -56,6 +79,7 @@ export function renderSandbox(container) {
   preconnectToRuntimeCdn();
   const alreadyLoaded = isMatlabRuntimeLoaded();
   plotCanvasBound = false; // this view's <canvas> is a fresh DOM element every render
+  plotUnavailableReason = null;
 
   container.innerHTML = `
     <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><span>MATLAB Sandbox</span></nav>
@@ -70,7 +94,8 @@ export function renderSandbox(container) {
           <li>If an assignment's right-hand side errors (e.g. adding mismatched-size arrays), the target variable is left at <code>0</code> and echoed instead of staying undefined with no output.</li>
           <li><code>switch</code>/<code>case</code> with a cell-array case (<code>case {'a','b'}</code>) for matching multiple values at once isn't supported — use separate <code>case</code> lines instead.</li>
           <li><code>fminsearch</code> isn't implemented in this build — <code>fzero</code> and <code>fminbnd</code> both work correctly.</li>
-          <li>Plotting is wired up but could not be verified end-to-end in the environment this was built in (no real browser/GPU access) — if a plot doesn't appear, that's a known open item, not something you did wrong.</li>
+          <li>Calling an anonymous function with an inline range as the argument, e.g. <code>f = @(x) x.^2; f(1:5)</code>, fails with a "Slicing only supported on tensors" error — assign the range to a variable first (<code>r = 1:5; f(r)</code>) and it works fine.</li>
+          <li>Plotting depends on your browser's WebGPU support. If a figure doesn't appear, the output area below will now say specifically why (e.g. WebGPU unavailable) instead of just showing nothing — that's a real browser-support limit, not something you did wrong.</li>
         </ul>
         This sandbox is for free-form practice and exploration only — it is separate from the graded question bank and doesn't affect your progress stats.
       </div>
@@ -169,6 +194,7 @@ export function renderSandbox(container) {
     statusEl.textContent = 'Restarting MATLAB runtime…';
     resetMatlabRuntime({ forceFresh: true });
     plotCanvasBound = false;
+    plotUnavailableReason = null;
     outputEl.innerHTML = '';
     plotWrap.hidden = true;
     runBtn.textContent = 'Load Runtime & Run';
@@ -206,11 +232,14 @@ export function renderSandbox(container) {
       });
       runBtn.textContent = 'Run Code';
 
-      if (!plotCanvasBound) {
+      if (!plotCanvasBound && !plotUnavailableReason) {
         try {
-          plotCanvasBound = await bindPlotCanvas(plotCanvas);
-        } catch {
-          plotCanvasBound = false; // plotting just won't be available this session — not fatal
+          const bindResult = await bindPlotCanvas(plotCanvas);
+          plotCanvasBound = bindResult.bound && bindResult.rendererReady;
+          if (!plotCanvasBound) plotUnavailableReason = describePlotUnavailable(bindResult);
+        } catch (bindErr) {
+          plotCanvasBound = false;
+          plotUnavailableReason = `Plot canvas setup failed: ${bindErr && bindErr.message ? bindErr.message : bindErr}`;
         }
       }
 
@@ -219,7 +248,8 @@ export function renderSandbox(container) {
       const { stdout, error, plotted } = await runMatlabCode(code);
       statusEl.hidden = true;
 
-      renderResult(outputEl, stdout, error);
+      const plotNote = !plotted && plotUnavailableReason && codeLooksLikeItPlots(code) ? plotUnavailableReason : null;
+      renderResult(outputEl, stdout, error, plotNote);
       plotWrap.hidden = !plotted;
 
       if (memNote) refreshMemoryNote(memNote);
@@ -272,7 +302,7 @@ async function refreshMemoryNote(memNote) {
   }
 }
 
-function renderResult(outputEl, stdout, error) {
+function renderResult(outputEl, stdout, error, plotNote) {
   const stdoutHtml = stdout
     ? `<pre class="sandbox-stdout">${escapeHtml(stdout)}</pre>`
     : '<p class="input-hint">(no output)</p>';
@@ -284,11 +314,16 @@ function renderResult(outputEl, stdout, error) {
        </div>`
     : '';
 
+  const plotNoteHtml = plotNote
+    ? `<div class="live-run-note live-run-note-warn" style="margin-top:10px">⚠ ${escapeHtml(plotNote)}</div>`
+    : '';
+
   outputEl.innerHTML = `
     <div class="sandbox-output-block">
       <div class="code-block-lang" style="margin-bottom:6px">Output</div>
       ${stdoutHtml}
       ${errorHtml}
+      ${plotNoteHtml}
     </div>
   `;
 }

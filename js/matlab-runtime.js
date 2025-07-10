@@ -254,12 +254,23 @@ export function workspacesEqual(a, b) {
 
 /**
  * Hands rendering control of a <canvas> element to the worker so figures
- * from plot()/etc. can be drawn there — verified working end-to-end was
- * NOT possible in the environment this was built in (no GPU/browser
- * available), so treat this as best-effort until checked by hand. Returns
- * false (without throwing) if the browser doesn't support
- * transferControlToOffscreen, so callers can hide the plot panel instead
- * of showing a broken one.
+ * from plot()/etc. can be drawn there. The call sequence used on the worker
+ * side (createPlotSurface + presentFigureOnSurface) was confirmed to match
+ * RunMat's own documented usage pattern — see js/matlab-worker.js's header
+ * comment — but whether the WebGPU surface actually paints pixels in a
+ * given browser can't be confirmed without one, so this reports real
+ * diagnostics instead of a bare boolean:
+ *
+ * Resolves to { bound, rendererReady, gpuStatus, reason? }:
+ *   - bound: whether a plot surface was successfully created at all.
+ *   - rendererReady: RunMat's own plotRendererReady() check — can be false
+ *     even when bound is true (e.g. WebGPU requested but not active).
+ *   - gpuStatus: RunMat's session.gpuStatus() ({requested, active, error?}),
+ *     or null if unavailable — surface gpuStatus.error to the student when
+ *     rendererReady is false so "plotting didn't work" has a concrete reason
+ *     instead of just silently producing no figure.
+ *   - reason: set (with bound:false) only when this browser doesn't support
+ *     transferring canvas control to a worker at all (OffscreenCanvas).
  *
  * Must be called after loadMatlabRuntime() resolves, and can only be
  * called once per <canvas> element — a canvas's control can only be
@@ -267,7 +278,9 @@ export function workspacesEqual(a, b) {
  * (freshly rendered) canvas element if the sandbox view is re-rendered.
  */
 export async function bindPlotCanvas(canvasEl) {
-  if (typeof canvasEl.transferControlToOffscreen !== 'function') return false;
+  if (typeof canvasEl.transferControlToOffscreen !== 'function') {
+    return { bound: false, rendererReady: false, gpuStatus: null, reason: 'This browser does not support handing canvas control to a background worker (OffscreenCanvas), which plotting here relies on.' };
+  }
   if (!loaded) await loadMatlabRuntime();
 
   const w = worker;
@@ -278,7 +291,10 @@ export async function bindPlotCanvas(canvasEl) {
     function handler(e) {
       if (e.data.id !== id) return;
       w.removeEventListener('message', handler);
-      if (e.data.type === 'canvasBound') { resolve(true); return; }
+      if (e.data.type === 'canvasBound') {
+        resolve({ bound: true, rendererReady: e.data.rendererReady !== false, gpuStatus: e.data.gpuStatus ?? null });
+        return;
+      }
       if (e.data.type === 'workerError') {
         const err = new Error(e.data.message);
         err.isInfraError = true;
