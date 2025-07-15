@@ -2,27 +2,28 @@
 
 **Author:** Asad Mirza (DThornz)
 
-An interactive, 100% client-side MATLAB and numerical-methods practice companion for **BME 2740 — Biomedical Engineering Modeling and Simulation** (FIU). Students pick a unit, a topic, and a difficulty, work through questions, get an immediate explanation of why each answer is right or wrong, and track their own progress locally. There is no backend, no account, and no data ever leaves the browser.
+An interactive, browser-only MATLAB and numerical-methods practice tool for **BME 2740 — Biomedical Engineering Modeling and Simulation** (FIU). Students pick a unit, a topic, and a difficulty, work through questions, and get an explanation for every answer — right or wrong. Progress is tracked locally in the browser. There's no backend, no account, and no student data ever leaves the machine it's running on.
 
-Built on top of the shared [dthornz.github.io](https://dthornz.github.io/website-cv-tools/) page template — nav, hero, typography, accessibility panel, and dark mode all come from that design system.
+Built on the shared [dthornz.github.io](https://dthornz.github.io/website-cv-tools/) page template — nav, hero, typography, accessibility panel, and dark mode all come from that design system.
 
 ---
 
 ## Current status
 
-The **application skeleton is complete** (router, quiz engine, progress tracking, search, MATLAB reference, instructor mode, a browse-all-questions study mode) with two populated units:
-- **Unit 0 — MATLAB Overview:** 600 questions (6 topics × 4 difficulties × 25 questions), across every supported question type, hand-fact-checked topic by topic.
-- **Unit 1 — MATLAB (deeper pass):** 400 questions (4 topics × 4 difficulties × 25 questions, matching Unit 0's density) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
+The app itself — router, quiz engine, progress tracking, search, MATLAB reference, instructor mode, browse mode — is done. Two units have full question banks:
 
-Units 2–6 exist as metadata (topics, objectives, course materials) with empty question banks — they render as "Coming Soon" until their question files are written. See "Adding a new unit" below.
+- **Unit 0 — MATLAB Overview:** 600 questions (6 topics × 4 difficulties × 25 each), fact-checked topic by topic.
+- **Unit 1 — MATLAB, deeper pass:** 400 questions (4 topics × 4 difficulties × 25 each) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
+
+Units 2–6 exist as metadata only (topics, objectives, course materials) and show "Coming Soon" until someone writes their question banks. See "Adding a new unit" below.
 
 ---
 
 ## How it works (no build step)
 
-This is a static site — open `index.html` through any web server (or GitHub Pages) and it runs. It's a single-page app: one `index.html` shell holds the site nav, an empty `<main id="appRoot">`, the accessibility panel, and the footer. Everything inside `#appRoot` is rendered by JavaScript based on the URL hash (`#/unit/2/topic/solving-ax-b`, `#/quiz/active`, etc.) — no server-side routing needed, so it deploys to GitHub Pages as-is.
+This is a static site — point a web server at `index.html` and it runs. One shell page holds the nav, an empty `#appRoot`, the accessibility panel, and the footer; everything else is rendered by JavaScript based on the URL hash (`#/unit/2/topic/solving-ax-b`, `#/quiz/active`, ...). No server-side routing, so it deploys to GitHub Pages as-is.
 
-Because it uses native ES modules (`<script type="module">`), you can't just double-click `index.html` — browsers block module imports over `file://`. Run a static server from the project root instead:
+It uses native ES modules, so you can't just double-click `index.html` — browsers won't load module scripts over `file://`. Serve it locally instead:
 
 ```bash
 python -m http.server 8000
@@ -33,11 +34,11 @@ python -m http.server 8000
 
 ```
 index.html              SPA shell: nav, #appRoot, accessibility panel, footer
-style.css                Template design system + application UI (unit/topic/quiz/results/reference components)
+style.css                Template design system + application UI
 script.js                 Accessibility panel logic (unchanged from the template)
 
 data/
-  units.js                 Course structure: units, topics, objectives, course materials (metadata only)
+  units.js                 Course structure: units, topics, objectives, course materials
   functions.js              MATLAB function reference entries
   questions/
     unit0.js                 Unit 0 question bank (600 questions)
@@ -49,145 +50,132 @@ js/
   bank.js                    Combines units.js + question modules; counts, lookups, validateQuestionBank()
   quiz.js                    Quiz session builder, answer grading, scoring — no DOM code
   store.js                   localStorage-backed progress tracking (falls back to in-memory if storage is unavailable)
-  session.js                 sessionStorage for the in-progress quiz / last results (survives a page refresh)
-  render.js                  Small shared DOM helpers (escaping, code blocks with copy button, progress bars, badges)
-  sandbox.js                 MATLAB Sandbox view (#/sandbox) — experimental, see "MATLAB Sandbox" below
+  session.js                 sessionStorage for the in-progress quiz / last results (survives a refresh)
+  render.js                  Shared DOM helpers (escaping, code blocks with copy button, progress bars, badges)
+  sandbox.js                 MATLAB Sandbox view (#/sandbox) — see "MATLAB Sandbox" below
   matlab-runtime.js           Main-thread API for code execution: spawns/drives the worker, handles timeouts/reset
   matlab-worker.js            Web Worker that loads RunMat (WASM) from a CDN and executes submitted code
   matlab-editor.js            CodeMirror 6 editor wrapper, optionally wired to the LSP for completions/hover
-  matlab-lsp.js                Main-thread API for autocomplete/hover — separate worker from execution, see "Autocomplete"
+  matlab-lsp.js                Main-thread API for autocomplete/hover — separate worker from execution
   matlab-lsp-worker.js         Web Worker that loads RunMat's LSP (WASM) from a CDN
-  matlab-scratchpad.js         Collapsible MATLAB scratchpad panel embedded in quiz questions, see "MATLAB Scratchpad"
+  matlab-scratchpad.js         Collapsible MATLAB scratchpad panel embedded in quiz questions
 ```
 
 ## Adding a new unit
 
-1. Write `data/questions/unitN.js`, exporting `unitNQuestions` in the same shape as `unit0Questions` in `data/questions/unit0.js` (topicId → difficulty → `Question[]`).
-2. In `js/bank.js`, import it and add it to `QUESTION_MODULES` (`{ 0: unit0Questions, N: unitNQuestions }`).
-3. In `data/units.js`, flip that unit's `hasContent: true`.
+1. Write `data/questions/unitN.js`, exporting `unitNQuestions` in the same shape as `unit0Questions` (topicId → difficulty → `Question[]`).
+2. In `js/bank.js`, import it and add it to `QUESTION_MODULES`.
+3. In `data/units.js`, flip that unit's `hasContent` to `true`.
 
-Nothing else changes — topic cards, difficulty cards, quiz config, counts, search, and instructor mode all read from the bank dynamically.
+That's it — topic cards, difficulty cards, quiz config, counts, search, and instructor mode all read from the bank dynamically.
 
 ## Question authoring guide
 
-Every question is a plain object. Not all fields are required for every type — see `validateQuestionBank()` in `js/bank.js` for what's enforced.
+Every question is a plain object. Not every field is required for every type — see `validateQuestionBank()` in `js/bank.js` for what's actually enforced.
 
 | Field | Notes |
 |---|---|
 | `id` | Unique, e.g. `U0-ENV-B01` (`U{unit}-{topic code}-{B/I/A/X}{number}`) |
-| `unit`, `topic`, `difficulty` | Must match an entry in `data/units.js`; difficulty is one of `beginner / intermediate / advanced / expert` |
+| `unit`, `topic`, `difficulty` | Must match an entry in `data/units.js`; difficulty is `beginner / intermediate / advanced / expert` |
 | `type` | See supported types below |
 | `cognitiveLevel` | `remember / understand / apply / analyze / evaluate / create` |
 | `question` | The prompt text |
 | `code`, `language` | Optional MATLAB snippet, rendered in a copyable code block |
-| `options` | Choices (choice types, select-all) or steps to reorder (ordering) or left-hand items (matching) |
+| `options` | Choices (choice types, select-all), steps to reorder (ordering), or left-hand items (matching) |
 | `matchOptions` | Right-hand pool, matching questions only |
 | `correctAnswer` | Shape depends on `type` (see below) |
-| `acceptableAnswers` | `code-entry` only — array of accepted strings, compared whitespace-insensitively |
-| `explanation` | Shown after answering, regardless of correctness |
-| `optionExplanations` | Parallel array to `options`, one explanation per choice (choice types only) |
+| `acceptableAnswers` | `code-entry` only — accepted strings, compared whitespace-insensitively |
+| `explanation` | Shown after answering, right or wrong |
+| `optionExplanations` | Parallel to `options`, one explanation per choice (choice types only) |
 | `concept`, `tags`, `references` | Used by search and instructor mode |
-| `commonMistakes` | Array of strings, shown in the feedback panel |
+| `commonMistakes` | Shown in the feedback panel |
 | `hint` | Optional "Show Hint" text, never affects grading |
 
-**Supported `type` values and their `correctAnswer` shape:**
+**`type` values and their `correctAnswer` shape:**
 
-- `multiple-choice`, `true-false`, `output-prediction`, `code-debug`, `code-completion`, `scenario` — all rendered as single-select choice lists; `correctAnswer` is the index into `options`.
+- `multiple-choice`, `true-false`, `output-prediction`, `code-debug`, `code-completion`, `scenario` — single-select; `correctAnswer` is the index into `options`.
 - `select-all` — `correctAnswer` is an array of correct indices into `options`.
 - `numeric` — `correctAnswer` is `{ value, tolerance }`.
 - `matching` — `correctAnswer[i]` is the index into `matchOptions` that pairs with `options[i]`.
-- `ordering` — `correctAnswer` is the array of original `options` indices, in the correct order.
-- `code-entry` — no `correctAnswer` needed; graded against `acceptableAnswers` after stripping whitespace (case- and semicolon-sensitive, since that reflects real MATLAB behavior).
+- `ordering` — `correctAnswer` is the array of `options` indices, in correct order.
+- `code-entry` — no `correctAnswer`; graded against `acceptableAnswers` after stripping whitespace (case- and semicolon-sensitive, matching real MATLAB).
 
-Option/step display order is shuffled per quiz attempt without ever touching `correctAnswer` — see the comment above `prepareForDisplay()` in `js/quiz.js` if you're modifying the engine.
+Display order for options/steps is shuffled per attempt without touching `correctAnswer` — see `prepareForDisplay()` in `js/quiz.js` before changing the engine.
 
-Run `validateQuestionBank()` (imported automatically on every page load, logs to the browser console) after adding questions — it flags duplicate IDs, invalid units/topics/difficulties/types, and missing required fields per type.
+Run `validateQuestionBank()` (runs automatically, logs to the console) after adding questions — it catches duplicate IDs, bad unit/topic/difficulty/type references, and missing required fields.
 
 ## Progress storage
 
-Everything lives in `localStorage` under `bme2740_progress` — no student identity, nothing sent anywhere. `js/store.js` degrades to an in-memory object if `localStorage` is unavailable (private browsing, disabled storage), so the app still works, it just won't remember anything between reloads. "Reset My Progress" on the dashboard clears it after a confirmation.
+Progress lives in `localStorage` under `bme2740_progress` — no identity attached, nothing sent anywhere. If `localStorage` is unavailable (private browsing, disabled storage), `js/store.js` falls back to an in-memory object, so the app still works, it just won't remember anything after a reload. "Reset My Progress" on the dashboard clears it after a confirmation prompt.
 
-**Export / Import** ("Export Progress" / "Import Progress" on the dashboard) — since progress only lives in this one browser's `localStorage`, it's one "clear site data" away from being gone, and doesn't follow a student to a different device. Export downloads a JSON snapshot; Import replaces current progress with a chosen file's contents (after a confirmation, same pattern as Reset). Explicitly designed to be backward/forward compatible rather than just "works today": two independent version numbers are involved — `exportFormat` (the shape of the export file's envelope) and the progress object's own internal `version` — and `js/store.js`'s `sanitizeProgress()` rebuilds a guaranteed-valid progress object field-by-field from whatever a parsed import actually contains, defaulting anything missing/malformed instead of trusting it. Verified directly (not just by inspection): a file from a hypothetical newer app version (an unrecognized `exportFormat`, extra unknown fields) imports the fields this version recognizes and warns about the rest instead of failing; a file missing fields entirely, or not wrapped in the expected envelope at all, still imports without throwing.
+**Export / Import** — since progress lives only in one browser's storage, it's one "clear site data" away from gone, and doesn't follow a student to a new device. Export downloads a JSON snapshot; Import replaces current progress with a chosen file (with a confirmation prompt, same as Reset). The format is versioned on purpose so old exports keep working as the app changes: `sanitizeProgress()` in `js/store.js` rebuilds a valid progress object field by field from whatever an import file actually contains, defaulting anything missing or malformed rather than trusting it.
 
-The in-progress quiz and most recent results live separately in `sessionStorage` (`js/session.js`) so a refresh mid-quiz doesn't lose your place, but a closed tab doesn't leave stale quiz state behind.
+The in-progress quiz and most recent results live separately in `sessionStorage` (`js/session.js`), so a mid-quiz refresh doesn't lose your place, but a closed tab doesn't leave stale state behind.
 
 ## Browse mode (`#/browse`)
 
-A read-only way to page through the question bank — filterable by unit/topic/difficulty/keyword — with the correct answer and full explanation shown immediately, no "answer to continue" gate. Entry points: "Browse All Questions" on the dashboard, and a "Browse Questions" button on every unit/topic page (pre-scoped to that unit/topic via query params). Deliberately isolated from `js/quiz.js`/`js/store.js` — it never touches progress or grading, so it can't be used to accidentally inflate or corrupt practice stats. Meant for studying/previewing content, not self-testing (use a real practice quiz for that).
+A read-only way to page through the question bank — filterable by unit/topic/difficulty/keyword — with the answer and explanation shown immediately, no "answer to continue" gate. Reach it from "Browse All Questions" on the dashboard, or "Browse Questions" on any unit/topic page (pre-scoped to that unit/topic). It never touches progress or grading — it's for previewing content, not self-testing.
 
 ## MATLAB Sandbox (experimental — `#/sandbox`)
 
-A free-play page where students write real MATLAB-syntax code and see it actually run, client-side, via [RunMat](https://runmat.com) (Apache-2.0 open source) compiled to WebAssembly. Nothing loads until a student visits the page and clicks Run.
+A free-play page where students write real MATLAB syntax and see it run, client-side, via [RunMat](https://runmat.com) (open source, Apache-2.0) compiled to WebAssembly. Nothing downloads until a student visits the page and clicks Run.
 
-**Architecture:**
-- `js/matlab-worker.js` runs inside a **Web Worker**, not the main thread. This is load-bearing, not a style choice: direct testing showed RunMat's `executeRequest()` blocks synchronously with no yield back to the event loop, so a student's `while true; end` on the main thread would freeze the entire tab with no recovery. A worker lets the main thread call `Worker.terminate()` to hard-kill a runaway run — verified working (an infinite loop was correctly stopped within its timeout, and the sandbox transparently spawned a fresh worker and kept working afterward).
-- `js/matlab-runtime.js` is the main-thread API (`loadMatlabRuntime`, `runMatlabCode`, `resetMatlabRuntime`, `getMatlabMemoryUsage`, `bindPlotCanvas`, `workspacesEqual`) — spawns the worker, message-passes to it, and owns timeout/termination logic.
-- The WASM module (RunMat's browser/`pkg-web` build) is imported at runtime straight from jsdelivr's CDN (`cdn.jsdelivr.net/npm/runmat@0.6.1/...`) — nothing is committed to this repo. It's a real download (~15 MB compressed, ~52 MB uncompressed), so it's only fetched on first actual use — both `js/sandbox.js` (route-level dynamic `import()`) and the worker itself (spawned lazily on first call, not at module load) are structured so visitors who never touch the sandbox never pay for any of this.
-- **Loading, caching, and a real progress bar (`js/matlab-worker.js`):** the `.wasm` binary is fetched through the CacheStorage API rather than a bare `fetch()`, so a repeat page load can skip the network entirely and reuse the persisted copy — the previous behavior only benefited from the browser's *implicit* HTTP cache, which doesn't survive as reliably and gives Chromium no reason to reuse its *compiled* module across reloads. **This persistent-caching change was a real, caught regression the first time around:** the first version `await`ed the CacheStorage write (a full extra 15 MB disk write) *before* returning the response to be compiled, which serialized fetch time + cache-write time + compile time back to back — a load that used to feel instant started taking noticeably longer. Fixed by never blocking the compile step on the cache write: a cache hit returns immediately (no network at all), and a cache miss returns the live streaming fetch response right away for `WebAssembly.instantiateStreaming` to start compiling from as bytes arrive, while a `.clone()` of that same response is written to CacheStorage in the background, unawaited (a stream tee, not a second fetch, so it adds no serial delay). The download progress bar shown in the Sandbox and Scratchpad UIs is real byte-level progress, not simulated — a passthrough `TransformStream` counts bytes as they flow through on their way to being compiled, which is also why it can only appear during the initial network fetch (a cache hit has no bytes to stream, so it resolves as fast as CacheStorage can return the entry, with no progress bar shown at all).
-- `session.clearWorkspace()` runs before every execution — verified directly that this isolates runs from each other (a variable set in one run does not leak into the next).
+**How it's wired:**
+- `js/matlab-worker.js` runs the interpreter in a **Web Worker**, not the main thread — required, not optional. RunMat's `executeRequest()` blocks synchronously with no yield to the event loop, so a student's `while true; end` on the main thread would freeze the whole tab. Running it in a worker means the main thread can hard-kill a runaway loop with `Worker.terminate()` and keep going.
+- `js/matlab-runtime.js` is the main-thread API — spawns the worker, message-passes to it, owns timeout and reset logic.
+- The WASM module is pulled at runtime from jsdelivr's CDN, not bundled into this repo. It's a real download (~15 MB compressed), fetched only the first time a student actually uses the page.
+- The `.wasm` binary is cached through the CacheStorage API so a repeat visit skips the network entirely. The download progress bar shown in the UI reflects real bytes transferred, not a fake animation.
+- `session.clearWorkspace()` runs before every execution so one run's variables can't leak into the next.
 
-**Why the top-level `runmat` npm package isn't used directly:** its documented entry point (`import { initRunMat } from "runmat"`) is currently broken as published (v0.6.1) — its own `package.json` lists `dist/pkg/*` (the Node/bundler WASM target) as package contents, but that directory is missing from the actual published tarball (confirmed by downloading and inspecting it directly). The browser/ESM target (`dist/pkg-web/*`) **is** correctly published and is what a bundler-free static site wants anyway, so this project imports it directly rather than going through the broken top-level export.
+**Why the top-level `runmat` npm package isn't used directly:** its published entry point is currently broken (v0.6.1's `package.json` points at a build directory missing from the actual tarball). The browser build (`dist/pkg-web/*`) is published correctly and is what a no-build-step static site wants anyway, so this project imports it directly.
 
-**Recovering from a broken runtime — the "↻ Reload Runtime" button:** the runtime can get stuck (corrupted cached download, a WASM-level panic, a load that failed and left the worker unable to ever succeed again — this last one was a real bug, found and fixed: the worker used to cache the *rejected* load promise forever, so one failed load permanently broke that worker). The Reload button calls `resetMatlabRuntime({ forceFresh: true })`, which terminates the worker, spawns a fresh one, and appends a cache-busting query parameter to the CDN URLs so a corrupted cached response can't be replayed — verified end-to-end (forced a fresh, cache-busted download and confirmed the runtime worked immediately afterward).
+**"↻ Reload Runtime"** terminates the worker, spawns a fresh one, and cache-busts the CDN URL — the fix for a stuck runtime (corrupted cache, a WASM panic, or a load that failed and needs a clean retry).
 
-**Memory:** the WASM linear memory (several MB, grows with use) stays resident in the worker for as long as the page is open, even after navigating away from the sandbox — an SPA route change doesn't destroy the worker, and live grading (below) intentionally reuses the same runtime rather than re-downloading it. The sandbox shows a live "Runtime memory: ~N MB" readout (via `session.memoryUsage()`) so this is visible rather than silent, and the Reload button doubles as a way to release it.
+**Memory:** the WASM heap stays resident in the worker for as long as the page is open, even after navigating away from the sandbox — live grading (below) intentionally reuses the same runtime instead of re-downloading it. The sandbox shows a live memory readout, and Reload also frees it.
 
-**Plotting:** `plot()` etc. render through RunMat's WebGPU-backed pipeline. The naive approach (call its image-export function directly) was tested and caused a **hard, uncatchable WASM panic** when no plot surface had been established first — confirmed this bypasses normal `try`/`catch` entirely. The implementation here instead follows RunMat's actual intended flow: transfer the sandbox's `<canvas>` to the worker via `OffscreenCanvas` (`canvas.transferControlToOffscreen()`), call `createPlotSurface()` once to bind it, then `presentFigureOnSurface()` after each run to draw directly onto it — this exact sequence was confirmed to match RunMat's own documented "advanced hosts" multi-canvas pattern (checked directly against its published TypeScript bindings source), and `createPlotSurface()`'s argument validation (rejects anything that isn't a real canvas) was confirmed directly, headless, via Deno's real WebGPU backend against the actual published `runmat@0.6.1` build. What still can't be confirmed without a real browser is whether the GPU surface visibly paints on a given student's machine — WebGPU support varies by browser/driver. Rather than staying silent about that, the sandbox now uses RunMat's own `plotRendererReady()` and `session.gpuStatus()` diagnostics: if the renderer isn't ready, the output panel tells the student *why* (e.g. the specific WebGPU error) instead of just showing empty output, the moment their code contains a plotting call. If you hit this, it's a real browser/GPU support gap, not a bug to report.
+**Plotting** goes through RunMat's WebGPU pipeline: transfer the sandbox's canvas to the worker (`OffscreenCanvas`), bind a plot surface once, then present the current figure onto it after each run. Earlier drafts of this had a real bug — figuring out whether a run actually produced a plot by comparing a "current figure handle" before and after execution, which turned out to be a stable, reused value that doesn't change between runs, so plots that succeeded internally never got drawn. It now checks the execution result's own `figuresTouched` list, which correctly reflects what a given run actually did. What can't be guaranteed is whether WebGPU is available in a given student's browser — if it isn't, the output panel says so explicitly instead of just showing a blank canvas.
 
-**Known MATLAB-compatibility gaps** (found by direct testing, not exhaustive — treat this as a practice sandbox, not a certified MATLAB clone). A broad battery of ~60 functions and constructs across arrays, strings, structs, linear algebra, control flow, and numerical methods (`fzero`, `fminbnd`, `ode45`, `polyfit`, `trapz`, `interp1`, ...) was run against this build — 46/48 and then 14/15 passed across two rounds; these are the specific exceptions found:
-- `s.field = value` on an undefined `s` does not auto-create a struct the way real MATLAB does (throws "Undefined variable" instead). **Workaround, verified working:** write `s = struct();` first.
-- On a failed assignment (e.g. adding two arrays of mismatched size), the target variable is left set to `0` and echoed ("`z = 0`") instead of staying undefined with no output, as real MATLAB does.
-- Calling an anonymous function with an inline range literal as the call argument fails: `f = @(x) x.^2 + 1; f(1:5)` → `"Slicing only supported on tensors"`. Confirmed directly (headless, against the real WASM build) exactly where this breaks: it's specific to an inline `a:b` expression *at the call site* — the identical function called on an explicit array (`f([1 2 3 4 5])`), a scalar (`f(3)`), or the same range pre-assigned to a variable first (`r = 1:5; f(r)`) all work correctly and return the right values. **Workaround, verified working:** assign the range to a variable before calling. The Sandbox's own "Anonymous functions" example was updated to use this working form instead of demonstrating the broken one.
-- `switch`/`case` with a cell-array case value for OR-matching multiple values at once (`case {'a','b'}`, valid real MATLAB) errors instead ("cannot convert Cell ... to f64") — use separate `case` lines, or `if`/`elseif` with `||`.
-- `fminsearch` is entirely undefined in this build ("Undefined function: fminsearch") despite being a real MATLAB function — `fzero` and `fminbnd` were both verified working correctly with mathematically correct results (e.g. `fzero(@(x) x^2-2, 1)` → `1.4142`).
-- Default numeric display (`format short`, e.g. `z = 2.5000`), control flow, indexing, `switch`/`case` (single-value), `disp`/`fprintf`, cell arrays, structs (once initialized), string functions, and every linear-algebra/numerical-methods function tested all matched real MATLAB exactly.
-- **Performance** (measured, not estimated): first load (download + WASM init) took ~5.5s on a cold cache; individual code executions after that averaged ~16ms (range 3–166ms across ~60 varied test snippets) — fast enough that execution time is a non-issue once the runtime is loaded.
+**Known MATLAB-compatibility gaps** (found by testing, not exhaustive — this is a practice sandbox, not a certified MATLAB clone):
+- `s.field = value` on an undefined `s` does not auto-create a struct the way real MATLAB does. Write `s = struct();` first.
+- If an assignment's right side errors (e.g. mismatched array sizes), the target variable ends up `0` and gets echoed, instead of staying undefined with no output.
+- Calling an anonymous function with an inline range at the call site fails: `f = @(x) x.^2 + 1; f(1:5)` errors with "Slicing only supported on tensors." Assign the range to a variable first — `r = 1:5; f(r)` — and it works fine.
+- `switch`/`case` with a cell-array case (`case {'a','b'}`) for OR-matching multiple values isn't supported — use separate `case` lines, or `if`/`elseif` with `||`.
+- `fminsearch` isn't implemented in this build; `fzero` and `fminbnd` both work correctly.
+- Everything else tested — default numeric display, control flow, indexing, single-value `switch`/`case`, `disp`/`fprintf`, cell arrays, structs once initialized, string functions, and the linear-algebra/numerical-methods functions in the course — matched real MATLAB.
 
 ## Live MATLAB grading (experimental, opt-in)
 
-An optional toggle — **Display Settings (⚙) → "Live MATLAB grading"**, off by default, persisted in `localStorage` (`js/store.js`) — that changes how `code-entry` quiz questions are graded. Off (default): the existing safe string comparison against `acceptableAnswers`, unchanged. On: clicking Check Answer actually *runs* the student's code and the question's reference answer (`acceptableAnswers[0]`) through the sandbox runtime and compares what actually happened, live, with the run shown transparently in the feedback panel ("⚡ Live-graded by running your code in a real MATLAB interpreter").
+A toggle under **Display Settings (⚙) → "Live MATLAB grading"**, off by default. Off: `code-entry` questions are graded by string comparison against `acceptableAnswers`, as before. On: Check Answer actually runs the student's code *and* the question's reference answer through the sandbox runtime and compares what happened, shown transparently in the feedback panel. No existing questions needed to change — the expected result is computed from the reference answer at grading time.
 
-This required no changes to any of the 600 existing questions — the "expected" output/state is computed on the fly from the reference answer every time, not hand-authored.
+Grading compares both printed output and post-run variable state, not just stdout — `x = 42;` and `x = 41;` produce identical (empty) output, so output alone isn't enough to catch a wrong value.
 
-**Grading compares two things, not one — this was a real bug, found and fixed:** an early version compared only *printed output* (stdout) between the student's run and the reference run. Testing surfaced that this is not enough: `x = 42;` and `x = 41;` produce **identical** (empty, suppressed) output, so a student who assigned the wrong value was graded correct. The fix compares stdout *and* the actual post-run variable state via RunMat's `session.workspaceSnapshot()` (stripping `previewToken`, a random id assigned fresh on every call that isn't part of the real state) — verified this correctly catches the wrong-value case while still correctly grading the output-only cases (like a forgotten semicolon) that workspace state alone wouldn't catch. The two live-grading requests run sequentially, not concurrently, since both share one worker/session and running them via `Promise.all` was not something this project could fully verify as safe against RunMat's internal (undocumented) message handling.
-
-**Inherent limitation, not a bug:** output/state comparison can't detect a student special-casing the expected answer (e.g. a question asking them to compute `mod(17,5)` and display it — hardcoding `disp(2)` grades as correct, since the visible behavior is identical). This is a known limitation of behavioral grading in general, not something specific to this implementation.
-
-Falls back automatically to the normal string-comparison grading if the runtime fails to load for any reason — a live-grading failure never blocks a student from answering.
+**Known limitation:** this can't catch a student special-casing the expected answer (hardcoding `disp(2)` for a question that expects `mod(17,5)`) — behavioral grading in general can't tell the difference. Falls back to string-comparison grading automatically if the runtime fails to load, so a sandbox problem never blocks a student from answering.
 
 ## Autocomplete (experimental, opt-in — Sandbox only)
 
-A separate toggle inside the Sandbox page itself ("Autocomplete") swaps the plain textarea for a [CodeMirror 6](https://codemirror.net) editor and, when turned on, backs it with real completions and hover docs from RunMat's own LSP (Language Server Protocol) WASM module (`js/matlab-lsp.js` + `js/matlab-lsp-worker.js`) — verified directly: typing `disp` and similar prefixes returns properly-shaped completion items with markdown documentation pulled from RunMat's real builtin docs, and hovering a function name returns its full reference entry.
+A toggle inside the Sandbox swaps the plain textarea for a [CodeMirror 6](https://codemirror.net) editor backed by real completions and hover docs from RunMat's LSP module. Runs in its own worker, separate from code execution, so a hung run never blocks completions and the download only happens for students who opt in.
 
-This runs in its **own separate Web Worker** from code execution (`js/matlab-worker.js`) — deliberately, so a slow or hung run never blocks completions, and so this large download only happens for students who explicitly opt in.
+**Cost:** another ~47 MB WASM module, roughly 10 seconds to download and initialize on a normal connection — the toggle says so before downloading anything. CodeMirror itself (loaded whenever the Sandbox opens, autocomplete on or off) is a trivial ~100–200 KB.
 
-**Cost:** this is a genuinely large addition — another ~47 MB (uncompressed) WASM module, measured at ~11.2s to download and initialize over a real network connection in testing. The toggle's label says so before it downloads anything. CodeMirror itself (the editor UI, used whenever the Sandbox loads, autocomplete on or off) is a trivial ~100–200 KB by comparison.
-
-**A verification gap worth being explicit about:** everything MATLAB-execution-related in this project (interpreter, grading, LSP completions/hover) was tested directly against the real running WASM modules via a standalone script. `js/matlab-editor.js` — the CodeMirror wiring itself — could not be, since it needs a real DOM/browser that wasn't available while building it. The patterns used are standard, well-established CodeMirror 6 usage, but the editor UI specifically (not the MATLAB logic underneath it) should be checked by hand before being trusted.
-
-**CodeMirror's CDN loading needed careful, non-obvious version pinning — two separate bugs found this way, both by hand-testing in a real browser.** jsdelivr's `+esm` resolves each npm package's bundle independently, so `codemirror` and `@codemirror/autocomplete` — fetched as separate imports — silently pulled in two *different* concrete builds of `@codemirror/view` internally, which broke CodeMirror's identity-based extension system ("Unrecognized extension value in extension set"). Switching to `esm.sh` with an explicit `?deps=` pin fixed that, but surfaced a second, subtler failure: the pinned `@codemirror/view` version was old enough that `@codemirror/lint` (pulled in transitively by `basicSetup`) couldn't find an export (`activateHover`) it needed, because esm.sh resolves a package's *own* transitive dependencies by loose semver range regardless of what version you've pinned elsewhere — it doesn't error at fetch time on an incompatible combination, it just silently serves a bundle missing the export, so the break only surfaces at runtime. The exact pinned versions and the reasoning for each are documented in `js/matlab-editor.js`'s header comment — re-read it (and re-verify with curl against the npm registry's declared peer-dependency ranges, not just checking that URLs resolve identically) before ever bumping these versions.
+**Version pinning matters here.** CodeMirror's packages need to resolve to a single consistent build across `codemirror`, `@codemirror/autocomplete`, `@codemirror/view`, etc. — pulling them from a CDN naively can silently mix incompatible builds and break at runtime with cryptic errors. The pinned versions and reasoning are documented in `js/matlab-editor.js`'s header — read that before bumping any of them.
 
 ## MATLAB Scratchpad (in quiz questions, experimental)
 
-A small "🧮 Scratchpad" toggle appears on every quiz question (`js/matlab-scratchpad.js`), opening a collapsible, ungraded MATLAB editor + Run button + output panel as a **right-side panel** next to the question card (`.quiz-layout` in `style.css`; stacks full-width below the question on screens under 900px) — for trying something out without it touching your answer, grading, or progress. It shares the same runtime as the Sandbox and live grading, so opening it doesn't trigger a second download if either of those already loaded this session.
-
-The panel's code and open/closed state are kept in module-level state (not the DOM), specifically so they survive the quiz view's full re-render on every Next/Previous/Check Answer click — the editor instance itself is torn down and recreated against the fresh DOM each time, seeded with the preserved text, so it feels persistent across question navigation even though the underlying DOM node is new every time.
-
-**A real bug found and fixed here:** the panel's Run/Clear buttons are *not* replaced when the panel is merely toggled closed and reopened within the same question (only the full quiz re-render replaces them) — an earlier version re-attached click listeners to those same button nodes on every reopen, so opening the panel three times stacked three listeners and clicking Run fired three concurrent runs. Fixed with a `dataset.wired` guard so each button's listeners attach exactly once per DOM node.
+A "🧮 Scratchpad" toggle on every quiz question (`js/matlab-scratchpad.js`) opens a collapsible, ungraded editor + Run button + output panel as a side panel next to the question (stacks below it on narrow screens) — for trying something out without touching your answer or progress. Shares the same runtime as the Sandbox and live grading, so it doesn't trigger a second download if either already loaded this session.
 
 ## Exam mode timer
 
-Choosing Exam mode in the quiz config form reveals an optional Time Limit (10/20/30/45/60 minutes, or none). The countdown shown during the quiz is anchored to an absolute deadline (`session.startedAt + session.timeLimitMs`) rather than a locally-decremented counter, so it self-corrects across question navigation (which re-renders the whole quiz view), a page refresh, or the tab being backgrounded — it can never drift or silently reset. Hitting zero auto-submits the quiz through the same `finishQuiz()`/results path as manually ending it — anything not yet answered is graded as skipped, not treated specially.
+Choosing Exam mode in the quiz config reveals an optional time limit (10/20/30/45/60 minutes, or none). The countdown is anchored to an absolute deadline rather than a locally-decremented counter, so it can't drift or reset across question navigation, a page refresh, or the tab being backgrounded. Hitting zero auto-submits the quiz through the normal results path — anything unanswered is graded as skipped.
 
 ## Instructor mode
 
-Visit the site with `?mode=instructor` in the URL (e.g. `index.html?mode=instructor#/instructor`) to see a full table of every question in the bank (ID, unit, topic, difficulty, cognitive level, type, tags, references) and an "Export Question Bank (JSON)" button. There's no authentication and no link to it from student-facing navigation — it's a course-maintenance convenience, not a security boundary.
+Visit with `?mode=instructor` in the URL (e.g. `index.html?mode=instructor#/instructor`) for a full table of every question in the bank and a JSON export button. There's no authentication and no link to it from student-facing navigation — it's a course-maintenance convenience, not a security boundary.
 
 ## Deploying
 
-Push to GitHub Pages as-is — it's a static site with relative paths and no build step. GitHub Pages is enabled on this repo (serving `main` at the root), which also registers a `github-pages` deployment/environment on every push — that's what shows the "Deployments" indicator on the repo's GitHub homepage; no separate Actions workflow is needed for it.
+Push to GitHub Pages as-is — static site, relative paths, no build step. Pages is already enabled on this repo (serving `main` at the root).
 
-**Mobile:** a real, user-reported bug — the page rendered "left-justified with a blank strip on the right" on phones. Root cause: `.nav-dropdown-menu` (the "Projects ▾" dropdown in the shared site nav) is centered under its trigger via `left:50%; transform:translateX(-50%)`, which pushed its layout box past the right edge of a narrow viewport even while fully invisible (`opacity:0`) — an off-screen but still-laid-out element still counts toward the page's scrollable width. That inflated width is what `.page-wrap`'s `margin:0 auto` was centering against, not the actual visible viewport, producing the left-justified/blank-gutter look. Fixed with `overflow-x:hidden` on `html`/`body` (safe here since every element that can genuinely get wide — tables, code blocks, equations — already scrolls internally via its own `overflow-x:auto`) plus a mobile media query that right-anchors the dropdown instead of centering it.
+**Mobile note:** an earlier version rendered "left-justified with a blank strip on the right" on phones. The cause was an invisible dropdown menu in the shared nav that was still contributing to the page's layout width even while hidden. Fixed with `overflow-x:hidden` on the page body plus a mobile-specific fix to the dropdown's positioning.
 
 ## Design system at a glance
 
@@ -199,9 +187,9 @@ Push to GitHub Pages as-is — it's a static site with relative paths and no bui
 | Display font | DM Serif Display |
 | Mono font | DM Mono |
 | Max content width | 1040 px |
-| Dark mode | `body.dark-mode` class, toggled via localStorage (`js/store.js`'s progress key is unrelated — display prefs are handled entirely by `script.js`) |
+| Dark mode | `body.dark-mode` class, toggled via localStorage (separate from progress storage) |
 
-Math rendering (KaTeX) is pre-wired for when later units need equations — `window.renderMath()` is called after every route render in `js/app.js`. No Unit 0 questions use math yet.
+Math rendering (KaTeX) is pre-wired for when later units need equations — no Unit 0/1 questions use math yet.
 
 ## License
 
