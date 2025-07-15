@@ -31,6 +31,17 @@
 //     error into `workerError` on an outright bind failure) so the caller
 //     can tell the student *why* plotting isn't available instead of just
 //     showing empty output.
+//   - FOUND AND FIXED A REAL BUG (confirmed headless, no canvas needed):
+//     `currentFigureHandle()` is NOT a valid "did this run plot something"
+//     signal. It returns a stable/reused handle (e.g. `1`) that's already
+//     non-null even before any plot() has ever been called, and stays the
+//     same across runs — so the previous before/after handle-comparison
+//     here always read "unchanged" and `presentFigureOnSurface` was never
+//     actually invoked, even though the plot succeeded internally. Fixed
+//     by using `executeRequest`'s own `figuresTouched` array instead
+//     (documented in docs/wasm/index.md's Results table) — verified
+//     directly it's genuinely per-run: `[]` when nothing was plotted,
+//     `[1]`/`[1,2]` listing the real handle(s) touched by that run.
 //
 // Message protocol (all messages carry the request's `id` back):
 //   in:  { id, type: 'preload', cacheBust? }
@@ -152,14 +163,6 @@ async function getWasmResponse(cacheBust, onBytes) {
   return wrapWithProgress(response, onBytes);
 }
 
-function safeCurrentFigureHandle() {
-  try {
-    return modRef.currentFigureHandle();
-  } catch {
-    return null;
-  }
-}
-
 function loadSession(onProgress, cacheBust) {
   if (!sessionPromise) {
     sessionPromise = (async () => {
@@ -238,12 +241,6 @@ self.onmessage = async (e) => {
       if (typeof modRef.resetPlotState === 'function') {
         try { modRef.resetPlotState(); } catch { /* best-effort; don't fail the run over this */ }
       }
-      // resetPlotState() was NOT reliably clearing currentFigureHandle() between
-      // runs in testing — a plot from an earlier run kept being redrawn for later
-      // runs that never called plot() at all. Snapshotting the handle before and
-      // only counting it as "plotted" if a genuinely NEW handle appears fixes this
-      // regardless of what resetPlotState() actually does or doesn't reset.
-      const handleBefore = plotSurfaceId !== null ? safeCurrentFigureHandle() : null;
 
       const result = await session.executeRequest({
         source: { kind: 'text', name: '<sandbox>', text: code },
@@ -253,14 +250,19 @@ self.onmessage = async (e) => {
         ? { message: result.error.message, identifier: result.error.identifier, diagnostic: result.error.diagnostic }
         : null;
 
+      // currentFigureHandle() is NOT a reliable "did this run plot anything"
+      // signal — verified directly: it returns a stable handle (e.g. 1) that
+      // RunMat reuses across runs, even before any plot() has ever been called,
+      // so a before/after handle comparison always reads "unchanged" and never
+      // detects a real plot. `figuresTouched` on the execution result is the
+      // actual per-run signal (confirmed: [] when nothing was plotted, [1] or
+      // [1,2,...] listing the real handles touched by this specific run).
       let plotted = false;
-      if (plotSurfaceId !== null && !error) {
+      if (plotSurfaceId !== null && !error && Array.isArray(result.figuresTouched) && result.figuresTouched.length) {
         try {
-          const handleAfter = modRef.currentFigureHandle();
-          if (handleAfter && handleAfter !== handleBefore) {
-            modRef.presentFigureOnSurface(plotSurfaceId, handleAfter);
-            plotted = true;
-          }
+          const handle = result.figuresTouched[result.figuresTouched.length - 1];
+          modRef.presentFigureOnSurface(plotSurfaceId, handle);
+          plotted = true;
         } catch (plotErr) {
           // A plotting failure shouldn't take down an otherwise-successful run —
           // surface it as a console warning only, keep the text result intact.
