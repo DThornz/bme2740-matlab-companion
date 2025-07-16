@@ -15,7 +15,7 @@ The app itself — router, quiz engine, progress tracking, search, MATLAB refere
 - **Unit 0 — MATLAB Overview:** 600 questions (6 topics × 4 difficulties × 25 each), fact-checked topic by topic.
 - **Unit 1 — MATLAB, deeper pass:** 400 questions (4 topics × 4 difficulties × 25 each) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
 
-Units 2–6 exist as metadata only (topics, objectives, course materials) and show "Coming Soon" until someone writes their question banks. See "Adding a new unit" below.
+Units 2–6 exist as metadata only (topics, objectives, course materials) and show "Coming Soon" until I get around to adding them. See "Adding a new unit" below.
 
 ---
 
