@@ -281,7 +281,14 @@ self.onmessage = async (e) => {
         workspace = typeof session.workspaceSnapshot === 'function' ? await session.workspaceSnapshot() : null;
       } catch { /* best-effort; grading falls back to stdout-only comparison */ }
 
-      self.postMessage({ id, type: 'result', stdout, error, plotted, workspace });
+      // RunMat's own measurement of interpreter execution time, not a
+      // hand-rolled Date.now() diff — excludes worker/postMessage overhead,
+      // so it reflects the code's actual run time. Verified directly against
+      // a wall-clock timer that it tracks real elapsed time (in ms), not some
+      // other unit or a fixed/synthetic value.
+      const executionTimeMs = typeof result.executionTimeMs === 'number' ? result.executionTimeMs : null;
+
+      self.postMessage({ id, type: 'result', stdout, error, plotted, workspace, executionTimeMs });
       return;
     }
 

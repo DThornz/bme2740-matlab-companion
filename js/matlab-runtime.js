@@ -149,7 +149,11 @@ export function loadMatlabRuntime(onProgress) {
 }
 
 /**
- * Runs one snippet of MATLAB code and returns { stdout, error }.
+ * Runs one snippet of MATLAB code and returns
+ * { stdout, error, plotted, workspace, executionTimeMs }.
+ * `executionTimeMs` is RunMat's own interpreter-side timing (not measured
+ * here), so it reflects actual run time, not worker/postMessage overhead —
+ * null if the runtime build doesn't report it.
  * `error` here means the STUDENT's code failed (syntax/runtime error) —
  * that's a normal, expected outcome and is not thrown. If the runtime
  * infrastructure itself fails (fails to load, WASM panic), this instead
@@ -198,7 +202,13 @@ export async function runMatlabCode(code, { timeoutMs = 8000 } = {}) {
         settled = true;
         clearTimeout(timer);
         activeWorker.removeEventListener('message', handler);
-        resolve({ stdout: e.data.stdout, error: e.data.error, plotted: !!e.data.plotted, workspace: e.data.workspace ?? null });
+        resolve({
+          stdout: e.data.stdout,
+          error: e.data.error,
+          plotted: !!e.data.plotted,
+          workspace: e.data.workspace ?? null,
+          executionTimeMs: typeof e.data.executionTimeMs === 'number' ? e.data.executionTimeMs : null,
+        });
       } else if (e.data.type === 'workerError') {
         settled = true;
         clearTimeout(timer);
