@@ -245,11 +245,13 @@ export function renderSandbox(container) {
 
       statusEl.textContent = 'Running your code…';
       const code = editor ? editor.getValue() : '';
-      const { stdout, error, plotted } = await runMatlabCode(code);
+      const runStart = performance.now();
+      const { stdout, error, plotted, executionTimeMs } = await runMatlabCode(code);
+      const wallTimeMs = performance.now() - runStart;
       statusEl.hidden = true;
 
       const plotNote = !plotted && plotUnavailableReason && codeLooksLikeItPlots(code) ? plotUnavailableReason : null;
-      renderResult(outputEl, stdout, error, plotNote);
+      renderResult(outputEl, stdout, error, plotNote, executionTimeMs ?? wallTimeMs);
       plotWrap.hidden = !plotted;
 
       if (memNote) refreshMemoryNote(memNote);
@@ -302,7 +304,15 @@ async function refreshMemoryNote(memNote) {
   }
 }
 
-function renderResult(outputEl, stdout, error, plotNote) {
+// Under a second: whole milliseconds. A second or more: seconds to 2dp —
+// matches the precision students actually care about at each scale.
+function formatDuration(ms) {
+  if (typeof ms !== 'number' || !Number.isFinite(ms) || ms < 0) return null;
+  const rounded = Math.round(ms);
+  return rounded < 1000 ? `${rounded} ms` : `${(ms / 1000).toFixed(2)} s`;
+}
+
+function renderResult(outputEl, stdout, error, plotNote, elapsedMs) {
   const stdoutHtml = stdout
     ? `<pre class="sandbox-stdout">${escapeHtml(stdout)}</pre>`
     : '<p class="input-hint">(no output)</p>';
@@ -318,9 +328,17 @@ function renderResult(outputEl, stdout, error, plotNote) {
     ? `<div class="live-run-note live-run-note-warn" style="margin-top:10px">⚠ ${escapeHtml(plotNote)}</div>`
     : '';
 
+  const durationText = formatDuration(elapsedMs);
+  const durationHtml = durationText
+    ? `<span class="sandbox-run-time" title="Time to execute this code, reported by the MATLAB runtime">⏱ ${escapeHtml(durationText)}</span>`
+    : '';
+
   outputEl.innerHTML = `
     <div class="sandbox-output-block">
-      <div class="code-block-lang" style="margin-bottom:6px">Output</div>
+      <div class="code-block-lang sandbox-output-header" style="margin-bottom:6px">
+        <span>Output</span>
+        ${durationHtml}
+      </div>
       ${stdoutHtml}
       ${errorHtml}
       ${plotNoteHtml}
