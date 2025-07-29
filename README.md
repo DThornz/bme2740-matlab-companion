@@ -41,13 +41,13 @@ data/
   units.js                 Course structure: units, topics, objectives, course materials
   functions.js              MATLAB function reference entries
   questions/
-    unit0.js                 Unit 0 question bank (600 questions)
-    unit1.js                 Unit 1 question bank (400 questions)
+    unit0.json                Unit 0 question bank (600 questions)
+    unit1.json                Unit 1 question bank (400 questions)
 
 js/
   app.js                    Hash router + bootstrap
   views.js                   All screen renderers (dashboard, unit, topic, quiz config, quiz, results, review, reference, browse, search, instructor)
-  bank.js                    Combines units.js + question modules; counts, lookups, validateQuestionBank()
+  bank.js                    Combines units.js + question JSON; counts, lookups, validateQuestionBank()
   quiz.js                    Quiz session builder, answer grading, scoring — no DOM code
   store.js                   localStorage-backed progress tracking (falls back to in-memory if storage is unavailable)
   session.js                 sessionStorage for the in-progress quiz / last results (survives a refresh)
@@ -63,8 +63,8 @@ js/
 
 ## Adding a new unit
 
-1. Write `data/questions/unitN.js`, exporting `unitNQuestions` in the same shape as `unit0Questions` (topicId → difficulty → `Question[]`).
-2. In `js/bank.js`, import it and add it to `QUESTION_MODULES`.
+1. Write `data/questions/unitN.json`, in the same shape as `unit0.json` (topicId → difficulty → `Question[]`).
+2. In `js/bank.js`, add it to `QUESTION_FILES`.
 3. In `data/units.js`, flip that unit's `hasContent` to `true`.
 
 That's it — topic cards, difficulty cards, quiz config, counts, search, and instructor mode all read from the bank dynamically.

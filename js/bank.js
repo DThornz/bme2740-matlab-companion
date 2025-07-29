@@ -2,23 +2,41 @@
 // Question bank aggregator.
 //
 // Combines the unit/topic metadata in /data/units.js with the
-// per-unit question modules in /data/questions/*.js into one
+// per-unit question data in /data/questions/*.json into one
 // queryable structure, and exposes counting + validation helpers.
 //
-// TO ADD A NEW UNIT'S QUESTIONS: write /data/questions/unitN.js
-// exporting `unitNQuestions` (same shape as unit0Questions), then
-// import it below and add it to QUESTION_MODULES. Nothing else
-// needs to change — units.js already carries hasContent/topics.
+// Questions live in plain JSON (topicId -> difficulty -> Question[])
+// so they're easy to hand-edit without touching any JS. This module
+// fetches each unit's JSON file and builds the bank before anything
+// else in the app runs (top-level await — safe since this is only
+// ever loaded as an ES module).
+//
+// TO ADD A NEW UNIT'S QUESTIONS: write /data/questions/unitN.json
+// (same shape as unit0.json), then add it to QUESTION_FILES below.
+// Nothing else needs to change — units.js already carries
+// hasContent/topics.
 // ─────────────────────────────────────────────────────────────
 
 import { UNITS, DIFFICULTIES, getUnit, getTopic } from '../data/units.js';
-import { unit0Questions } from '../data/questions/unit0.js';
-import { unit1Questions } from '../data/questions/unit1.js';
 
-const QUESTION_MODULES = {
-  0: unit0Questions,
-  1: unit1Questions,
+const QUESTION_FILES = {
+  0: 'unit0.json',
+  1: 'unit1.json',
 };
+
+async function loadQuestionModules() {
+  const entries = await Promise.all(
+    Object.entries(QUESTION_FILES).map(async ([unitId, file]) => {
+      const url = new URL(`../data/questions/${file}`, import.meta.url);
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Failed to load ${file}: HTTP ${res.status}`);
+      return [unitId, await res.json()];
+    })
+  );
+  return Object.fromEntries(entries);
+}
+
+const QUESTION_MODULES = await loadQuestionModules();
 
 // unitId -> topicId -> difficulty -> Question[]
 const BANK = {};
