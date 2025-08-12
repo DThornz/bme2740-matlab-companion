@@ -3828,6 +3828,153 @@
         "references": [
           "Unit 0 – Lecture 1"
         ]
+      },
+      {
+        "id": "U0-VAR-B26",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "MATLAB variable names are case sensitive. Which statement is true?",
+        "options": [
+          "x and X can hold different values at the same time, since MATLAB treats them as separate variables",
+          "x and X always refer to the same variable",
+          "MATLAB automatically converts all variable names to lowercase",
+          "Case sensitivity only applies to function names, not variable names"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Because MATLAB is case sensitive, x and X are two completely independent variables — assigning one never changes the other.",
+        "optionExplanations": [
+          "Correct — case sensitivity means x and X are distinct variables.",
+          "Incorrect — that would only be true in a case-insensitive language.",
+          "Incorrect — MATLAB preserves the case exactly as typed.",
+          "Incorrect — case sensitivity applies to variable names too, not just functions."
+        ],
+        "concept": "Case-sensitive variable names",
+        "tags": [
+          "variable names",
+          "case sensitivity"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-B27",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "Which of the following is a valid MATLAB variable name?",
+        "options": [
+          "column1",
+          "1column",
+          "my-variable",
+          "for"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Variable names must start with a letter and contain only letters, digits, and underscores after that. \"1column\" starts with a digit, \"my-variable\" contains a hyphen (read as subtraction), and \"for\" is a reserved keyword.",
+        "optionExplanations": [
+          "Correct — starts with a letter, followed by letters/digits; a valid name.",
+          "Incorrect — variable names cannot start with a digit.",
+          "Incorrect — a hyphen isn't allowed; MATLAB would read this as \"my minus variable\".",
+          "Incorrect — \"for\" is a reserved MATLAB keyword and can't be used as a variable name."
+        ],
+        "concept": "Valid variable name rules",
+        "tags": [
+          "variable names",
+          "isvarname"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-B28",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "isvarname('1column') returns true, because '1column' could be used as a MATLAB variable name.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "False. Variable names cannot start with a digit, so isvarname('1column') returns false (0).",
+        "optionExplanations": [
+          "Incorrect — a leading digit makes this an invalid variable name.",
+          "Correct — isvarname('1column') returns false because names can't start with a digit."
+        ],
+        "concept": "isvarname() and leading digits",
+        "tags": [
+          "isvarname",
+          "variable names"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-B29",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What does the function isvarname(str) actually check?",
+        "options": [
+          "Whether str is syntactically valid as a MATLAB variable name (starts with a letter, contains only letters/digits/underscores, and isn't a reserved keyword)",
+          "Whether a variable with that name already exists in the current workspace",
+          "Whether str is the name of a built-in MATLAB function",
+          "Whether str contains only numeric characters"
+        ],
+        "correctAnswer": 0,
+        "explanation": "isvarname only validates naming syntax and reserved keywords — it does not check whether the name already exists as a variable, or whether it happens to collide with a built-in function name.",
+        "optionExplanations": [
+          "Correct — isvarname is purely a syntax/keyword check.",
+          "Incorrect — isvarname doesn't look at the current workspace at all.",
+          "Incorrect — isvarname doesn't check against the list of built-in function names.",
+          "Incorrect — a string of only digits would actually fail isvarname, since names can't start with a digit."
+        ],
+        "concept": "What isvarname checks",
+        "tags": [
+          "isvarname",
+          "variable names"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-B30",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "isvarname('clc') returns true, even though clc is also the name of a built-in MATLAB command.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True. isvarname only validates naming syntax — it has no way of knowing (or caring) that 'clc' is already a command name. Using it as a variable name is legal, though it will shadow the clc command for the rest of that scope.",
+        "optionExplanations": [
+          "Correct — isvarname('clc') is true; it only checks syntax, not name collisions with existing functions.",
+          "Incorrect — isvarname does not check against built-in function names at all."
+        ],
+        "concept": "isvarname() and shadowing built-ins",
+        "tags": [
+          "isvarname",
+          "variable names"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
       }
     ],
     "intermediate": [
@@ -4568,6 +4715,103 @@
         "tags": [
           "ordering",
           "arithmetic"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-I26",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "You type `clc = 5;` in the Command Window. What happens the next time you type `clc` alone on a line?",
+        "options": [
+          "MATLAB displays the value 5 instead of clearing the Command Window, because the variable now shadows the built-in function",
+          "MATLAB clears the Command Window as usual, since built-in functions can't be overridden",
+          "MATLAB throws an error because clc is a reserved keyword",
+          "MATLAB silently deletes the variable clc to protect the built-in command"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Once a variable named clc exists, MATLAB checks variables before functions when resolving a name, so typing clc now shows the value 5 instead of running the clc command — exactly why naming variables after MATLAB commands, though legal, is discouraged.",
+        "optionExplanations": [
+          "Correct — a variable in the workspace shadows a function of the same name.",
+          "Incorrect — built-in functions can, in fact, be shadowed by a variable of the same name.",
+          "Incorrect — clc is not a reserved keyword (isvarname('clc') is true), so this assignment is legal.",
+          "Incorrect — MATLAB does not protect built-in names this way."
+        ],
+        "concept": "Variables shadowing built-in function names",
+        "tags": [
+          "isvarname",
+          "shadowing",
+          "variable names"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-I27",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Which of these is NOT a real reason a name might fail isvarname(), even though it looks like a reasonable variable name at a glance?",
+        "options": [
+          "It's a MATLAB keyword like 'if', 'end', or 'for'",
+          "It starts with a digit, like '3dPlot'",
+          "It contains a space, like 'my var'",
+          "It is longer than 8 characters"
+        ],
+        "correctAnswer": 3,
+        "explanation": "Reserved keywords, a leading digit, and embedded spaces are all real reasons isvarname() fails. There is no 8-character limit — MATLAB variable names can be much longer than that.",
+        "optionExplanations": [
+          "Incorrect — this is a genuine reason isvarname() returns false.",
+          "Incorrect — this is a genuine reason isvarname() returns false.",
+          "Incorrect — this is a genuine reason isvarname() returns false (a space isn't a letter, digit, or underscore).",
+          "Correct — there is no 8-character cap on MATLAB variable names; this is not a real restriction."
+        ],
+        "concept": "Reasons a name fails isvarname()",
+        "tags": [
+          "isvarname",
+          "variable names"
+        ],
+        "references": [
+          "Unit 0 – Lecture 1"
+        ]
+      },
+      {
+        "id": "U0-VAR-I28",
+        "unit": 0,
+        "topic": "variables-operators",
+        "difficulty": "intermediate",
+        "type": "code-debug",
+        "cognitiveLevel": "apply",
+        "question": "A student's script fails on this line with \"Error: Unexpected MATLAB operator.\" What is the problem?",
+        "code": "for = 5;",
+        "language": "matlab",
+        "options": [
+          "'for' is a reserved MATLAB keyword and cannot be used as a variable name",
+          "The semicolon is in the wrong place",
+          "5 is not a valid value to assign to a variable",
+          "MATLAB requires an initial value before declaring a for loop"
+        ],
+        "correctAnswer": 0,
+        "explanation": "'for' is reserved for the for-loop statement, so MATLAB can't parse `for = 5` as a variable assignment — it expects for-loop syntax instead and errors on the unexpected =.",
+        "optionExplanations": [
+          "Correct — 'for' is a keyword, not a legal variable name.",
+          "Incorrect — the semicolon placement is fine; the problem is the name itself.",
+          "Incorrect — any number is a valid value to assign to a variable.",
+          "Incorrect — this line isn't attempting to declare a for-loop at all, so that isn't the issue."
+        ],
+        "concept": "Reserved keywords as variable names",
+        "tags": [
+          "isvarname",
+          "reserved keywords",
+          "debugging"
         ],
         "references": [
           "Unit 0 – Lecture 1"
@@ -9650,6 +9894,246 @@
         "references": [
           "Unit 0 – MATLAB Example Presentation"
         ]
+      },
+      {
+        "id": "U0-PLT-B26",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What does the meshgrid function do?",
+        "options": [
+          "Expands two 1-D vectors into 2-D grids of all (x,y) coordinate pairs, for evaluating functions of two variables",
+          "Creates a random matrix of the given size",
+          "Solves a system of linear equations",
+          "Sorts a matrix into ascending order"
+        ],
+        "correctAnswer": 0,
+        "explanation": "meshgrid(xa, ya) turns two 1-D ranges into a pair of 2-D matrices covering every combination of x and y, so a function of two variables can be evaluated at every point on the grid at once.",
+        "optionExplanations": [
+          "Correct — this is exactly what meshgrid does.",
+          "Incorrect — that describes rand, not meshgrid.",
+          "Incorrect — that describes backslash (\\) or linsolve, not meshgrid.",
+          "Incorrect — that describes sort, not meshgrid."
+        ],
+        "concept": "meshgrid for 3-D plotting",
+        "tags": [
+          "meshgrid",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B27",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which function draws a 3-D shaded surface plot from grid matrices X, Y, and Z?",
+        "options": [
+          "surf(X,Y,Z)",
+          "contourf(X,Y,Z)",
+          "area3(X,Y,Z)",
+          "plot3grid(X,Y,Z)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "surf(X,Y,Z) draws a 3-D surface, coloring and shading each patch of the grid according to the Z values.",
+        "optionExplanations": [
+          "Correct — surf is the standard MATLAB 3-D surface plotting function.",
+          "Incorrect — contourf is a real MATLAB function, but it draws a filled 2-D contour map, not a 3-D surface.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function."
+        ],
+        "concept": "3-D surface plots",
+        "tags": [
+          "surf",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B28",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "When calling surf(X,Y,Z), the Z input must be a matrix that matches the size of the X and Y grids, not a plain vector.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True. X, Y, and Z must all be the same size — Z(i,j) gives the height of the surface above the point (X(i,j), Y(i,j)), so it has to be a full grid, not a 1-D list of values.",
+        "optionExplanations": [
+          "Correct — surf needs Z to be a matrix the same size as the X/Y grids.",
+          "Incorrect — a vector Z wouldn't tell MATLAB the height at every (x,y) grid point."
+        ],
+        "concept": "surf input shapes",
+        "tags": [
+          "surf",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B29",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which command exports the currently active figure to a PNG file for use in a report?",
+        "options": [
+          "exportgraphics(gcf, 'myplot.png')",
+          "savefigure(gcf, 'myplot.png')",
+          "print2file(gcf, 'myplot.png')",
+          "writeimage(gcf, 'myplot.png')"
+        ],
+        "correctAnswer": 0,
+        "explanation": "exportgraphics(obj, filename) saves the given graphics object (gcf = current figure) to the file, inferring the format from the extension.",
+        "optionExplanations": [
+          "Correct — exportgraphics is MATLAB's recommended function for saving figures from code.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function."
+        ],
+        "concept": "Exporting figures with exportgraphics",
+        "tags": [
+          "exportgraphics",
+          "plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B30",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "PNG and JPG files exported from a MATLAB figure are vector graphics that never lose quality when scaled up.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "False. PNG and JPG are raster (fixed-resolution) formats — they pixelate when scaled up too far. PDF and EPS are the vector formats that scale without losing quality.",
+        "optionExplanations": [
+          "Incorrect — PNG/JPG are raster formats with a fixed pixel resolution.",
+          "Correct — PNG/JPG are raster; PDF/EPS are the vector options that scale losslessly."
+        ],
+        "concept": "Raster vs. vector image formats",
+        "tags": [
+          "exportgraphics",
+          "raster vs vector"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B31",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which function sets the label for the z-axis of a 3-D plot?",
+        "options": [
+          "zlabel('...')",
+          "xlabel3('...')",
+          "axislabel('...', 'z')",
+          "label(gca, 'z', '...')"
+        ],
+        "correctAnswer": 0,
+        "explanation": "zlabel('...') labels the z-axis, the same way xlabel and ylabel label the x- and y-axes.",
+        "optionExplanations": [
+          "Correct — zlabel sets the z-axis label.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function."
+        ],
+        "concept": "Labeling 3-D plot axes",
+        "tags": [
+          "zlabel",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B32",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "Which command forces equal scaling in data units on all axes of a plot, so a sphere looks round instead of stretched?",
+        "options": [
+          "axis equal",
+          "axis square",
+          "axis tight",
+          "axis normal"
+        ],
+        "correctAnswer": 0,
+        "explanation": "axis equal makes one data unit the same length on every axis. axis square only makes the axes box itself square on screen — it doesn't guarantee equal data-unit scaling.",
+        "optionExplanations": [
+          "Correct — axis equal scales data units equally on every axis.",
+          "Incorrect — axis square makes the plot box square in screen space, not the data scaling.",
+          "Incorrect — axis tight fits the axis limits tightly to the data range; unrelated to aspect ratio.",
+          "Incorrect — axis normal restores MATLAB's default automatic aspect ratio, the opposite of what's being asked."
+        ],
+        "concept": "Controlling plot aspect ratio",
+        "tags": [
+          "axis equal",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-B33",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "In exportgraphics(gcf, 'sin_cos_plot.png', 'Resolution', 300), what does the 'Resolution' name-value pair control?",
+        "options": [
+          "The dots-per-inch (DPI) of the exported raster image",
+          "The number of data points plotted",
+          "The color depth (bits per pixel)",
+          "The physical page size in inches"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Resolution sets the DPI (dots per inch) used when rendering a raster image format like PNG or JPG; higher values produce a sharper, larger image file.",
+        "optionExplanations": [
+          "Correct — Resolution sets the DPI of the exported image.",
+          "Incorrect — the number of plotted data points is set before exporting, not by this option.",
+          "Incorrect — Resolution controls pixel density, not color depth.",
+          "Incorrect — page size is controlled separately (e.g. via Width/Height/Units), not Resolution."
+        ],
+        "concept": "exportgraphics resolution control",
+        "tags": [
+          "exportgraphics",
+          "resolution"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
       }
     ],
     "intermediate": [
@@ -10412,6 +10896,196 @@
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
+        ]
+      },
+      {
+        "id": "U0-PLT-I26",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "output-prediction",
+        "cognitiveLevel": "analyze",
+        "question": "xa has 41 elements and ya has 21 elements. After this code runs, what is size(x)?",
+        "code": "xa = linspace(0, 4, 41);\nya = linspace(0, 2, 21);\n[x, y] = meshgrid(xa, ya);",
+        "language": "matlab",
+        "options": [
+          "21 x 41",
+          "41 x 21",
+          "41 x 41",
+          "21 x 21"
+        ],
+        "correctAnswer": 0,
+        "explanation": "meshgrid(xa, ya) returns matrices with numel(ya) rows and numel(xa) columns — each row of x is a copy of xa, and each column of y is a copy of ya. So size(x) is 21 x 41.",
+        "optionExplanations": [
+          "Correct — rows come from ya (21), columns come from xa (41).",
+          "Incorrect — this swaps rows and columns; rows are set by ya, not xa.",
+          "Incorrect — the grid isn't square unless xa and ya have the same length.",
+          "Incorrect — this uses the length of ya for both dimensions."
+        ],
+        "concept": "meshgrid output dimensions",
+        "tags": [
+          "meshgrid",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-I27",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "code-completion",
+        "cognitiveLevel": "apply",
+        "question": "Fill in the blank to correctly compute z = cos(xy) on the grid before plotting it with surf.",
+        "code": "xa = -4:0.1:4;\nya = -4:0.1:4;\n[x, y] = meshgrid(xa, ya);\n_____\nfigure\nsurf(x, y, z)",
+        "language": "matlab",
+        "options": [
+          "z = cos(x .* y);",
+          "z = cos(x * y);",
+          "z = cos(xa * ya);",
+          "z = cos(x + y)';"
+        ],
+        "correctAnswer": 0,
+        "explanation": "x and y are matrices from meshgrid, so computing z at every grid point independently requires the element-wise operator .*, not the matrix-multiplication operator *.",
+        "optionExplanations": [
+          "Correct — .* multiplies x and y element-by-element, giving the right z at every grid point.",
+          "Incorrect — x*y is matrix multiplication, which computes something entirely different (and can error on non-square grids), not cos(x_ij × y_ij) at each point.",
+          "Incorrect — xa and ya are still 1-D vectors here; this ignores the 2-D grids meshgrid produced.",
+          "Incorrect — this computes cos(x+y) instead of cos(x .* y), and the transpose isn't needed here."
+        ],
+        "concept": "Element-wise vs. matrix multiplication on grids",
+        "commonMistakes": [
+          "Using x*y instead of x.*y after meshgrid, which is matrix multiplication rather than a per-point evaluation."
+        ],
+        "tags": [
+          "meshgrid",
+          "elementwise operators",
+          "code completion"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-I28",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "Which function changes the viewing angle (azimuth and elevation) of a 3-D plot?",
+        "options": [
+          "view(az, el)",
+          "rotate3d(az, el)",
+          "camera(az, el)",
+          "angle3d(az, el)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "view(az, el) sets the azimuth and elevation angles used to look at a 3-D plot; view(3) restores MATLAB's default 3-D view.",
+        "optionExplanations": [
+          "Correct — view(az, el) sets the 3-D viewing angle.",
+          "Incorrect — rotate3d toggles interactive mouse rotation; it doesn't take angle arguments this way.",
+          "Incorrect — not a MATLAB function.",
+          "Incorrect — not a MATLAB function."
+        ],
+        "concept": "Changing the 3-D view angle",
+        "tags": [
+          "view",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-I29",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "What effect does the command shading interp have on a surf plot?",
+        "options": [
+          "It interpolates colors across each face, removing the visible faceted/grid look of the default shading",
+          "It interpolates missing Z values between data points",
+          "It smooths the spacing of the x and y grid",
+          "It converts the surface plot into a 2-D contour plot"
+        ],
+        "correctAnswer": 0,
+        "explanation": "shading interp blends the colors smoothly across each patch of the surface instead of showing MATLAB's default flat, faceted coloring — it's a display option only, it doesn't change the underlying data.",
+        "optionExplanations": [
+          "Correct — shading interp smooths the surface's coloring.",
+          "Incorrect — shading doesn't add or change data values, only how existing ones are colored.",
+          "Incorrect — shading affects color rendering, not the grid spacing itself.",
+          "Incorrect — the plot remains a 3-D surface; shading doesn't change plot type."
+        ],
+        "concept": "shading interp",
+        "tags": [
+          "shading",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-I30",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Why is exportgraphics generally recommended over the GUI Export/Save As workflow for figures used in assignments or reports?",
+        "options": [
+          "It runs from code, so the exact same figure can be regenerated and re-exported identically every time (reproducibility)",
+          "It is the only way to save a figure as a PNG file",
+          "It automatically fixes any errors in the plotted data",
+          "It always produces higher resolution images than any other MATLAB export method"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Because exportgraphics is a line of code rather than a manual click-through, rerunning the script reproduces the exact same export every time — useful when a plot needs to be regenerated after a data or formatting change.",
+        "optionExplanations": [
+          "Correct — code-based export is reproducible and scriptable, unlike a manual GUI export.",
+          "Incorrect — the GUI Export/Save As dialog can also save PNGs.",
+          "Incorrect — exportgraphics only saves what's already plotted; it can't fix incorrect data.",
+          "Incorrect — resolution is a setting you control (e.g. via 'Resolution'), not an automatic advantage of exportgraphics."
+        ],
+        "concept": "Reproducible figure export",
+        "tags": [
+          "exportgraphics",
+          "reproducibility"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-I31",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "intermediate",
+        "type": "true-false",
+        "cognitiveLevel": "apply",
+        "question": "By default, exportgraphics automatically chooses a vector or raster output based on the file extension you give it (e.g. .pdf vs. .png).",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True. exportgraphics's ContentType option defaults to \"auto\", which infers vector output for formats like .pdf/.eps and image (raster) output for formats like .png/.jpg based on the filename's extension.",
+        "optionExplanations": [
+          "Correct — ContentType defaults to \"auto\" and is inferred from the file extension.",
+          "Incorrect — you don't have to specify ContentType manually for standard use; auto-detection is the default behavior."
+        ],
+        "concept": "exportgraphics ContentType",
+        "tags": [
+          "exportgraphics",
+          "raster vs vector"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
         ]
       }
     ],
@@ -11203,6 +11877,105 @@
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
+        ]
+      },
+      {
+        "id": "U0-PLT-A26",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "advanced",
+        "type": "code-debug",
+        "cognitiveLevel": "analyze",
+        "question": "A student writes the code below and MATLAB throws: \"Error using * / Incorrect dimensions for matrix multiplication.\" What is the most likely fix?",
+        "code": "[x, y] = meshgrid(xa, ya);\nz = cos(x*y);\nsurf(x, y, z)",
+        "language": "matlab",
+        "options": [
+          "Change x*y to x.*y so the multiplication happens element-by-element between the grids",
+          "Swap the order of xa and ya in the meshgrid call",
+          "Add a semicolon after the surf command",
+          "Replace surf with mesh, which doesn't require a Z matrix"
+        ],
+        "correctAnswer": 0,
+        "explanation": "x and y are matrices, so x*y attempts true matrix multiplication, which requires the column count of x to match the row count of y — not what's intended here. x.*y multiplies corresponding elements instead, giving a same-size result usable as Z.",
+        "optionExplanations": [
+          "Correct — .* performs the intended element-wise multiplication between same-size grids.",
+          "Incorrect — swapping xa and ya changes the grid orientation but doesn't fix the multiplication itself.",
+          "Incorrect — a missing semicolon only suppresses/shows output; it isn't a dimension error.",
+          "Incorrect — mesh still requires a Z matrix, same as surf; this doesn't address the real bug."
+        ],
+        "concept": "Debugging elementwise vs. matrix multiplication",
+        "tags": [
+          "meshgrid",
+          "debugging",
+          "elementwise operators"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-A27",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "You need one figure for a print journal that must scale to any size without pixelating, and another for a slide deck where a reasonably sized raster image is fine. Which pair of export choices best fits each use?",
+        "options": [
+          "Journal: exportgraphics(gcf,'fig.pdf'); Slides: exportgraphics(gcf,'fig.png','Resolution',300)",
+          "Journal: exportgraphics(gcf,'fig.png'); Slides: exportgraphics(gcf,'fig.pdf')",
+          "Both: exportgraphics(gcf,'fig.jpg')",
+          "Both: exportgraphics(gcf,'fig.pdf','Resolution',72)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "PDF is a vector format — ideal for print, since it scales to any size without pixelating. A 300 DPI PNG is a good, lightweight raster choice for slides, where the display size is fixed and file size/load speed matter more.",
+        "optionExplanations": [
+          "Correct — vector PDF for print, a solid-DPI raster PNG for slides.",
+          "Incorrect — this pairs the raster format with print and the vector format with slides, backwards from what each use case needs.",
+          "Incorrect — JPG uses lossy compression and isn't the best choice for a print journal figure.",
+          "Incorrect — PDF is already vector, so a DPI setting doesn't meaningfully apply, and 72 DPI would be far too low if it did."
+        ],
+        "concept": "Choosing an export format for the use case",
+        "tags": [
+          "exportgraphics",
+          "raster vs vector"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
+        ]
+      },
+      {
+        "id": "U0-PLT-A28",
+        "unit": 0,
+        "topic": "plotting-basics",
+        "difficulty": "advanced",
+        "type": "output-prediction",
+        "cognitiveLevel": "analyze",
+        "question": "An open 3-D surface plot exists. What visual effect does this loop produce?",
+        "code": "for ii = 0:45\n    view([ii, 37])\n    pause(0.1)\nend",
+        "language": "matlab",
+        "options": [
+          "A smooth rotating animation of the surface, sweeping the azimuth from 0° to 45° while holding elevation fixed at 37°",
+          "It plots 46 separate overlapping surfaces",
+          "It has no visible effect because view only affects 2-D plots",
+          "It changes the color map 46 times"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Each iteration calls view with a new azimuth (ii) and a fixed elevation (37), then pauses briefly — repeated quickly enough, this reads as a smooth rotation of the existing surface, not a new plot.",
+        "optionExplanations": [
+          "Correct — this is the standard trick for animating a 3-D plot's rotation.",
+          "Incorrect — no plot() or surf() call happens inside the loop, so no new surfaces are drawn.",
+          "Incorrect — view is specifically for controlling the 3-D viewing angle.",
+          "Incorrect — view doesn't touch the colormap."
+        ],
+        "concept": "Animating a 3-D view with view() in a loop",
+        "tags": [
+          "view",
+          "animation",
+          "3d plotting"
+        ],
+        "references": [
+          "Unit 0 – Lecture 2"
         ]
       }
     ],
