@@ -3893,6 +3893,192 @@
         "references": [
           "Unit 1 – Lecture 4"
         ]
+      },
+      {
+        "id": "U1-IO-B26",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What is the primary purpose of MATLAB App Designer?",
+        "options": [
+          "To build a graphical user interface (GUI) with point-and-click controls, so others can use your program without typing MATLAB commands",
+          "To automatically optimize your MATLAB code for speed",
+          "To convert MATLAB code into another programming language",
+          "To generate documentation comments for your functions"
+        ],
+        "correctAnswer": 0,
+        "explanation": "App Designer lets you build a GUI — buttons, sliders, plots, etc. — so a user can run your program by clicking and typing into fields instead of writing MATLAB commands.",
+        "optionExplanations": [
+          "Correct — App Designer is MATLAB's tool for building point-and-click GUIs.",
+          "Incorrect — App Designer doesn't optimize code performance.",
+          "Incorrect — App Designer doesn't translate MATLAB into other languages.",
+          "Incorrect — that's not what App Designer is for."
+        ],
+        "concept": "Purpose of App Designer",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-B27",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which command opens the MATLAB App Designer environment?",
+        "options": [
+          "appdesigner",
+          "opengui",
+          "newapp",
+          "designapp"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Typing appdesigner at the Command Window (or in a script) opens App Designer.",
+        "optionExplanations": [
+          "Correct — appdesigner is the command that launches App Designer.",
+          "Incorrect — not a MATLAB command.",
+          "Incorrect — not a MATLAB command.",
+          "Incorrect — not a MATLAB command."
+        ],
+        "concept": "Opening App Designer",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-B28",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "According to the lecture, which three elements are required to build a GUI app?",
+        "options": [
+          "Components, Figures, and Callbacks",
+          "Variables, Functions, and Loops",
+          "Scripts, Functions, and Classes",
+          "Inputs, Outputs, and Comments"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A GUI is built from Components (buttons, sliders, etc.), a Figure (the window that contains them), and Callbacks (the code that runs in response to user actions).",
+        "optionExplanations": [
+          "Correct — Components, Figures, and Callbacks are the three principal GUI-building elements.",
+          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described.",
+          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described.",
+          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described."
+        ],
+        "concept": "Core elements of a GUI app",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-B29",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "In an App Designer app, what is a 'callback'?",
+        "options": [
+          "The code that runs in response to a user action, like clicking a button or moving a slider",
+          "The variable that stores the app's title",
+          "A comment describing what the app does",
+          "The function that closes the app window"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A callback is the block of code tied to a specific component and event — for example, the code that runs when a button is clicked or a slider is moved.",
+        "optionExplanations": [
+          "Correct — a callback is event-response code, e.g. what happens on a button click.",
+          "Incorrect — that's just an app property, not a callback.",
+          "Incorrect — a comment doesn't execute anything.",
+          "Incorrect — closing the app is only one possible callback among many, not the definition of the term."
+        ],
+        "concept": "Callbacks in App Designer",
+        "tags": [
+          "callback",
+          "app designer"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-B30",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What is the easiest way to make a single numeric value in a Live Script interactive (turning it into a slider a student can drag), without building a full app?",
+        "options": [
+          "Select the number and use the Live Editor's Control > Numeric Slider option",
+          "Rewrite the whole script inside App Designer",
+          "Use the appdesigner command with a custom callback",
+          "Wrap the number in an input() call"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The Live Editor can convert an individual value directly into an interactive control (like a numeric slider) via Control > Numeric Slider — no App Designer or callback code required.",
+        "optionExplanations": [
+          "Correct — this is the \"Convert a Script into a Simple App\" shortcut shown in the lecture.",
+          "Incorrect — that's a much heavier tool than needed for a single interactive value.",
+          "Incorrect — this converts the value directly in the Live Editor, no appdesigner call involved.",
+          "Incorrect — input() pauses for console text entry; it doesn't create a draggable slider."
+        ],
+        "concept": "Live Editor numeric slider control",
+        "tags": [
+          "app designer",
+          "live editor"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-B31",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "In App Designer's Component Gallery, which category would you look under to find things like buttons, sliders, and switches?",
+        "options": [
+          "Common Components",
+          "Axes",
+          "Containers and Figure Tools",
+          "Instrumentation"
+        ],
+        "correctAnswer": 0,
+        "explanation": "\"Common Components\" is the gallery category for everyday interactive controls like buttons, sliders, switches, and edit fields.",
+        "optionExplanations": [
+          "Correct — Common Components covers everyday interactive controls.",
+          "Incorrect — Axes is for plotting/graphing components.",
+          "Incorrect — Containers and Figure Tools covers layout panels and window-level tools.",
+          "Incorrect — Instrumentation covers gauges, knobs, and similar display components."
+        ],
+        "concept": "App Designer Component Gallery categories",
+        "tags": [
+          "app designer",
+          "component gallery"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
       }
     ],
     "intermediate": [
@@ -4676,6 +4862,157 @@
         ],
         "references": [
           "Unit 1 – Numerical Computation Lab"
+        ]
+      },
+      {
+        "id": "U1-IO-I26",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "What is the difference between 'Convert a Script into a Simple App' and 'Create an App Interactively' in App Designer?",
+        "options": [
+          "Converting a script only turns individual values in an existing Live Script into interactive controls (like sliders), while creating an app interactively lets you design a full custom GUI layout with multiple components from scratch",
+          "They produce exactly the same result, just through different menus",
+          "Converting a script requires more coding than creating an app interactively",
+          "Creating an app interactively only works for plotting code"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Converting a script is a lightweight shortcut for turning a value already in a Live Script into a slider or similar control. Creating an app interactively opens the full App Designer canvas, where you place and wire up any combination of components from a blank layout.",
+        "optionExplanations": [
+          "Correct — one is a lightweight single-value shortcut, the other is a full GUI design workflow.",
+          "Incorrect — they serve different scopes of complexity, not the same result.",
+          "Incorrect — converting a script actually requires less setup, not more.",
+          "Incorrect — creating an app interactively can include any components, not just plots."
+        ],
+        "concept": "Script conversion vs. full interactive app design",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-I27",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "A student wants a button in their App Designer app to run some MATLAB code whenever it's clicked. Where does that code go?",
+        "options": [
+          "Inside the button's callback function, which App Designer generates automatically when you add the button",
+          "Directly into the app's Figure properties",
+          "Into a separate .m file that must be run before opening the app",
+          "Into a comment above the button in the layout view"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Adding a button in App Designer auto-generates an empty callback function for it; the student writes their response code inside that generated function.",
+        "optionExplanations": [
+          "Correct — App Designer scaffolds a callback function per interactive component.",
+          "Incorrect — Figure properties configure the window itself, not button behavior.",
+          "Incorrect — the app doesn't require a separate .m file to be run first for button behavior.",
+          "Incorrect — comments don't execute; the code must go inside the callback."
+        ],
+        "concept": "Where callback code lives",
+        "tags": [
+          "callback",
+          "app designer"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-I28",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "According to the lecture, when deciding between App Designer and writing a GUI entirely by hand with programmatic figure/component code, which approach is recommended for typical course use, and why?",
+        "options": [
+          "App Designer — writing the GUI entirely by hand is far more tedious to build and maintain, so App Designer's point-and-click workflow is recommended instead",
+          "Programmatic — App Designer apps can't be shared with other users",
+          "Programmatic — App Designer doesn't support callbacks",
+          "App Designer — programmatic apps cannot include plots"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The lecture explicitly calls the fully programmatic approach \"far more tedious to do,\" which is why the course focuses on App Designer's interactive workflow instead.",
+        "optionExplanations": [
+          "Correct — App Designer is recommended specifically because the fully programmatic route is much more tedious.",
+          "Incorrect — App Designer apps can be shared, including as standalone desktop or web apps.",
+          "Incorrect — callbacks are a core feature of App Designer.",
+          "Incorrect — programmatic GUIs can absolutely include plots (e.g. via axes components); that's not the stated reason."
+        ],
+        "concept": "Why App Designer is preferred over programmatic GUIs",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-I29",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "What does the 'Figure' element of a GUI app provide?",
+        "options": [
+          "The window/container that holds all the visual components of the app",
+          "The code that executes when a button is pressed",
+          "A saved dataset used by the app",
+          "The app's help documentation"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The Figure is the window that contains and displays every component (buttons, plots, sliders, etc.) that make up the app.",
+        "optionExplanations": [
+          "Correct — the Figure is the container window for the app's components.",
+          "Incorrect — that describes a callback, not the Figure.",
+          "Incorrect — the Figure is a UI container, not a dataset.",
+          "Incorrect — the Figure isn't documentation."
+        ],
+        "concept": "The Figure element of a GUI",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
+        ]
+      },
+      {
+        "id": "U1-IO-I30",
+        "unit": 1,
+        "topic": "io-and-scripts",
+        "difficulty": "intermediate",
+        "type": "true-false",
+        "cognitiveLevel": "apply",
+        "question": "An App Designer app can be shared and used by people who don't have MATLAB installed, either as a standalone desktop app or a web app.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True. Apps built in App Designer can be shared for use within MATLAB, but they can also be packaged as standalone desktop apps or web apps that run without a MATLAB installation.",
+        "optionExplanations": [
+          "Correct — App Designer apps can be packaged as standalone desktop or web apps.",
+          "Incorrect — packaging as a standalone/web app is exactly one of the sharing options available."
+        ],
+        "concept": "Sharing App Designer apps",
+        "tags": [
+          "app designer",
+          "gui"
+        ],
+        "references": [
+          "Unit 1 – Lecture 3"
         ]
       }
     ],
