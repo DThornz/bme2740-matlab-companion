@@ -173,7 +173,10 @@ function unitCardHtml(unit) {
         <span>${total} question${total === 1 ? '' : 's'}</span>
         ${accuracy !== null ? `<span>${accuracy}% accuracy</span>` : ''}
       </div>
-      ${total ? progressBar(progressPct, { label: `${unit.title} progress` }) : ''}
+      ${total ? `<div class="unit-card-progress">
+        ${progressBar(progressPct, { label: `${unit.title} progress` })}
+        <span class="unit-card-pct">${progressPct}% complete</span>
+      </div>` : ''}
     </a>`;
 }
 

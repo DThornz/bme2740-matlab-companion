@@ -243,6 +243,8 @@ body.dark-mode footer{border-color:#1c3050!important;color:#94a3b8!important}
 .unit-card-title{font-family:var(--serif);font-size:1.25em;font-weight:400;color:var(--text)}
 .unit-card-desc{font-size:.82em;color:var(--muted);line-height:1.55;flex:1}
 .unit-card-meta{display:flex;gap:12px;flex-wrap:wrap;font-size:.72em;color:var(--dim);font-family:var(--mono)}
+.unit-card-progress{display:flex;align-items:center;gap:10px}
+.unit-card-pct{font-family:var(--mono);font-size:.72em;color:var(--dim);white-space:nowrap}
 
 /* ─── Course map ──────────────────────────────────────────── */
 .course-map{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.82em}
@@ -473,7 +475,7 @@ body.dark-mode .progress-bar-fill{background:#2dd4bf!important}
 body.dark-mode .unit-card-title,body.dark-mode .topic-card-title,body.dark-mode .func-name{color:#e2e8f0!important}
 body.dark-mode .func-name{color:#2dd4bf!important}
 body.dark-mode .unit-card-desc,body.dark-mode .topic-card-desc,body.dark-mode .reference-purpose,body.dark-mode .question-text{color:#a8bcd4!important}
-body.dark-mode .unit-card-num,body.dark-mode .unit-card-meta,body.dark-mode .topic-card-pct{color:#94a3b8!important}
+body.dark-mode .unit-card-num,body.dark-mode .unit-card-meta,body.dark-mode .topic-card-pct,body.dark-mode .unit-card-pct{color:#94a3b8!important}
 body.dark-mode .map-node{background:#0f1f38!important;border-color:#1c3050!important;color:#94a3b8!important}
 body.dark-mode .quiz-header-unit{color:#a8bcd4!important}
 body.dark-mode .quiz-header-progress,body.dark-mode .question-type-tag{color:#94a3b8!important}
