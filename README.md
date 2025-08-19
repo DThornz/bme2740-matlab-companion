@@ -171,6 +171,10 @@ Choosing Exam mode in the quiz config reveals an optional time limit (10/20/30/4
 
 Visit with `?mode=instructor` in the URL (e.g. `index.html?mode=instructor#/instructor`) for a full table of every question in the bank and a JSON export button. There's no authentication and no link to it from student-facing navigation — it's a course-maintenance convenience, not a security boundary.
 
+## Analytics
+
+A [Cloudflare Web Analytics](https://developers.cloudflare.com/web-analytics/) beacon in `index.html` reports aggregate visit counts — free, no cookies, nothing tied to an individual visitor. See the footer disclaimer.
+
 ## Deploying
 
 Push to GitHub Pages as-is — static site, relative paths, no build step. Pages is already enabled on this repo (serving `main` at the root).
