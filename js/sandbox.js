@@ -95,6 +95,7 @@ export function renderSandbox(container) {
           <li><code>switch</code>/<code>case</code> with a cell-array case (<code>case {'a','b'}</code>) for matching multiple values at once isn't supported — use separate <code>case</code> lines instead.</li>
           <li><code>fminsearch</code> isn't implemented in this build — <code>fzero</code> and <code>fminbnd</code> both work correctly.</li>
           <li>Calling an anonymous function with an inline range as the argument, e.g. <code>f = @(x) x.^2; f(1:5)</code>, fails with a "Slicing only supported on tensors" error — assign the range to a variable first (<code>r = 1:5; f(r)</code>) and it works fine.</li>
+          <li><code>plot(M)</code> with a single matrix argument doesn't plot one line per column the way real MATLAB does — it flattens the whole matrix into one series instead. Plot columns explicitly if you need multiple lines: <code>hold on; for i=1:size(M,2); plot(M(:,i)); end</code>.</li>
           <li>Plotting depends on your browser's WebGPU support. If a figure doesn't appear, the output area below will now say specifically why (e.g. WebGPU unavailable) instead of just showing nothing — that's a real browser-support limit, not something you did wrong.</li>
         </ul>
         This sandbox is for free-form practice and exploration only — it is separate from the graded question bank and doesn't affect your progress stats.

@@ -141,6 +141,7 @@ A free-play page where students write real MATLAB syntax and see it run, client-
 - Calling an anonymous function with an inline range at the call site fails: `f = @(x) x.^2 + 1; f(1:5)` errors with "Slicing only supported on tensors." Assign the range to a variable first — `r = 1:5; f(r)` — and it works fine.
 - `switch`/`case` with a cell-array case (`case {'a','b'}`) for OR-matching multiple values isn't supported — use separate `case` lines, or `if`/`elseif` with `||`.
 - `fminsearch` isn't implemented in this build; `fzero` and `fminbnd` both work correctly.
+- `plot(M)` with a single matrix argument doesn't do MATLAB's "one line per column" behavior — RunMat flattens the whole matrix into one series plotted against `1:numel(M)`. Confirmed by reading RunMat's own `plot.rs`: its shorthand-arg path infers X from the flattened element count, with no per-column splitting. Plot each column explicitly instead — `hold on; for i=1:size(M,2); plot(M(:,i)); end`.
 - Everything else tested — default numeric display, control flow, indexing, single-value `switch`/`case`, `disp`/`fprintf`, cell arrays, structs once initialized, string functions, and the linear-algebra/numerical-methods functions in the course — matched real MATLAB.
 
 ## Live MATLAB grading (experimental, opt-in)
