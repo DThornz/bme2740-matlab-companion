@@ -518,3 +518,120 @@ body.dark-mode .scratchpad-toggle{background:#0f1f38!important;border-color:#1c3
 body.dark-mode .scratchpad-toggle-active{background:rgba(45,212,191,.1)!important;border-color:#2dd4bf!important;color:#2dd4bf!important}
 body.dark-mode .scratchpad-panel{background:#0a1628!important;border-color:#1c3050!important}
 body.dark-mode .scratchpad-editor-host{background:#0f1f38!important}
+
+/* ══════════════════════════════════════════════════════════
+   Review section — the learn/reference companion to the quiz
+   system. See js/review-views.js, data/review/.
+   ══════════════════════════════════════════════════════════ */
+
+.btn-sm{padding:5px 12px;font-size:.75em}
+
+/* ─── Landing page ────────────────────────────────────────── */
+.review-landing-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.review-unit-card{display:flex;flex-direction:column;gap:8px;background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:20px;text-decoration:none;color:inherit;transition:all .15s;box-shadow:var(--shadow)}
+.review-unit-card:hover{border-color:var(--teal);transform:translateY(-2px);text-decoration:none;box-shadow:var(--shadow-lg)}
+.review-unit-card-soon{opacity:.65;pointer-events:none}
+.review-unit-card-num{font-family:var(--mono);font-size:.7em;color:var(--teal);text-transform:uppercase;letter-spacing:.08em}
+.review-unit-card-title{font-family:var(--serif);font-size:1.2em;font-weight:400;color:var(--text)}
+.review-unit-card-count{font-size:.76em;color:var(--dim);font-family:var(--mono)}
+
+/* ─── Unit chapter list ───────────────────────────────────── */
+.review-chapter-list{display:flex;flex-direction:column;gap:10px;margin-top:20px}
+.review-chapter-card{display:flex;justify-content:space-between;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px 18px;text-decoration:none;color:inherit;transition:all .15s}
+.review-chapter-card:hover{border-color:var(--teal);text-decoration:none}
+.review-chapter-card-title{font-size:.95em;font-weight:600;color:var(--text)}
+.review-chapter-card-desc{font-size:.8em;color:var(--muted);margin-top:3px;line-height:1.5}
+.review-chapter-check{color:var(--teal);font-size:1.2em;flex-shrink:0}
+
+/* ─── Chapter page layout ─────────────────────────────────── */
+.review-layout{display:flex;align-items:flex-start;gap:32px}
+.review-sidebar{flex:0 0 220px;position:sticky;top:56px;max-height:calc(100vh - 76px);overflow-y:auto;padding-right:6px}
+.review-sidebar-title{font-family:var(--mono);font-size:.68em;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin-bottom:10px}
+.review-toc{display:flex;flex-direction:column;gap:2px}
+.review-toc-item{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:6px;font-size:.82em;color:var(--muted);text-decoration:none;line-height:1.4}
+.review-toc-item:hover{background:var(--teal-glow);color:var(--teal);text-decoration:none}
+.review-toc-current{background:var(--teal-glow);color:var(--teal);font-weight:600}
+.review-toc-check{color:var(--teal);flex-shrink:0;width:1em;display:inline-block}
+.review-chapter{flex:1 1 0;min-width:0}
+@media(max-width:900px){
+  .review-layout{flex-direction:column}
+  .review-sidebar{position:static;max-height:none;width:100%;padding-right:0}
+  .review-toc{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .review-toc-item{border:1px solid var(--border);background:var(--bg2)}
+}
+
+.review-chapter-kicker{font-family:var(--mono);font-size:.7em;text-transform:uppercase;letter-spacing:.14em;color:var(--teal);margin-bottom:8px}
+.review-chapter-title{font-family:var(--serif);font-size:2em;font-weight:400;color:var(--text);margin-bottom:10px}
+.review-chapter-summary{font-size:.95em;color:var(--muted);line-height:1.7;max-width:680px;margin-bottom:16px}
+.review-chapter-meta{display:flex;align-items:center;gap:14px;font-size:.78em;color:var(--dim);font-family:var(--mono);padding-bottom:22px;border-bottom:1px solid var(--border)}
+
+/* ─── Section / prose blocks ──────────────────────────────── */
+.review-section{margin:32px 0}
+.review-section-heading{font-family:var(--serif);font-size:1.3em;font-weight:400;color:var(--text);margin-bottom:12px}
+.review-p{font-size:.92em;color:var(--muted);line-height:1.75;margin-bottom:12px}
+.review-list{margin:0 0 14px 20px;font-size:.92em;color:var(--muted);line-height:1.8}
+.review-list li{margin-bottom:4px}
+.review-p code,.review-list code,.quick-check-q code,.quick-check-answer code,.callout code,.review-table code{background:var(--bg3);padding:1px 5px;border-radius:4px;font-family:var(--mono);font-size:.92em;color:var(--teal)}
+.review-code-caption{font-family:var(--mono);font-size:.72em;color:var(--dim);margin:16px 0 -8px}
+.review-table td{line-height:1.6}
+
+/* ─── Callout variants (base .callout/.callout-amber in style.css §Callout boxes) ─── */
+.callout-green{border-left-color:#15803d;background:rgba(21,128,61,.06)}
+.callout-green .callout-title{color:#15803d}
+.callout-blue{border-left-color:var(--blue);background:rgba(29,78,216,.06)}
+.callout-blue .callout-title{color:var(--blue)}
+
+/* ─── Diagrams ─────────────────────────────────────────────── */
+.review-diagram{margin:20px 0;text-align:center;color:var(--text)}
+.review-diagram svg{max-width:100%;height:auto}
+.review-diagram figcaption{font-size:.75em;color:var(--dim);margin-top:8px;font-family:var(--mono)}
+
+/* ─── Check Your Understanding ────────────────────────────── */
+.quick-check{background:var(--bg3);border:1px dashed var(--border2);border-radius:10px;padding:16px 18px;margin:20px 0}
+.quick-check-tag{display:block;font-family:var(--mono);font-size:.65em;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
+.quick-check-q{font-size:.9em;color:var(--text);margin-bottom:10px;line-height:1.6}
+.quick-check-answer{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:.88em;color:var(--muted);line-height:1.65}
+
+/* ─── Footer / prev-next ──────────────────────────────────── */
+.review-footer{margin-top:44px;padding-top:24px;border-top:1px solid var(--border)}
+.review-prevnext{display:flex;justify-content:space-between;gap:16px;margin-top:22px;flex-wrap:wrap}
+.review-prevnext-link{font-size:.85em;color:var(--muted)}
+.review-next{margin-left:auto;text-align:right}
+
+/* ─── Try-it blocks (js/review-tryit.js) ──────────────────── */
+.tryit-bar-actions{display:flex;gap:6px;align-items:center}
+.tryit-body{padding:14px 16px}
+.tryit-editor{width:100%;margin:0}
+.tryit-status{margin:10px 0 0;padding:8px 12px;border-radius:8px;background:var(--teal-glow);color:var(--teal);font-family:var(--mono);font-size:.78em}
+.tryit-plot-wrap{margin-top:12px;border:1px solid var(--border);border-radius:8px;padding:12px;background:var(--bg2)}
+.tryit-plot-wrap canvas{display:block;max-width:100%;height:auto;background:#fff;border-radius:6px}
+.tryit-output{margin-top:10px}
+
+/* ─── Responsive ──────────────────────────────────────────── */
+@media(max-width:700px){
+  .review-chapter-card{flex-direction:column;align-items:flex-start}
+}
+
+/* ─── Dark mode: Review section ───────────────────────────── */
+body.dark-mode .review-unit-card,body.dark-mode .review-chapter-card{background:#0a1628!important;border-color:#1c3050!important}
+body.dark-mode .review-unit-card-title,body.dark-mode .review-chapter-card-title,body.dark-mode .review-chapter-title,body.dark-mode .review-section-heading{color:#e2e8f0!important}
+body.dark-mode .review-unit-card-count,body.dark-mode .review-chapter-card-desc,body.dark-mode .review-chapter-summary,body.dark-mode .review-p,body.dark-mode .review-list,body.dark-mode .review-chapter-meta,body.dark-mode .review-prevnext-link{color:#94a3b8!important}
+body.dark-mode .review-chapter-check{color:#2dd4bf!important}
+body.dark-mode .review-sidebar-title{color:#94a3b8!important}
+body.dark-mode .review-toc-item{color:#94a3b8!important}
+body.dark-mode .review-toc-item:hover,body.dark-mode .review-toc-current{background:rgba(45,212,191,.08)!important;color:#2dd4bf!important}
+body.dark-mode .review-toc-check{color:#2dd4bf!important}
+@media(max-width:900px){ body.dark-mode .review-toc-item{background:#0a1628!important;border-color:#1c3050!important} }
+body.dark-mode .review-chapter-meta,body.dark-mode .review-footer{border-color:#1c3050!important}
+body.dark-mode .review-p code,body.dark-mode .review-list code,body.dark-mode .quick-check-q code,body.dark-mode .quick-check-answer code,body.dark-mode .callout code,body.dark-mode .review-table code{background:#0f1f38!important;color:#2dd4bf!important}
+body.dark-mode .callout-green{background:rgba(21,128,61,.1)!important;border-color:rgba(21,128,61,.3)!important}
+body.dark-mode .callout-green .callout-title{color:#4ade80!important}
+body.dark-mode .callout-blue{background:rgba(96,165,250,.08)!important;border-color:rgba(96,165,250,.25)!important}
+body.dark-mode .callout-blue .callout-title{color:#60a5fa!important}
+body.dark-mode .review-diagram{color:#e2e8f0!important}
+body.dark-mode .review-diagram figcaption{color:#94a3b8!important}
+body.dark-mode .quick-check{background:#0f1f38!important;border-color:#1c3050!important}
+body.dark-mode .quick-check-q{color:#e2e8f0!important}
+body.dark-mode .quick-check-answer{color:#94a3b8!important;border-color:#1c3050!important}
+body.dark-mode .tryit-status{background:rgba(45,212,191,.1)!important;color:#2dd4bf!important}
+body.dark-mode .tryit-plot-wrap{background:#0a1628!important;border-color:#1c3050!important}

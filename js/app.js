@@ -34,6 +34,25 @@ const ROUTES = [
       const { renderSandbox } = await import('./sandbox.js');
       renderSandbox(app);
     } },
+  // Review section — the "learn/reference" companion to the quiz system
+  // (see data/review/). Dynamically imported for the same reason as the
+  // sandbox above: most visitors practicing questions never open it, so
+  // its chapter content shouldn't be in their initial page load.
+  { pattern: /^\/learn$/, render: async () => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderLearnHome } = await import('./review-views.js');
+      renderLearnHome(app);
+    } },
+  { pattern: /^\/learn\/([^/]+)$/, render: async m => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderLearnUnit } = await import('./review-views.js');
+      renderLearnUnit(app, decodeURIComponent(m[1]));
+    } },
+  { pattern: /^\/learn\/([^/]+)\/([^/]+)$/, render: async m => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderLearnChapter } = await import('./review-views.js');
+      renderLearnChapter(app, decodeURIComponent(m[1]), decodeURIComponent(m[2]));
+    } },
   { pattern: /^\/search$/, render: (m, params) => renderSearch(app, params.get('q') || '') },
   { pattern: /^\/instructor$/, render: () => {
       if (!isInstructorMode) { location.hash = '#/'; return; }

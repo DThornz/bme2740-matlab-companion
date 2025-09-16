@@ -8,6 +8,10 @@
 
 import { UNITS, DIFFICULTIES, getUnit, getTopic, countQuestions, countByDifficulty, getAllQuestions, getQuestions, getUnitQuestions } from './bank.js';
 import { FUNCTION_REFERENCE } from '../data/functions.js';
+// Lightweight, always-loaded Review index (see that file's header) — used
+// here only to show "Review this topic →" cross-links and search hits.
+// The actual chapter content is dynamically imported by review-views.js.
+import { REVIEW_CHAPTERS, findChapterForTopic, chaptersForUnit, reviewChapterHref, reviewUnitHref } from '../data/review/nav.js';
 import * as store from './store.js';
 import * as quiz from './quiz.js';
 import * as sessionStore from './session.js';
@@ -56,13 +60,14 @@ export function renderDashboard(container) {
       <p class="hero-sub">Build fluency in MATLAB, numerical methods, and computational modeling through progressive, self-paced practice aligned with BME 2740. This is a practice companion, not a replacement for course instruction.</p>
       <div class="hero-actions">
         <a href="#/unit/0" class="btn btn-primary">Start Practicing</a>
+        <a href="#/learn" class="btn btn-primary">Review the Material</a>
         <a href="#units" class="btn btn-ghost">Explore Course Topics</a>
       </div>
     </div>
 
     <div class="callout" style="margin-bottom:40px">
-      <div class="callout-title">Note</div>
-      Practice questions are designed to reinforce concepts covered in BME 2740. They are <strong>not</strong> official graded assessment questions, and results shown here are a <strong>Practice Score</strong>, not a course grade.
+      <div class="callout-title">Review vs. Practice</div>
+      <strong>Review</strong> teaches the material — read explanations and run examples. <strong>Practice</strong> (the quizzes below) tests it and is <strong>not</strong> official graded assessment — results shown here are a <strong>Practice Score</strong>, not a course grade.
     </div>
 
     <div class="section">
@@ -159,6 +164,7 @@ function unitCardHtml(unit) {
   const attempted = store.getUnitAttemptedCount(unit.id);
   const comingSoon = !unit.hasContent;
   const progressPct = total ? Math.min(100, Math.round((attempted / total) * 100)) : 0;
+  const hasReview = chaptersForUnit(unit.id).length > 0;
 
   return `
     <a class="unit-card ${comingSoon ? 'unit-card-soon' : ''}" href="#/unit/${unit.id}">
@@ -172,6 +178,7 @@ function unitCardHtml(unit) {
         <span>${unit.topics.length} topic${unit.topics.length === 1 ? '' : 's'}</span>
         <span>${total} question${total === 1 ? '' : 's'}</span>
         ${accuracy !== null ? `<span>${accuracy}% accuracy</span>` : ''}
+        ${hasReview ? '<span>📖 Review available</span>' : ''}
       </div>
       ${total ? `<div class="unit-card-progress">
         ${progressBar(progressPct, { label: `${unit.title} progress` })}
@@ -198,6 +205,7 @@ export function renderUnit(container, unitId) {
     : emptyState('Topics for this unit haven’t been added yet — check back soon.');
 
   const total = countQuestions(unit.id);
+  const hasReview = chaptersForUnit(unit.id).length > 0;
 
   container.innerHTML = `
     <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><span>${escapeHtml(unit.title)}</span></nav>
@@ -207,7 +215,10 @@ export function renderUnit(container, unitId) {
       <div class="section-body"><p>${escapeHtml(unit.description)}</p></div>
       ${objectives ? `<h3 class="mini-heading">Learning Objectives</h3>${objectives}` : ''}
       ${materials ? `<h3 class="mini-heading">Course Material</h3>${materials}` : ''}
-      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unit.id}&topic=all&difficulty=mixed">Random Quiz — Whole Unit (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unit.id}">Browse Questions</a></div>` : ''}
+      <div class="dashboard-actions">
+        ${hasReview ? `<a class="btn btn-primary" href="${reviewUnitHref(unit.id)}">📖 Review This Unit</a>` : ''}
+        ${total ? `<a class="btn btn-outline" href="#/quiz/config?unit=${unit.id}&topic=all&difficulty=mixed">Random Quiz — Whole Unit (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unit.id}">Browse Questions</a>` : ''}
+      </div>
     </div>
     <div class="section">
       <h2 class="section-title">Topics</h2>
@@ -255,6 +266,7 @@ export function renderTopic(container, unitId, topicId) {
   }).join('');
 
   const total = countQuestions(unitId, topicId);
+  const reviewChapter = findChapterForTopic(unitId, topicId);
 
   container.innerHTML = `
     <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/unit/${unitId}">${escapeHtml(unit.title)}</a><span>/</span><span>${escapeHtml(topic.title)}</span></nav>
@@ -262,7 +274,10 @@ export function renderTopic(container, unitId, topicId) {
       <div class="section-num">Topic</div>
       <h1 class="section-title" style="font-size:2.1em">${escapeHtml(topic.title)}</h1>
       <div class="section-body"><p>${escapeHtml(topic.description)}</p></div>
-      ${total ? `<div class="dashboard-actions"><a class="btn btn-outline" href="#/quiz/config?unit=${unitId}&topic=${topicId}&difficulty=mixed">Mixed-Difficulty Quiz (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unitId}&topic=${topicId}">Browse Questions</a></div>` : ''}
+      <div class="dashboard-actions">
+        ${reviewChapter ? `<a class="btn btn-primary" href="${reviewChapterHref(unitId, reviewChapter.id)}">📖 Review this topic →</a>` : ''}
+        ${total ? `<a class="btn btn-outline" href="#/quiz/config?unit=${unitId}&topic=${topicId}&difficulty=mixed">Mixed-Difficulty Quiz (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unitId}&topic=${topicId}">Browse Questions</a>` : ''}
+      </div>
     </div>
     <div class="section">
       <h2 class="section-title">Choose a Difficulty</h2>
@@ -882,8 +897,9 @@ export function renderResults(container) {
   const topicsHtml = summary.topics.length
     ? summary.topics.map(t => {
         const topic = getTopic(t.unit, t.topic);
+        const reviewChapter = findChapterForTopic(t.unit, t.topic);
         return `<div class="results-topic-row">
-          <span>${escapeHtml(topic ? topic.title : t.topic)}</span>
+          <span>${escapeHtml(topic ? topic.title : t.topic)}${reviewChapter ? ` · <a href="${reviewChapterHref(t.unit, reviewChapter.id)}">Review →</a>` : ''}</span>
           ${progressBar(t.accuracy, { label: `${topic ? topic.title : t.topic} accuracy this quiz` })}
           <span>${t.accuracy}%</span>
         </div>`;
@@ -945,7 +961,9 @@ export function renderReview(container) {
     .filter(({ a }) => a && a.checked && !a.correct);
 
   const html = items.length
-    ? items.map(({ q, a }) => `
+    ? items.map(({ q, a }) => {
+        const reviewChapter = findChapterForTopic(q.unit, q.topic);
+        return `
       <div class="question-card review-card">
         <div class="question-type-tag">${questionTypeLabel(q.type)}</div>
         <p class="question-text">${escapeHtml(q.question)}</p>
@@ -955,7 +973,9 @@ export function renderReview(container) {
           <div><strong>Correct answer:</strong> ${escapeHtml(describeCorrectAnswer(q))}</div>
         </div>
         ${renderFeedback(q, a)}
-      </div>`).join('')
+        ${reviewChapter ? `<div class="dashboard-actions"><a class="btn btn-outline" href="${reviewChapterHref(q.unit, reviewChapter.id)}">📖 Review this concept →</a></div>` : ''}
+      </div>`;
+      }).join('')
     : emptyState('Nothing to review — every answered question in that quiz was correct.');
 
   container.innerHTML = `
@@ -1064,6 +1084,7 @@ export function renderSearch(container, query) {
     });
 
     const funcHits = FUNCTION_REFERENCE.filter(fn => fn.name.toLowerCase().includes(f) || fn.purpose.toLowerCase().includes(f));
+    const reviewHits = REVIEW_CHAPTERS.filter(c => c.title.toLowerCase().includes(f) || c.keywords.some(k => k.includes(f)));
 
     const topicSection = (topicHits.length || tagHits.size)
       ? `<h3 class="mini-heading">Topics</h3><ul class="mini-list search-hit-list">
@@ -1072,11 +1093,15 @@ export function renderSearch(container, query) {
         </ul>`
       : '';
 
+    const reviewSection = reviewHits.length
+      ? `<h3 class="mini-heading">Review Chapters</h3><ul class="mini-list search-hit-list">${reviewHits.map(c => `<li><a href="${reviewChapterHref(c.unit, c.id)}">${escapeHtml(c.title)}</a> <span class="dim-item">(Unit ${c.unit} Review)</span></li>`).join('')}</ul>`
+      : '';
+
     const funcSection = funcHits.length
       ? `<h3 class="mini-heading">MATLAB Functions</h3><ul class="mini-list search-hit-list">${funcHits.map(fn => `<li><a href="#/reference">${escapeHtml(fn.name)}</a> — ${escapeHtml(fn.purpose)}</li>`).join('')}</ul>`
       : '';
 
-    results.innerHTML = (topicSection || funcSection) ? topicSection + funcSection : emptyState(`No results for “${q}”.`);
+    results.innerHTML = (topicSection || reviewSection || funcSection) ? topicSection + reviewSection + funcSection : emptyState(`No results for “${q}”.`);
   }
 
   input.addEventListener('input', () => {

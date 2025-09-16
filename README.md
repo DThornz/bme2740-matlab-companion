@@ -10,12 +10,14 @@ Built on the shared [dthornz.github.io](https://dthornz.github.io/website-cv-too
 
 ## Current status
 
-The app itself — router, quiz engine, progress tracking, search, MATLAB reference, instructor mode, browse mode — is done. Two units have full question banks:
+The app itself — router, quiz engine, progress tracking, search, MATLAB reference, instructor mode, browse mode, Review section — is done. Two units have full question banks:
 
-- **Unit 0 — MATLAB Overview:** 600 questions (6 topics × 4 difficulties × 25 each), fact-checked topic by topic.
-- **Unit 1 — MATLAB, deeper pass:** 400 questions (4 topics × 4 difficulties × 25 each) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
+- **Unit 0 — MATLAB Overview:** 625 questions (6 topics × 4 difficulties, ~26 each), fact-checked topic by topic.
+- **Unit 1 — MATLAB, deeper pass:** 411 questions (4 topics × 4 difficulties, ~28 each) covering functions/multiple I/O, logical indexing, plotting patterns, and reading/predicting output.
 
-Units 2–6 exist as metadata only (topics, objectives, course materials) and show "Coming Soon" until I get around to adding them. See "Adding a new unit" below.
+Units 2–6 exist as metadata only (topics, objectives, course materials) and show "Coming Soon" for **Practice** until I get around to adding question banks. See "Adding a new unit" below.
+
+The **Review section** (`#/learn`, see below) is separate from the question bank and further along for Unit 2: it has chapters for all of Unit 0 and Unit 1 (one chapter per topic), plus one polished chapter for Unit 2 ("Matrix Operations & Solving Ax = b") as the template for the rest of that unit. Units 3–6 have no Review content yet either.
 
 ---
 
@@ -41,8 +43,13 @@ data/
   units.js                 Course structure: units, topics, objectives, course materials
   functions.js              MATLAB function reference entries
   questions/
-    unit0.json                Unit 0 question bank (600 questions)
-    unit1.json                Unit 1 question bank (400 questions)
+    unit0.json                Unit 0 question bank (625 questions)
+    unit1.json                Unit 1 question bank (411 questions)
+  review/
+    blocks.js                  Tiny builder functions for chapter content blocks (p, code, callout, table, eq, quickCheck, …)
+    nav.js                      Lightweight, always-loaded chapter index — id/title/topic/keywords only, no chapter text
+    content.js                  Registry combining unitN.js into one lookup + prev/next ordering (only imported by review-views.js)
+    unit0.js, unit1.js, unit2.js  Actual chapter content, one file per unit, built from blocks.js
 
 js/
   app.js                    Hash router + bootstrap
@@ -59,6 +66,9 @@ js/
   matlab-lsp.js                Main-thread API for autocomplete/hover — separate worker from execution
   matlab-lsp-worker.js         Web Worker that loads RunMat's LSP (WASM) from a CDN
   matlab-scratchpad.js         Collapsible MATLAB scratchpad panel embedded in quiz questions
+  review-views.js             Review section screen renderers (#/learn routes) — see "Review section" below
+  review-tryit.js              The interactive "Try it" code block used in Review chapters
+  review-store.js              localStorage-backed "chapter marked as reviewed" tracking (separate key from quiz progress)
 ```
 
 ## Adding a new unit
@@ -68,6 +78,8 @@ js/
 3. In `data/units.js`, flip that unit's `hasContent` to `true`.
 
 That's it — topic cards, difficulty cards, quiz config, counts, search, and instructor mode all read from the bank dynamically.
+
+Adding Review chapters is separate and independent (a unit can have one without the other): write chapters in `data/review/unitN.js` using the helpers in `data/review/blocks.js`, then add one entry per chapter to `data/review/nav.js`. See "Review section" below.
 
 ## Question authoring guide
 
@@ -144,6 +156,18 @@ A free-play page where students write real MATLAB syntax and see it run, client-
 - `plot(M)` with a single matrix argument doesn't do MATLAB's "one line per column" behavior — RunMat flattens the whole matrix into one series plotted against `1:numel(M)`. Confirmed by reading RunMat's own `plot.rs`: its shorthand-arg path infers X from the flattened element count, with no per-column splitting. Plot each column explicitly instead — `hold on; for i=1:size(M,2); plot(M(:,i)); end`.
 - Everything else tested — default numeric display, control flow, indexing, single-value `switch`/`case`, `disp`/`fprintf`, cell arrays, structs once initialized, string functions, and the linear-algebra/numerical-methods functions in the course — matched real MATLAB.
 
+## Review section (`#/learn`)
+
+The "textbook" companion to the quiz system — read explanations and run examples instead of being tested on them. Reached from "Review the Material" on the dashboard, "📖 Review This Unit" / "📖 Review this topic →" throughout the Practice side, and "📖 Review this concept →" on missed quiz questions. Dynamically imported (`js/review-views.js`), same as the Sandbox — visitors who only practice never pay for its bundle.
+
+**Content model:** one Review chapter per existing question-bank topic (see `data/units.js`) — not a separate taxonomy, so Review and Practice always line up 1:1 with no fuzzy matching. Chapter content is data, not markup: `data/review/blocks.js` exposes small builder functions (`p`, `code`, `callout`, `table`, `eq`, `quickCheck`, `diagram`, `practiceLink`, …) that content files (`data/review/unit0.js`, etc.) compose into chapters; `js/review-views.js`'s `renderBlock()` is the only place that turns those into HTML. To add a chapter: write it in the relevant `unitN.js` using the block helpers, then add one entry to `data/review/nav.js` (id/title/topic/keywords) — that's what drives cross-links and search without needing to load the full chapter text.
+
+**Three levels of code example**, per block type: `code(...)` is read-only with a Copy button; `code(..., {run: true})` becomes an interactive **Try it** block (`js/review-tryit.js`) — click to load the MATLAB runtime (same one the Sandbox and live grading use, see `js/matlab-runtime.js`) into a plain `<textarea>` editor with a Run button, including plot output via the same `bindPlotCanvas` path as the Sandbox. Nothing downloads until a student actually clicks "▶ Try it" on a specific block, and every example is fully readable and copyable even if RunMat never loads.
+
+**"Mark as Reviewed"** (`js/review-store.js`) is a separate, ungraded, per-chapter localStorage flag (`bme2740_review_progress`) — purely a personal "have I read this" signal, shown as a small % on each unit's Review page. It's not part of, and doesn't affect, quiz progress or Practice Score.
+
+**Cross-links to Practice** check `countQuestions()` before showing a "Practice This Topic →" button — Unit 2's chapter, for example, shows an honest "not published yet" note instead of a dead link, since Unit 2's question bank doesn't exist yet either.
+
 ## Live MATLAB grading (experimental, opt-in)
 
 A toggle under **Display Settings (⚙) → "Live MATLAB grading"**, off by default. Off: `code-entry` questions are graded by string comparison against `acceptableAnswers`, as before. On: Check Answer actually runs the student's code *and* the question's reference answer through the sandbox runtime and compares what happened, shown transparently in the feedback panel. No existing questions needed to change — the expected result is computed from the reference answer at grading time.
@@ -194,7 +218,7 @@ Push to GitHub Pages as-is — static site, relative paths, no build step. Pages
 | Max content width | 1040 px |
 | Dark mode | `body.dark-mode` class, toggled via localStorage (separate from progress storage) |
 
-Math rendering (KaTeX) is pre-wired for when later units need equations — no Unit 0/1 questions use math yet.
+Math rendering (KaTeX) is used by the Unit 2 Review chapter (`eq()` blocks in `data/review/`) — no Unit 0/1 quiz *questions* use math yet.
 
 ## License
 
