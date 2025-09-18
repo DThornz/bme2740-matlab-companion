@@ -67,7 +67,7 @@ function parseHash() {
   return { path, params: new URLSearchParams(queryString || '') };
 }
 
-function route() {
+async function route() {
   const hash = location.hash;
   // Plain in-page anchors (e.g. "#units" from the dashboard's "Explore Course
   // Topics" button) are not app routes — let the browser's native anchor
@@ -81,10 +81,14 @@ function route() {
     app.innerHTML = errorState('Page not found.') + '<div class="dashboard-actions"><a class="btn btn-outline" href="#/">Back to Dashboard</a></div>';
     return;
   }
-  match.render(path.match(match.pattern), params);
+  // Awaited — several routes (sandbox, /learn/*) render() asynchronously via a
+  // dynamic import (see ROUTES above) and only populate #appRoot once that
+  // resolves. Firing renderMath() without waiting for it used to run KaTeX
+  // against the "Loading…" placeholder instead of the real content, leaving
+  // any $$...$$ in a Review chapter showing as raw, unrendered text.
+  await match.render(path.match(match.pattern), params);
   window.scrollTo(0, 0);
   // KaTeX loads via <script defer>; guard in case this runs before it's ready.
-  // No Unit 0 content uses math yet, but later units (linear systems, ODEs, …) will.
   if (window.renderMath) window.renderMath();
 }
 

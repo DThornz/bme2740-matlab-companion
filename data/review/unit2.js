@@ -32,7 +32,7 @@ export const UNIT2_CHAPTERS = [
         p('The same system, written as one matrix equation <code>Ax = b</code>:'),
         eq('\\begin{bmatrix}2 & 1\\\\ 1 & -3\\end{bmatrix}\\begin{bmatrix}x_1\\\\ x_2\\end{bmatrix}=\\begin{bmatrix}11\\\\ -1\\end{bmatrix}', { label: 'Ax = b' }),
         diagram(
-          `<svg viewBox="0 0 380 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shape diagram: an m by n matrix A, times an n by 1 vector x, equals an m by 1 vector b">
+          `<svg viewBox="0 0 470 130" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shape diagram: an m by n matrix A, times an n by 1 vector x, equals an m by 1 vector b">
             <g font-family="DM Mono, monospace" font-size="15" text-anchor="middle">
               <rect x="10" y="20" width="90" height="70" fill="none" stroke="currentColor" opacity="0.4"/>
               <text x="55" y="60" fill="currentColor">A</text>
@@ -50,9 +50,9 @@ export const UNIT2_CHAPTERS = [
               <text x="232" y="60" fill="currentColor">b</text>
               <text x="232" y="105" font-size="11" fill="currentColor" opacity="0.6">m × 1</text>
 
-              <text x="270" y="45" font-size="12" text-anchor="start" fill="currentColor" opacity="0.65">known coefficients</text>
-              <text x="270" y="65" font-size="12" text-anchor="start" fill="currentColor" opacity="0.65">unknowns to solve for</text>
-              <text x="270" y="85" font-size="12" text-anchor="start" fill="currentColor" opacity="0.65">known right-hand side</text>
+              <text x="460" y="45" font-size="12" text-anchor="end" fill="currentColor" opacity="0.65">known coefficients</text>
+              <text x="460" y="65" font-size="12" text-anchor="end" fill="currentColor" opacity="0.65">unknowns to solve for</text>
+              <text x="460" y="85" font-size="12" text-anchor="end" fill="currentColor" opacity="0.65">known right-hand side</text>
             </g>
           </svg>`,
           'A is m equations by n unknowns; x is the n unknowns; b is the m known right-hand-side values.'
