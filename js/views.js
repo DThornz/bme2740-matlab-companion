@@ -51,8 +51,6 @@ export function renderDashboard(container) {
 
   const unitCards = UNITS.map(unit => unitCardHtml(unit)).join('');
 
-  const courseMap = UNITS.map(u => `<div class="map-node"><span class="map-node-num">U${u.id}</span>${escapeHtml(u.short)}</div>`).join('<div class="map-arrow">→</div>');
-
   container.innerHTML = `
     <div class="hero app-hero">
       <div class="hero-kicker">BME 2740 · Biomedical Engineering Modeling and Simulation</div>
@@ -101,12 +99,6 @@ export function renderDashboard(container) {
       <div class="section-num">§ Units</div>
       <h2 class="section-title">Course Units</h2>
       <div class="unit-grid">${unitCards}</div>
-    </div>
-
-    <div class="section">
-      <div class="section-num">Course Map</div>
-      <h2 class="section-title">How the Units Connect</h2>
-      <div class="course-map">${courseMap}</div>
     </div>
   `;
 

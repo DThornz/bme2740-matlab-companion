@@ -246,12 +246,6 @@ body.dark-mode footer{border-color:#1c3050!important;color:#94a3b8!important}
 .unit-card-progress{display:flex;align-items:center;gap:10px}
 .unit-card-pct{font-family:var(--mono);font-size:.72em;color:var(--dim);white-space:nowrap}
 
-/* ─── Course map ──────────────────────────────────────────── */
-.course-map{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:.82em}
-.map-node{display:flex;align-items:center;gap:6px;background:var(--bg3);border:1px solid var(--border);border-radius:99px;padding:6px 14px;color:var(--muted)}
-.map-node-num{font-family:var(--mono);color:var(--teal);font-weight:600;font-size:.85em}
-.map-arrow{color:var(--dimmer)}
-
 /* ─── Objectives / materials ──────────────────────────────── */
 .obj-list{margin:0 0 8px 20px;font-size:.88em;color:var(--muted);line-height:1.8}
 .pill-row{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 4px}
@@ -476,7 +470,6 @@ body.dark-mode .unit-card-title,body.dark-mode .topic-card-title,body.dark-mode 
 body.dark-mode .func-name{color:#2dd4bf!important}
 body.dark-mode .unit-card-desc,body.dark-mode .topic-card-desc,body.dark-mode .reference-purpose,body.dark-mode .question-text{color:#a8bcd4!important}
 body.dark-mode .unit-card-num,body.dark-mode .unit-card-meta,body.dark-mode .topic-card-pct,body.dark-mode .unit-card-pct{color:#94a3b8!important}
-body.dark-mode .map-node{background:#0f1f38!important;border-color:#1c3050!important;color:#94a3b8!important}
 body.dark-mode .quiz-header-unit{color:#a8bcd4!important}
 body.dark-mode .quiz-header-progress,body.dark-mode .question-type-tag{color:#94a3b8!important}
 body.dark-mode .qnav-bubble{background:#0f1f38!important;border-color:#1c3050!important;color:#94a3b8!important}
