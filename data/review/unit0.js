@@ -108,7 +108,7 @@ export const UNIT0_CHAPTERS = [
     title: 'Vectors, Matrices & Indexing',
     kicker: 'Unit 0 · MATLAB Foundations',
     summary: 'Building row and column vectors, matrices, indexing into both, and the single most common source of MATLAB bugs: matrix operators vs. element-wise operators.',
-    minutes: 10,
+    minutes: 12,
     topics: ['vectors-matrices'],
     sections: [
       section('Row & Column Vectors', [
@@ -172,6 +172,15 @@ export const UNIT0_CHAPTERS = [
         code('A = [1 2 3; 4 5 6; 7 8 9];\nA(2,2)     % 5 — row 2, column 2\nA(:,2)     % entire column 2 → [2;5;8]\nA(3,:)     % entire row 3 → [7 8 9]\nA(2:3,1:2) % submatrix, rows 2-3 and cols 1-2\nA(end,:)   % last row, without knowing how many rows there are', { run: true }),
         callout('mistake', 'Common mistake', 'MATLAB indexing starts at <strong>1</strong>, not 0. <code>A(1,1)</code> is the first element — <code>A(0,1)</code> throws an error, it does not wrap around or silently do nothing.'),
       ]),
+      section('More Indexing Patterns', [
+        p('A few more indexing tricks that come up constantly once you’re past the basics:'),
+        code('x = [10 20 30 40 50];\nx(end)         % 50 — last element, without knowing how many there are\nx(end-1)       % 40 — second to last\nx(2:2:end)     % [20 40] — every other element, starting at index 2\nx(end:-1:1)    % [50 40 30 20 10] — the whole vector, reversed', { run: true, caption: 'end and step indexing' }),
+        p('You can grow or shrink a vector by indexing past its current end, or assigning <code>[]</code> to an element:'),
+        code('x = [10 20 30];\nx(end+1) = 40;   % grow: x is now [10 20 30 40]\nx(2) = [];        % shrink: removes element 2, x is now [10 30 40]\ndisp(x)', { run: true, caption: 'growing and shrinking with indexing' }),
+        callout('remember', 'Remember', '<code>x(end+1) = value</code> is a common, idiomatic way to append one value to a vector — but see the Loops chapter’s preallocation note before doing this thousands of times in a loop.'),
+        p('A matrix can also be indexed with a <strong>single</strong> number. MATLAB counts down column 1 first, then column 2, and so on — this is called linear indexing:'),
+        code('A = [1 2 3; 4 5 6; 7 8 9];\nA(5)   % 5 — the 5th element counting down column 1, then column 2, …\nA(2)   % 4 — 2nd element, same counting order', { run: true, caption: 'linear indexing of a matrix' }),
+      ]),
       section('Logical Indexing (a preview)', [
         p('You can index with a logical (true/false) array the same size as your data, to pull out only the elements where the condition is true. This is covered in depth in Unit 1, but it’s worth seeing once here:'),
         code('bp = [118 145 132 96 151];\nhigh = bp(bp > 130)   % [145 132 151] — only the elements over 130', { run: true }),
@@ -198,7 +207,7 @@ export const UNIT0_CHAPTERS = [
     title: 'Basic Plotting',
     kicker: 'Unit 0 · MATLAB Foundations',
     summary: 'Producing a basic 2-D plot, labeling it properly, and the handful of commands that make a plot readable instead of a bare line.',
-    minutes: 6,
+    minutes: 9,
     topics: ['plotting-basics'],
     sections: [
       section('A Minimal Plot', [
@@ -215,13 +224,32 @@ export const UNIT0_CHAPTERS = [
         code('t = 0:0.01:10;\nplot(t, sin(t))\nhold on\nplot(t, cos(t))\nhold off\nlegend(\'sin(t)\', \'cos(t)\')\nxlabel(\'Time (s)\')', { run: true }),
         callout('mistake', 'Common mistake', 'Forgetting <code>hold on</code> — a second <code>plot()</code> call without it erases the first curve instead of adding to it. If you expected two lines and got one, this is almost always why.'),
       ]),
+      section('Markers vs. Lines', [
+        p('Real measured data is usually discrete samples, not a smooth function — plotting it as isolated markers (rather than a connected line) is often more honest about what you actually measured.'),
+        code('sampleTimes = [0 1 2 3 4 5];\nheartRate = [72 75 88 91 85 78];\n\nplot(sampleTimes, heartRate, \'o\')\nxlabel(\'Time (min)\')\nylabel(\'Heart Rate (bpm)\')\ntitle(\'Discrete HR Samples\')', { run: true, caption: 'markers only — no connecting line' }),
+        p('Combine a marker with a line style to show both the trend and the actual sample points — <code>\'-o\'</code> is a solid line with circles at each data point. The full line-style/marker table is in the Unit 1 Plotting & Programming Patterns chapter.'),
+      ]),
       section('Plotting Physiological Data', [
         p('The same commands apply to any signal, real or simulated — the labels are what make it meaningful:'),
         code('time = 0:0.01:5;\npressure = 80 + 20*sin(2*pi*1.2*time);   % a rough, simplified BP waveform\n\nplot(time, pressure)\nxlabel(\'Time (s)\')\nylabel(\'Pressure (mmHg)\')\ntitle(\'Simulated Arterial Pressure\')', { run: true }),
         callout('note', 'Note', 'This is a simplified sinusoid for illustration, not a physiologically accurate arterial waveform model — real arterial pressure traces are not pure sine waves. Later units build more realistic physiological models.'),
       ]),
+      section('Comparing More Than Two Curves', [
+        p('The <code>hold on</code> pattern from earlier extends to any number of curves — just keep calling <code>plot</code> before turning it off:'),
+        code('t = 0:0.01:5;\nplot(t, 80 + 20*sin(2*pi*1.2*t))\nhold on\nplot(t, 75 + 15*sin(2*pi*1.0*t))\nplot(t, 90 + 25*sin(2*pi*1.5*t))\nhold off\nlegend(\'Patient A\', \'Patient B\', \'Patient C\')\nxlabel(\'Time (s)\')\nylabel(\'Simulated Pressure (mmHg)\')', { run: true, caption: 'three curves, one legend' }),
+        callout('remember', 'Remember', 'MATLAB cycles through a default color order automatically — you don’t have to specify colors by hand for curves to be distinguishable. To force a specific color, pass it as an extra argument: <code>plot(t, y, \'r\')</code>.'),
+      ]),
       section('figure — Starting a New Plot Window', [
         p('Calling <code>figure</code> opens a new, separate plot window instead of drawing into (or replacing) the current one. Combined with <code>close all</code> (see the Environment chapter), this is how you keep plots from piling up or overwriting each other across a script.'),
+      ]),
+      section('Other Plot Types You’ll See', [
+        p('<code>plot</code> covers most of this course, but MATLAB has other plotting functions that follow the exact same annotate-immediately pattern:'),
+        table(['Function', 'Draws'], [
+          ['<code>bar(x)</code>', 'A bar chart — good for comparing discrete categories, e.g. one bar per patient'],
+          ['<code>histogram(x)</code>', 'A histogram — the distribution of values in a dataset'],
+          ['<code>scatter(x,y)</code>', 'An (x,y) scatter plot with more marker/color control than plain <code>plot(x,y,\'o\')</code>'],
+        ]),
+        callout('note', 'Note', 'These aren’t exercised as Try-it examples in this Review chapter yet — try <code>doc bar</code> / <code>doc histogram</code> / <code>doc scatter</code> in real MATLAB.'),
       ]),
       section('Check Your Understanding', [
         quickCheck('You call <code>plot(t, sin(t))</code> and then <code>plot(t, cos(t))</code> with no <code>hold on</code> in between. How many curves end up on screen?', 'One — the second <code>plot()</code> call replaces the first entirely. You need <code>hold on</code> before the second call to keep both curves.'),
@@ -272,7 +300,7 @@ export const UNIT0_CHAPTERS = [
     title: 'Loops, Debugging & Help',
     kicker: 'Unit 0 · MATLAB Foundations',
     summary: 'for and while loops, the preallocation habit that matters once your loops get bigger, and how to actually read a MATLAB error message.',
-    minutes: 8,
+    minutes: 13,
     topics: ['loops-debugging'],
     sections: [
       section('for Loops', [
@@ -280,15 +308,31 @@ export const UNIT0_CHAPTERS = [
         p('<code>for i = 1:10</code> runs the loop body once for each value of <code>i</code> from 1 to 10, in order. Inside the loop, <code>i</code> behaves like any other variable — you can use it as an index, in a calculation, anything.'),
         code('x = [10 20 30];\nfor i = 1:length(x)\n    fprintf(\'Element %d is %d\\n\', i, x(i))\nend', { run: true, caption: 'looping over a vector’s indices' }),
       ]),
+      section('Nested Loops: Looping Over a Matrix', [
+        p('A loop inside another loop lets you visit every element of a matrix — the outer loop typically walks rows, the inner loop walks columns.'),
+        code('vitals = [118 72; 145 95; 132 84];   % [systolic diastolic], one row per patient\n\nfor p = 1:size(vitals,1)\n    for reading = 1:size(vitals,2)\n        fprintf(\'Patient %d, reading %d = %d\\n\', p, reading, vitals(p,reading))\n    end\nend', { run: true, caption: 'outer loop = rows (patients), inner loop = columns (readings)' }),
+        callout('remember', 'Remember', 'The <strong>outer</strong> loop variable changes slowest — it only advances once the entire inner loop finishes. If the order feels unintuitive, trace it by hand once: everything with <code>p=1</code> happens before <code>p</code> ever becomes 2.'),
+        p('Combining a nested loop with an <code>if</code> (see the Control Flow chapter) is a common pattern — here, counting how many readings are elevated:'),
+        code('vitals = [118 72; 145 95; 132 84];\nhighCount = 0;\nfor p = 1:size(vitals,1)\n    for reading = 1:size(vitals,2)\n        if vitals(p,reading) > 130\n            highCount = highCount + 1;\n        end\n    end\nend\nfprintf(\'%d readings were above 130\\n\', highCount)', { run: true, caption: 'nested loops + if — counting elevated readings' }),
+      ]),
       section('Preallocation', [
         p('Growing an array one element at a time inside a loop works, but MATLAB has to reallocate memory and copy the whole array on every iteration — for large loops this gets slow fast. Preallocating the array first avoids that entirely.'),
         code('% Slower: grows on every iteration\nresult = [];\nfor i = 1:1000\n    result(i) = i^2;\nend\n\n% Faster: allocate once, fill in\nresult = zeros(1, 1000);\nfor i = 1:1000\n    result(i) = i^2;\nend', { caption: 'both are correct — only the second one scales well' }),
         callout('remember', 'Remember', 'For a handful of iterations the difference is invisible. It matters once you’re looping thousands of times, which starts showing up from Unit 2 onward (see the Review chapter on Vectorization once it’s added).'),
       ]),
+      section('When You Don’t Know the Final Size', [
+        p('Preallocation assumes you know the result’s length in advance. When you’re filtering — keeping only some elements — you often don’t, until the loop finishes. Growing the result as you go is the accepted pattern here, not a shortcut:'),
+        code('bp = [118 145 132 96 151 128];\nhighReadings = [];   % length not known ahead of time\nfor i = 1:length(bp)\n    if bp(i) > 130\n        highReadings(end+1) = bp(i);   % grow by one on each match\n    end\nend\ndisp(highReadings)', { run: true, caption: 'growing a result whose final size you can’t predict ahead of time' }),
+        callout('note', 'Note', 'This is one of the few cases where growing an array in a loop is the right call. Unit 1’s Review chapter on logical indexing shows a one-line, loop-free way to get the exact same result: <code>bp(bp > 130)</code> — worth comparing once you get there.'),
+      ]),
       section('while Loops', [
         code('x = 100;\ncount = 0;\nwhile x > 1\n    x = x / 2;\n    count = count + 1;\nend\ndisp(count)', { run: true, caption: 'runs until the condition becomes false' }),
         p('Use <code>while</code> when you don’t know in advance how many iterations you’ll need — convergence loops in later units (root-finding, optimization) are almost always <code>while</code> loops, not <code>for</code> loops.'),
         callout('mistake', 'Common mistake', 'An infinite loop happens when nothing inside the loop body ever makes the condition false — e.g., forgetting to update the loop variable. If MATLAB seems frozen after running a <code>while</code> loop, that’s almost always why; <kbd>Ctrl+C</kbd> in the Command Window stops it.'),
+      ]),
+      section('A Second while Loop: Simulating Decay', [
+        p('A common <code>while</code>-loop pattern in later units: keep stepping forward while some physical quantity stays above (or below) a threshold. Here, a drug concentration halving on a fixed interval — this models discrete halving steps, not true continuous decay, but the loop <em>pattern</em> is exactly the one Unit 4/5 build on with proper continuous-time models.'),
+        code('conc = 200;        % initial concentration (arbitrary units)\nhalfLife = 4;       % hours per halving\nhoursElapsed = 0;\nwhile conc > 10\n    conc = conc / 2;\n    hoursElapsed = hoursElapsed + halfLife;\nend\nfprintf(\'Concentration drops below 10 after %d hours\\n\', hoursElapsed)', { run: true, caption: 'loop while a physical quantity stays above a threshold' }),
       ]),
       section('Reading a MATLAB Error', [
         p('A MATLAB error message usually tells you three things: <em>what</em> went wrong, <em>where</em> (file and line number), and sometimes <em>why</em>. Read it bottom-to-top-of-stack, and start with the description, not the line number — the line number is where MATLAB noticed the problem, which isn’t always where the actual mistake is (a missing <code>end</code> is the classic example).'),

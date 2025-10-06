@@ -13,7 +13,7 @@ export const UNIT1_CHAPTERS = [
     title: 'Variables, Arrays & Indexing Review',
     kicker: 'Unit 1 · MATLAB',
     summary: 'A deeper pass through logical indexing and element-wise operations — the two Unit 0 ideas that come up in almost every piece of real MATLAB code from here on.',
-    minutes: 7,
+    minutes: 10,
     topics: ['fundamentals-review'],
     sections: [
       section('Logical Indexing, Properly', [
@@ -30,6 +30,15 @@ export const UNIT1_CHAPTERS = [
           ['<code>bp(bp &gt; 140)</code>', 'The actual values greater than 140'],
           ['<code>find(bp &gt; 140)</code>', 'The index positions where the condition holds'],
         ]),
+      ]),
+      section('Combining Conditions & Matrix Logical Indexing', [
+        p('Combine multiple conditions with the element-wise <code>&amp;</code> (AND) / <code>|</code> (OR) from Unit 0 — not <code>&amp;&amp;</code>/<code>||</code>, which only accept single (scalar) values:'),
+        code('bp = [118 145 132 96 151 128];\nborderline = bp(bp > 120 & bp < 140)   % [132 128] — both conditions must hold', { run: true }),
+        p('This closes the loop on the Unit 0 Review chapter’s nested-loop example, which flagged elevated readings across a matrix by hand. Same data, same idea, one line, no loop:'),
+        code('vitals = [118 72; 145 95; 132 84];   % [systolic diastolic], one row per patient\n\nhighSystolic = vitals(:,1) > 140;     % logical column, one entry per patient\nvitals(highSystolic, :)                % every column, only for flagged patients', { run: true, caption: 'a logical mask in the row position selects whole rows' }),
+        p('<code>any</code> and <code>all</code> collapse a logical array down to a single true/false — “did at least one hold” vs. “did every one hold”:'),
+        code('vitals = [118 72; 145 95; 132 84];\nany(vitals(:,1) > 140)   % 1 — at least one patient’s systolic is over 140\nall(vitals(:,1) > 140)   % 0 — not every patient’s is', { run: true }),
+        callout('remember', 'Remember', 'A condition on one column gives one true/false per <em>row</em>. Put that mask in the row position (<code>vitals(mask, :)</code>) to pull the full row for every match, not just the single value that triggered it.'),
       ]),
       section('Element-Wise Operations, Revisited', [
         p('The <code>.*</code> / <code>./</code> / <code>.^</code> vs. <code>*</code> / <code>/</code> / <code>^</code> distinction from Unit 0 becomes unavoidable once you start combining two full data vectors — e.g., computing flow from pressure and resistance across many samples at once, instead of one pair of numbers at a time.'),
@@ -48,7 +57,7 @@ export const UNIT1_CHAPTERS = [
     title: 'Functions, Input/Output & Scripts',
     kicker: 'Unit 1 · MATLAB',
     summary: 'Writing your own functions with inputs and outputs, understanding variable scope, and organizing a project across more than one file.',
-    minutes: 8,
+    minutes: 9,
     topics: ['io-and-scripts'],
     sections: [
       section('Built-In Functions, as a Pattern', [
@@ -67,6 +76,12 @@ export const UNIT1_CHAPTERS = [
       section('Multiple Inputs & Outputs', [
         code('function [avgVal, rangeVal] = summarizeData(x)\n    avgVal = mean(x);\n    rangeVal = max(x) - min(x);\nend', { caption: 'summarizeData.m — two outputs' }),
         code('[a, r] = summarizeData([120 118 135 140]);\ndisp(a)   % average\ndisp(r)   % range', { caption: 'you can also just take the first output: a = summarizeData(...)' }),
+      ]),
+      section('A Second Worked Example', [
+        p('Functions commonly take more than one input. A simple weight-based dosing calculator:'),
+        code('function doseMg = weightBasedDose(weightKg, mgPerKg)\n    doseMg = weightKg * mgPerKg;\nend', { caption: 'weightBasedDose.m' }),
+        code('doseMg = weightBasedDose(70, 2.5)   % 175', { caption: 'calling it — needs weightBasedDose.m on the path to actually run' }),
+        callout('note', 'Note', 'Try-it blocks in this Review section run one self-contained snippet — they can’t define a separate <code>function ... end</code> file the way MATLAB’s Editor does, which is why these two blocks aren’t interactive here. Save the function in its own <code>.m</code> file (matching its name) to actually run it, in the Sandbox or the MATLAB desktop.'),
       ]),
       section('Scope: Why Functions Are Different from Scripts', [
         p('A function has its own private workspace. Variables created inside it — including its inputs — disappear the moment it finishes, and it cannot see or accidentally overwrite variables from wherever it was called. This is the opposite of a script, which shares the base workspace with everything around it (see the Unit 0 Environment chapter).'),
@@ -87,12 +102,17 @@ export const UNIT1_CHAPTERS = [
     title: 'Plotting & Programming Patterns',
     kicker: 'Unit 1 · MATLAB',
     summary: 'Common, reusable plotting recipes — multiple subplots, line styles, and markers — plus a few idiomatic MATLAB patterns worth recognizing on sight.',
-    minutes: 6,
+    minutes: 8,
     topics: ['plotting-patterns'],
     sections: [
       section('subplot: Multiple Plots, One Figure', [
         code('t = 0:0.01:10;\n\nsubplot(2,1,1)\nplot(t, sin(t))\ntitle(\'sin(t)\')\n\nsubplot(2,1,2)\nplot(t, cos(t))\ntitle(\'cos(t)\')', { run: true, caption: '2 rows, 1 column, this is panel 1 / panel 2' }),
         p('<code>subplot(rows, cols, index)</code> divides the figure into a grid and selects one cell to draw into next. The index counts left-to-right, top-to-bottom, like reading text.'),
+      ]),
+      section('More subplot Variety', [
+        p('Subplots don’t have to be a simple 2×1 stack. Looping over the panel index avoids writing <code>subplot</code> three separate times by hand — the same instinct that motivated <code>for</code> loops in the first place:'),
+        code('t = 0:0.01:5;\nsignals = {80 + 20*sin(2*pi*1.2*t), 75 + 15*sin(2*pi*1.0*t), 90 + 25*sin(2*pi*1.5*t)};\nlabels = {\'Patient A\', \'Patient B\', \'Patient C\'};\n\nfor i = 1:3\n    subplot(3,1,i)\n    plot(t, signals{i})\n    title(labels{i})\n    ylabel(\'mmHg\')\nend', { run: true, caption: '3 stacked panels, built with a loop over a cell array' }),
+        callout('remember', 'Remember', '<code>{ }</code> creates a <strong>cell array</strong> — unlike a normal array, its elements don’t need to be the same size or type. <code>signals{i}</code> (curly braces) pulls the actual vector back out; <code>signals(i)</code> (parentheses) would give you a 1×1 cell containing that vector instead, not the vector itself.'),
       ]),
       section('Line Styles & Markers', [
         table(['Code', 'Meaning'], [
@@ -120,7 +140,7 @@ export const UNIT1_CHAPTERS = [
     title: 'Reading Code, Errors & Output',
     kicker: 'Unit 1 · MATLAB',
     summary: 'Practice at the skill quizzes in this topic actually test: reading a short piece of MATLAB code and predicting exactly what it prints or does, including when it errors.',
-    minutes: 6,
+    minutes: 9,
     topics: ['reading-output'],
     sections: [
       section('Tracing Code by Hand', [
@@ -131,6 +151,17 @@ export const UNIT1_CHAPTERS = [
       ]),
       section('Predicting Suppressed vs. Printed Output', [
         code('a = 4;        % no output — semicolon\nb = a + 1      % prints: b = 5\nc = b * 2;     % no output — semicolon', { caption: 'check every line for a trailing semicolon before deciding what prints' }),
+      ]),
+      section('Tracing a Loop', [
+        p('The same line-by-line approach works for loops — just repeat it once per iteration, updating a small table of variable values as you go, the way you would on a whiteboard.'),
+        code('total = 0;\nfor i = 1:4\n    total = total + i;\nend\ndisp(total)', { run: true, caption: 'trace: what is total after each iteration?' }),
+        p('Trace: <code>i=1</code> → total = 0+1 = 1. <code>i=2</code> → total = 1+2 = 3. <code>i=3</code> → total = 3+3 = 6. <code>i=4</code> → total = 6+4 = 10. <code>disp(total)</code> prints <code>10</code>.'),
+      ]),
+      section('Tracing a Function Call', [
+        p('When a line calls a function, jump into the function body, trace it using the argument’s <em>value</em> (not its name back in the caller), then jump back with whatever it returned.'),
+        code('function y = doubleIt(x)\n    y = x * 2;\nend', { caption: 'doubleIt.m — defined separately, referenced by the script below' }),
+        code('a = 5;\nb = doubleIt(a);\na = 100;\ndisp(b)', { caption: 'trace: what does this print?' }),
+        p('Trace: <code>a=5</code>. <code>doubleIt(a)</code> runs with <code>x=5</code> inside the function’s own private workspace (see the Functions chapter on scope) and returns <code>10</code>, so <code>b=10</code>. Reassigning <code>a=100</code> afterward has no effect on <code>b</code> — it was already computed and returned. <code>disp(b)</code> prints <code>10</code>.'),
       ]),
       section('Common Errors, Revisited', [
         p('The error-message table from the Unit 0 debugging chapter applies here too — reading-output questions often show you the error MATLAB would throw, and ask you to identify why, rather than showing correct code.'),
