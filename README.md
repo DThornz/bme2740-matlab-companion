@@ -1,6 +1,6 @@
 # BME 2740 MATLAB Companion
 
-**Author:** Asad Mirza (DThornz)
+**Author:** Asad Mirza, PhD
 
 An interactive, browser-only MATLAB and numerical-methods practice tool for **BME 2740 — Biomedical Engineering Modeling and Simulation** (FIU). Students pick a unit, a topic, and a difficulty, work through questions, and get an explanation for every answer — right or wrong. Progress is tracked locally in the browser. There's no backend, no account, and no student data ever leaves the machine it's running on.
 
