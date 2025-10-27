@@ -38,12 +38,12 @@ export function renderLearnHome(container) {
     <div class="hero" style="padding-top:20px">
       <div class="hero-kicker">BME 2740 Review</div>
       <h1 class="hero-title" style="font-size:clamp(1.9em,4vw,2.6em)">MATLAB &amp; Computational Modeling</h1>
-      <p class="hero-sub">A structured reference covering the programming, numerical methods, and modeling techniques used in BME 2740 — read before or during practice, whenever you think “I don’t quite remember how this works.”</p>
+      <p class="hero-sub">A structured reference covering the programming, numerical methods, and modeling techniques used in BME 2740. Read it before or during practice, whenever you think “I don’t quite remember how this works.”</p>
     </div>
 
     <div class="callout" style="margin-bottom:40px">
       <div class="callout-title">Review vs. Practice</div>
-      <strong>Review</strong> (this section) teaches the material — explanations, examples, and code you can run and edit. <strong>Practice</strong> (the quizzes) tests it. They’re cross-linked throughout: every chapter links to matching practice questions, and practice results link back to the chapter that explains what you missed.
+      <strong>Review</strong> (this section) teaches the material: explanations, examples, and code you can run and edit. <strong>Practice</strong> (the quizzes) tests it. They’re cross-linked throughout: every chapter links to matching practice questions, and practice results link back to the chapter that explains what you missed.
     </div>
 
     <div class="section">
@@ -56,7 +56,7 @@ export function renderLearnHome(container) {
     <div class="section">
       <div class="section-num">Coming Soon</div>
       <h2 class="section-title">Planned Chapters</h2>
-      <div class="section-body"><p>Not written yet — Unit 0, Unit 1, and one worked Unit 2 chapter are live first; the rest are being added unit by unit.</p></div>
+      <div class="section-body"><p>Not written yet. Unit 0, Unit 1, and one worked Unit 2 chapter are live first; the rest are being added unit by unit.</p></div>
       <div class="pill-row">${comingSoonHtml}</div>
     </div>` : ''}
   `;
@@ -75,7 +75,7 @@ export function renderLearnUnit(container, unitSlug) {
       <div class="section">
         <div class="section-num">§ Unit ${unit.id}</div>
         <h1 class="section-title" style="font-size:2.1em">${escapeHtml(unit.title)}</h1>
-        ${emptyState('Review chapters for this unit haven’t been written yet — check back soon.', { actionHtml: `<div class="dashboard-actions"><a class="btn btn-outline" href="#/learn">Back to Review</a></div>` })}
+        ${emptyState('Review chapters for this unit haven’t been written yet. Check back soon.', { actionHtml: `<div class="dashboard-actions"><a class="btn btn-outline" href="#/learn">Back to Review</a></div>` })}
       </div>`;
     return;
   }
@@ -236,7 +236,7 @@ function renderBlock(block) {
     case 'practicelink':
       return countQuestions(block.unitId, block.topicId) > 0
         ? `<div class="dashboard-actions"><a class="btn btn-primary" href="#/quiz/config?unit=${block.unitId}&topic=${block.topicId}&difficulty=mixed">${escapeHtml(block.label)} →</a></div>`
-        : `<p class="input-hint">${escapeHtml(block.label)} — practice questions for this topic aren’t published yet.</p>`;
+        : `<p class="input-hint">${escapeHtml(block.label)}: practice questions for this topic aren’t published yet.</p>`;
     case 'diagram':
       return `<figure class="review-diagram">${block.svg}${block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : ''}</figure>`;
     case 'html':

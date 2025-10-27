@@ -20,7 +20,7 @@ import { loadMatlabRuntime, runMatlabCode, bindPlotCanvas } from './matlab-runti
 import { escapeHtml } from './render.js';
 
 const STAGE_LABEL = {
-  downloading: 'Downloading MATLAB runtime (~15 MB, one-time — cached after this)…',
+  downloading: 'Downloading MATLAB runtime (~15 MB, one-time, cached after this)…',
   initializing: 'Starting MATLAB runtime…',
   ready: 'Running…',
 };
