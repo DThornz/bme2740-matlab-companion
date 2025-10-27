@@ -65,7 +65,7 @@ export function renderDashboard(container) {
 
     <div class="callout" style="margin-bottom:40px">
       <div class="callout-title">Review vs. Practice</div>
-      <strong>Review</strong> teaches the material — read explanations and run examples. <strong>Practice</strong> (the quizzes below) tests it and is <strong>not</strong> official graded assessment — results shown here are a <strong>Practice Score</strong>, not a course grade.
+      <strong>Review</strong> teaches the material: read explanations and run examples. <strong>Practice</strong> (the quizzes below) tests it and is <strong>not</strong> official graded assessment. Results shown here are a <strong>Practice Score</strong>, not a course grade.
     </div>
 
     <div class="section">
@@ -194,7 +194,7 @@ export function renderUnit(container, unitId) {
 
   const topicsHtml = unit.topics.length
     ? `<div class="topic-grid">${unit.topics.map(t => topicCardHtml(unit, t)).join('')}</div>`
-    : emptyState('Topics for this unit haven’t been added yet — check back soon.');
+    : emptyState('Topics for this unit haven’t been added yet. Check back soon.');
 
   const total = countQuestions(unit.id);
   const hasReview = chaptersForUnit(unit.id).length > 0;
@@ -345,7 +345,7 @@ export function renderQuizConfig(container, params) {
             <option value="45">45 minutes</option>
             <option value="60">60 minutes</option>
           </select>
-          <p class="input-hint">The quiz auto-submits when time runs out — anything not yet answered is graded as skipped, same as ending the quiz manually.</p>
+          <p class="input-hint">The quiz auto-submits when time runs out. Anything not yet answered is graded as skipped, same as ending the quiz manually.</p>
         </div>
         <button type="submit" class="btn btn-primary">Start Quiz</button>
       </form>
@@ -631,7 +631,7 @@ function renderLiveRunFeedback(liveRun) {
   if (!liveRun) return '';
 
   if (liveRun.fallback) {
-    return `<div class="live-run-note live-run-note-warn">Live MATLAB grading was unavailable this time (${escapeHtml(liveRun.reason)}) — graded by text comparison instead.</div>`;
+    return `<div class="live-run-note live-run-note-warn">Live MATLAB grading was unavailable this time (${escapeHtml(liveRun.reason)}). Graded by text comparison instead.</div>`;
   }
 
   const studentOut = liveRun.studentError
@@ -917,7 +917,7 @@ export function renderResults(container) {
       </div>
       <div class="callout">
         <div class="callout-title">Note</div>
-        This is a <strong>Practice Score</strong> for self-assessment only — it is not an official BME 2740 grade.
+        This is a <strong>Practice Score</strong> for self-assessment only. It is not an official BME 2740 grade.
       </div>
 
       ${topicsHtml ? `<h3 class="mini-heading">Topics to Review</h3><div class="results-topics">${topicsHtml}</div>` : ''}
@@ -968,7 +968,7 @@ export function renderReview(container) {
         ${reviewChapter ? `<div class="dashboard-actions"><a class="btn btn-outline" href="${reviewChapterHref(q.unit, reviewChapter.id)}">📖 Review this concept →</a></div>` : ''}
       </div>`;
       }).join('')
-    : emptyState('Nothing to review — every answered question in that quiz was correct.');
+    : emptyState('Nothing to review. Every answered question in that quiz was correct.');
 
   container.innerHTML = `
     <nav class="breadcrumb"><a href="#/">Home</a><span>/</span><a href="#/quiz/results">Results</a><span>/</span><span>Review</span></nav>
@@ -1009,7 +1009,7 @@ export function renderReference(container) {
     <div class="section">
       <div class="section-num">Reference</div>
       <h1 class="section-title" style="font-size:2.1em">MATLAB Function Reference</h1>
-      <div class="section-body"><p>A quick reference for functions used in BME 2740 practice questions — not a replacement for MATLAB’s own documentation.</p></div>
+      <div class="section-body"><p>A quick reference for functions used in BME 2740 practice questions, not a replacement for MATLAB’s own documentation.</p></div>
       <input type="text" id="refFilter" class="ref-filter-input" placeholder="Filter by function name, category, or keyword…">
       <div class="reference-grid" id="refGrid"></div>
     </div>
@@ -1058,7 +1058,7 @@ export function renderSearch(container, query) {
 
   function draw(q) {
     const f = (q || '').toLowerCase().trim();
-    if (!f) { results.innerHTML = emptyState('Type something to search — try a MATLAB function, a topic name, or a tag like "for loop".'); return; }
+    if (!f) { results.innerHTML = emptyState('Type something to search: try a MATLAB function, a topic name, or a tag like "for loop".'); return; }
 
     const topicHits = [];
     UNITS.forEach(u => u.topics.forEach(t => {
@@ -1128,7 +1128,7 @@ export function renderBrowse(container, params) {
     <div class="section">
       <div class="section-num">Study Mode</div>
       <h1 class="section-title" style="font-size:2.1em">Browse Questions</h1>
-      <div class="section-body"><p>Page through the question bank with answers and explanations shown right away — no need to answer anything to move on. For self-testing, use a regular practice quiz instead.</p></div>
+      <div class="section-body"><p>Page through the question bank with answers and explanations shown right away. No need to answer anything to move on. For self-testing, use a regular practice quiz instead.</p></div>
       <div class="quiz-config-form" style="flex-direction:row;flex-wrap:wrap;gap:14px;align-items:flex-end;max-width:none">
         <div class="qc-row" style="min-width:200px"><label for="browseUnit">Unit</label><select id="browseUnit">${unitOptionsHtml}</select></div>
         <div class="qc-row" style="min-width:200px"><label for="browseTopic">Topic</label><select id="browseTopic"></select></div>

@@ -1,11 +1,11 @@
 // ─────────────────────────────────────────────────────────────
-// Course structure for BME 2740 — Biomedical Engineering
+// Course structure for BME 2740, Biomedical Engineering
 // Modeling and Simulation (FIU).
 //
 // This file defines ONLY metadata (units + topics). Actual
 // question content lives in /data/questions/unitN.js and is
 // wired up in js/bank.js. A unit/topic with no question module
-// yet simply renders as "coming soon" — nothing here needs to
+// yet simply renders as "coming soon", nothing here needs to
 // change when new units are drafted; see README.md § "Adding a
 // new unit".
 // ─────────────────────────────────────────────────────────────
@@ -25,7 +25,7 @@ export const UNITS = [
     slug: 'unit0',
     title: 'MATLAB Overview',
     short: 'MATLAB Overview',
-    description: 'Get oriented in the MATLAB environment and write your first scripts — the Command Window, Workspace, variables, vectors and matrices, plotting, control flow, and basic debugging.',
+    description: 'Get oriented in the MATLAB environment and write your first scripts: the Command Window, Workspace, variables, vectors and matrices, plotting, control flow, and basic debugging.',
     objectives: [
       'Navigate the MATLAB desktop (Command Window, Workspace, Editor) and understand scripts vs. the command line.',
       'Create and manipulate variables, vectors, and matrices, including indexing and the colon operator.',
