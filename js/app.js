@@ -46,12 +46,12 @@ const ROUTES = [
   { pattern: /^\/learn\/([^/]+)$/, render: async m => {
       app.innerHTML = '<div class="empty-state">Loading…</div>';
       const { renderLearnUnit } = await import('./review-views.js');
-      renderLearnUnit(app, decodeURIComponent(m[1]));
+      await renderLearnUnit(app, decodeURIComponent(m[1]));
     } },
   { pattern: /^\/learn\/([^/]+)\/([^/]+)$/, render: async m => {
       app.innerHTML = '<div class="empty-state">Loading…</div>';
       const { renderLearnChapter } = await import('./review-views.js');
-      renderLearnChapter(app, decodeURIComponent(m[1]), decodeURIComponent(m[2]));
+      await renderLearnChapter(app, decodeURIComponent(m[1]), decodeURIComponent(m[2]));
     } },
   { pattern: /^\/search$/, render: (m, params) => renderSearch(app, params.get('q') || '') },
   { pattern: /^\/instructor$/, render: () => {

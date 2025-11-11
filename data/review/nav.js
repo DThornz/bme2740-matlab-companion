@@ -40,24 +40,53 @@ export const REVIEW_CHAPTERS = [
     keywords: ['subplot', 'multiple curves', 'line style', 'marker', 'plotting idioms'] },
   { unit: 1, id: 'reading-output', topic: 'reading-output', title: 'Reading Code, Errors & Output',
     keywords: ['error message', 'predict output', 'common errors', 'debugging'] },
+  { unit: 1, id: 'numerical-precision-taylor', topic: 'numerical-precision-taylor', title: 'Floating-Point Precision & Taylor Series',
+    keywords: ['floating point', 'ieee 754', 'round-off error', 'truncation error', 'taylor series', 'maclaurin series', 'eps', 'machine epsilon'] },
 
-  // ─ Unit 2 — Linear Systems and Models (exemplary chapter) ─
+  // ─ Unit 2 — Linear Systems and Models ─
+  { unit: 2, id: 'linear-systems-basics', topic: 'linear-systems-basics', title: 'Linear Systems & Matrix Representation',
+    keywords: ['coefficient matrix', 'augmented matrix', 'system of equations', 'matrix multiplication', 'transpose', 'linear dependence', 'linear independence'] },
   { unit: 2, id: 'solving-ax-b', topic: 'solving-ax-b', title: 'Matrix Operations & Solving Ax = b',
     keywords: ['backslash', 'inv', 'linear system', 'matrix inverse', 'rank', 'determinant', 'a\\b'] },
+  { unit: 2, id: 'least-squares-regression', topic: 'least-squares-regression', title: 'Least Squares & Regression',
+    keywords: ['normal equations', 'polyfit', 'polyval', 'r squared', 'coefficient of determination', 'sse', 'mse', 'over-determined'] },
+  { unit: 2, id: 'vectorization-efficiency', topic: 'vectorization-efficiency', title: 'Vectorization & Efficiency',
+    keywords: ['tic', 'toc', 'preallocation', 'vectorization', 'logical indexing', 'single precision', 'profiler'] },
+
+  // ─ Unit 3 — Numerical Quadrature and Interpolation ─
+  { unit: 3, id: 'numerical-quadrature', topic: 'numerical-quadrature', title: 'Numerical Quadrature',
+    keywords: ['trapezoidal rule', "simpson's rule", 'trapz', 'integral', 'step size', 'convergence', 'auc'] },
+  { unit: 3, id: 'interpolation', topic: 'interpolation', title: 'Interpolation',
+    keywords: ['lagrange polynomial', 'polyfit', 'polyval', 'spline', 'extrapolation', "runge's phenomenon"] },
+
+  // ─ Unit 4 — Numerical Integration ─
+  { unit: 4, id: 'numerical-differentiation', topic: 'numerical-differentiation', title: 'Numerical Differentiation',
+    keywords: ['forward difference', 'backward difference', 'central difference', 'gradient', 'diff', 'finite difference', 'truncation error'] },
+  { unit: 4, id: 'ivp-euler', topic: 'ivp-euler', title: 'Initial Value Problems & Euler’s Method',
+    keywords: ["euler's method", 'initial value problem', 'forward euler', 'backward euler', 'implicit euler', 'state variable'] },
+  { unit: 4, id: 'numerical-stability', topic: 'numerical-stability', title: 'Step Size, Error & Stability',
+    keywords: ['local error', 'global error', 'stiffness', 'step size', 'stability', 'instability'] },
+
+  // ─ Unit 5 — Numerical Integration Extended ─
+  { unit: 5, id: 'ode45-solving', topic: 'ode45-solving', title: 'Solving ODEs with ode45',
+    keywords: ['ode45', 'adaptive step size', 'ode solver', 'tspan', 'tolerance'] },
+  { unit: 5, id: 'coupled-ode-systems', topic: 'coupled-ode-systems', title: 'Coupled ODEs & State-Space Models',
+    keywords: ['state-space', 'coupled odes', 'system of odes', 'vector state'] },
+  { unit: 5, id: 'physiological-ode-models', topic: 'physiological-ode-models', title: 'Physiological ODE Modeling',
+    keywords: ['fitzhugh-nagumo', 'van der pol', 'lotka-volterra', 'rlc circuit', 'phase portrait', 'symbolic math', 'dsolve'] },
+
+  // ─ Unit 6 — Nonlinear Equations and Optimization ─
+  { unit: 6, id: 'nonlinear-roots', topic: 'nonlinear-roots', title: 'Nonlinear Equations & Root Finding',
+    keywords: ["newton's method", 'fzero', 'root finding', 'convergence'] },
+  { unit: 6, id: 'optimization-basics', topic: 'optimization-basics', title: 'Optimization Fundamentals',
+    keywords: ['gradient descent', 'fminbnd', 'local extrema', 'global extrema', 'objective function'] },
+  { unit: 6, id: 'nonlinear-regression', topic: 'nonlinear-regression', title: 'Nonlinear Regression & Curve Fitting',
+    keywords: ['fminsearch', 'nelder-mead', 'simplex', 'curve fitting', 'sum of squared error', 'hill equation'] },
 ];
 
 // Course areas the Review landing page lists but that have no chapters
 // yet — shown as "Coming Soon", same convention as UNITS.hasContent.
-export const REVIEW_COMING_SOON = [
-  { label: 'Least Squares & Regression', unit: 2 },
-  { label: 'Vectorization & Efficiency', unit: 2 },
-  { label: 'Numerical Quadrature', unit: 3 },
-  { label: 'Interpolation', unit: 3 },
-  { label: 'Initial Value Problems & Euler’s Method', unit: 4 },
-  { label: 'Solving ODEs with ode45', unit: 5 },
-  { label: 'Nonlinear Equations & Optimization', unit: 6 },
-  { label: 'Introduction to Neural Networks', unit: null },
-];
+export const REVIEW_COMING_SOON = [];
 
 export function findChapterForTopic(unitId, topicId) {
   return REVIEW_CHAPTERS.find(c => String(c.unit) === String(unitId) && c.topic === topicId) || null;

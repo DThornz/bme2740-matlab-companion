@@ -64,7 +64,7 @@ export function renderLearnHome(container) {
 
 // ─── Unit chapter list ──────────────────────────────────────
 
-export function renderLearnUnit(container, unitSlug) {
+export async function renderLearnUnit(container, unitSlug) {
   const unit = UNITS.find(u => u.slug === unitSlug);
   if (!unit) { container.innerHTML = errorState('That Review unit could not be found.') + backLink(); return; }
 
@@ -82,9 +82,10 @@ export function renderLearnUnit(container, unitSlug) {
 
   const exploredPct = reviewStore.unitExploredPct(unit.id, chapters.map(c => c.id));
 
-  const chapterListHtml = chapters.map(c => {
+  const chapterContents = await Promise.all(chapters.map(c => getChapterContent(unit.id, c.id)));
+  const chapterListHtml = chapters.map((c, idx) => {
     const reviewed = reviewStore.isChapterReviewed(unit.id, c.id);
-    const content = getChapterContent(unit.id, c.id);
+    const content = chapterContents[idx];
     return `
       <a class="review-chapter-card" href="${reviewChapterHref(unit.id, c.id)}">
         <div>
@@ -116,17 +117,17 @@ export function renderLearnUnit(container, unitSlug) {
 
 // ─── Chapter page ───────────────────────────────────────────
 
-export function renderLearnChapter(container, unitSlug, chapterId) {
+export async function renderLearnChapter(container, unitSlug, chapterId) {
   const unit = UNITS.find(u => u.slug === unitSlug);
   const nav = unit && REVIEW_CHAPTERS.find(c => c.unit === unit.id && c.id === chapterId);
-  const content = nav && getChapterContent(unit.id, chapterId);
+  const content = nav && await getChapterContent(unit.id, chapterId);
 
   if (!unit || !nav || !content) {
     container.innerHTML = errorState('That Review chapter could not be found.') + backLink();
     return;
   }
 
-  const { prev, next } = adjacentChapters(unit.id, chapterId);
+  const { prev, next } = await adjacentChapters(unit.id, chapterId);
   const chaptersInUnit = chaptersForUnit(unit.id);
   const reviewed = reviewStore.isChapterReviewed(unit.id, chapterId);
 
@@ -204,6 +205,7 @@ const CALLOUT_META = {
   remember: { cls: 'callout callout-green', title: 'Remember' },
   mistake: { cls: 'callout callout-amber', title: 'Common Mistake' },
   try: { cls: 'callout callout-blue', title: 'Try It' },
+  sandbox: { cls: 'callout callout-amber', title: 'Sandbox Limitation' },
 };
 
 let qcCounter = 0;
