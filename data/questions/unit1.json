@@ -12938,5 +12938,2942 @@
         ]
       }
     ]
+  },
+  "numerical-precision-taylor": {
+    "beginner": [
+      {
+        "id": "U1-NPT-B01",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "What are the three parts of a number written in scientific notation, like -8.23×10⁴?",
+        "options": [
+          "Sign, mantissa, exponent",
+          "Sign, base, digit",
+          "Mantissa, radix, remainder",
+          "Sign, precision, magnitude"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Scientific notation is sign × mantissa × base^exponent; -8.23×10⁴ has sign (negative), mantissa (8.23), and exponent (4), with base 10 implied.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — base isn't usually called out separately from the exponent notation.",
+          "Incorrect — radix and remainder aren't the standard terms here.",
+          "Incorrect — precision and magnitude describe properties, not the notation's parts."
+        ],
+        "concept": "Scientific notation",
+        "tags": [
+          "scientific notation"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B02",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "remember",
+        "question": "MATLAB's default numeric type, double, uses 64 bits per number.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "MATLAB's double type follows the IEEE-754 64-bit floating-point standard.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "IEEE-754 double",
+        "tags": [
+          "floating point",
+          "ieee 754"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B03",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "In the IEEE-754 double-precision format, how are the 64 bits divided?",
+        "options": [
+          "1 sign bit, 11 exponent bits, 52 mantissa bits",
+          "1 sign bit, 8 exponent bits, 55 mantissa bits",
+          "2 sign bits, 11 exponent bits, 51 mantissa bits",
+          "1 sign bit, 52 exponent bits, 11 mantissa bits"
+        ],
+        "correctAnswer": 0,
+        "explanation": "IEEE-754 double precision uses 1 sign bit, 11 exponent bits, and 52 mantissa bits, totaling 64.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's not the IEEE-754 double layout.",
+          "Incorrect — there is only 1 sign bit.",
+          "Incorrect — the exponent and mantissa bit counts are swapped."
+        ],
+        "concept": "IEEE-754 bit layout",
+        "tags": [
+          "ieee 754",
+          "floating point"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B04",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "The mantissa bits in IEEE-754 control how large or small a number can be before it overflows or underflows.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The exponent bits set the representable magnitude range (overflow/underflow); the mantissa bits set how many significant digits are kept.",
+        "optionExplanations": [
+          "Incorrect.",
+          "Correct."
+        ],
+        "concept": "Mantissa vs. exponent role",
+        "tags": [
+          "ieee 754",
+          "mantissa",
+          "exponent"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B05",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What is \"overflow\" in floating-point arithmetic?",
+        "options": [
+          "A number too large to be represented, which halts or errors",
+          "A number too small to be represented, which rounds to zero",
+          "A rounding error from limited precision",
+          "A syntax error in MATLAB code"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Overflow happens when a value exceeds the largest representable magnitude (roughly larger than 10³⁰⁸ for a double).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that describes underflow.",
+          "Incorrect — that describes round-off error.",
+          "Incorrect — overflow is a numeric-range issue, not a syntax issue."
+        ],
+        "concept": "Overflow",
+        "tags": [
+          "overflow",
+          "floating point"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B06",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What is \"underflow\" in floating-point arithmetic?",
+        "options": [
+          "A number too small to be represented, which typically rounds to zero",
+          "A number too large to be represented, which halts or errors",
+          "The gap between 1.0 and the next representable double",
+          "A programming error caused by dividing by zero"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Underflow happens when a value is smaller in magnitude than the smallest representable positive number, and it typically rounds to zero.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that describes overflow.",
+          "Incorrect — that describes eps.",
+          "Incorrect — underflow isn't specifically about division by zero."
+        ],
+        "concept": "Underflow",
+        "tags": [
+          "underflow",
+          "floating point"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B07",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "remember",
+        "question": "Computer precision (how many bits are used to store a number) is the same thing as significant figures (how accurately a value was measured).",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "They're different: significant figures describe measurement accuracy; computer precision describes how much of a value's magnitude the computer can remember, independent of measurement accuracy.",
+        "optionExplanations": [
+          "Incorrect.",
+          "Correct."
+        ],
+        "concept": "Precision vs. significant figures",
+        "tags": [
+          "precision",
+          "significant figures"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B08",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "What does MATLAB's eps represent?",
+        "options": [
+          "Machine epsilon: the gap between 1.0 and the next representable double",
+          "The smallest positive number MATLAB can represent",
+          "The largest number MATLAB can represent",
+          "The number of significant digits MATLAB always displays"
+        ],
+        "correctAnswer": 0,
+        "explanation": "eps is machine epsilon — the smallest gap between 1.0 and the next representable double-precision value.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's closer to realmin.",
+          "Incorrect — that's realmax.",
+          "Incorrect — eps is a value, not a display setting."
+        ],
+        "concept": "eps",
+        "tags": [
+          "eps",
+          "machine epsilon"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B09",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "output-prediction",
+        "cognitiveLevel": "apply",
+        "question": "What does this code display?",
+        "code": "x = eps;\ndisp(x > 0)",
+        "language": "matlab",
+        "options": [
+          "1",
+          "0",
+          "Error",
+          "NaN"
+        ],
+        "correctAnswer": 0,
+        "explanation": "eps is a small positive number (about 2.22e-16), so eps > 0 is true, displayed as 1.",
+        "optionExplanations": [
+          "Correct — eps is positive.",
+          "Incorrect — eps is not zero.",
+          "Incorrect — this is valid code.",
+          "Incorrect — the comparison produces a valid logical result."
+        ],
+        "concept": "eps sign",
+        "tags": [
+          "eps"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B10",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which MATLAB function returns the largest representable double-precision number?",
+        "options": [
+          "realmax",
+          "realmin",
+          "eps",
+          "intmax"
+        ],
+        "correctAnswer": 0,
+        "explanation": "realmax returns the largest finite double-precision value.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — realmin is the smallest positive normalized value.",
+          "Incorrect — eps is the gap near 1.0.",
+          "Incorrect — intmax is for integer types, not double."
+        ],
+        "concept": "realmax",
+        "tags": [
+          "realmax"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B11",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "Which MATLAB function returns the smallest positive normalized double-precision number?",
+        "options": [
+          "realmin",
+          "realmax",
+          "eps",
+          "intmin"
+        ],
+        "correctAnswer": 0,
+        "explanation": "realmin returns the smallest positive normalized double-precision value.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — realmax is the largest.",
+          "Incorrect — eps is the gap near 1.0.",
+          "Incorrect — intmin is for integer types, not double."
+        ],
+        "concept": "realmin",
+        "tags": [
+          "realmin"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B12",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "understand",
+        "question": "In MATLAB, 0.1 + 0.2 is exactly equal to 0.3.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Neither 0.1 nor 0.2 has an exact finite binary representation, so their sum lands just off the closest representable double for 0.3 — 0.1+0.2==0.3 is false in MATLAB.",
+        "optionExplanations": [
+          "Incorrect.",
+          "Correct."
+        ],
+        "concept": "Round-off error in decimal fractions",
+        "tags": [
+          "round-off error",
+          "0.1+0.2"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B13",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "output-prediction",
+        "cognitiveLevel": "apply",
+        "question": "What does this code display?",
+        "code": "disp(0.1 + 0.2 == 0.3)",
+        "language": "matlab",
+        "options": [
+          "0",
+          "1",
+          "0.3000",
+          "Error"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Due to round-off error, 0.1+0.2 is not bit-for-bit equal to 0.3, so the comparison is false (0).",
+        "optionExplanations": [
+          "Correct — the comparison is false.",
+          "Incorrect — round-off error makes this comparison false.",
+          "Incorrect — disp of a logical shows 0 or 1, not the numeric value.",
+          "Incorrect — this is valid, error-free code."
+        ],
+        "concept": "Round-off in comparisons",
+        "tags": [
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B14",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "You want to check whether two floating-point results a and b are “equal” in MATLAB. What's the safest approach?",
+        "options": [
+          "abs(a - b) < tolerance for a small tolerance",
+          "a == b",
+          "round(a) == round(b) only",
+          "isequal(a, b)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Round-off error means two mathematically equal expressions can differ in their last bit or two, so comparing against a small tolerance is the reliable approach; == can spuriously fail.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — == can fail due to tiny round-off differences.",
+          "Incorrect — rounding first can hide real differences you care about.",
+          "Incorrect — isequal has the same exact-match issue as ==."
+        ],
+        "concept": "Floating-point comparison",
+        "tags": [
+          "tolerance",
+          "comparison"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B15",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "What is round-off error?",
+        "options": [
+          "The limited precision of storing most real numbers in a fixed number of bits",
+          "An error caused by writing incorrect MATLAB syntax",
+          "An error that only happens with very large numbers",
+          "An error caused by dividing by zero"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Round-off error comes from representing real numbers with a finite number of bits, so most values are stored as the closest representable approximation.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — round-off error isn't a syntax problem.",
+          "Incorrect — it happens across the whole representable range.",
+          "Incorrect — division by zero produces Inf/NaN, a different issue."
+        ],
+        "concept": "Round-off error",
+        "tags": [
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B16",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What is truncation error, as distinct from round-off error?",
+        "options": [
+          "Error from approximating a method (like stopping a Taylor series early), not from limited floating-point precision",
+          "Error from limited floating-point precision alone",
+          "Error that only occurs in MATLAB, not other languages",
+          "Error caused by using the wrong variable type"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Truncation error comes from the mathematical approximation itself (e.g., dropping higher-order Taylor terms), separate from the floating-point precision used to evaluate it.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's round-off error.",
+          "Incorrect — it's a general numerical-methods concept, not language-specific.",
+          "Incorrect — it's unrelated to variable type choice."
+        ],
+        "concept": "Truncation error",
+        "tags": [
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B17",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "A Taylor series approximates a complicated function using what kind of simpler function?",
+        "options": [
+          "A polynomial",
+          "A trigonometric function",
+          "Another equally complicated function",
+          "A random number generator"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A Taylor series replaces a function with a polynomial that matches its value and derivatives at one point.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — trig functions aren't simpler in this sense.",
+          "Incorrect — the whole point is to use something simpler.",
+          "Incorrect — this has nothing to do with random numbers."
+        ],
+        "concept": "Taylor series purpose",
+        "tags": [
+          "taylor series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B18",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "Why are polynomials a convenient choice for approximating other functions?",
+        "options": [
+          "They're just sums of constants times powers of x — cheap to evaluate, easy to differentiate and integrate",
+          "They are always more accurate than any other function type",
+          "They are the only functions MATLAB can evaluate",
+          "They never have any approximation error"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Polynomials are computationally cheap and simple to work with (evaluate, differentiate, integrate), which is why they're the standard building block for approximations.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — accuracy depends on context, not an inherent property of polynomials.",
+          "Incorrect — MATLAB evaluates many function types.",
+          "Incorrect — truncated polynomial approximations do have error."
+        ],
+        "concept": "Why polynomials",
+        "tags": [
+          "taylor series",
+          "polynomial"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B19",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "A Maclaurin series is a Taylor series centered at what point?",
+        "options": [
+          "a = 0",
+          "a = 1",
+          "a = infinity",
+          "a = the function's maximum"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A Maclaurin series is simply a Taylor series with the center a = 0.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's not the defining center.",
+          "Incorrect — the series wouldn't be defined this way.",
+          "Incorrect — the center is a fixed point, not tied to the function's maximum."
+        ],
+        "concept": "Maclaurin series",
+        "tags": [
+          "maclaurin series",
+          "taylor series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B20",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "code-completion",
+        "cognitiveLevel": "apply",
+        "question": "This is a 2-term Maclaurin approximation for which function, evaluated near x=0?",
+        "code": "x = 0.5;\napprox = 1 + x;",
+        "language": "matlab",
+        "options": [
+          "e^x",
+          "sin(x)",
+          "cos(x)",
+          "1/x"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The Maclaurin series for e^x is 1 + x + x^2/2! + ...; keeping the first 2 terms gives 1 + x.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — sin(x)'s series starts with x, not 1 + x.",
+          "Incorrect — cos(x)'s series starts with 1 - x^2/2!, not 1 + x.",
+          "Incorrect — 1/x has no Maclaurin series (undefined at x=0)."
+        ],
+        "concept": "Maclaurin series for e^x",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B21",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "Using the 2-term Maclaurin approximation 1 + x for e^x, what value do you get at x = 0.5?",
+        "correctAnswer": {
+          "value": 1.5,
+          "tolerance": 0.001
+        },
+        "explanation": "1 + 0.5 = 1.5.",
+        "concept": "2-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B22",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "What condition must a function f satisfy for a Taylor series to validly approximate it near a?",
+        "options": [
+          "f must be continuous on the interval of interest and have enough derivatives at a",
+          "f must be a polynomial already",
+          "f must always be positive",
+          "f must be periodic"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Taylor's theorem requires continuity on the interval and the existence of enough derivatives at the center a.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — if f were already a polynomial there'd be nothing to approximate.",
+          "Incorrect — sign has no bearing on this.",
+          "Incorrect — periodicity isn't required."
+        ],
+        "concept": "Conditions for Taylor series validity",
+        "tags": [
+          "taylor series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B23",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "true-false",
+        "cognitiveLevel": "remember",
+        "question": "Adding more terms to a Taylor series approximation always increases its accuracy (reduces truncation error), for a fixed x near the center a.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "More terms means more of the function's higher-derivative behavior is captured, generally shrinking the truncation error (though the rate depends on x's distance from a and how quickly derivatives grow).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "More terms, less error",
+        "tags": [
+          "taylor series",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B24",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "multiple-choice",
+        "cognitiveLevel": "remember",
+        "question": "What MATLAB function computes n! (n factorial), used when building Taylor series terms by hand?",
+        "options": [
+          "factorial(n)",
+          "fact(n)",
+          "n!",
+          "gamma(n)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "factorial(n) computes n!. (gamma(n+1) also equals n! but factorial is the direct function used here.)",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — not a real MATLAB function name.",
+          "Incorrect — ! is not a MATLAB operator for factorial.",
+          "Incorrect — gamma(n) is related but off by one from n!; factorial(n) is the direct function."
+        ],
+        "concept": "factorial()",
+        "tags": [
+          "factorial"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-B25",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "beginner",
+        "type": "matching",
+        "cognitiveLevel": "remember",
+        "question": "Match each term to its definition.",
+        "options": [
+          "Overflow",
+          "Underflow",
+          "Round-off error",
+          "Truncation error"
+        ],
+        "matchOptions": [
+          "A number too large to represent",
+          "A number too small to represent, rounds to zero",
+          "Limited precision from storing numbers in finite bits",
+          "Error from stopping an approximation method early (e.g., a truncated Taylor series)"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "Overflow and underflow are range issues at the extremes; round-off error is inherent to finite-precision storage; truncation error comes from approximating a method.",
+        "concept": "Key term definitions",
+        "tags": [
+          "floating point",
+          "truncation error",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      }
+    ],
+    "intermediate": [
+      {
+        "id": "U1-NPT-I01",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "A number is stored with 2 significant digits of precision. Which of these values is stored EXACTLY, with no rounding?",
+        "options": [
+          "130 (= 13×10¹)",
+          "131",
+          "0.0020090",
+          "-0.0418"
+        ],
+        "correctAnswer": 0,
+        "explanation": "130 = 13×10¹ needs only 2 significant digits (1 and 3), so it's exact. 131 needs 3 digits and rounds to 130; -0.0418 and 0.0020090 also need more than 2 significant digits and get rounded.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — 131 needs 3 significant digits and rounds.",
+          "Incorrect — this needs more than 2 significant digits.",
+          "Incorrect — this needs more than 2 significant digits."
+        ],
+        "concept": "Significant-digit precision",
+        "tags": [
+          "significant figures",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I02",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "Rounded to 2 significant digits, what does -0.0418 become?",
+        "options": [
+          "-0.042",
+          "-0.041",
+          "-0.04",
+          "-0.0418"
+        ],
+        "correctAnswer": 0,
+        "explanation": "-0.0418 ≈ -42×10⁻³ = -0.042 at 2 significant digits.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that rounds -0.041, a different starting value.",
+          "Incorrect — that's only 1 significant digit.",
+          "Incorrect — that's the unrounded, 3-significant-digit value."
+        ],
+        "concept": "Rounding to significant digits",
+        "tags": [
+          "significant figures"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I03",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "Rounded to 2 significant digits, what is 0.0020090 (as a decimal number)?",
+        "correctAnswer": {
+          "value": 0.002,
+          "tolerance": 1e-7
+        },
+        "explanation": "0.0020090 ≈ 20×10⁻⁴ = 0.002 at 2 significant digits.",
+        "concept": "Rounding to significant digits",
+        "tags": [
+          "significant figures"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I04",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "output-prediction",
+        "cognitiveLevel": "apply",
+        "question": "Which of these best describes what this displays?",
+        "code": "format long\nx = 0.1 + 0.2;\ndisp(x)",
+        "language": "matlab",
+        "options": [
+          "0.300000000000000 with additional trailing digits showing it's not exactly 0.3",
+          "exactly 0.300000000000000 and nothing more",
+          "0.3",
+          "an error"
+        ],
+        "correctAnswer": 0,
+        "explanation": "format long reveals more digits, showing the sum is not bit-exact 0.3 — this is the round-off error made visible.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the extra digits reveal the round-off error, not an exact match.",
+          "Incorrect — format long shows far more digits than plain '0.3'.",
+          "Incorrect — this is valid code with no error."
+        ],
+        "concept": "format long reveals round-off",
+        "tags": [
+          "format long",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I05",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Why does 0.1 not have an exact binary (base-2) representation?",
+        "options": [
+          "1/10 cannot be written as a finite sum of powers of 2, the same way 1/3 has no finite decimal representation",
+          "MATLAB stores all decimals as approximations on purpose to save memory",
+          "0.1 is too small to be represented at all",
+          "Binary can only represent whole numbers"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Just as 1/3 has no finite decimal expansion, 1/10 has no finite binary expansion — it's a property of the fraction and the base, not a MATLAB design choice.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — it's a mathematical property of the fraction/base, not an intentional memory-saving choice.",
+          "Incorrect — 0.1 is well within the representable range; the issue is exactness, not magnitude.",
+          "Incorrect — binary represents fractions too, just not all of them exactly."
+        ],
+        "concept": "Binary representation of decimals",
+        "tags": [
+          "binary",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I06",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "code-debug",
+        "cognitiveLevel": "analyze",
+        "question": "This code prints 'not equal' even though a and b are mathematically equal. What's the bug?",
+        "code": "tolerance = 1e-10;\na = 0.1 + 0.2;\nb = 0.3;\nif a == b\n    disp('equal')\nelse\n    disp('not equal')\nend",
+        "language": "matlab",
+        "options": [
+          "It compares a and b with ==, which fails due to round-off error; it should compare abs(a-b) < tolerance",
+          "tolerance is unused, which is itself an error",
+          "0.1 + 0.2 is invalid MATLAB syntax",
+          "disp() cannot print string literals"
+        ],
+        "correctAnswer": 0,
+        "explanation": "a==b compares bit-for-bit; since a and b differ by a tiny round-off amount, the comparison should instead use the already-defined tolerance: abs(a-b) < tolerance.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — an unused variable isn't an error, just a wasted definition (and the real bug is elsewhere).",
+          "Incorrect — this is valid MATLAB arithmetic.",
+          "Incorrect — disp() prints string literals fine."
+        ],
+        "concept": "Fixing a floating-point equality bug",
+        "tags": [
+          "comparison",
+          "tolerance"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ],
+        "commonMistakes": [
+          "Comparing floating-point results with == instead of a tolerance-based check."
+        ]
+      },
+      {
+        "id": "U1-NPT-I07",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "Using the 4-term Maclaurin polynomial 1 + x + x²/2! + x³/3! for eˣ, what is the approximation at x = 1?",
+        "options": [
+          "≈ 2.67",
+          "≈ 2.72",
+          "≈ 2.50",
+          "≈ 3.00"
+        ],
+        "correctAnswer": 0,
+        "explanation": "1 + 1 + 0.5 + 0.16667 = 2.6667 ≈ 2.67.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's close to the true e¹, not the 4-term truncation.",
+          "Incorrect — that's the 3-term approximation.",
+          "Incorrect — too high; recompute the sum of the four terms."
+        ],
+        "concept": "4-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I08",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "What is the exact value of the 4-term Maclaurin approximation 1 + x + x²/2! + x³/3! for eˣ at x = 1?",
+        "correctAnswer": {
+          "value": 2.6667,
+          "tolerance": 0.001
+        },
+        "explanation": "1 + 1 + 0.5 + 0.16667 = 2.66667.",
+        "concept": "4-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I09",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "numeric",
+        "cognitiveLevel": "analyze",
+        "question": "The true value of e¹ is approximately 2.71828. Using the 4-term Maclaurin approximation (≈2.6667), what is the approximate truncation error (actual − approx), to 3 decimal places?",
+        "correctAnswer": {
+          "value": 0.0516,
+          "tolerance": 0.001
+        },
+        "explanation": "2.71828 - 2.66667 = 0.05161.",
+        "concept": "Truncation error of a Maclaurin approximation",
+        "tags": [
+          "truncation error",
+          "maclaurin series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I10",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "code-completion",
+        "cognitiveLevel": "apply",
+        "question": "Fill in the blank to compute the k-th Maclaurin term for e^x.",
+        "code": "x = 0.5;\nn = 4;   % number of terms\napprox = 0;\nfor k = 0:n-1\n    approx = approx + _____;\nend",
+        "language": "matlab",
+        "options": [
+          "x^k / factorial(k)",
+          "x^k * factorial(k)",
+          "factorial(x)^k",
+          "x / factorial(k)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The k-th Maclaurin term for e^x is x^k / k!, i.e. x^k / factorial(k).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — multiplying by factorial(k) is backwards.",
+          "Incorrect — factorial() expects a nonnegative integer, not x.",
+          "Incorrect — this drops the x^k power."
+        ],
+        "concept": "Maclaurin term formula for e^x",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I11",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "understand",
+        "question": "The Lagrange Remainder Theorem expresses the truncation error after stopping a Taylor series at order n as approximately what?",
+        "options": [
+          "f⁽ⁿ⁾(ξ)/n! × (x−a)ⁿ, for some ξ between a and x",
+          "(x−a)ⁿ⁺¹, with no dependence on the function itself",
+          "1/n!, regardless of x or a",
+          "The value of the next term you kept, not the one you dropped"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The Lagrange remainder gives the truncation error in terms of the n-th derivative (evaluated at some unknown point ξ between a and x), n!, and (x−a)ⁿ.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — this omits the function's derivative entirely.",
+          "Incorrect — this ignores both the function and x.",
+          "Incorrect — truncation error concerns the dropped term(s), not a kept one."
+        ],
+        "concept": "Lagrange remainder",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I12",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "You truncate a Taylor series after the 5th-order term instead of the 3rd-order term. What happens to the truncation error, and why?",
+        "options": [
+          "It shrinks — a higher-order truncation keeps more terms, capturing more of the function's behavior",
+          "It grows — keeping more terms always makes the approximation worse",
+          "It stays exactly the same — the number of terms doesn't affect error",
+          "It becomes exactly zero — any truncation beyond 3rd order is exact"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Keeping more terms (going from 3rd-order to 5th-order truncation) generally reduces truncation error, since more of the function's local behavior is captured.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — more terms generally improves, not worsens, the approximation.",
+          "Incorrect — the number of terms directly affects the remainder.",
+          "Incorrect — truncation error is only exactly zero for polynomials of low-enough degree matching the function exactly."
+        ],
+        "concept": "Effect of more terms on error",
+        "tags": [
+          "truncation error",
+          "taylor series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I13",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "select-all",
+        "cognitiveLevel": "analyze",
+        "question": "Which of the following are true about MATLAB's eps? Select all that apply.",
+        "options": [
+          "It represents the gap between 1.0 and the next representable double",
+          "It is useful as a building block for a floating-point comparison tolerance",
+          "It equals exactly 0",
+          "eps is commonly used in expressions like abs(a-b) < eps*10 to compare floating-point results"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          3
+        ],
+        "explanation": "eps is a small positive machine-epsilon value (not 0), representing the smallest gap near 1.0, and it's a standard building block for a floating-point comparison tolerance.",
+        "concept": "Uses of eps",
+        "tags": [
+          "eps",
+          "tolerance"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I14",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "true-false",
+        "cognitiveLevel": "apply",
+        "question": "For a fixed number of Taylor series terms, points x farther from the center a generally have larger truncation error than points closer to a.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True in general — the remainder term depends on (x−a)ⁿ, so farther points typically see slower convergence / larger truncation error for the same number of terms.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "Distance from center and error",
+        "tags": [
+          "taylor series",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I15",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "Which MATLAB expression correctly tests whether two computed values a and b agree to within a small numerical tolerance?",
+        "options": [
+          "abs(a - b) < 1e-9",
+          "a == b",
+          "round(a) == round(b)",
+          "a - b == 0"
+        ],
+        "correctAnswer": 0,
+        "explanation": "A tolerance-based comparison, abs(a-b) < tolerance, is the standard way to compare floating-point results that may carry round-off error.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — fails on tiny round-off differences.",
+          "Incorrect — can hide real, meaningful differences.",
+          "Incorrect — same exact-equality problem as ==."
+        ],
+        "concept": "Floating-point comparison",
+        "tags": [
+          "tolerance",
+          "comparison"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I16",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "output-prediction",
+        "cognitiveLevel": "analyze",
+        "question": "What happens when this code runs?",
+        "code": "a = realmax;\nb = a * 10;\ndisp(b)",
+        "language": "matlab",
+        "options": [
+          "b overflows to Inf, since a*10 exceeds the largest representable double",
+          "b displays a very precise large finite number",
+          "MATLAB throws a syntax error",
+          "b becomes 0 due to underflow"
+        ],
+        "correctAnswer": 0,
+        "explanation": "realmax is already the largest representable double; multiplying it by 10 exceeds the representable range, producing Inf (overflow), not an error.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the result exceeds what any finite double can represent.",
+          "Incorrect — this is valid arithmetic, not a syntax error.",
+          "Incorrect — multiplying a huge number by 10 causes overflow, not underflow."
+        ],
+        "concept": "Overflow to Inf",
+        "tags": [
+          "overflow",
+          "realmax"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I17",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "output-prediction",
+        "cognitiveLevel": "analyze",
+        "question": "What does this display?",
+        "code": "a = realmin;\nb = a / 1e300;\ndisp(b == 0)",
+        "language": "matlab",
+        "options": [
+          "1 (true) — b underflows to 0",
+          "0 (false) — b is a tiny but nonzero number",
+          "Error",
+          "NaN"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Dividing realmin (already near the smallest representable positive number) by another huge factor drives the result below what can be represented, so it underflows to exactly 0.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the result underflows all the way to 0.",
+          "Incorrect — this is valid arithmetic.",
+          "Incorrect — underflow produces 0, not NaN."
+        ],
+        "concept": "Underflow to zero",
+        "tags": [
+          "underflow",
+          "realmin"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I18",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Two students each compute the same Taylor series sum with the same number of terms, but one loops k from 0 to n-1 (term x^k/factorial(k)) and the other from 1 to n while writing the k-th term as x^(k-1)/factorial(k-1). Do these produce the same result?",
+        "options": [
+          "Yes, both correctly compute the same n terms of the series, just indexed differently",
+          "No, the second one always has one extra term",
+          "No, the second one is off by a factor of x",
+          "No, factorial(k-1) is undefined for k=1"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Substituting j=k-1 in the second loop (k=1..n) makes it identical to j=0..n-1 with term x^j/factorial(j) — same n terms, just a shifted loop variable.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — both loops run exactly n iterations.",
+          "Incorrect — the reindexing is exact, no factor is introduced.",
+          "Incorrect — factorial(0) (when k=1) is defined and equals 1."
+        ],
+        "concept": "Equivalent loop indexing",
+        "tags": [
+          "taylor series",
+          "indexing"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I19",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "Using a 3-term Maclaurin approximation (1 + x + x²/2!) for eˣ, what value do you get at x = 1?",
+        "correctAnswer": {
+          "value": 2.5,
+          "tolerance": 0.001
+        },
+        "explanation": "1 + 1 + 0.5 = 2.5.",
+        "concept": "3-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I20",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Compared to the true value e¹ ≈ 2.71828, is the 3-term approximation (2.5) or the 4-term approximation (≈2.667) closer?",
+        "options": [
+          "The 4-term approximation is closer",
+          "The 3-term approximation is closer",
+          "They are equally close",
+          "Neither is close; both are wrong"
+        ],
+        "correctAnswer": 0,
+        "explanation": "|2.71828-2.5|=0.218 vs |2.71828-2.6667|=0.052 — the 4-term approximation is closer, as expected from adding another term.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — compare the actual differences; the 4-term version is closer.",
+          "Incorrect — the errors are noticeably different in size.",
+          "Incorrect — both are reasonable approximations, just with different error sizes."
+        ],
+        "concept": "More terms improves accuracy",
+        "tags": [
+          "maclaurin series",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I21",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "matching",
+        "cognitiveLevel": "remember",
+        "question": "Match each MATLAB function to what it returns.",
+        "options": [
+          "realmax",
+          "realmin",
+          "eps",
+          "factorial"
+        ],
+        "matchOptions": [
+          "The largest representable double",
+          "The smallest positive normalized double",
+          "The gap between 1.0 and the next representable double",
+          "n! for a nonnegative integer input"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "Each function reports a distinct fact about floating-point representation or combinatorics: realmax/realmin bound the representable range, eps measures precision near 1.0, and factorial computes n!.",
+        "concept": "Precision-related functions",
+        "tags": [
+          "realmax",
+          "realmin",
+          "eps",
+          "factorial"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I22",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "ordering",
+        "cognitiveLevel": "apply",
+        "question": "Put these steps in order for building an n-term Maclaurin approximation of e^x by hand in MATLAB.",
+        "options": [
+          "Decide how many terms, n, to include",
+          "Initialize an accumulator variable to 0",
+          "Loop k from 0 to n-1, adding x^k / factorial(k) to the accumulator each time",
+          "Compare the accumulated approximation to exp(x) to check the error"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "You first choose the term count, set up an accumulator, sum the terms, then validate against the true function value.",
+        "concept": "Workflow for a Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "workflow"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I23",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "select-all",
+        "cognitiveLevel": "analyze",
+        "question": "Which of the following numbers, expressed to 2 significant digits, require rounding (are NOT exact)? Select all that apply.",
+        "options": [
+          "131",
+          "0.0000090",
+          "0.0020090",
+          "130"
+        ],
+        "correctAnswer": [
+          0,
+          2
+        ],
+        "explanation": "131 needs 3 digits (rounds to 130) and 0.0020090 needs more than 2 digits (rounds to 0.002); 0.0000090 = 90×10⁻⁷ and 130 = 13×10¹ are both already exact at 2 significant digits.",
+        "concept": "Exact vs. rounded at fixed precision",
+        "tags": [
+          "significant figures",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I24",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "multiple-choice",
+        "cognitiveLevel": "apply",
+        "question": "Using the 3-term Maclaurin series 1 + x + x²/2! for e^x, what approximate value do you get for e^0.3?",
+        "options": [
+          "≈ 1.345",
+          "≈ 1.300",
+          "≈ 1.500",
+          "≈ 0.955"
+        ],
+        "correctAnswer": 0,
+        "explanation": "1 + 0.3 + 0.09/2 = 1 + 0.3 + 0.045 = 1.345.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — that's just the first two terms (1+x).",
+          "Incorrect — too high; recompute the third term.",
+          "Incorrect — the terms are all positive here, so the sum can't be less than 1."
+        ],
+        "concept": "3-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-I25",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "intermediate",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "Using the 3-term Maclaurin series 1 + x + x²/2! for e^x, compute the approximation at x = 0.3.",
+        "correctAnswer": {
+          "value": 1.345,
+          "tolerance": 0.001
+        },
+        "explanation": "1 + 0.3 + 0.09/2 = 1.345.",
+        "concept": "3-term Maclaurin approximation",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      }
+    ],
+    "advanced": [
+      {
+        "id": "U1-NPT-A01",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A colleague argues that since MATLAB always displays “0.3000” for 0.1+0.2 with format short, the round-off error doesn't matter in practice. What's the strongest counterargument?",
+        "options": [
+          "Display formatting only affects how many digits are shown, not the stored value — the stored value still differs from 0.3, which matters for exact-equality comparisons (==) and can compound across many operations",
+          "Round-off error only exists in format long mode, so format short truly is exact",
+          "The counterargument is wrong; round-off error never actually matters",
+          "MATLAB internally rounds to match the display, so format short is exact"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Display format is purely cosmetic; the underlying stored value (and any error in it) is unaffected, and that error is exactly what breaks == comparisons and can accumulate across many operations.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — format only changes display, never the stored value or its error.",
+          "Incorrect — round-off error genuinely affects comparisons and accumulated computation.",
+          "Incorrect — MATLAB never silently rounds stored values to match a display format."
+        ],
+        "concept": "Display format vs. stored precision",
+        "tags": [
+          "round-off error",
+          "format short"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A02",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "analyze",
+        "question": "Using the Lagrange Remainder idea, if the 4th derivative of a function is bounded by |f⁽⁴⁾(ξ)| ≤ 24 on the interval of interest, estimate the maximum truncation error of a 4-term Taylor series (through the 3rd-order term) at x = 1, a = 0. (Remainder ≈ f⁽⁴⁾(ξ)/4! × (x-a)⁴)",
+        "correctAnswer": {
+          "value": 1,
+          "tolerance": 0.01
+        },
+        "explanation": "R ≈ 24/4! × 1⁴ = 24/24 × 1 = 1.",
+        "concept": "Applying the Lagrange remainder bound",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A03",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Why does the truncation error for a Taylor series stopped after the (n-1)-order term scale with (x-a)ⁿ specifically?",
+        "options": [
+          "Because the first term omitted is the n-th order term, and its size (via the Lagrange remainder) dominates the total error",
+          "Because MATLAB always rounds to n significant digits",
+          "Because every Taylor series has exactly n terms by definition",
+          "Because the exponent bits in IEEE-754 have n possible values"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Stopping after the (n-1)-order term means the n-th order term is the first one dropped, and the Lagrange remainder shows that term's (x-a)ⁿ scaling governs the leading-order error.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — this isn't a MATLAB rounding rule, it's a mathematical property of the series.",
+          "Incorrect — a Taylor series can have any number of terms.",
+          "Incorrect — IEEE-754 bit counts are unrelated to Taylor series order."
+        ],
+        "concept": "Why the remainder scales with (x-a)^n",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A04",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "code-debug",
+        "cognitiveLevel": "analyze",
+        "question": "This code is supposed to compute a 5-term Maclaurin approximation of e^x (terms k=0 through k=4), but it's wrong. What's the bug?",
+        "code": "x = 2; a = 0; n = 5;\napprox = 0;\nfor k = 1:n\n    approx = approx + x^k / factorial(k);\nend\ndisp(approx)",
+        "language": "matlab",
+        "options": [
+          "The loop runs k = 1:n, missing the k=0 term (which equals 1) and instead computing k=1 through k=5 — both missing the constant term and going one order too far",
+          "x should be squared, not raised to the k power",
+          "factorial(k) should be factorial(k-1)",
+          "approx should be initialized to 1, not 0"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The correct loop is k = 0:n-1 (k=0 through 4 for n=5 terms): the k=0 term (x^0/0!=1) is the constant Maclaurin term and must be included, and looping to k=n instead of n-1 adds an extra, unwanted higher-order term.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — x^k is exactly the correct term structure.",
+          "Incorrect — factorial(k) is correct for the k-th term.",
+          "Incorrect — initializing to 1 wouldn't fix the loop-range bug and would double-count the constant term."
+        ],
+        "concept": "Off-by-one loop bug in a Maclaurin sum",
+        "tags": [
+          "maclaurin series",
+          "indexing"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ],
+        "commonMistakes": [
+          "Starting the loop at k=1 instead of k=0, silently dropping the constant term."
+        ]
+      },
+      {
+        "id": "U1-NPT-A05",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "evaluate",
+        "question": "For the buggy code in the previous question (looping k=1 to 5 instead of 0 to 4) at x=2, what does approx actually evaluate to?",
+        "correctAnswer": {
+          "value": 6.2667,
+          "tolerance": 0.01
+        },
+        "explanation": "k=1: 2/1=2; k=2: 4/2=2; k=3: 8/6=1.3333; k=4: 16/24=0.6667; k=5: 32/120=0.2667. Sum ≈ 6.2667.",
+        "concept": "Evaluating the buggy sum",
+        "tags": [
+          "maclaurin series",
+          "indexing"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A06",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "A Taylor series approximation of a function f near a=0 is being evaluated at some x. Which factors affect how many terms are needed to reach a target accuracy? Select all that apply.",
+        "options": [
+          "How far x is from the center a",
+          "How quickly the higher derivatives of f grow in magnitude",
+          "The MATLAB version being used",
+          "The target error tolerance itself — a tighter tolerance generally needs more terms"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          3
+        ],
+        "explanation": "The Lagrange remainder depends on (x-a)ⁿ and on the size of the n-th derivative — both properties of the function and the distance from the center — plus how tight a tolerance you're aiming for. MATLAB version has no bearing on the mathematics.",
+        "concept": "Factors affecting required term count",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A07",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "A function f has all derivatives equal to 1 at a=0 (like eˣ does). Compared to a function whose derivatives grow rapidly, which converges faster for a fixed x far from a?",
+        "options": [
+          "The one with derivatives that stay small (like eˣ's, which are all bounded near 1 for x near 0)",
+          "The one with rapidly-growing derivatives always converges faster",
+          "They always converge at the same rate",
+          "Convergence rate doesn't depend on the derivatives at all"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Since the remainder scales with the n-th derivative's size, a function with smaller/bounded derivatives has a smaller remainder for the same number of terms, converging faster.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — large derivatives inflate the remainder bound, slowing convergence.",
+          "Incorrect — convergence rate depends directly on derivative growth.",
+          "Incorrect — the Lagrange remainder explicitly depends on the derivative."
+        ],
+        "concept": "Derivative growth and convergence",
+        "tags": [
+          "taylor series",
+          "convergence"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A08",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "apply",
+        "question": "A 2-significant-digit system needs to represent 0.00034567. What is the correctly-rounded 2-sig-fig value?",
+        "correctAnswer": {
+          "value": 0.00035,
+          "tolerance": 1e-7
+        },
+        "explanation": "0.00034567 = 3.4567×10⁻⁴ → rounds to 3.5×10⁻⁴ = 0.00035 at 2 significant digits.",
+        "concept": "Rounding to significant digits",
+        "tags": [
+          "significant figures"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A09",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "true-false",
+        "cognitiveLevel": "evaluate",
+        "question": "If a computation only ever adds and subtracts values that are exactly representable in binary (like 4, 8, 0.5, 0.25), round-off error can still creep in from the arithmetic itself, not just from the inputs.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "For pure addition/subtraction of exactly-representable binary values whose results stay within the representable range and significant-digit budget, IEEE-754 arithmetic is exact — round-off specifically comes from values (like most decimal fractions) that have no exact binary representation to begin with, or from results needing more mantissa bits than available.",
+        "optionExplanations": [
+          "Incorrect.",
+          "Correct."
+        ],
+        "concept": "Exact arithmetic on exact inputs",
+        "tags": [
+          "round-off error",
+          "binary"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A10",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "code-completion",
+        "cognitiveLevel": "apply",
+        "question": "Fill in the blank to record the truncation error for each n.",
+        "code": "x = 1; a = 0;\nerrors = zeros(1, 8);\nfor n = 1:8\n    approx = 0;\n    for k = 0:n-1\n        approx = approx + (x-a)^k / factorial(k);\n    end\n    errors(n) = _____;\nend",
+        "language": "matlab",
+        "options": [
+          "abs(exp(x) - approx)",
+          "approx - exp(x)",
+          "exp(x) / approx",
+          "abs(approx)"
+        ],
+        "correctAnswer": 0,
+        "explanation": "abs(exp(x) - approx) computes the (nonnegative) magnitude of the truncation error against the true value.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — without abs(), the sign varies and isn't a magnitude.",
+          "Incorrect — this computes a ratio, not an error.",
+          "Incorrect — this ignores the true value entirely."
+        ],
+        "concept": "Computing truncation error",
+        "tags": [
+          "truncation error",
+          "maclaurin series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A11",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "In a convergence-error plot for a Taylor series approximation (error vs. number of terms, on a log scale), what shape does the error curve typically show as n increases, for well-behaved functions like eˣ?",
+        "options": [
+          "A steep, roughly monotonic decrease, eventually flattening near the limits of floating-point precision",
+          "A flat, unchanging line — error doesn't depend on the number of terms",
+          "A steadily increasing line",
+          "Random, unpredictable jumps with no overall trend"
+        ],
+        "correctAnswer": 0,
+        "explanation": "As more terms are added, truncation error shrinks quickly at first, then flattens once it approaches the floor set by floating-point round-off error.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — error clearly depends on term count.",
+          "Incorrect — adding correct terms doesn't make the approximation worse.",
+          "Incorrect — the trend is systematic, not random."
+        ],
+        "concept": "Convergence-error curve shape",
+        "tags": [
+          "convergence",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A12",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "analyze",
+        "question": "The true value of sin(0.1) ≈ 0.099833. Using the 2-term Maclaurin approximation for sin(x), x − x³/3!, what approximate value do you get at x=0.1?",
+        "correctAnswer": {
+          "value": 0.099833,
+          "tolerance": 0.0001
+        },
+        "explanation": "0.1 - (0.001)/6 = 0.1 - 0.0001667 = 0.0998333.",
+        "concept": "2-term Maclaurin approximation for sin(x)",
+        "tags": [
+          "maclaurin series",
+          "sin"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A13",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "Why is x - x³/3! + x⁵/5! - ... (odd powers only, alternating signs) the correct Maclaurin series for sin(x), rather than including even-power terms too?",
+        "options": [
+          "Because sin(x) is an odd function (sin(-x) = -sin(x)), so all its even-order derivatives at 0 vanish, zeroing out the even-power terms",
+          "Because MATLAB's factorial function only works on odd numbers",
+          "Because even powers of x are always negative",
+          "There's no reason; even-power terms should be included too but are commonly omitted by mistake"
+        ],
+        "correctAnswer": 0,
+        "explanation": "sin(x) is an odd function, which forces its even-order derivatives at 0 to be zero, so those terms simply vanish from the series — it's not an omission, it's exact.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — factorial() works on any nonnegative integer.",
+          "Incorrect — even powers of x are never negative for real x.",
+          "Incorrect — the even-power terms are genuinely zero for sin(x), not mistakenly dropped."
+        ],
+        "concept": "Odd/even function symmetry in Taylor series",
+        "tags": [
+          "maclaurin series",
+          "sin"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A14",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "Which of these are legitimate reasons a numerical model might use a truncated Taylor series instead of the exact function? Select all that apply.",
+        "options": [
+          "The exact function is expensive or impractical to evaluate directly",
+          "Polynomials are cheap to evaluate, differentiate, and integrate, which matters inside a larger numerical algorithm",
+          "It is mathematically impossible to ever compute the exact function in software",
+          "A model built for a small operating region near a doesn't need the function's full global behavior, just a locally-accurate approximation"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          3
+        ],
+        "explanation": "Options 1, 2, and 4 are real, common reasons (efficiency, algorithmic convenience, and locality). It's false that computing exact functions is 'impossible' — MATLAB's exp/sin/cos are themselves computed to very high accuracy, just not by hand-truncated low-order Taylor series.",
+        "concept": "Reasons to use a truncated series",
+        "tags": [
+          "taylor series",
+          "numerical methods"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A15",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "code-debug",
+        "cognitiveLevel": "evaluate",
+        "question": "This code seems to compute a 4-term Maclaurin approximation but might have an off-by-one bug. Does it, and if not, why not?",
+        "code": "x = 0.5;\na = 0;\nn = 4;\napprox = 1;\nfor k = 1:n-1\n    approx = approx + (x-a)^k / factorial(k);\nend",
+        "language": "matlab",
+        "options": [
+          "approx starts at 1 (correctly representing the k=0 term) and the loop adds k=1,2,3 — four terms total (k=0 through 3), matching n=4; this code is actually CORRECT, not buggy",
+          "It's missing the k=0 term entirely, undercounting by one term",
+          "It includes an extra k=n term, overcounting by one term",
+          "factorial(0) is undefined, so this code errors immediately"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Trick question: approx=1 IS the k=0 term (x^0/0!=1), and the loop adds k=1,2,3 — four terms total (k=0 through 3), matching n=4. Initializing the accumulator to 1 and starting the loop at k=1 is equivalent to initializing to 0 and starting at k=0.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the initial value 1 already represents that term.",
+          "Incorrect — the loop runs k=1 to n-1=3, exactly 3 additional terms plus the initial one, totaling 4.",
+          "Incorrect — factorial(0) is well-defined and equals 1, and this code never even calls it directly since the loop starts at k=1."
+        ],
+        "concept": "Recognizing an equivalent (non-buggy) indexing pattern",
+        "tags": [
+          "maclaurin series",
+          "indexing"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A16",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "evaluate",
+        "question": "A Taylor series is truncated after the 6th-order term. If the 7th derivative is bounded by 5040 on the interval, and (x-a) = 0.5, estimate the maximum truncation error using R ≈ f⁽⁷⁾(ξ)/7! × (x-a)⁷.",
+        "correctAnswer": {
+          "value": 0.0078125,
+          "tolerance": 0.0005
+        },
+        "explanation": "7! = 5040, so R ≈ 5040/5040 × 0.5⁷ = 1 × 0.0078125 = 0.0078125.",
+        "concept": "Applying the Lagrange remainder bound",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A17",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "Two Taylor approximations use the same number of terms but different centers, a₁ and a₂, with |x - a₁| < |x - a₂|. All else equal, which approximation is expected to have smaller truncation error?",
+        "options": [
+          "The one centered at a₁ (closer to x)",
+          "The one centered at a₂ (farther from x)",
+          "They are always identical regardless of center",
+          "The center never affects truncation error"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The remainder term scales with (x-a)ⁿ, so a smaller distance |x-a| generally gives a smaller error for the same number of terms.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — a larger (x-a) generally increases the remainder bound.",
+          "Incorrect — the center directly affects (x-a)^n in the remainder formula.",
+          "Incorrect — the center is a key factor in the remainder's size."
+        ],
+        "concept": "Center choice and truncation error",
+        "tags": [
+          "lagrange remainder",
+          "taylor series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A18",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "true-false",
+        "cognitiveLevel": "analyze",
+        "question": "Round-off error and truncation error can both be present in the same numerical computation simultaneously (e.g., evaluating a truncated Taylor series in floating-point arithmetic).",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True — truncation error comes from stopping the series early (a mathematical/algorithmic choice), while round-off error comes from each floating-point operation along the way; a real computation has both stacked together.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "Coexistence of error types",
+        "tags": [
+          "truncation error",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A19",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "analyze",
+        "question": "You're told a Taylor series approximation is accurate to “machine precision.” What does this most likely mean?",
+        "options": [
+          "Enough terms were used that the remaining truncation error is smaller than the round-off error already inherent in floating-point arithmetic (roughly eps-scale), so adding more terms wouldn't meaningfully improve accuracy",
+          "The approximation is mathematically exact with zero error",
+          "The function being approximated has no derivatives beyond machine precision",
+          "The computation used integer arithmetic instead of floating-point"
+        ],
+        "correctAnswer": 0,
+        "explanation": "'Machine precision' means the remaining error is at the same tiny scale as eps — below that floor, floating-point round-off dominates and more terms can't help.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — machine precision means very small error, not exactly zero.",
+          "Incorrect — this describes term count, not a property of the function's derivatives.",
+          "Incorrect — this describes real-valued floating-point computation, not integer arithmetic."
+        ],
+        "concept": "Machine precision",
+        "tags": [
+          "eps",
+          "machine precision"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A20",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "code-completion",
+        "cognitiveLevel": "apply",
+        "question": "Complete this function that computes an n-term Maclaurin approximation of e^x.",
+        "code": "function approx = maclaurinExp(x, n)\n    approx = 0;\n    for k = 0:n-1\n        approx = approx + _____ / factorial(k);\n    end\nend",
+        "language": "matlab",
+        "options": [
+          "x^k",
+          "x*k",
+          "k^x",
+          "x/k"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The k-th Maclaurin term's numerator is x raised to the k power.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — this isn't the correct term structure.",
+          "Incorrect — the base and exponent are swapped.",
+          "Incorrect — this drops the power entirely."
+        ],
+        "concept": "Maclaurin term formula",
+        "tags": [
+          "maclaurin series",
+          "exp"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A21",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "matching",
+        "cognitiveLevel": "analyze",
+        "question": "Match each scenario to the type of error it primarily illustrates.",
+        "options": [
+          "0.1 + 0.2 ~= 0.3 in MATLAB",
+          "Using a 3-term instead of a 10-term Taylor series",
+          "Adding realmax to itself",
+          "131 stored with only 2 significant digits of precision"
+        ],
+        "matchOptions": [
+          "Round-off error from binary representation of a decimal fraction",
+          "Truncation error from stopping an approximating method early",
+          "Overflow",
+          "Round-off error from limited significant-digit precision"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "Each scenario illustrates a distinct error source: binary-representation round-off, method truncation, range overflow, and significant-digit round-off.",
+        "concept": "Classifying numerical error scenarios",
+        "tags": [
+          "round-off error",
+          "truncation error",
+          "overflow"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A22",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "Which strategies genuinely reduce truncation error in a Taylor series approximation, for a fixed target x and center a? Select all that apply.",
+        "options": [
+          "Including more terms",
+          "Choosing a center a closer to x, if the model allows it (e.g., re-expanding around a nearby point)",
+          "Switching from format short to format long when displaying results",
+          "Using single precision instead of double precision for the calculation"
+        ],
+        "correctAnswer": [
+          0,
+          1
+        ],
+        "explanation": "More terms and a closer center both reduce truncation error (per the Lagrange remainder). Display format only changes how many digits are shown, not the underlying error, and switching to single precision would make round-off error worse, not better, with no effect on truncation error either.",
+        "concept": "Strategies that actually reduce truncation error",
+        "tags": [
+          "truncation error",
+          "lagrange remainder"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A23",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "numeric",
+        "cognitiveLevel": "evaluate",
+        "question": "A function's 5th derivative is bounded by 120 near a=0. Using R ≈ f⁽⁵⁾(ξ)/5! × (x-a)⁵, estimate the maximum truncation error of a 5-term Taylor series (through the 4th-order term) at x = 1.",
+        "correctAnswer": {
+          "value": 1,
+          "tolerance": 0.01
+        },
+        "explanation": "5! = 120, so R ≈ 120/120 × 1⁵ = 1 × 1 = 1.",
+        "concept": "Applying the Lagrange remainder bound",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A24",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A model needs e^x accurate to within 1e-6 for x in [0, 1]. Which strategy is most directly justified by the Lagrange remainder theorem?",
+        "options": [
+          "Add Taylor series terms until the estimated remainder (bound on the next term) drops below 1e-6",
+          "Always use exactly 10 terms, regardless of the required tolerance",
+          "Switch to single precision, since it's faster",
+          "Use the largest possible x to guarantee accuracy"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The Lagrange remainder directly gives a way to bound the error as a function of the number of terms, so the principled approach is to add terms until that bound meets the target tolerance.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — a fixed term count ignores the actual required tolerance.",
+          "Incorrect — single precision worsens round-off and has nothing to do with truncation error.",
+          "Incorrect — a larger x generally requires more terms, not fewer, for the same accuracy."
+        ],
+        "concept": "Choosing term count from a tolerance",
+        "tags": [
+          "lagrange remainder",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-A25",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "advanced",
+        "type": "ordering",
+        "cognitiveLevel": "apply",
+        "question": "Put these steps in order for using the Lagrange remainder to decide how many Taylor series terms are needed for a target error tolerance.",
+        "options": [
+          "Determine (or bound) the relevant higher derivative of the function on the interval of interest",
+          "Write the remainder formula R ≈ f⁽ⁿ⁾(ξ)/n! × (x-a)ⁿ using that bound",
+          "Solve for the smallest n that makes R smaller than the target tolerance",
+          "Verify the result by computing the actual n-term approximation and comparing to the true function value"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "explanation": "You first bound the derivative, plug it into the remainder formula, solve for the needed n, then sanity-check the result against the true value.",
+        "concept": "Workflow for term-count selection via the Lagrange remainder",
+        "tags": [
+          "lagrange remainder",
+          "workflow"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      }
+    ],
+    "expert": [
+      {
+        "id": "U1-NPT-X01",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A biomedical sensor logs measurements as single-precision floats to save memory, then a MATLAB script upcasts them to double and performs many iterative computations. What's the most accurate description of the resulting precision?",
+        "options": [
+          "The values are permanently limited to single precision's ~7 significant digits from the moment they were logged, no matter how many later computations are done in double precision",
+          "Upcasting to double fully restores the original real-valued precision, since double has more bits",
+          "Precision loss only matters if the values are re-saved as single precision at the end",
+          "There's no precision loss either way, since MATLAB always computes internally at double precision"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Once a value is rounded to single precision, that lower resolution is baked in — later double-precision arithmetic can't recover information that was never stored. Upcasting changes the storage format, not the information content.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — upcasting cannot recover information that was already discarded.",
+          "Incorrect — the loss happens at the moment of logging, regardless of later saving.",
+          "Incorrect — the initial single-precision rounding already occurred before any double-precision computation."
+        ],
+        "concept": "Precision loss is permanent once rounded",
+        "tags": [
+          "single precision",
+          "double precision"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X02",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "evaluate",
+        "question": "Estimate the minimum number of Maclaurin series terms needed to approximate eˣ at x=1 with error below 1e-4, using R_n ≈ e/n! (since every derivative of eˣ is bounded by e≈2.71828 on [0,1], and (x-a)=1). Find the smallest n with e/n! < 1e-4.",
+        "correctAnswer": {
+          "value": 8,
+          "tolerance": 0
+        },
+        "explanation": "At n=7: 7!=5040, e/5040≈5.39e-4 (too large). At n=8: 8!=40320, e/40320≈6.74e-5 < 1e-4. So n=8 terms (through the 7th-order term) suffice.",
+        "concept": "Determining term count from a target tolerance",
+        "tags": [
+          "lagrange remainder",
+          "maclaurin series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X03",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A researcher claims their custom 50-term Taylor-series-based function evaluator is “more accurate than MATLAB's built-in exp().” Evaluate this claim.",
+        "options": [
+          "Almost certainly false in practice — beyond the point where truncation error drops below machine epsilon (~1e-16), adding more terms can't improve accuracy, and floating-point round-off from summing 50 terms may even make results slightly worse; MATLAB's exp() is already accurate to machine precision",
+          "True — more terms always strictly improves accuracy with no downside",
+          "True, because MATLAB's exp() doesn't use any numerical approximation at all",
+          "False, because Taylor series can never be as accurate as any built-in MATLAB function"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Once truncation error is already below the floating-point round-off floor (roughly eps-scale), extra terms buy nothing and can even introduce more summation round-off; MATLAB's exp() is already effectively at that floor.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — beyond machine precision, more terms don't help and can hurt via accumulated round-off.",
+          "Incorrect — exp() itself is computed via a numerical algorithm, just a more sophisticated one.",
+          "Incorrect — a sufficiently refined Taylor series can reach the same machine-precision floor as a built-in function, it's just usually less efficient."
+        ],
+        "concept": "Diminishing returns beyond machine precision",
+        "tags": [
+          "machine precision",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X04",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "code-debug",
+        "cognitiveLevel": "evaluate",
+        "question": "This function is meant to sum Maclaurin terms for e^x until a term drops below tol, but has a subtle bug for negative x. What is it?",
+        "code": "function approx = maclaurinExp(x, tol)\n    approx = 0;\n    term = 1;\n    k = 0;\n    while term > tol\n        approx = approx + term;\n        k = k + 1;\n        term = x^k / factorial(k);\n    end\nend",
+        "language": "matlab",
+        "options": [
+          "For negative x, term can itself be negative, and comparing the signed term to tol (term > tol) can exit the loop early (or behave incorrectly) since a negative term is always less than a small positive tol",
+          "factorial(k) is undefined for k=0",
+          "approx should be initialized to 1, not 0",
+          "The while loop should be a for loop instead"
+        ],
+        "correctAnswer": 0,
+        "explanation": "For x<0, terms alternate in sign; comparing the signed term to tol (term > tol) can terminate the loop as soon as a negative term appears, even if larger terms in magnitude are still ahead. The fix is to compare abs(term) > tol.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — factorial(0) is well-defined and equals 1.",
+          "Incorrect — approx correctly starts at 0 and accumulates the k=0 term (1) on the first iteration.",
+          "Incorrect — a while loop is appropriate here since the term count isn't known in advance."
+        ],
+        "concept": "Sign bug in a tolerance-based stopping condition",
+        "tags": [
+          "maclaurin series",
+          "stopping criterion"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ],
+        "commonMistakes": [
+          "Comparing a signed term to a positive tolerance instead of comparing its absolute value."
+        ]
+      },
+      {
+        "id": "U1-NPT-X05",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "create",
+        "question": "For a Maclaurin series of eˣ at x = 2, estimate how many terms are needed before the term magnitude x^k/factorial(k) first drops below 1e-3. (At k=9: 2^9/9!≈0.00141; at k=10: 2^10/10!≈0.000282.)",
+        "correctAnswer": {
+          "value": 10,
+          "tolerance": 1
+        },
+        "explanation": "At k=9: 512/362880≈0.00141 (still above 1e-3); at k=10: 1024/3628800≈0.000282 (below 1e-3). So the term first drops below 1e-3 at k=10.",
+        "concept": "Estimating a stopping point from term magnitude",
+        "tags": [
+          "maclaurin series",
+          "convergence"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X06",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A model sums 10,000 small positive floating-point numbers in a simple left-to-right loop. Compared to pairwise (tree-structured) summation, what's true about round-off error?",
+        "options": [
+          "Naive left-to-right summation typically accumulates more round-off error than pairwise summation, especially when the running total grows much larger than the individual terms being added",
+          "Both approaches always produce bit-identical results",
+          "Pairwise summation is always slower and less accurate",
+          "Round-off error is impossible when summing positive numbers"
+        ],
+        "correctAnswer": 0,
+        "explanation": "When a running total is much larger than the next term being added, the smaller term can lose significant bits in the addition; pairwise/tree summation keeps intermediate sums closer in magnitude to the terms being combined, typically reducing accumulated round-off error.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the two summation orders can produce different results due to non-associativity of floating-point addition.",
+          "Incorrect — pairwise summation is typically more accurate, and its speed depends on implementation, not inherently slower for this reason.",
+          "Incorrect — round-off error can occur summing any floating-point values, positive or not."
+        ],
+        "concept": "Summation order and round-off error",
+        "tags": [
+          "round-off error",
+          "summation"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X07",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "A numerical model's error has both truncation error (from a finite-term Taylor approximation) and round-off error (from finite-precision arithmetic). Which statements about the tradeoff are correct? Select all that apply.",
+        "options": [
+          "Adding more Taylor series terms initially reduces total error, but beyond some point round-off error from summing many small floating-point terms can start to dominate, and total error can stop improving or even worsen",
+          "There is, in principle, an optimal number of terms beyond which adding more doesn't help and may hurt",
+          "Truncation error and round-off error are the same thing and always move together",
+          "This tradeoff only matters for functions computed in single precision, never double precision"
+        ],
+        "correctAnswer": [
+          0,
+          1
+        ],
+        "explanation": "Truncation and round-off error are genuinely different sources of error (so 'always move together' is false) with a real, known tradeoff (the first two statements are true) — and while single precision makes round-off worse, the tradeoff exists in double precision too, just at a much smaller scale.",
+        "concept": "Truncation vs. round-off tradeoff",
+        "tags": [
+          "truncation error",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X08",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "Why might a numerical library prefer a rational (Padé) approximation over a raw Taylor series for evaluating a function like eˣ over a wide range of x?",
+        "options": [
+          "Padé approximations (ratios of polynomials) often converge faster and remain accurate over a wider interval than a Taylor series of similar total degree, which is most accurate only near its center a",
+          "Taylor series are mathematically undefined for any x other than a",
+          "Rational approximations eliminate round-off error entirely",
+          "There's no real advantage; it's purely a stylistic choice"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Rational approximations can match a function's behavior over a broader interval more efficiently than a polynomial alone, which is why many production math libraries use them (or similar refinements) rather than a raw truncated Taylor series.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — a Taylor series is defined (and often converges) at x values other than a, just with error that grows farther from a.",
+          "Incorrect — no representation eliminates round-off error entirely; it's still floating-point arithmetic.",
+          "Incorrect — there's a real, well-documented numerical-accuracy and efficiency motivation."
+        ],
+        "concept": "Alternatives to raw Taylor series",
+        "tags": [
+          "taylor series",
+          "numerical methods"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X09",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "create",
+        "question": "You need a Maclaurin approximation of eˣ accurate to 1e-8 at x = 0.5, using R_n ≈ e^0.5/n! × 0.5ⁿ (bounding the derivative by e^0.5≈1.6487 on [0, 0.5]). Find the smallest n such that R_n < 1e-8. (At n=11: R≈2.02e-8; at n=12: R≈8.4e-10.)",
+        "correctAnswer": {
+          "value": 12,
+          "tolerance": 1
+        },
+        "explanation": "At n=11: 11!=39916800, 0.5^11≈0.000488, R≈1.6487×0.000488/39916800≈2.02e-8 (still above 1e-8). At n=12: R≈8.4e-10 (below 1e-8). So n=12 terms suffice.",
+        "concept": "Determining term count from a tight tolerance",
+        "tags": [
+          "lagrange remainder",
+          "maclaurin series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X10",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "In IEEE-754 double precision, why do numbers become “sparser” (larger absolute gaps between representable values) as magnitude increases, even though the mantissa always has 52 bits?",
+        "options": [
+          "The mantissa always represents the same number of significant bits, but as the exponent grows, each unit step in the mantissa corresponds to a larger absolute value (the gap between adjacent representable numbers scales with 2^exponent)",
+          "MATLAB deliberately drops precision for large numbers to save memory dynamically",
+          "Large numbers use fewer mantissa bits than small numbers",
+          "This isn't true; representable doubles are always evenly spaced"
+        ],
+        "correctAnswer": 0,
+        "explanation": "With a fixed 52-bit mantissa, floating-point numbers have constant relative precision but growing absolute gaps as magnitude increases — this is exactly why eps itself is defined relative to 1.0 and scales with a number's own magnitude for values other than 1.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the format itself is fixed; MATLAB doesn't dynamically change bit allocation.",
+          "Incorrect — every finite double uses the same 52 mantissa bits, regardless of magnitude.",
+          "Incorrect — representable doubles are NOT evenly spaced; the gap grows with magnitude."
+        ],
+        "concept": "Relative precision and absolute spacing",
+        "tags": [
+          "ieee 754",
+          "precision"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X11",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "code-debug",
+        "cognitiveLevel": "evaluate",
+        "question": "This function is meant to build a table of truncation error vs. number of terms, but has a bug that makes the results wrong for every n. What is it?",
+        "code": "function [approx, err] = taylorErrorTable(x, a, maxTerms)\n    approx = 0;\n    err = zeros(1, maxTerms);\n    for n = 1:maxTerms\n        for k = 0:n\n            approx = approx + (x-a)^k / factorial(k);\n        end\n        err(n) = abs(exp(x) - approx);\n    end\nend",
+        "language": "matlab",
+        "options": [
+          "approx is never reset to 0 inside the outer loop, so each n's approximation keeps accumulating extra terms from all previous iterations, and the inner loop k=0:n also includes one term too many",
+          "exp(x) should be replaced with exp(a)",
+          "err should not be preallocated with zeros",
+          "The inner loop should run backward, from n to 0"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Two compounding bugs: (1) approx should be reset to 0 at the start of each outer-loop iteration, since otherwise every iteration keeps adding to the previous total rather than computing a fresh n-term sum; (2) the inner loop k=0:n includes n+1 terms (k=0 through n) instead of the intended n terms (k=0 through n-1).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the true value being approximated is exp(x), not exp(a).",
+          "Incorrect — preallocating err with zeros is good practice, not a bug.",
+          "Incorrect — loop direction doesn't matter for a simple summation."
+        ],
+        "concept": "Multiple compounding bugs in an error-table function",
+        "tags": [
+          "maclaurin series",
+          "indexing"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ],
+        "commonMistakes": [
+          "Forgetting to reset an accumulator inside an outer loop when building a per-iteration table."
+        ]
+      },
+      {
+        "id": "U1-NPT-X12",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "true-false",
+        "cognitiveLevel": "evaluate",
+        "question": "For a fixed, well-behaved function like eˣ or sin(x), it is always possible to choose enough Taylor series terms to make the approximation error at any single fixed x arbitrarily close to zero, given exact (infinite-precision) arithmetic.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True for functions like eˣ and sin(x), which are entire (analytic everywhere, with a Taylor series that converges for all real x) — with exact arithmetic, the truncation error genuinely goes to zero as the number of terms goes to infinity. (In real floating-point arithmetic, round-off error puts a practical floor on how close you can get, but this question specifies exact arithmetic.)",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "Convergence with exact arithmetic",
+        "tags": [
+          "taylor series",
+          "convergence"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X13",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "Consider a function with a Taylor series that has a finite radius of convergence R (unlike eˣ, which converges everywhere). What happens to a truncated Taylor approximation as x approaches or exceeds a-R or a+R?",
+        "options": [
+          "The approximation becomes unreliable or fails to converge at all as more terms are added, since the series doesn't converge outside its radius of convergence",
+          "The approximation becomes more accurate the farther x is from a, regardless of R",
+          "R has no effect on convergence; only the number of terms matters",
+          "The Taylor series is undefined outside [a-R, a+R] and MATLAB would throw an error evaluating it there"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Outside the radius of convergence, the infinite series simply doesn't converge — adding more terms doesn't help and can make a truncated approximation behave erratically.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — accuracy generally gets worse, not better, farther from the center, and fails entirely beyond R.",
+          "Incorrect — the radius of convergence is a fundamental limit independent of term count.",
+          "Incorrect — evaluating a truncated (finite) polynomial approximation at any x is just ordinary arithmetic; MATLAB won't error, the approximation is just mathematically unjustified there."
+        ],
+        "concept": "Radius of convergence",
+        "tags": [
+          "taylor series",
+          "convergence"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X14",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "create",
+        "question": "A model requires the relative error of a Maclaurin eˣ approximation to stay below 1e-6 at x=3 (true value e³≈20.0855). Using R_n ≈ e³/n! × 3ⁿ, find the smallest n such that R_n / 20.0855 < 1e-6, i.e. R_n < 2.00855e-5. (At n=14, R≈1.1e-3; at n=17, R≈7.3e-6.)",
+        "correctAnswer": {
+          "value": 17,
+          "tolerance": 2
+        },
+        "explanation": "By successive checking, the bound drops below the ~2.0e-5 target somewhere around n=15-19 depending on exact rounding of the intermediate factorial/power terms; n=17 (as worked out via R≈7.3e-6 at that point) is a representative answer — accept any answer in this range as reflecting correct methodology.",
+        "concept": "Determining term count for a relative-error target",
+        "tags": [
+          "lagrange remainder",
+          "maclaurin series"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X15",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "create",
+        "question": "A student's Maclaurin code for eˣ sums x^k/factorial(k) for k=0..n-1. They want to reuse the same structure for cos(x), whose Maclaurin series is 1 - x²/2! + x⁴/4! - x⁶/6! + ... (even powers only, alternating signs). What's the most direct adaptation?",
+        "options": [
+          "Change the loop to step over even k only (k=0,2,4,...) and multiply each term by (-1)^(k/2)",
+          "No changes are needed; the eˣ code already produces the correct cos(x) series",
+          "Just negate x before passing it in",
+          "Replace factorial(k) with factorial(k)^2"
+        ],
+        "correctAnswer": 0,
+        "explanation": "cos(x)'s series only has even-order terms with alternating signs, so the loop must step by 2 (even k) and apply an alternating sign factor, e.g. (-1)^(k/2).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the eˣ series includes all powers with no alternating signs, structurally different from cos(x)'s.",
+          "Incorrect — negating x doesn't produce the required even-power, alternating-sign structure.",
+          "Incorrect — squaring the factorial isn't mathematically related to cos(x)'s series."
+        ],
+        "concept": "Adapting a Maclaurin pattern to a different function",
+        "tags": [
+          "maclaurin series",
+          "cos"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X16",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "Which of these statements correctly distinguish IEEE-754 double precision from single precision? Select all that apply.",
+        "options": [
+          "Double precision uses 64 total bits vs. single precision's 32",
+          "Double precision has a larger mantissa (52 bits vs. 23 bits), giving roughly 15-17 significant decimal digits vs. roughly 7",
+          "Double precision has a smaller usable range of magnitudes than single precision",
+          "Both formats use the same relative structure — sign bit, exponent bits, mantissa bits — just with different bit allocations"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          3
+        ],
+        "explanation": "Double precision actually has a larger exponent range too (not smaller), so that statement is false; the other three are correct.",
+        "concept": "Double vs. single precision",
+        "tags": [
+          "single precision",
+          "double precision",
+          "ieee 754"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X17",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "create",
+        "question": "You're asked to design a MATLAB function that automatically determines how many Maclaurin terms are needed for eˣ to reach a target absolute error tolerance, without knowing the true value of eˣ in advance. What's a sound approach?",
+        "options": [
+          "Stop adding terms once the magnitude of the newest term drops below the tolerance — for a series like eˣ's, where later terms shrink monotonically in the relevant range, the next unadded term is a reasonable proxy for the remaining truncation error",
+          "There's no way to estimate the error without knowing the exact answer, so this cannot be done",
+          "Always use exactly 100 terms to be safe, regardless of x or tolerance",
+          "Compute the answer using exp(x) first, then work backward to figure out how many terms would have sufficed"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Using the size of the next (not-yet-added) term as a proxy for the remaining error is a standard, practical stopping criterion for series like eˣ's whose terms shrink monotonically in the region of interest.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the term-magnitude proxy is a well-established practical estimate.",
+          "Incorrect — a fixed large term count wastes effort for easy cases and may be insufficient for hard ones (e.g. large x).",
+          "Incorrect — this defeats the purpose of an independent approximation method."
+        ],
+        "concept": "Designing an auto-stopping criterion",
+        "tags": [
+          "maclaurin series",
+          "stopping criterion"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X18",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "evaluate",
+        "question": "A model uses single precision (roughly 7 significant decimal digits) instead of double for a Taylor series computation. If the true mathematical truncation error at some n is 1e-10, but single precision's round-off floor is roughly 1e-7, what is the actual achievable accuracy of the computed result, approximately?",
+        "correctAnswer": {
+          "value": 1e-7,
+          "tolerance": 9e-8
+        },
+        "explanation": "Once round-off error (≈1e-7 for single precision) is larger than the mathematical truncation error (1e-10), round-off dominates — the computed result can't be more accurate than about 1e-7, regardless of how small the truncation error mathematically is.",
+        "concept": "Round-off floor dominates truncation error",
+        "tags": [
+          "round-off error",
+          "single precision"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X19",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "true-false",
+        "cognitiveLevel": "evaluate",
+        "question": "It is possible for a numerical computation to have essentially zero truncation error (e.g., using a huge number of Taylor series terms) but still produce a wildly inaccurate final answer.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 0,
+        "explanation": "True — round-off error from summing many floating-point terms, catastrophic cancellation, or other numerical instabilities can dominate even when truncation error is driven near zero; minimizing one error source doesn't guarantee overall accuracy.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect."
+        ],
+        "concept": "Zero truncation error doesn't guarantee accuracy",
+        "tags": [
+          "truncation error",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X20",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "A biomedical simulation computes a quantity as the difference of two large, nearly-equal Taylor-series-approximated values (A ≈ 1000.00001 and B ≈ 1000.00000, wanting A−B). What numerical hazard does this illustrate?",
+        "options": [
+          "Catastrophic cancellation: subtracting two nearly-equal numbers destroys most of the significant digits, so any round-off error already present in A and B becomes hugely amplified relative to the small true difference",
+          "There is no hazard here; MATLAB's double precision guarantees an exact result for any subtraction",
+          "This only matters if A and B are computed with single precision",
+          "Catastrophic cancellation only affects addition, never subtraction"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Subtracting two nearly-equal large numbers is the classic setup for catastrophic cancellation: the small true difference is swamped by whatever round-off error already existed in the larger values.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — subtraction between imprecise floating-point values is not guaranteed exact.",
+          "Incorrect — double precision reduces but does not eliminate this hazard; it can still occur.",
+          "Incorrect — catastrophic cancellation is specifically a subtraction (or equivalently, addition of opposite-signed nearly-equal values) phenomenon."
+        ],
+        "concept": "Catastrophic cancellation",
+        "tags": [
+          "catastrophic cancellation",
+          "round-off error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X21",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "code-completion",
+        "cognitiveLevel": "create",
+        "question": "Complete this auto-stopping Maclaurin series function for e^x.",
+        "code": "function approx = maclaurinAuto(x, tol, maxTerms)\n    approx = 0;\n    k = 0;\n    term = 1;\n    while abs(term) > tol && k < maxTerms\n        approx = approx + term;\n        k = k + 1;\n        term = _____;\n    end\nend",
+        "language": "matlab",
+        "options": [
+          "x^k / factorial(k)",
+          "x^(k-1) / factorial(k-1)",
+          "term * x",
+          "x / k"
+        ],
+        "correctAnswer": 0,
+        "explanation": "term must be recomputed as the k-th Maclaurin term for e^x after k is incremented, which is x^k/factorial(k).",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — this would recompute the previous (already-added) term instead of the next one.",
+          "Incorrect — this omits the division by factorial(k) needed for a correct Maclaurin term.",
+          "Incorrect — this isn't the Maclaurin term formula."
+        ],
+        "concept": "Auto-stopping series with abs() tolerance check",
+        "tags": [
+          "maclaurin series",
+          "stopping criterion"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X22",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "The maxTerms safeguard in the function above exists for what reason?",
+        "options": [
+          "To guarantee the loop terminates even if tol is set so small (or x so large) that the term magnitude never practically drops below it within a reasonable number of iterations, avoiding an effectively infinite loop",
+          "To make the function run faster on average",
+          "Because MATLAB arrays can't exceed a fixed size",
+          "To avoid overflow in factorial(k) for any k"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The primary design reason for a maxTerms cap is guarding against non-termination — if tol is unreachable in practice (e.g., a poor tolerance choice, or round-off putting a floor below which the term magnitude never drops), the loop needs a hard stop.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — the cap is a safety bound, not a performance optimization for the typical case.",
+          "Incorrect — this isn't about array sizing; k and term are scalars here.",
+          "Incorrect — while factorial(k) can eventually overflow for very large k too, that's a secondary concern compared to guaranteeing termination."
+        ],
+        "concept": "Purpose of a loop safety cap",
+        "tags": [
+          "maclaurin series",
+          "stopping criterion"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X23",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "select-all",
+        "cognitiveLevel": "evaluate",
+        "question": "A colleague proposes evaluating eˣ for very large x (e.g., x=50) using a direct Maclaurin series with enough terms. Which concerns are legitimate? Select all that apply.",
+        "options": [
+          "Convergence requires very many terms for large x, since the remainder bound scales with xⁿ, which grows dramatically before factorial(n) catches up and dominates",
+          "Intermediate terms like x^40 for x=50 can be enormous individual numbers, risking overflow or severe round-off even though the final sum is well-behaved",
+          "There's no issue at all; eˣ's Maclaurin series converges just as fast for x=50 as for x=0.5",
+          "A numerically better approach might reduce the range first (e.g., using eˣ = (e^(x/n))ⁿ) before applying a Taylor series to the smaller argument"
+        ],
+        "correctAnswer": [
+          0,
+          1,
+          3
+        ],
+        "explanation": "Direct Maclaurin evaluation for large x is a real, well-known numerical pitfall (slow convergence, large intermediate terms) — range reduction before Taylor expansion is a standard mitigation. It's false to claim convergence speed is unaffected by x's magnitude.",
+        "concept": "Pitfalls of Taylor series for large arguments",
+        "tags": [
+          "maclaurin series",
+          "range reduction"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X24",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "numeric",
+        "cognitiveLevel": "create",
+        "question": "Estimate how many Maclaurin terms would be needed for e^x at x=10 to reach the same 1e-4 absolute error achieved with only 8 terms at x=1. Give your best order-of-magnitude estimate.",
+        "correctAnswer": {
+          "value": 22,
+          "tolerance": 5
+        },
+        "explanation": "Because the remainder bound scales with xⁿ/n!, a 10x larger x needs substantially more terms before the factorial growth catches up and dominates — the needed term count grows faster than linearly with x for a fixed target accuracy, landing well above 8 but not requiring hundreds of terms either; roughly 20-25 terms is the right ballpark (a wide range is accepted here, reflecting order-of-magnitude reasoning rather than exact computation).",
+        "concept": "Order-of-magnitude scaling of required terms with x",
+        "tags": [
+          "maclaurin series",
+          "convergence"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      },
+      {
+        "id": "U1-NPT-X25",
+        "unit": 1,
+        "topic": "numerical-precision-taylor",
+        "difficulty": "expert",
+        "type": "multiple-choice",
+        "cognitiveLevel": "evaluate",
+        "question": "Summarize the core relationship this chapter builds toward: how do floating-point round-off error and Taylor-series truncation error relate to each other in a real numerical computation?",
+        "options": [
+          "They are independent error sources that both contribute to the total error of a computed result — truncation error comes from approximating a function with a finite series, round-off error comes from finite-precision arithmetic at every step, and a sound numerical method should keep both below the accuracy the application actually needs, without wasting effort driving one far below the other",
+          "They are the same phenomenon described two different ways",
+          "Truncation error is a subset of round-off error",
+          "Only one of the two ever matters in any given computation, never both at once"
+        ],
+        "correctAnswer": 0,
+        "explanation": "The two are genuinely independent error sources, and good numerical practice balances effort against both rather than obsessively minimizing just one while ignoring the other.",
+        "optionExplanations": [
+          "Correct.",
+          "Incorrect — they arise from fundamentally different causes (approximation choice vs. finite-precision storage).",
+          "Incorrect — neither is a subset of the other; they're independent.",
+          "Incorrect — real computations routinely have both present simultaneously."
+        ],
+        "concept": "Synthesizing round-off vs. truncation error",
+        "tags": [
+          "round-off error",
+          "truncation error"
+        ],
+        "references": [
+          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+        ]
+      }
+    ]
   }
 }

@@ -22,6 +22,11 @@ import { UNITS, DIFFICULTIES, getUnit, getTopic } from '../data/units.js';
 const QUESTION_FILES = {
   0: 'unit0.json',
   1: 'unit1.json',
+  2: 'unit2.json',
+  3: 'unit3.json',
+  4: 'unit4.json',
+  5: 'unit5.json',
+  6: 'unit6.json',
 };
 
 async function loadQuestionModules() {
