@@ -2,10 +2,7 @@
 
 **Author:** Asad Mirza, PhD
 
-An interactive, browser-only MATLAB and numerical-methods practice tool for **BME 2740 — Biomedical Engineering Modeling and Simulation** (FIU). Students pick a unit, a topic, and a difficulty, work through questions, and get an explanation for every answer — right or wrong. Progress is tracked locally in the browser. There's no backend, no account, and no student data ever leaves the machine it's running on.
-
-Built on the shared [dthornz.github.io](https://dthornz.github.io/website-cv-tools/) page template — nav, hero, typography, accessibility panel, and dark mode all come from that design system.
-
+An interactive, browser-only MATLAB and numerical-methods practice tool for **BME 2740 — Biomedical Engineering Modeling and Simulation** (FIU). Students pick a unit, a topic, and a difficulty, work through questions, and get an explanation for every answer — right or wrong. Progress is tracked locally in the browser.
 ---
 
 ## Current status
@@ -20,7 +17,7 @@ The app itself — router, quiz engine, progress tracking, search, MATLAB refere
 - **Unit 5 — Numerical Integration Extended (ODE modeling):** 300 questions (3 topics × 4 difficulties).
 - **Unit 6 — Nonlinear Equations and Optimization:** 300 questions (3 topics × 4 difficulties, root-finding/optimization split from nonlinear regression so `fminsearch`'s sandbox gap, see below, stays isolated to one topic).
 
-2,636 questions total, each fact-checked against the actual lecture/pptx/assignment source material — see "Adding a new unit" below for the authoring workflow.
+~2,600 questions total, each fact-checked against lecture/pptx/assignment source material — see "Adding a new unit" below for the authoring workflow.
 
 The **Review section** (`#/learn`, see below) mirrors the question bank exactly: every unit has a chapter per topic, authored as Markdown (see "Review section" below for the format and the `data/review/content/unitN/chapterId.md` layout).
 
