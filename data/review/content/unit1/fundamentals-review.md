@@ -19,6 +19,48 @@ high = bp(mask)           % [145 132 151]
 high = bp(bp > 130);
 ```
 
+:::diagram caption="Comparing bp > 130 produces a true/false mask the same size as bp; indexing with that mask pulls out only the true elements."
+<svg viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logical indexing diagram: a row of bp values, a row of true/false results for bp greater than 130 below it, and the matching true values pulled into a result row">
+  <g font-family="DM Mono, monospace" font-size="13" text-anchor="middle">
+    <text x="10" y="16" font-size="11" text-anchor="start" fill="currentColor" opacity="0.6">bp</text>
+    <rect x="20" y="20" width="60" height="36" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="50" y="43" fill="currentColor">118</text>
+    <rect x="90" y="20" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="120" y="43" fill="currentColor">145</text>
+    <rect x="160" y="20" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="190" y="43" fill="currentColor">132</text>
+    <rect x="230" y="20" width="60" height="36" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="260" y="43" fill="currentColor">96</text>
+    <rect x="300" y="20" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="330" y="43" fill="currentColor">151</text>
+
+    <text x="10" y="72" font-size="11" text-anchor="start" fill="currentColor" opacity="0.6">bp&gt;130</text>
+    <rect x="20" y="76" width="60" height="28" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="50" y="95" font-size="12" fill="currentColor" opacity="0.6">false</text>
+    <rect x="90" y="76" width="60" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="120" y="95" font-size="12" fill="currentColor">true</text>
+    <rect x="160" y="76" width="60" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="190" y="95" font-size="12" fill="currentColor">true</text>
+    <rect x="230" y="76" width="60" height="28" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="260" y="95" font-size="12" fill="currentColor" opacity="0.6">false</text>
+    <rect x="300" y="76" width="60" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="330" y="95" font-size="12" fill="currentColor">true</text>
+
+    <line x1="120" y1="104" x2="155" y2="150" stroke="#0b7a6e" stroke-width="1.5" opacity="0.7"/>
+    <line x1="190" y1="104" x2="230" y2="150" stroke="#0b7a6e" stroke-width="1.5" opacity="0.7"/>
+    <line x1="330" y1="104" x2="305" y2="150" stroke="#0b7a6e" stroke-width="1.5" opacity="0.7"/>
+
+    <text x="190" y="138" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.6">bp(bp&gt;130)</text>
+    <rect x="125" y="150" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="155" y="173" fill="currentColor">145</text>
+    <rect x="200" y="150" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="230" y="173" fill="currentColor">132</text>
+    <rect x="275" y="150" width="60" height="36" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="305" y="173" fill="currentColor">151</text>
+  </g>
+</svg>
+:::
+
 You can also use a logical mask to <em>modify</em> elements in place, without a loop:
 
 ```matlab run caption="clamp values with logical indexing, no loop needed"

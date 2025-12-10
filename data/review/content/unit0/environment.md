@@ -44,6 +44,29 @@ A script does not get its own private variables. A <strong>function</strong> doe
 | <code>clc</code> | Text printed in the Command Window | Purely visual: no effect on any variable |
 | <code>close all</code> | Every open figure window | Avoid accumulating dozens of plot windows across repeated runs |
 
+:::diagram caption="clear resets variables, clc resets the Command Window display, and close all resets open figure windows — each is independent of the others."
+<svg viewBox="0 0 420 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram: clear resets the Workspace, clc resets the Command Window text, and close all resets open Figures">
+  <g font-family="DM Mono, monospace" font-size="13">
+    <text x="20" y="35" fill="#0b7a6e">clear</text>
+    <text x="20" y="85" fill="currentColor" opacity="0.8">clc</text>
+    <text x="20" y="135" fill="currentColor" opacity="0.8">close all</text>
+
+    <line x1="65" y1="31" x2="230" y2="31" stroke="#0b7a6e" stroke-width="2.5"/>
+    <line x1="50" y1="81" x2="230" y2="81" stroke="currentColor" opacity="0.4"/>
+    <line x1="95" y1="131" x2="230" y2="131" stroke="currentColor" opacity="0.4"/>
+
+    <rect x="235" y="15" width="170" height="40" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="320" y="40" text-anchor="middle" fill="currentColor">Workspace</text>
+
+    <rect x="235" y="65" width="170" height="40" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="320" y="90" text-anchor="middle" fill="currentColor">Command Window</text>
+
+    <rect x="235" y="115" width="170" height="40" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="320" y="140" text-anchor="middle" fill="currentColor">Figures</text>
+  </g>
+</svg>
+:::
+
 :::callout kind="mistake" title="Common mistake"
 <code>clc</code> feels like it “resets” everything because the screen goes blank. It does not. Variables from a previous run are still sitting in the Workspace. If your script needs to start from nothing, that’s <code>clear</code>, not <code>clc</code>.
 :::

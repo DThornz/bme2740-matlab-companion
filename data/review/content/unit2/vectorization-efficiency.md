@@ -103,6 +103,38 @@ fprintf('With preallocation:    %.4f sec\n', t_prealloc);
 
 MATLAB's built-in functions (<code>sum</code>, <code>mean</code>, <code>std</code>, <code>cumsum</code>, and many more) operate on an entire array in one call, implemented internally far more efficiently than an equivalent hand-written loop.
 
+:::diagram caption="A for loop processes 5 elements one at a time across 5 separate steps; a vectorized operation processes all 5 together in a single step."
+<svg viewBox="0 0 400 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Comparison of a for loop, which processes 5 elements one at a time across 5 separate steps, and a vectorized operation, which processes all 5 elements together in a single highlighted step">
+  <g font-family="DM Mono, monospace" font-size="13">
+    <text x="10" y="56" fill="currentColor">for loop</text>
+    <text x="10" y="142" fill="currentColor">vectorized</text>
+  </g>
+  <g font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
+    <rect x="90" y="34" width="36" height="34" fill="none" stroke="currentColor" opacity="0.3"/>
+    <rect x="138" y="34" width="36" height="34" fill="none" stroke="currentColor" opacity="0.3"/>
+    <rect x="186" y="34" width="36" height="34" fill="none" stroke="currentColor" opacity="0.3"/>
+    <rect x="234" y="34" width="36" height="34" fill="none" stroke="currentColor" opacity="0.3"/>
+    <rect x="282" y="34" width="36" height="34" fill="none" stroke="currentColor" opacity="0.3"/>
+    <text x="108" y="26" fill="currentColor" opacity="0.5">1</text>
+    <text x="156" y="26" fill="currentColor" opacity="0.5">2</text>
+    <text x="204" y="26" fill="currentColor" opacity="0.5">3</text>
+    <text x="252" y="26" fill="currentColor" opacity="0.5">4</text>
+    <text x="300" y="26" fill="currentColor" opacity="0.5">5</text>
+  </g>
+  <path d="M204,18 L200,10 L208,10 Z" fill="currentColor" opacity="0.6"/>
+  <text x="345" y="55" font-family="DM Mono, monospace" font-size="12" text-anchor="middle" fill="currentColor" opacity="0.6">5 steps</text>
+  <g font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
+    <rect x="90" y="120" width="36" height="34" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <rect x="138" y="120" width="36" height="34" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <rect x="186" y="120" width="36" height="34" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <rect x="234" y="120" width="36" height="34" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <rect x="282" y="120" width="36" height="34" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+  </g>
+  <path d="M90,108 L90,100 L318,100 L318,108" fill="none" stroke="#0b7a6e" stroke-width="1.5"/>
+  <text x="345" y="141" font-family="DM Mono, monospace" font-size="12" text-anchor="middle" fill="#0b7a6e">1 step</text>
+</svg>
+:::
+
 ```matlab run caption="summing an array: loop vs. built-in"
 x = rand(1, 200000);
 

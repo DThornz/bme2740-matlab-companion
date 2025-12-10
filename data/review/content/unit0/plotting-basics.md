@@ -25,6 +25,36 @@ grid on
 - <code>title</code>: say what the plot is, not only what variable it came from.
 - <code>grid on</code>: makes reading off approximate values much easier.
 
+:::diagram caption="The parts of a labeled plot: title, xlabel, ylabel, the data line, and the legend."
+<svg viewBox="0 0 440 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Anatomy of a plot: axes box with callouts pointing to the title, xlabel, ylabel, data line, and legend">
+  <g font-family="DM Mono, monospace">
+    <rect x="100" y="50" width="260" height="120" fill="none" stroke="currentColor" opacity="0.4"/>
+
+    <text x="230" y="44" font-size="13" text-anchor="middle" fill="currentColor">Sine Wave</text>
+    <text x="230" y="16" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.6">title</text>
+    <line x1="230" y1="20" x2="230" y2="36" stroke="currentColor" opacity="0.4"/>
+
+    <text x="230" y="188" font-size="12" text-anchor="middle" fill="currentColor" opacity="0.85">Time (s)</text>
+    <text x="230" y="215" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.6">xlabel</text>
+    <line x1="230" y1="196" x2="230" y2="207" stroke="currentColor" opacity="0.4"/>
+
+    <text x="55" y="110" font-size="12" fill="currentColor" opacity="0.85" text-anchor="middle" transform="rotate(-90 55 110)">Amplitude</text>
+    <text x="25" y="114" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">ylabel</text>
+    <line x1="35" y1="110" x2="45" y2="110" stroke="currentColor" opacity="0.4"/>
+
+    <path d="M115,110 C140,65 165,155 190,110 S240,65 265,110 S315,155 340,110" fill="none" stroke="#0b7a6e" stroke-width="2.5"/>
+    <text x="400" y="205" font-size="11" text-anchor="middle" fill="#0b7a6e">data line</text>
+    <line x1="380" y1="197" x2="330" y2="120" stroke="#0b7a6e" opacity="0.5"/>
+
+    <rect x="300" y="58" width="50" height="24" fill="none" stroke="currentColor" opacity="0.5"/>
+    <line x1="305" y1="70" x2="318" y2="70" stroke="currentColor" opacity="0.7"/>
+    <text x="322" y="73" font-size="9" fill="currentColor" opacity="0.85">sin(t)</text>
+    <text x="405" y="55" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.6">legend</text>
+    <line x1="390" y1="58" x2="352" y2="65" stroke="currentColor" opacity="0.4"/>
+  </g>
+</svg>
+:::
+
 ## Multiple Curves on One Plot
 
 <code>hold on</code> tells MATLAB “don’t erase the current plot, keep adding to it.” <code>hold off</code> (or a new <code>figure</code>) returns to normal, single-plot behavior.

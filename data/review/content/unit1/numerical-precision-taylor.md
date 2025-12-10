@@ -26,6 +26,38 @@ eps       % machine epsilon: the gap between 1.0 and the next representable doub
 Computer precision is not the same thing as significant figures. Significant figures describe how accurately you *measured* something; computer precision describes how much of that value your computer can actually *remember*, independent of how accurate the original measurement was.
 :::
 
+:::diagram caption="Representable floating-point values are not evenly spaced: they are dense near 0 and sparse near large values, so precision is relative, not absolute."
+<svg viewBox="0 0 460 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A single number line where representable floating-point values are packed tightly together near 0 and spread far apart near 1000">
+  <line x1="30" y1="100" x2="430" y2="100" stroke="currentColor" opacity="0.35" stroke-width="1.5"/>
+  <g stroke="#0b7a6e" stroke-width="1.5">
+    <line x1="50" y1="94" x2="50" y2="106"/>
+    <line x1="57" y1="94" x2="57" y2="106"/>
+    <line x1="64" y1="94" x2="64" y2="106"/>
+    <line x1="71" y1="94" x2="71" y2="106"/>
+    <line x1="78" y1="94" x2="78" y2="106"/>
+    <line x1="85" y1="94" x2="85" y2="106"/>
+    <line x1="92" y1="94" x2="92" y2="106"/>
+    <line x1="99" y1="94" x2="99" y2="106"/>
+    <line x1="106" y1="94" x2="106" y2="106"/>
+    <line x1="113" y1="94" x2="113" y2="106"/>
+    <line x1="120" y1="94" x2="120" y2="106"/>
+    <line x1="127" y1="94" x2="127" y2="106"/>
+    <line x1="134" y1="94" x2="134" y2="106"/>
+  </g>
+  <g stroke="currentColor" opacity="0.45" stroke-width="1.5">
+    <line x1="200" y1="94" x2="200" y2="106"/>
+    <line x1="270" y1="94" x2="270" y2="106"/>
+    <line x1="340" y1="94" x2="340" y2="106"/>
+    <line x1="410" y1="94" x2="410" y2="106"/>
+  </g>
+  <text x="50" y="122" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">0</text>
+  <text x="134" y="122" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">1</text>
+  <text x="410" y="122" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">1000</text>
+  <text x="92" y="55" font-family="DM Mono, monospace" font-size="12" fill="#0b7a6e" text-anchor="middle">densely packed near 0</text>
+  <text x="305" y="55" font-family="DM Mono, monospace" font-size="12" fill="currentColor" opacity="0.6" text-anchor="middle">sparse &amp; far apart near 1000</text>
+</svg>
+:::
+
 ## Round-Off Error in Practice
 
 Limited precision means some numbers round exactly and others don’t, even at a fixed number of significant digits. With 2 significant digits, <code>130</code> is exactly <code>13 × 10¹</code>, no information lost. But <code>131</code> only has room to become <code>13 × 10¹ = 130</code> — a rounding error, even though the original number was exact.

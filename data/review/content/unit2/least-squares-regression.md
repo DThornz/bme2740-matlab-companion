@@ -26,6 +26,11 @@ Suppose you're studying biocompatible artificial corneas and have data relating 
 
 With more data points than parameters, $\varphi$ is an $n \times 1$ column, not a square matrix, so it has no ordinary inverse. Unless every point happens to sit exactly on the same line (it won't, real measurements have noise), there's no single $\beta$ that satisfies every equation exactly.
 
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/linear-regression.svg" alt="A scatter of noisy data points with a straight best-fit regression line drawn through them, minimizing the vertical distance to each point." loading="lazy"></div>
+  <figcaption>The general picture: no line hits every noisy point exactly, so least squares picks the one that fits best overall.<span class="review-photo-credit">Linear regression, Sewaqu, public domain, via <a href="https://commons.wikimedia.org/wiki/File:Linear_regression.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
+
 ## The Normal Equations
 
 To "solve" a system $A\beta = y$ when $A$ isn't square, first make it square by multiplying both sides by $A^T$. The result is the <strong>normal equation</strong>:
@@ -80,6 +85,34 @@ Linear regression only requires the model to be linear <em>in the parameters</em
 ## Quantifying the Fit: SSE, MSE, and R²
 
 Once you have a fit, you need a number that says how good it is. Start with the residuals, the gap between each data point and what the model predicts:
+
+:::diagram caption="Least squares finds the line that minimizes the sum of the squared vertical residuals (dashed) between each point and the line."
+<svg viewBox="0 0 380 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A scatter of data points with a best-fit line through them, and dashed vertical segments from each point to the line showing the residuals being minimized">
+  <line x1="40" y1="20" x2="40" y2="190" stroke="currentColor" opacity="0.25"/>
+  <line x1="40" y1="190" x2="350" y2="190" stroke="currentColor" opacity="0.25"/>
+  <text x="355" y="195" font-family="DM Mono, monospace" font-size="12" fill="currentColor" opacity="0.5">x</text>
+  <text x="32" y="24" font-family="DM Mono, monospace" font-size="12" fill="currentColor" opacity="0.5" text-anchor="end">y</text>
+  <g stroke="currentColor" opacity="0.45" stroke-width="1.2" stroke-dasharray="3,3">
+    <line x1="70" y1="145" x2="70" y2="157.14"/>
+    <line x1="120" y1="150" x2="120" y2="137.5"/>
+    <line x1="160" y1="110" x2="160" y2="121.8"/>
+    <line x1="210" y1="115" x2="210" y2="102.14"/>
+    <line x1="250" y1="70" x2="250" y2="86.43"/>
+    <line x1="300" y1="80" x2="300" y2="66.8"/>
+  </g>
+  <line x1="50" y1="165" x2="330" y2="55" stroke="#0b7a6e" stroke-width="2.5"/>
+  <text x="335" y="48" font-family="DM Mono, monospace" font-size="11" fill="#0b7a6e" text-anchor="end">best-fit line</text>
+  <g fill="currentColor" opacity="0.75">
+    <circle cx="70" cy="145" r="4"/>
+    <circle cx="120" cy="150" r="4"/>
+    <circle cx="160" cy="110" r="4"/>
+    <circle cx="210" cy="115" r="4"/>
+    <circle cx="250" cy="70" r="4"/>
+    <circle cx="300" cy="80" r="4"/>
+  </g>
+  <text x="190" y="215" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">dashed = residuals, squared &amp; minimized</text>
+</svg>
+:::
 
 :::eq label="SSE / MSE"
 \text{SSE} = \sum_{k=1}^n r_k^2 \qquad \text{MSE}(\beta) = \frac{1}{n}\sum_{i=1}^n \left(y_i - f_\beta(A)\right)^2

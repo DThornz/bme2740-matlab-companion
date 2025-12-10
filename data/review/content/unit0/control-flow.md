@@ -21,6 +21,31 @@ end
 
 MATLAB checks conditions top to bottom and runs the <strong>first</strong> branch that’s true. Later <code>elseif</code> branches are never evaluated once an earlier one matches. Every <code>if</code> needs a matching <code>end</code>.
 
+:::diagram caption="MATLAB evaluates the condition once and runs exactly one branch: true or false, never both."
+<svg viewBox="0 0 380 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Flowchart: a condition box with two arrows, one labeled true leading to a true branch box, one labeled false leading to a false branch box">
+  <g font-family="DM Mono, monospace" font-size="13" text-anchor="middle">
+    <rect x="130" y="15" width="120" height="40" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="190" y="40" fill="currentColor">condition</text>
+
+    <line x1="160" y1="55" x2="90" y2="95" stroke="currentColor" opacity="0.5"/>
+    <line x1="90" y1="95" x2="99" y2="91" stroke="currentColor" opacity="0.5"/>
+    <line x1="90" y1="95" x2="93" y2="101" stroke="currentColor" opacity="0.5"/>
+    <text x="107" y="75" fill="currentColor" opacity="0.7" font-size="12">true</text>
+
+    <line x1="220" y1="55" x2="290" y2="95" stroke="currentColor" opacity="0.5"/>
+    <line x1="290" y1="95" x2="281" y2="91" stroke="currentColor" opacity="0.5"/>
+    <line x1="290" y1="95" x2="287" y2="101" stroke="currentColor" opacity="0.5"/>
+    <text x="273" y="75" fill="currentColor" opacity="0.7" font-size="12">false</text>
+
+    <rect x="20" y="100" width="140" height="45" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="90" y="127" fill="currentColor">true branch</text>
+
+    <rect x="220" y="100" width="140" height="45" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="290" y="127" fill="currentColor">false branch</text>
+  </g>
+</svg>
+:::
+
 :::callout kind="mistake" title="Common mistake"
 Forgetting the closing <code>end</code> is the single most common syntax error for beginners. MATLAB’s error message points at a line far past where the real problem is, because it kept looking for the missing <code>end</code>.
 :::

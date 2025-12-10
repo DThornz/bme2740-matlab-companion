@@ -76,6 +76,48 @@ for i = 1:1000
 end
 ```
 
+:::diagram caption="Growing a vector one element at a time reallocates and copies on every iteration; preallocating with zeros(1,n) allocates once and just fills values in place."
+<svg viewBox="0 0 460 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagram contrasting growing a vector one element at a time, which reallocates and copies on every iteration, against preallocating with zeros and filling in place">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <text x="10" y="18" fill="currentColor" opacity="0.7">growing (reallocates each time)</text>
+    <g text-anchor="middle" font-size="13">
+      <rect x="10" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="24" y="47" fill="currentColor">1</text>
+      <text x="55" y="47" fill="currentColor" opacity="0.4">&#8594;</text>
+      <rect x="75" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="89" y="47" fill="currentColor">1</text>
+      <rect x="103" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="117" y="47" fill="currentColor">2</text>
+      <text x="148" y="47" fill="currentColor" opacity="0.4">&#8594;</text>
+      <rect x="168" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="182" y="47" fill="currentColor">1</text>
+      <rect x="196" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="210" y="47" fill="currentColor">2</text>
+      <rect x="224" y="28" width="28" height="28" fill="none" stroke="currentColor" opacity="0.4"/>
+      <text x="238" y="47" fill="currentColor">3</text>
+      <text x="270" y="47" fill="currentColor" opacity="0.4">&#8594;</text>
+      <text x="285" y="47" fill="currentColor" opacity="0.5">…</text>
+    </g>
+    <text x="10" y="80" fill="currentColor" opacity="0.55" font-size="11">each step: allocate a new array, copy old values, add one</text>
+
+    <text x="10" y="118" fill="#0b7a6e">preallocated (fills in place)</text>
+    <g text-anchor="middle" font-size="13">
+      <rect x="10" y="128" width="28" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+      <text x="24" y="147" fill="currentColor">0</text>
+      <rect x="42" y="128" width="28" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+      <text x="56" y="147" fill="currentColor">0</text>
+      <rect x="74" y="128" width="28" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+      <text x="88" y="147" fill="currentColor">0</text>
+      <rect x="106" y="128" width="28" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+      <text x="120" y="147" fill="currentColor">0</text>
+      <rect x="138" y="128" width="28" height="28" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+      <text x="152" y="147" fill="currentColor">0</text>
+    </g>
+    <text x="10" y="180" fill="currentColor" opacity="0.55" font-size="11">zeros(1,n) allocates once; each iteration just writes result(i)</text>
+  </g>
+</svg>
+:::
+
 :::callout kind="remember" title="Remember"
 For a handful of iterations the difference is invisible. It matters once you’re looping thousands of times, which starts showing up from Unit 2 onward (see the Review chapter on Vectorization once it’s added).
 :::

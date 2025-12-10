@@ -22,6 +22,33 @@ title('cos(t)')
 
 <code>subplot(rows, cols, index)</code> divides the figure into a grid and selects one cell to draw into next. The index counts left-to-right, top-to-bottom, like reading text.
 
+:::diagram caption="subplot(2,2,n) numbers panels left-to-right, then top-to-bottom, like reading a page."
+<svg viewBox="0 0 300 225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A 2 by 2 grid of subplot panels numbered 1 through 4 in reading order: left to right, then top to bottom">
+  <text x="15" y="20" font-family="DM Mono, monospace" font-size="12" fill="currentColor">subplot(2,2,n)</text>
+  <g font-family="DM Mono, monospace" font-size="18" text-anchor="middle">
+    <rect x="40" y="40" width="100" height="70" fill="none" stroke="currentColor" opacity="0.3"/>
+    <text x="90" y="82" fill="currentColor">1</text>
+    <rect x="160" y="40" width="100" height="70" fill="none" stroke="currentColor" opacity="0.3"/>
+    <text x="210" y="82" fill="currentColor">2</text>
+    <rect x="40" y="130" width="100" height="70" fill="none" stroke="currentColor" opacity="0.3"/>
+    <text x="90" y="172" fill="currentColor">3</text>
+    <rect x="160" y="130" width="100" height="70" fill="none" stroke="currentColor" opacity="0.3"/>
+    <text x="210" y="172" fill="currentColor">4</text>
+  </g>
+  <defs>
+    <marker id="subplotArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#0b7a6e"/>
+    </marker>
+  </defs>
+  <g fill="none" stroke="#0b7a6e" stroke-width="2.5" marker-end="url(#subplotArrow)">
+    <line x1="140" y1="75" x2="158" y2="75"/>
+    <path d="M210,110 L210,122 L90,122 L90,128"/>
+    <line x1="140" y1="165" x2="158" y2="165"/>
+  </g>
+  <text x="150" y="215" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.55" text-anchor="middle">row-major order: left → right, then top → bottom</text>
+</svg>
+:::
+
 ## More subplot Variety
 
 Subplots don’t have to be a simple 2×1 stack. Looping over the panel index avoids writing <code>subplot</code> three separate times by hand, the same instinct that motivated <code>for</code> loops in the first place:

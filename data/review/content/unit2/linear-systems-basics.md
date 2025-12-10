@@ -72,6 +72,26 @@ A few properties fall out directly from these definitions: addition is commutati
 
 Matrix multiplication is not element-by-element. $A \cdot B$ is only defined when the number of <em>columns</em> of $A$ equals the number of <em>rows</em> of $B$, and the result has as many rows as $A$ and as many columns as $B$. Order matters: $A \cdot B \neq B \cdot A$ in general.
 
+:::diagram caption="A (m×n) times B (n×p) is only defined when the inner dimensions (n) match; the result is m×p."
+<svg viewBox="0 0 460 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shape diagram: an m by n matrix A, times an n by p matrix B, equals an m by p matrix C, with the matching inner n dimensions highlighted">
+  <g font-family="DM Mono, monospace" font-size="15" text-anchor="middle">
+    <rect x="20" y="25" width="110" height="70" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="75" y="65" fill="currentColor">A</text>
+    <text x="147" y="65" fill="currentColor" opacity="0.5">×</text>
+    <rect x="165" y="25" width="90" height="70" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="210" y="65" fill="currentColor">B</text>
+    <text x="272" y="65" fill="currentColor" opacity="0.5">=</text>
+    <rect x="290" y="25" width="110" height="70" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="345" y="65" fill="currentColor">C</text>
+    <text x="75" y="108" font-size="11" opacity="0.6" fill="currentColor">m × <tspan fill="#0b7a6e">n</tspan></text>
+    <text x="210" y="108" font-size="11" opacity="0.6" fill="currentColor"><tspan fill="#0b7a6e">n</tspan> × p</text>
+    <text x="345" y="108" font-size="11" opacity="0.6" fill="currentColor">m × p</text>
+  </g>
+  <path d="M90,120 L90,132 L205,132 L205,120" fill="none" stroke="#0b7a6e" stroke-width="2"/>
+  <text x="147" y="148" font-family="DM Mono, monospace" font-size="11" fill="#0b7a6e" text-anchor="middle">inner dimensions must match</text>
+</svg>
+:::
+
 ```matlab run
 A = [2 1 4; -3 0 2];   % 2x3
 B = [3 5; 2 -1; 4 2];  % 3x2

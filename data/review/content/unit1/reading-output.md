@@ -19,6 +19,49 @@ disp(y)
 
 Trace: <code>x = 3</code>. Then <code>y = x + 2 = 5</code>. <code>y</code> is computed from <code>x</code>’s value <em>at that moment</em> (3), not whatever <code>x</code> becomes later. Then <code>x</code> is reassigned to 6; this does not retroactively change <code>y</code>. <code>disp(y)</code> prints <code>5</code>.
 
+:::diagram caption="Tracing code line by line: write down every variable's value as each line executes."
+<svg viewBox="0 0 480 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Four lines of code on the left, with a table on the right showing how x and y change after each line runs; the final y value of 5 is highlighted as what disp(y) prints">
+  <g font-family="DM Mono, monospace" font-size="13" fill="currentColor" opacity="0.85">
+    <text x="5" y="40" font-size="11" opacity="0.4">1</text>
+    <text x="20" y="40">x = 3;</text>
+    <text x="5" y="65" font-size="11" opacity="0.4">2</text>
+    <text x="20" y="65">y = x + 2;</text>
+    <text x="5" y="90" font-size="11" opacity="0.4">3</text>
+    <text x="20" y="90">x = x * 2;</text>
+    <text x="5" y="115" font-size="11" opacity="0.4">4</text>
+    <text x="20" y="115">disp(y)</text>
+  </g>
+  <g font-family="DM Mono, monospace" text-anchor="middle">
+    <text x="305" y="25" font-size="12" fill="currentColor" opacity="0.55">x</text>
+    <text x="385" y="25" font-size="12" fill="currentColor" opacity="0.55">y</text>
+    <line x1="260" y1="32" x2="430" y2="32" stroke="currentColor" opacity="0.25"/>
+    <rect x="270" y="40" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="305" y="57" font-size="13" fill="currentColor">3</text>
+    <rect x="350" y="40" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="385" y="57" font-size="13" fill="currentColor" opacity="0.4">—</text>
+    <rect x="270" y="68" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="305" y="85" font-size="13" fill="currentColor">3</text>
+    <rect x="350" y="68" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="385" y="85" font-size="13" fill="currentColor">5</text>
+    <rect x="270" y="96" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="305" y="113" font-size="13" fill="currentColor">6</text>
+    <rect x="350" y="96" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="385" y="113" font-size="13" fill="currentColor" opacity="0.6">5</text>
+    <rect x="270" y="124" width="70" height="24" fill="none" stroke="currentColor" opacity="0.2"/>
+    <text x="305" y="141" font-size="13" fill="currentColor" opacity="0.5">6</text>
+    <rect x="350" y="124" width="70" height="24" fill="rgba(11,122,110,.12)" stroke="#0b7a6e" stroke-width="2.5"/>
+    <text x="385" y="141" font-size="13" fill="#0b7a6e">5</text>
+  </g>
+  <defs>
+    <marker id="traceArrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#0b7a6e" opacity="0.8"/>
+    </marker>
+  </defs>
+  <path d="M100,112 C 220,112 260,136 348,136" fill="none" stroke="#0b7a6e" stroke-width="1.5" opacity="0.7" marker-end="url(#traceArrow)"/>
+  <text x="240" y="175" font-family="DM Mono, monospace" font-size="11" fill="currentColor" opacity="0.6" text-anchor="middle">disp(y) prints the table's final y value: 5</text>
+</svg>
+:::
+
 :::callout kind="mistake" title="Common mistake"
 Assuming a variable is “live” like a spreadsheet formula, automatically updating when something it was computed from changes. It isn’t. Every assignment in MATLAB computes a value once, at that moment, from whatever the right-hand side evaluates to right then.
 :::

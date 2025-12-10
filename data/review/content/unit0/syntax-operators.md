@@ -78,6 +78,40 @@ When in doubt, add parentheses. It costs nothing and removes any ambiguity for w
 | <code>&amp;&amp;</code>, &#124;&#124; | Logical AND / OR, for two single (scalar) conditions |
 | <code>&amp;</code>, &#124; | Element-wise AND / OR, for comparing whole arrays element by element |
 
+:::diagram caption="MATLAB's operator precedence, evaluated top to bottom: power, then unary sign, then multiply/divide, then add/subtract, then relational comparisons, then &amp;, then |."
+<svg viewBox="0 0 380 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Operator precedence ladder, highest precedence at top: power, unary plus/minus, multiply/divide, add/subtract, relational comparisons, element-wise AND, element-wise OR">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <rect x="25" y="10" width="335" height="22" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="40" y="26" fill="currentColor">^</text>
+    <text x="110" y="26" fill="currentColor" opacity="0.85">power</text>
+
+    <rect x="25" y="38" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="54" fill="currentColor">+x  -x</text>
+    <text x="110" y="54" fill="currentColor" opacity="0.7">unary plus / minus</text>
+
+    <rect x="25" y="66" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="82" fill="currentColor">*  /</text>
+    <text x="110" y="82" fill="currentColor" opacity="0.7">multiply / divide, left to right</text>
+
+    <rect x="25" y="94" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="110" fill="currentColor">+  -</text>
+    <text x="110" y="110" fill="currentColor" opacity="0.7">add / subtract, left to right</text>
+
+    <rect x="25" y="122" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="138" fill="currentColor">&lt; &gt; ==</text>
+    <text x="110" y="138" fill="currentColor" opacity="0.7">relational comparisons</text>
+
+    <rect x="25" y="150" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="166" fill="currentColor">&amp;</text>
+    <text x="110" y="166" fill="currentColor" opacity="0.7">element-wise AND</text>
+
+    <rect x="25" y="178" width="335" height="22" fill="none" stroke="currentColor" opacity="0.35"/>
+    <text x="40" y="194" fill="currentColor">|</text>
+    <text x="110" y="194" fill="currentColor" opacity="0.7">element-wise OR</text>
+  </g>
+</svg>
+:::
+
 :::callout kind="mistake" title="Common mistake"
 Using <code>&amp;&amp;</code>/<code>||</code> on arrays throws an error (they require scalar operands). Use <code>&amp;</code>/<code>|</code> when either side is a vector or matrix. See the Control Flow chapter for more.
 :::
