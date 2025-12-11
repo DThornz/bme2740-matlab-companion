@@ -87,6 +87,13 @@ title('van der Pol oscillator for \mu from 0.01 to 10')
 
 Larger <code>μ</code> should produce a visibly more relaxation-oscillator-like shape (sharp transitions, flatter plateaus) than the near-sinusoidal curve small <code>μ</code> produces — a direct, visual way to see what one parameter controls.
 
+The time-domain plot above shows <code>x(t)</code>; plotting <code>x</code> against <code>dx/dt</code> instead (a phase portrait, covered below) reveals *why* the oscillation is self-sustaining: trajectories starting from very different initial conditions all get pulled onto the same closed loop, called a <strong>limit cycle</strong>.
+
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/van-der-pol-phase-portrait.svg" alt="Phase portrait of the van der Pol oscillator: several trajectories starting from different initial conditions all spiral onto the same closed loop, the limit cycle." loading="lazy"></div>
+  <figcaption>The van der Pol equation's phase portrait: every trajectory is pulled onto the same limit cycle, regardless of where it starts.<span class="review-photo-credit">Van der Pol's equation phase portrait, Krishnavedala, CC BY-SA 3.0, via <a href="https://commons.wikimedia.org/wiki/File:Van_der_pols_equation_phase_portrait.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
+
 ## Recognizing Stiffness
 
 A system is <strong>stiff</strong> when it has components that evolve on very different time scales at once — a fast initial transient alongside slow, gradual change. <code>ode45</code> can still solve a mildly stiff problem, just slowly; a genuinely stiff one may force it to unreasonably small steps or fail to converge in reasonable time.
@@ -119,6 +126,22 @@ A practical way to check for stiffness without deriving anything by hand: solve 
 ## Phase Portraits
 
 A <strong>phase portrait</strong> plots trajectories of an autonomous system (one whose right-hand side depends only on the state, not on time directly) in state space rather than against time — revealing long-term behavior like stable cycles or equilibria at a glance. The classic example is Lotka–Volterra predator-prey:
+
+:::diagram caption="A phase portrait plots the trajectory in state space (x vs. dx/dt) rather than against time, showing how the system evolves without an explicit time axis."
+<svg viewBox="0 0 300 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Phase plane with x on the horizontal axis and dx/dt on the vertical axis, showing a spiral trajectory converging to a stable equilibrium point">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <line x1="50" y1="20" x2="50" y2="170" stroke="currentColor" opacity="0.4"/>
+    <line x1="50" y1="170" x2="270" y2="170" stroke="currentColor" opacity="0.4"/>
+    <text x="50" y="14" text-anchor="middle" fill="currentColor" opacity="0.6">dx/dt</text>
+    <text x="270" y="184" text-anchor="middle" fill="currentColor" opacity="0.6">x</text>
+
+    <path d="M140,40 C185,40 200,75 185,105 C170,130 145,135 130,115 C120,100 128,85 145,82 C153,80 160,86 158,93" fill="none" stroke="currentColor" opacity="0.55" stroke-width="1.5"/>
+
+    <circle cx="158" cy="93" r="4.5" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="215" y="55" fill="#0b7a6e">equilibrium</text>
+  </g>
+</svg>
+:::
 
 :::eq label="(prey)"
 dx/dt = \alpha x - \beta xy

@@ -38,6 +38,30 @@ f'(x) \cong \frac{f(x+h) - f(x-h)}{2h}
 - <strong>Backward difference</strong>: uses the current point and one step behind. Natural at the end of a data series, where there’s no “ahead” to look at.
 - <strong>Centered difference</strong>: uses one step ahead and one step behind, skipping the current point entirely. More accurate than either one-sided scheme, at the cost of needing data on both sides.
 
+:::diagram caption="Forward, backward, and central difference secant lines through the same point; the central difference spans both sides and most closely tracks the true tangent."
+<svg viewBox="0 0 400 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A curve with forward, backward, and central difference secant lines drawn through a point of interest, with the central difference highlighted as the closest match to the true tangent">
+  <path d="M40,155 C70,145 90,138 100,130 C115,122 128,116 140,110 C160,100 180,90 200,80 C220,70 245,62 260,55 C285,45 305,40 320,38 C335,36 350,33 360,30" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+  <line x1="160" y1="98.3" x2="240" y2="61.7" stroke="currentColor" stroke-width="1" stroke-dasharray="3,3" opacity="0.3"/>
+  <line x1="200" y1="80" x2="260" y2="55" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+  <line x1="140" y1="110" x2="200" y2="80" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
+  <line x1="140" y1="110" x2="260" y2="55" stroke="#0b7a6e" stroke-width="2.5"/>
+  <circle cx="140" cy="110" r="3" fill="currentColor"/>
+  <circle cx="200" cy="80" r="3.5" fill="currentColor"/>
+  <circle cx="260" cy="55" r="3" fill="currentColor"/>
+  <line x1="140" y1="110" x2="140" y2="165" stroke="currentColor" opacity="0.2" stroke-dasharray="2,3"/>
+  <line x1="200" y1="80" x2="200" y2="165" stroke="currentColor" opacity="0.2" stroke-dasharray="2,3"/>
+  <line x1="260" y1="55" x2="260" y2="165" stroke="currentColor" opacity="0.2" stroke-dasharray="2,3"/>
+  <g font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
+    <text x="140" y="178" fill="currentColor" opacity="0.6">x-h</text>
+    <text x="200" y="178" fill="currentColor" opacity="0.6">x</text>
+    <text x="260" y="178" fill="currentColor" opacity="0.6">x+h</text>
+    <text x="230" y="52" fill="currentColor" opacity="0.6">forward</text>
+    <text x="170" y="98" fill="currentColor" opacity="0.6">backward</text>
+  </g>
+  <text x="392" y="98" font-family="DM Mono, monospace" font-size="11" text-anchor="end" fill="#0b7a6e">central (best)</text>
+</svg>
+:::
+
 ## Deriving Forward Difference from the Taylor Series
 
 Unit 1 introduced the Taylor series as a way to approximate a function near a point. The same expansion, rearranged, is where the forward difference formula actually comes from:

@@ -579,6 +579,17 @@ body.dark-mode .scratchpad-editor-host{background:#0f1f38!important}
 .review-diagram svg{max-width:100%;height:auto}
 .review-diagram figcaption{font-size:.75em;color:var(--dim);margin-top:8px;font-family:var(--mono)}
 
+/* ─── Reference photos/illustrations (sourced images, not hand-drawn) ── */
+/* Always a white card, regardless of theme: source images assume a light
+   background (black-on-transparent), so the card is what keeps them legible
+   in dark mode rather than trying to recolor artwork we didn't author. */
+.review-photo{margin:20px 0;text-align:center}
+.review-photo-card{display:inline-block;max-width:100%;background:#fff;border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);padding:16px}
+.review-photo-card img{display:block;max-width:100%;height:auto;border-radius:4px}
+.review-photo figcaption{font-size:.75em;color:var(--dim);margin-top:8px;font-family:var(--mono)}
+.review-photo-credit{display:block;font-size:.7em;color:var(--dimmer);margin-top:2px}
+.review-photo-credit a{color:inherit}
+
 /* ─── Check Your Understanding ────────────────────────────── */
 .quick-check{background:var(--bg3);border:1px dashed var(--border2);border-radius:10px;padding:16px 18px;margin:20px 0}
 .quick-check-tag{display:block;font-family:var(--mono);font-size:.65em;text-transform:uppercase;letter-spacing:.08em;color:var(--teal);margin-bottom:6px}
@@ -623,6 +634,9 @@ body.dark-mode .callout-blue{background:rgba(96,165,250,.08)!important;border-co
 body.dark-mode .callout-blue .callout-title{color:#60a5fa!important}
 body.dark-mode .review-diagram{color:#e2e8f0!important}
 body.dark-mode .review-diagram figcaption{color:#94a3b8!important}
+body.dark-mode .review-photo-card{border-color:#1c3050!important}
+body.dark-mode .review-photo figcaption{color:#94a3b8!important}
+body.dark-mode .review-photo-credit{color:#64748b!important}
 body.dark-mode .quick-check{background:#0f1f38!important;border-color:#1c3050!important}
 body.dark-mode .quick-check-q{color:#e2e8f0!important}
 body.dark-mode .quick-check-answer{color:#94a3b8!important;border-color:#1c3050!important}

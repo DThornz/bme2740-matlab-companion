@@ -12,6 +12,26 @@ A system of ODEs is <strong>coupled</strong> when a variable in one equation dep
 
 The pattern is always: write each equation's derivative in terms of the current state, pack the states into one vector <code>s</code>, write <code>odefun</code> so it returns the vector of all the derivatives at once, and hand the whole thing to <code>ode45</code>.
 
+:::diagram caption="Two separate state variables are packed into one column vector before being handed to ode45."
+<svg viewBox="0 0 380 145" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Separate boxes for x1 and x2 combined by an arrow into one column vector box labeled s equals x1, x2">
+  <g font-family="DM Mono, monospace" font-size="13">
+    <rect x="15" y="15" width="70" height="34" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="50" y="37" text-anchor="middle" fill="currentColor">x1</text>
+    <rect x="15" y="86" width="70" height="34" fill="none" stroke="currentColor" opacity="0.4"/>
+    <text x="50" y="108" text-anchor="middle" fill="currentColor">x2</text>
+
+    <path d="M85,32 L140,32 L140,68" fill="none" stroke="currentColor" opacity="0.45"/>
+    <path d="M85,103 L140,103 L140,68" fill="none" stroke="currentColor" opacity="0.45"/>
+    <path d="M140,68 L188,68" fill="none" stroke="currentColor" opacity="0.45"/>
+    <polygon points="196,68 184,62 184,74" fill="currentColor" opacity="0.45"/>
+
+    <rect x="200" y="38" width="160" height="60" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="280" y="73" text-anchor="middle" fill="#0b7a6e" font-size="14">s = [x1; x2]</text>
+    <text x="280" y="118" text-anchor="middle" font-size="11" fill="currentColor" opacity="0.6">one vector, handed to odefun</text>
+  </g>
+</svg>
+:::
+
 ## Worked Example: Rabbit and Fox Population Dynamics
 
 Rabbits grow at 120% per season if undisturbed; foxes decline 80% per season without prey; predation removes rabbits and feeds fox growth in proportion to how often the two populations encounter each other:

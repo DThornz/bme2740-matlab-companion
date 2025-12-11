@@ -29,10 +29,44 @@ x_{i+1} = x_i - \frac{f(x_i)}{f'(x_i)}
 
 In words: at each guess, follow the tangent line until it crosses zero, and let that crossing be the next guess.
 
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/newton-iteration.svg" alt="A curve with a tangent line drawn at an initial guess x1, crossing the x-axis at x2, which becomes the next guess and repeats toward the root." loading="lazy"></div>
+  <figcaption>The textbook picture of Newton's method: each tangent line's crossing becomes the next guess.<span class="review-photo-credit">Newton iteration, Olegalexandrov / Pbroks13, public domain, via <a href="https://commons.wikimedia.org/wiki/File:Newton_iteration.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
+
 - Select an initial guess <code>x_0</code>, ideally read off a quick plot of the function so it's already close to the suspected root.
 - Follow the tangent line at <code>f(x_i)</code> until it crosses <code>y = 0</code>.
 - Let <code>x_{i+1}</code> be that crossing point.
 - Repeat until <code>x_{i+1}</code> and <code>x_i</code> are close enough (within your chosen tolerance).
+
+:::diagram caption="Newton's method follows the tangent line at each guess down to the x-axis to produce the next, closer guess."
+<svg viewBox="0 0 380 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A curve crossing the x-axis at the root, with a tangent line from an initial guess x0 down to x1, and a second tangent from the curve at x1 down to x2, converging toward the root">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <line x1="20" y1="150" x2="360" y2="150" stroke="currentColor" opacity="0.4"/>
+    <text x="368" y="154" fill="currentColor" opacity="0.6">x</text>
+
+    <path d="M40,20 C100,25 150,40 200,70 C240,95 270,120 290,140 C300,146 310,152 330,165" fill="none" stroke="currentColor" opacity="0.55" stroke-width="1.5"/>
+    <text x="45" y="14" fill="currentColor" opacity="0.6">f(x)</text>
+
+    <circle cx="90" cy="33" r="3" fill="currentColor"/>
+    <text x="90" y="20" text-anchor="middle" fill="currentColor">x0</text>
+
+    <line x1="90" y1="33" x2="180" y2="150" stroke="currentColor" opacity="0.5"/>
+    <circle cx="180" cy="150" r="3" fill="currentColor"/>
+    <text x="180" y="168" text-anchor="middle" fill="currentColor">x1</text>
+
+    <line x1="180" y1="150" x2="180" y2="66" stroke="currentColor" opacity="0.3" stroke-dasharray="2 3"/>
+    <circle cx="180" cy="66" r="3" fill="currentColor"/>
+
+    <line x1="180" y1="66" x2="250" y2="150" stroke="currentColor" opacity="0.5"/>
+    <circle cx="250" cy="150" r="3" fill="currentColor"/>
+    <text x="250" y="168" text-anchor="middle" fill="currentColor">x2</text>
+
+    <circle cx="300" cy="150" r="4.5" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="300" y="168" text-anchor="middle" fill="#0b7a6e">root</text>
+  </g>
+</svg>
+:::
 
 ```matlab run caption="Newton's method by hand, root of f(x) = x² − 22x − 230"
 f  = @(x) x.^2 - 22*x - 230;

@@ -12,12 +12,38 @@ The Fundamental Theorem of Calculus gives you an exact value for $\int_a^b f(x)\
 
 Numerical quadrature sidesteps the problem: instead of finding an antiderivative, approximate the area under the curve directly from a finite set of function evaluations or data samples.
 
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/trapezoidal-rule.svg" alt="A curved function over an interval, with the true area under the curve approximated by the area of a single straight-edged trapezoid spanning that interval." loading="lazy"></div>
+  <figcaption>The basic idea, before splitting the interval into many segments: replace the curve with a straight line and measure the trapezoid underneath it.<span class="review-photo-credit">Trapezoidal rule illustration, Olegalexandrov, public domain, via <a href="https://commons.wikimedia.org/wiki/File:Trapezoidal_rule_illustration.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
+
 ## The Trapezoidal Rule
 
 Split the interval $[a,b]$ into $n$ segments of equal width $h = (b-a)/n$, and approximate the curve over each segment with a straight line instead of a rectangle. Each segment becomes a trapezoid; summing their areas and simplifying the repeated terms gives:
 
 :::eq label="Trapezoidal Rule"
 \int_a^b f(x)\,dx \approx \frac{h}{2}(y_a + y_b) + h\sum_{k=1}^{n-1} y_k
+:::
+
+:::diagram caption="The trapezoidal rule approximates the area under a curve by summing the areas of straight-edged trapezoids between sample points."
+<svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A smooth curve with the area beneath it approximated by four shaded trapezoids formed by straight lines connecting sample points on the curve">
+  <line x1="40" y1="150" x2="360" y2="150" stroke="currentColor" opacity="0.25"/>
+  <polygon points="40,150 40,110 120,70 120,150" fill="rgba(11,122,110,.12)" stroke="#0b7a6e" stroke-width="1.5"/>
+  <polygon points="120,150 120,70 200,50 200,150" fill="rgba(11,122,110,.12)" stroke="#0b7a6e" stroke-width="1.5"/>
+  <polygon points="200,150 200,50 280,65 280,150" fill="rgba(11,122,110,.12)" stroke="#0b7a6e" stroke-width="1.5"/>
+  <polygon points="280,150 280,65 360,100 360,150" fill="rgba(11,122,110,.12)" stroke="#0b7a6e" stroke-width="1.5"/>
+  <path d="M40,110 C70,80 90,70 120,70 C150,70 160,50 200,50 C230,50 250,55 280,65 C310,75 330,90 360,100" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <circle cx="40" cy="110" r="2.5" fill="currentColor"/>
+  <circle cx="120" cy="70" r="2.5" fill="currentColor"/>
+  <circle cx="200" cy="50" r="2.5" fill="currentColor"/>
+  <circle cx="280" cy="65" r="2.5" fill="currentColor"/>
+  <circle cx="360" cy="100" r="2.5" fill="currentColor"/>
+  <g font-family="DM Mono, monospace" font-size="12" text-anchor="middle">
+    <text x="40" y="166" fill="currentColor" opacity="0.6">a</text>
+    <text x="360" y="166" fill="currentColor" opacity="0.6">b</text>
+  </g>
+  <text x="200" y="24" font-family="DM Mono, monospace" font-size="12" text-anchor="middle" fill="currentColor" opacity="0.55">f(x)</text>
+</svg>
 :::
 
 where $y_a = y(1)$ and $y_b = y(\text{end})$ in MATLAB indexing. MATLAB implements this directly as <code>trapz</code>:

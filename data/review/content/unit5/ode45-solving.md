@@ -12,6 +12,41 @@ Every Euler-family method in Unit 4 used a fixed step size <code>h</code> you ch
 
 An <strong>adaptive step size</strong> solver fixes this by not committing to one <code>h</code> at all. At every iteration it estimates the largest step it can take without exceeding an error tolerance; when the solution is changing slowly, it takes long steps, and when the solution is changing rapidly, it automatically shrinks the step to keep up. Most of MATLAB's numerical ODE solvers work this way, and <code>ode45</code> is the one you'll reach for first.
 
+:::diagram caption="ode45 samples densely where the curve changes quickly and sparsely where it's nearly flat, instead of stepping with one fixed h."
+<svg viewBox="0 0 420 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A solution curve with sample points spaced closely together where the curve is steep and spaced far apart where the curve is flat">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <path d="M20,120 Q90,108 140,108 C155,60 180,35 205,35 C230,35 255,60 270,108 Q330,115 400,112" fill="none" stroke="currentColor" opacity="0.5" stroke-width="1.5"/>
+
+    <g fill="currentColor" opacity="0.6">
+      <circle cx="20" cy="120" r="2.5"/>
+      <circle cx="70" cy="113" r="2.5"/>
+      <circle cx="120" cy="109" r="2.5"/>
+      <circle cx="280" cy="109" r="2.5"/>
+      <circle cx="330" cy="113" r="2.5"/>
+      <circle cx="380" cy="112" r="2.5"/>
+    </g>
+
+    <g fill="#0b7a6e">
+      <circle cx="145" cy="97" r="2.5"/>
+      <circle cx="157" cy="75" r="2.5"/>
+      <circle cx="169" cy="57" r="2.5"/>
+      <circle cx="181" cy="45" r="2.5"/>
+      <circle cx="193" cy="38" r="2.5"/>
+      <circle cx="205" cy="35" r="2.5"/>
+      <circle cx="217" cy="38" r="2.5"/>
+      <circle cx="229" cy="45" r="2.5"/>
+      <circle cx="241" cy="57" r="2.5"/>
+      <circle cx="253" cy="75" r="2.5"/>
+      <circle cx="265" cy="97" r="2.5"/>
+    </g>
+
+    <text x="205" y="20" text-anchor="middle" fill="#0b7a6e">small steps here</text>
+    <text x="70" y="145" text-anchor="middle" fill="currentColor" opacity="0.55">large steps here</text>
+    <text x="330" y="145" text-anchor="middle" fill="currentColor" opacity="0.55">large steps here</text>
+  </g>
+</svg>
+:::
+
 ## Basic ode45 Syntax
 
 <code>ode45</code> integrates a first-order ODE (or system) from an initial condition across a time span:

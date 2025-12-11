@@ -103,6 +103,27 @@ ys = spline(x, y, xx);   % xx: query points, ys: interpolated values
 
 Every method on this page is only trustworthy **between** your known data points. The moment you evaluate a fit outside the range spanned by your nodes, real interpolation, you're extrapolating, and none of the guarantees above apply: a polynomial that fits beautifully inside your data range can shoot off in a completely different direction just past its edge, especially once Runge's phenomenon is already in play.
 
+:::diagram caption="Between the two known points, the interpolated value (teal) lies on a reliable straight-line estimate; beyond them, the same line becomes an unreliable extrapolation."
+<svg viewBox="0 0 400 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two known data points connected by a line, with a highlighted interpolated point between them, and faded dashed extrapolation extending beyond both points">
+  <line x1="20" y1="150" x2="380" y2="150" stroke="currentColor" opacity="0.2"/>
+  <path d="M20,138 L80,110" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.35"/>
+  <path d="M80,110 L240,60" fill="none" stroke="currentColor" stroke-width="1.5"/>
+  <path d="M240,60 L380,16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.35"/>
+  <circle cx="80" cy="110" r="3.5" fill="currentColor"/>
+  <circle cx="240" cy="60" r="3.5" fill="currentColor"/>
+  <g font-family="DM Mono, monospace" font-size="11" text-anchor="middle">
+    <text x="80" y="128" fill="currentColor" opacity="0.6">(x1, y1)</text>
+    <text x="240" y="48" fill="currentColor" opacity="0.6">(x2, y2)</text>
+    <text x="110" y="93" fill="currentColor" opacity="0.55">interpolation</text>
+    <text x="45" y="145" fill="currentColor" opacity="0.4" font-size="10">extrapolation</text>
+    <text x="330" y="24" fill="currentColor" opacity="0.4" font-size="10">extrapolation</text>
+  </g>
+  <line x1="160" y1="85" x2="160" y2="150" stroke="#0b7a6e" stroke-width="1.25" stroke-dasharray="3,3" opacity="0.5"/>
+  <circle cx="160" cy="85" r="4.5" fill="#0b7a6e" stroke="#0b7a6e"/>
+  <text x="160" y="74" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="#0b7a6e">interpolated</text>
+</svg>
+:::
+
 :::callout kind="remember" title="Remember"
 Before trusting any interpolated value, check whether your query point actually falls inside your data's range. If it doesn't, you're extrapolating, and the error bounds that make interpolation trustworthy no longer apply.
 :::

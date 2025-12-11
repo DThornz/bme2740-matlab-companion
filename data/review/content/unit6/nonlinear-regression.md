@@ -22,6 +22,36 @@ SSE = \sum_{i=1}^{m} (y_i - \hat{y}_i)^2
 
 There is typically no differentiable closed form for this expression in terms of the model parameters, so Newton's method and gradient descent (which both need a gradient) usually aren't directly usable here.
 
+:::diagram caption="A smooth nonlinear curve fit through scattered data, with residuals (dashed) from a couple of points to the curve — exactly what fminsearch's SSE objective sums the squares of."
+<svg viewBox="0 0 380 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Scatter of data points following a curved trend, with a smooth nonlinear best-fit curve through them and dashed residual segments from two points to the curve">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <line x1="30" y1="150" x2="360" y2="150" stroke="currentColor" opacity="0.35"/>
+    <line x1="30" y1="20" x2="30" y2="150" stroke="currentColor" opacity="0.35"/>
+
+    <path d="M30,140 C90,130 110,60 170,40 C230,25 300,20 350,18" fill="none" stroke="#0b7a6e" stroke-width="2.5"/>
+
+    <g fill="currentColor" opacity="0.65">
+      <circle cx="50" cy="135" r="3"/>
+      <circle cx="80" cy="112" r="3"/>
+      <circle cx="100" cy="80" r="3"/>
+      <circle cx="130" cy="52" r="3"/>
+      <circle cx="160" cy="48" r="3"/>
+      <circle cx="190" cy="33" r="3"/>
+      <circle cx="220" cy="30" r="3"/>
+      <circle cx="260" cy="24" r="3"/>
+      <circle cx="300" cy="20" r="3"/>
+      <circle cx="330" cy="19" r="3"/>
+    </g>
+
+    <line x1="100" y1="80" x2="100" y2="65" stroke="currentColor" opacity="0.5" stroke-dasharray="3 3"/>
+    <line x1="190" y1="33" x2="190" y2="27" stroke="currentColor" opacity="0.5" stroke-dasharray="3 3"/>
+
+    <text x="350" y="145" text-anchor="middle" fill="currentColor" opacity="0.55">x</text>
+    <text x="20" y="18" text-anchor="end" fill="currentColor" opacity="0.55">y</text>
+  </g>
+</svg>
+:::
+
 ## The Simplex (Nelder-Mead) Method
 
 The Nelder-Mead simplex method sidesteps the need for a gradient entirely: it only evaluates the objective function itself, never its derivative. It works with a <strong>simplex</strong>, a set of <code>n+1</code> points in <code>n</code>-dimensional parameter space (a triangle in 2D, a tetrahedron in 3D).

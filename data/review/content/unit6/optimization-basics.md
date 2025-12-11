@@ -68,6 +68,28 @@ x_{k+1} = x_k - \alpha \nabla f(x_k)
 - Take a step of size <code>α</code> against the gradient: <code>x_{k+1} = x_k − α∇f(x_k)</code>.
 - Repeat until <code>x_k</code> stops changing by more than your tolerance.
 
+:::diagram caption="Gradient descent steps down the slope toward the minimum, taking smaller steps as the gradient flattens near the bottom."
+<svg viewBox="0 0 340 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A bowl-shaped curve with a series of dots stepping down the slope toward the minimum, each step smaller than the last, with the minimum highlighted">
+  <g font-family="DM Mono, monospace" font-size="12">
+    <path d="M40,20 C90,110 130,145 170,150 C210,145 250,110 300,20" fill="none" stroke="currentColor" opacity="0.5" stroke-width="1.5"/>
+
+    <polyline points="60,57 100,112 130,138 150,147 160,149 170,150" fill="none" stroke="currentColor" opacity="0.35" stroke-dasharray="3 3"/>
+    <g fill="currentColor">
+      <circle cx="60" cy="57" r="4"/>
+      <circle cx="100" cy="112" r="3.5"/>
+      <circle cx="130" cy="138" r="3"/>
+      <circle cx="150" cy="147" r="2.5"/>
+      <circle cx="160" cy="149" r="2"/>
+    </g>
+
+    <text x="60" y="45" text-anchor="middle" fill="currentColor" opacity="0.6">x0</text>
+
+    <circle cx="170" cy="150" r="5" stroke="#0b7a6e" stroke-width="2.5" fill="rgba(11,122,110,.12)"/>
+    <text x="170" y="170" text-anchor="middle" fill="#0b7a6e">minimum</text>
+  </g>
+</svg>
+:::
+
 ```matlab run caption="gradient descent on the same function, near the same starting point"
 f  = @(x) (x.^2.*cos(x) - x)/10;
 fp = @(x) (2*x.*cos(x) - x.^2.*sin(x) - 1)/10;
@@ -87,6 +109,13 @@ end
 
 fprintf('Converged near x = %.4f after %d steps\n', x1, k)
 ```
+
+The worked example above steps down a 1-D curve, but the same idea scales to a multivariable surface: each step still follows the (now vector-valued) gradient downhill, curving around the contours of the surface toward the minimum.
+
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/gradient-descent.svg" alt="Contour lines of a two-variable surface, with a path of gradient-descent steps curving downhill toward the surface's minimum." loading="lazy"></div>
+  <figcaption>Gradient descent on a two-variable surface: the path bends to stay perpendicular to each contour line.<span class="review-photo-credit">Gradient descent, Zerodamage (after Oleg Alexandrov), public domain, via <a href="https://commons.wikimedia.org/wiki/File:Gradient_descent.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
 
 :::callout kind="note" title="Minimum or maximum?"
 Flip the sign of the gradient step (<code>x_{k+1} = x_k + α∇f(x_k)</code>) to climb toward a maximum instead of descending toward a minimum. Since the method only searches for a flat point, it's still worth checking the second derivative afterward to confirm which kind of critical point you landed on, and that it isn't a saddle point.

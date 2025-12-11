@@ -70,6 +70,24 @@ xlabel('t'); ylabel('Population')
 
 With the small step, the population rises smoothly toward the carrying capacity, exactly like the analytical S-curve this equation is known for. With the large step, watch what the curve does once it gets near <code>K</code> — a large step there can overshoot past the carrying capacity, and the next step overcorrects back the other way, producing oscillation that a real biological population obviously can't do. Try a few step sizes between these two and see where the behavior changes. This is the same instability mechanism as the exponential-drift example above, just easier to see because the wrong behavior is visually obvious rather than a subtle numerical drift.
 
+:::diagram caption="A small step size tracks the true solution closely and stays stable; too large a step size overshoots and oscillates away from it."
+<svg viewBox="0 0 400 185" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two side-by-side plots against the same faint true solution: a small step size that tracks it smoothly and stays stable, and a large step size that oscillates and diverges away from it">
+  <line x1="160" y1="12" x2="180" y2="12" stroke="currentColor" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
+  <text x="185" y="15" font-family="DM Mono, monospace" font-size="10" fill="currentColor" opacity="0.45">true solution</text>
+  <line x1="200" y1="25" x2="200" y2="165" stroke="currentColor" opacity="0.15"/>
+  <text x="105" y="30" font-family="DM Mono, monospace" font-size="12" text-anchor="middle" fill="currentColor">small h</text>
+  <line x1="20" y1="155" x2="190" y2="155" stroke="currentColor" opacity="0.2"/>
+  <path d="M20,145 C60,130 90,110 120,95 C145,83 165,72 190,65" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.4"/>
+  <polyline points="20,145 45,130 70,116 95,102 120,90 145,79 170,70 190,65" fill="none" stroke="#0b7a6e" stroke-width="2"/>
+  <text x="105" y="175" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="#0b7a6e">stable</text>
+  <text x="295" y="30" font-family="DM Mono, monospace" font-size="12" text-anchor="middle" fill="currentColor">large h</text>
+  <line x1="210" y1="155" x2="380" y2="155" stroke="currentColor" opacity="0.2"/>
+  <path d="M210,145 C250,130 280,110 310,95 C335,83 355,72 380,65" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,3" opacity="0.4"/>
+  <polyline points="210,145 245,80 280,135 315,55 350,140 380,45" fill="none" stroke="currentColor" stroke-width="2"/>
+  <text x="295" y="175" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.65">unstable</text>
+</svg>
+:::
+
 :::callout kind="mistake" title="Common mistake"
 An unstable Forward Euler run doesn't throw an error — MATLAB happily computes and plots nonsense. A plot that oscillates, overshoots the carrying capacity, or diverges to <code>Inf</code>/<code>NaN</code> is a stability problem, not a bug in your loop; the fix is usually a smaller step size or an implicit method, not different code.
 :::

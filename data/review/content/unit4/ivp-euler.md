@@ -24,6 +24,30 @@ y_{k+1} = y_k + f(t_k, y_k)\,h
 
 That’s the entire method. Set the initial condition, assume the derivative is roughly constant over one small step <code>h</code>, and iterate: know <code>y_k</code>, compute <code>y_{k+1}</code>, then treat that as the new <code>y_k</code> and repeat. A differential equation has been turned into an algebra problem you can loop over.
 
+:::diagram caption="Forward Euler follows straight tangent-line steps of size h; each step's straight segment diverges slightly from the true solution curve."
+<svg viewBox="0 0 400 195" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A faint true solution curve with a highlighted jagged path of four Forward Euler steps of size h approximating it, gradually diverging from the true curve">
+  <line x1="40" y1="160" x2="360" y2="160" stroke="currentColor" opacity="0.25"/>
+  <path d="M40,140 C80,120 100,105 120,100 C150,93 170,80 200,70 C230,62 250,55 280,50 C310,46 330,42 360,40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="4,4" opacity="0.4"/>
+  <polyline points="40,140 120,115 200,85 280,60 360,45" fill="none" stroke="#0b7a6e" stroke-width="2.5"/>
+  <circle cx="40" cy="140" r="3" fill="#0b7a6e"/>
+  <circle cx="120" cy="115" r="3" fill="#0b7a6e"/>
+  <circle cx="200" cy="85" r="3" fill="#0b7a6e"/>
+  <circle cx="280" cy="60" r="3" fill="#0b7a6e"/>
+  <circle cx="360" cy="45" r="3" fill="#0b7a6e"/>
+  <line x1="40" y1="160" x2="40" y2="175" stroke="currentColor" opacity="0.35"/>
+  <line x1="120" y1="160" x2="120" y2="175" stroke="currentColor" opacity="0.35"/>
+  <line x1="40" y1="175" x2="120" y2="175" stroke="currentColor" opacity="0.5"/>
+  <text x="80" y="188" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.7">h</text>
+  <text x="300" y="30" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="currentColor" opacity="0.5">true solution</text>
+  <text x="150" y="128" font-family="DM Mono, monospace" font-size="11" text-anchor="middle" fill="#0b7a6e">Euler steps</text>
+</svg>
+:::
+
+<figure class="review-photo">
+  <div class="review-photo-card"><img src="assets/img/euler-method.svg" alt="A smooth true solution curve with a straight-line Euler approximation stepping alongside it, the gap between the two growing with each step." loading="lazy"></div>
+  <figcaption>The same idea, the textbook rendering: the straight-line approximation drifts a little farther from the true curve with each step.<span class="review-photo-credit">Euler method, Oleg Alexandrov, public domain, via <a href="https://commons.wikimedia.org/wiki/File:Euler_method.svg" target="_blank" rel="noopener">Wikimedia Commons</a></span></figcaption>
+</figure>
+
 ## Worked Example: Population Growth
 
 Unconstrained population growth follows <code>dP/dt = rP</code>. This one has a closed form (<code>P(t) = Ce^{rt}</code>), which makes it a good first check: solve it exactly, then confirm Forward Euler tracks it.
