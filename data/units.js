@@ -57,7 +57,7 @@ export const UNITS = [
       'Recognize and interpret common MATLAB errors.',
       'Reason about floating-point precision and round-off error, and approximate functions with Taylor series.',
     ],
-    materials: ['Lecture 3', 'Numerical Computation Slides', 'Taylor Series Slides', 'Assignment 1', 'Quiz 1', 'Plotting Examples', 'App Designer Examples'],
+    materials: ['Lecture 3', 'Lecture 4', 'Numerical Computation Slides', 'Taylor Series Slides', 'Assignment 1', 'Quiz 1', 'Plotting Examples', 'App Designer Examples'],
     hasContent: true,
     topics: [
       { id: 'fundamentals-review', title: 'Variables, Arrays & Indexing Review', description: 'Consolidating Unit 0 fundamentals with logical indexing and element-wise operations.' },

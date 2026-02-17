@@ -29,7 +29,7 @@
           "vectors"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -56,7 +56,7 @@
           "matrices"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -87,7 +87,7 @@
           "end keyword"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -120,7 +120,7 @@
           "end keyword"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -147,7 +147,7 @@
           "comparison operators"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -180,7 +180,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -204,7 +204,7 @@
           "length"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -238,7 +238,7 @@
           "matrix operators"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -268,7 +268,7 @@
           "dimension mismatch"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -299,7 +299,7 @@
           "colon operator"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -334,7 +334,7 @@
           "element-wise operators"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -370,7 +370,7 @@
           "matrix operators"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -404,7 +404,7 @@
           "length"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -437,7 +437,7 @@
           "vectors"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -467,7 +467,7 @@
           "size"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -499,7 +499,7 @@
           "size"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -534,7 +534,7 @@
           "concatenation"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -560,7 +560,7 @@
           "isempty"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -591,7 +591,7 @@
           "data types"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -618,7 +618,7 @@
           "colon operator"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -649,7 +649,7 @@
           "zeros"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -682,7 +682,7 @@
           "end keyword"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -720,7 +720,7 @@
           "comparison operators"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -753,7 +753,7 @@
           "matrix construction"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -785,7 +785,7 @@
           "colon operator"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       }
     ],
@@ -823,7 +823,7 @@
           "vectorization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -857,7 +857,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -889,7 +889,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -925,7 +925,7 @@
           "dimension mismatch"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -957,7 +957,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -981,7 +981,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1007,7 +1007,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1038,7 +1038,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1074,7 +1074,7 @@
           "deleting elements"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1107,7 +1107,7 @@
           "reordering"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1137,7 +1137,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1168,7 +1168,7 @@
           "end keyword"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1202,7 +1202,7 @@
           "and operator"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1229,7 +1229,7 @@
           "short-circuit"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1262,7 +1262,7 @@
           "or operator"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1295,7 +1295,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1325,7 +1325,7 @@
           "sort"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1355,7 +1355,7 @@
           "unique"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1387,7 +1387,7 @@
           "reshape"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1420,7 +1420,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1450,7 +1450,7 @@
           "ismember"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1486,7 +1486,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1517,7 +1517,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1550,7 +1550,7 @@
           "end keyword"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1574,7 +1574,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       }
     ],
@@ -1612,7 +1612,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1645,7 +1645,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1669,7 +1669,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1700,7 +1700,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1730,7 +1730,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1756,7 +1756,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1789,7 +1789,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1825,7 +1825,7 @@
           "logical functions"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1856,7 +1856,7 @@
           "deleting elements"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1880,7 +1880,7 @@
           "deleting elements"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1911,7 +1911,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1941,7 +1941,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -1975,7 +1975,7 @@
           "and operator"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2005,7 +2005,7 @@
           "reduction functions"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2038,7 +2038,7 @@
           "reduction functions"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2068,7 +2068,7 @@
           "sortrows"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2101,7 +2101,7 @@
           "matrices"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2125,7 +2125,7 @@
           "matrices"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2155,7 +2155,7 @@
           "find"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2187,7 +2187,7 @@
           "find"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2219,7 +2219,7 @@
           "code quality"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2251,7 +2251,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2278,7 +2278,7 @@
           "colon operator"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2303,7 +2303,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2334,7 +2334,7 @@
           "and operator"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       }
     ],
@@ -2369,7 +2369,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2405,7 +2405,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2432,7 +2432,7 @@
           "implicit expansion"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2465,7 +2465,7 @@
           "implicit expansion"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2493,7 +2493,7 @@
           "performance"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2524,7 +2524,7 @@
           "performance"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2558,7 +2558,7 @@
           "max"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2583,7 +2583,7 @@
           "max"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2618,7 +2618,7 @@
           "indexing"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2653,7 +2653,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2683,7 +2683,7 @@
           "data types"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2714,7 +2714,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2747,7 +2747,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2784,7 +2784,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2812,7 +2812,7 @@
           "matrix operators"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2845,7 +2845,7 @@
           "implicit expansion"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2881,7 +2881,7 @@
           "array growth"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2913,7 +2913,7 @@
           "array growth"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2947,7 +2947,7 @@
           "and operator"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -2978,7 +2978,7 @@
           "logical indexing"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -3013,7 +3013,7 @@
           "code quality"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -3041,7 +3041,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -3066,7 +3066,7 @@
           "counting"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -3095,7 +3095,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       },
       {
@@ -3125,7 +3125,7 @@
           "column-major order"
         ],
         "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Variables, Arrays & Indexing Review"
         ]
       }
     ]
@@ -3716,7 +3716,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -3744,7 +3744,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -3776,7 +3776,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -3892,192 +3892,6 @@
         ],
         "references": [
           "Unit 1 – Lecture 4"
-        ]
-      },
-      {
-        "id": "U1-IO-B26",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "understand",
-        "question": "What is the primary purpose of MATLAB App Designer?",
-        "options": [
-          "To build a graphical user interface (GUI) with point-and-click controls, so others can use your program without typing MATLAB commands",
-          "To automatically optimize your MATLAB code for speed",
-          "To convert MATLAB code into another programming language",
-          "To generate documentation comments for your functions"
-        ],
-        "correctAnswer": 0,
-        "explanation": "App Designer lets you build a GUI — buttons, sliders, plots, etc. — so a user can run your program by clicking and typing into fields instead of writing MATLAB commands.",
-        "optionExplanations": [
-          "Correct — App Designer is MATLAB's tool for building point-and-click GUIs.",
-          "Incorrect — App Designer doesn't optimize code performance.",
-          "Incorrect — App Designer doesn't translate MATLAB into other languages.",
-          "Incorrect — that's not what App Designer is for."
-        ],
-        "concept": "Purpose of App Designer",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-B27",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "Which command opens the MATLAB App Designer environment?",
-        "options": [
-          "appdesigner",
-          "opengui",
-          "newapp",
-          "designapp"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Typing appdesigner at the Command Window (or in a script) opens App Designer.",
-        "optionExplanations": [
-          "Correct — appdesigner is the command that launches App Designer.",
-          "Incorrect — not a MATLAB command.",
-          "Incorrect — not a MATLAB command.",
-          "Incorrect — not a MATLAB command."
-        ],
-        "concept": "Opening App Designer",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-B28",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "According to the lecture, which three elements are required to build a GUI app?",
-        "options": [
-          "Components, Figures, and Callbacks",
-          "Variables, Functions, and Loops",
-          "Scripts, Functions, and Classes",
-          "Inputs, Outputs, and Comments"
-        ],
-        "correctAnswer": 0,
-        "explanation": "A GUI is built from Components (buttons, sliders, etc.), a Figure (the window that contains them), and Callbacks (the code that runs in response to user actions).",
-        "optionExplanations": [
-          "Correct — Components, Figures, and Callbacks are the three principal GUI-building elements.",
-          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described.",
-          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described.",
-          "Incorrect — these are general MATLAB programming concepts, not the GUI-building elements described."
-        ],
-        "concept": "Core elements of a GUI app",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-B29",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "understand",
-        "question": "In an App Designer app, what is a 'callback'?",
-        "options": [
-          "The code that runs in response to a user action, like clicking a button or moving a slider",
-          "The variable that stores the app's title",
-          "A comment describing what the app does",
-          "The function that closes the app window"
-        ],
-        "correctAnswer": 0,
-        "explanation": "A callback is the block of code tied to a specific component and event — for example, the code that runs when a button is clicked or a slider is moved.",
-        "optionExplanations": [
-          "Correct — a callback is event-response code, e.g. what happens on a button click.",
-          "Incorrect — that's just an app property, not a callback.",
-          "Incorrect — a comment doesn't execute anything.",
-          "Incorrect — closing the app is only one possible callback among many, not the definition of the term."
-        ],
-        "concept": "Callbacks in App Designer",
-        "tags": [
-          "callback",
-          "app designer"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-B30",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "understand",
-        "question": "What is the easiest way to make a single numeric value in a Live Script interactive (turning it into a slider a student can drag), without building a full app?",
-        "options": [
-          "Select the number and use the Live Editor's Control > Numeric Slider option",
-          "Rewrite the whole script inside App Designer",
-          "Use the appdesigner command with a custom callback",
-          "Wrap the number in an input() call"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The Live Editor can convert an individual value directly into an interactive control (like a numeric slider) via Control > Numeric Slider — no App Designer or callback code required.",
-        "optionExplanations": [
-          "Correct — this is the \"Convert a Script into a Simple App\" shortcut shown in the lecture.",
-          "Incorrect — that's a much heavier tool than needed for a single interactive value.",
-          "Incorrect — this converts the value directly in the Live Editor, no appdesigner call involved.",
-          "Incorrect — input() pauses for console text entry; it doesn't create a draggable slider."
-        ],
-        "concept": "Live Editor numeric slider control",
-        "tags": [
-          "app designer",
-          "live editor"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-B31",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "In App Designer's Component Gallery, which category would you look under to find things like buttons, sliders, and switches?",
-        "options": [
-          "Common Components",
-          "Axes",
-          "Containers and Figure Tools",
-          "Instrumentation"
-        ],
-        "correctAnswer": 0,
-        "explanation": "\"Common Components\" is the gallery category for everyday interactive controls like buttons, sliders, switches, and edit fields.",
-        "optionExplanations": [
-          "Correct — Common Components covers everyday interactive controls.",
-          "Incorrect — Axes is for plotting/graphing components.",
-          "Incorrect — Containers and Figure Tools covers layout panels and window-level tools.",
-          "Incorrect — Instrumentation covers gauges, knobs, and similar display components."
-        ],
-        "concept": "App Designer Component Gallery categories",
-        "tags": [
-          "app designer",
-          "component gallery"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
         ]
       }
     ],
@@ -4642,7 +4456,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -4674,7 +4488,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -4861,158 +4675,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
-        ]
-      },
-      {
-        "id": "U1-IO-I26",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "intermediate",
-        "type": "multiple-choice",
-        "cognitiveLevel": "analyze",
-        "question": "What is the difference between 'Convert a Script into a Simple App' and 'Create an App Interactively' in App Designer?",
-        "options": [
-          "Converting a script only turns individual values in an existing Live Script into interactive controls (like sliders), while creating an app interactively lets you design a full custom GUI layout with multiple components from scratch",
-          "They produce exactly the same result, just through different menus",
-          "Converting a script requires more coding than creating an app interactively",
-          "Creating an app interactively only works for plotting code"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Converting a script is a lightweight shortcut for turning a value already in a Live Script into a slider or similar control. Creating an app interactively opens the full App Designer canvas, where you place and wire up any combination of components from a blank layout.",
-        "optionExplanations": [
-          "Correct — one is a lightweight single-value shortcut, the other is a full GUI design workflow.",
-          "Incorrect — they serve different scopes of complexity, not the same result.",
-          "Incorrect — converting a script actually requires less setup, not more.",
-          "Incorrect — creating an app interactively can include any components, not just plots."
-        ],
-        "concept": "Script conversion vs. full interactive app design",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-I27",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "intermediate",
-        "type": "multiple-choice",
-        "cognitiveLevel": "apply",
-        "question": "A student wants a button in their App Designer app to run some MATLAB code whenever it's clicked. Where does that code go?",
-        "options": [
-          "Inside the button's callback function, which App Designer generates automatically when you add the button",
-          "Directly into the app's Figure properties",
-          "Into a separate .m file that must be run before opening the app",
-          "Into a comment above the button in the layout view"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Adding a button in App Designer auto-generates an empty callback function for it; the student writes their response code inside that generated function.",
-        "optionExplanations": [
-          "Correct — App Designer scaffolds a callback function per interactive component.",
-          "Incorrect — Figure properties configure the window itself, not button behavior.",
-          "Incorrect — the app doesn't require a separate .m file to be run first for button behavior.",
-          "Incorrect — comments don't execute; the code must go inside the callback."
-        ],
-        "concept": "Where callback code lives",
-        "tags": [
-          "callback",
-          "app designer"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-I28",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "intermediate",
-        "type": "multiple-choice",
-        "cognitiveLevel": "analyze",
-        "question": "According to the lecture, when deciding between App Designer and writing a GUI entirely by hand with programmatic figure/component code, which approach is recommended for typical course use, and why?",
-        "options": [
-          "App Designer — writing the GUI entirely by hand is far more tedious to build and maintain, so App Designer's point-and-click workflow is recommended instead",
-          "Programmatic — App Designer apps can't be shared with other users",
-          "Programmatic — App Designer doesn't support callbacks",
-          "App Designer — programmatic apps cannot include plots"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The lecture explicitly calls the fully programmatic approach \"far more tedious to do,\" which is why the course focuses on App Designer's interactive workflow instead.",
-        "optionExplanations": [
-          "Correct — App Designer is recommended specifically because the fully programmatic route is much more tedious.",
-          "Incorrect — App Designer apps can be shared, including as standalone desktop or web apps.",
-          "Incorrect — callbacks are a core feature of App Designer.",
-          "Incorrect — programmatic GUIs can absolutely include plots (e.g. via axes components); that's not the stated reason."
-        ],
-        "concept": "Why App Designer is preferred over programmatic GUIs",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-I29",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "intermediate",
-        "type": "multiple-choice",
-        "cognitiveLevel": "apply",
-        "question": "What does the 'Figure' element of a GUI app provide?",
-        "options": [
-          "The window/container that holds all the visual components of the app",
-          "The code that executes when a button is pressed",
-          "A saved dataset used by the app",
-          "The app's help documentation"
-        ],
-        "correctAnswer": 0,
-        "explanation": "The Figure is the window that contains and displays every component (buttons, plots, sliders, etc.) that make up the app.",
-        "optionExplanations": [
-          "Correct — the Figure is the container window for the app's components.",
-          "Incorrect — that describes a callback, not the Figure.",
-          "Incorrect — the Figure is a UI container, not a dataset.",
-          "Incorrect — the Figure isn't documentation."
-        ],
-        "concept": "The Figure element of a GUI",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
-        ]
-      },
-      {
-        "id": "U1-IO-I30",
-        "unit": 1,
-        "topic": "io-and-scripts",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "apply",
-        "question": "An App Designer app can be shared and used by people who don't have MATLAB installed, either as a standalone desktop app or a web app.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. Apps built in App Designer can be shared for use within MATLAB, but they can also be packaged as standalone desktop apps or web apps that run without a MATLAB installation.",
-        "optionExplanations": [
-          "Correct — App Designer apps can be packaged as standalone desktop or web apps.",
-          "Incorrect — packaging as a standalone/web app is exactly one of the sharing options available."
-        ],
-        "concept": "Sharing App Designer apps",
-        "tags": [
-          "app designer",
-          "gui"
-        ],
-        "references": [
-          "Unit 1 – Lecture 3"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       }
     ],
@@ -5051,7 +4714,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5082,7 +4745,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5143,7 +4806,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5279,7 +4942,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5371,7 +5034,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5577,7 +5240,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -5612,7 +5275,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -5718,7 +5381,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5800,7 +5463,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       }
     ],
@@ -5898,7 +5561,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5935,7 +5598,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -5996,7 +5659,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -6120,7 +5783,7 @@
           "file organization"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -6185,7 +5848,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Assignment 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -6279,7 +5942,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -6404,7 +6067,7 @@
           "error handling"
         ],
         "references": [
-          "Unit 1 – Numerical Computation Lab"
+          "Unit 1 Review: Functions, Input/Output & Scripts"
         ]
       },
       {
@@ -9796,7 +9459,7 @@
           "output"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -9830,7 +9493,7 @@
           "undefined variable"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -9857,7 +9520,7 @@
           "execution order"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -9891,7 +9554,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -9922,7 +9585,7 @@
           "dimension mismatch"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -9959,7 +9622,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -9992,7 +9655,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10019,7 +9682,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10050,7 +9713,7 @@
           "indexing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10083,7 +9746,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10112,7 +9775,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10147,7 +9810,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10180,7 +9843,7 @@
           "output"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10214,7 +9877,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10241,7 +9904,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10275,7 +9938,7 @@
           "semicolon"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10308,7 +9971,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10335,7 +9998,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10368,7 +10031,7 @@
           "concatenation"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10395,7 +10058,7 @@
           "syntax"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10429,7 +10092,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10462,7 +10125,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10495,7 +10158,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10528,7 +10191,7 @@
           "built-in functions"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10558,7 +10221,7 @@
           "variables"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       }
     ],
@@ -10593,7 +10256,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10627,7 +10290,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10661,7 +10324,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10693,7 +10356,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10724,7 +10387,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10761,7 +10424,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10795,7 +10458,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10824,7 +10487,7 @@
           "for loop"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10849,7 +10512,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10885,7 +10548,7 @@
           "comparison operators"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -10917,7 +10580,7 @@
           "data types"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10946,7 +10609,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -10980,7 +10643,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11005,7 +10668,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11037,7 +10700,7 @@
           "data types"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11074,7 +10737,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11107,7 +10770,7 @@
           "output"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11131,7 +10794,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11162,7 +10825,7 @@
           "NaN"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11196,7 +10859,7 @@
           "assignment"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11229,7 +10892,7 @@
           "output"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11259,7 +10922,7 @@
           "comparison operators"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11288,7 +10951,7 @@
           "comparison operators"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11323,7 +10986,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11352,7 +11015,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       }
     ],
@@ -11388,7 +11051,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11422,7 +11085,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11447,7 +11110,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11475,7 +11138,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11506,7 +11169,7 @@
           "functions"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11540,7 +11203,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11574,7 +11237,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11604,7 +11267,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11629,7 +11292,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11666,7 +11329,7 @@
           "if"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11694,7 +11357,7 @@
           "if"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11729,7 +11392,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11757,7 +11420,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11791,7 +11454,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11825,7 +11488,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11862,7 +11525,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11898,7 +11561,7 @@
           "indexing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11934,7 +11597,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -11968,7 +11631,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -11995,7 +11658,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12023,7 +11686,7 @@
           "performance"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12059,7 +11722,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12088,7 +11751,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12115,7 +11778,7 @@
           "closures"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12140,7 +11803,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       }
     ],
@@ -12168,7 +11831,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12206,7 +11869,7 @@
           "biomedical application"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12237,7 +11900,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12264,7 +11927,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12298,7 +11961,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12327,7 +11990,7 @@
           "logical operators"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12352,7 +12015,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12386,7 +12049,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12422,7 +12085,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12459,7 +12122,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12490,7 +12153,7 @@
           "preallocation"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12521,7 +12184,7 @@
           "nan"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12547,7 +12210,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12579,7 +12242,7 @@
           "scope"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12611,7 +12274,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12648,7 +12311,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12680,7 +12343,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12711,7 +12374,7 @@
           "debugging"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12745,7 +12408,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12779,7 +12442,7 @@
           "dynamic field access"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12813,7 +12476,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12841,7 +12504,7 @@
           "arithmetic"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       },
       {
@@ -12877,7 +12540,7 @@
           "errors"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12909,7 +12572,7 @@
           "preallocation"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 – Lecture 4"
         ]
       },
       {
@@ -12934,7 +12597,7 @@
           "tracing"
         ],
         "references": [
-          "Unit 1 – Quiz 1"
+          "Unit 1 Review: Reading Code, Errors & Output"
         ]
       }
     ]
@@ -13178,35 +12841,35 @@
         ]
       },
       {
-        "id": "U1-NPT-B09",
+        "id": "U1-NPT-B26",
         "unit": 1,
         "topic": "numerical-precision-taylor",
         "difficulty": "beginner",
-        "type": "output-prediction",
+        "type": "multiple-choice",
         "cognitiveLevel": "apply",
-        "question": "What does this code display?",
-        "code": "x = eps;\ndisp(x > 0)",
-        "language": "matlab",
+        "question": "A calibration check measures a vial of solution known to weigh exactly 50.0 g. The lab balance reads 50.6 g. What is the absolute error of this measurement?",
         "options": [
-          "1",
-          "0",
-          "Error",
-          "NaN"
+          "0.6 g",
+          "1.2%",
+          "50.6 g",
+          "49.4 g"
         ],
         "correctAnswer": 0,
-        "explanation": "eps is a small positive number (about 2.22e-16), so eps > 0 is true, displayed as 1.",
+        "explanation": "Absolute error is ε_a = |v - v_approx| = |50.0 - 50.6| = 0.6 g. It keeps the original units of the measurement.",
         "optionExplanations": [
-          "Correct — eps is positive.",
-          "Incorrect — eps is not zero.",
-          "Incorrect — this is valid code.",
-          "Incorrect — the comparison produces a valid logical result."
+          "Correct — |50.0 - 50.6| = 0.6 g.",
+          "Incorrect — that's the relative error (0.6/50.0), not the absolute error, which does not get divided by the true value.",
+          "Incorrect — that's just the approximate reading itself, not the discrepancy between it and the true value.",
+          "Incorrect — that isn't a value produced by either error formula."
         ],
-        "concept": "eps sign",
+        "concept": "Absolute error definition and calculation",
         "tags": [
-          "eps"
+          "absolute error",
+          "approximation error",
+          "biomedical application"
         ],
         "references": [
-          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+          "Unit 1 – Lecture 3"
         ]
       },
       {
@@ -13754,24 +13417,26 @@
         ]
       },
       {
-        "id": "U1-NPT-I03",
+        "id": "U1-NPT-I26",
         "unit": 1,
         "topic": "numerical-precision-taylor",
         "difficulty": "intermediate",
         "type": "numeric",
         "cognitiveLevel": "apply",
-        "question": "Rounded to 2 significant digits, what is 0.0020090 (as a decimal number)?",
+        "question": "An infusion pump is set to deliver a true dose of 40.0 mL, but actually delivers 41.2 mL. Compute the relative error of the delivered dose, expressed as a percentage (e.g., enter 5 for 5%).",
         "correctAnswer": {
-          "value": 0.002,
-          "tolerance": 1e-7
+          "value": 3,
+          "tolerance": 0.05
         },
-        "explanation": "0.0020090 ≈ 20×10⁻⁴ = 0.002 at 2 significant digits.",
-        "concept": "Rounding to significant digits",
+        "explanation": "Relative error is ε_r = |v - v_approx| / |v| = |40.0 - 41.2| / 40.0 = 1.2 / 40.0 = 0.03 = 3%.",
+        "concept": "Relative error calculation",
         "tags": [
-          "significant figures"
+          "relative error",
+          "approximation error",
+          "biomedical application"
         ],
         "references": [
-          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+          "Unit 1 – Lecture 3"
         ]
       },
       {
@@ -14409,25 +14074,31 @@
         ]
       },
       {
-        "id": "U1-NPT-I25",
+        "id": "U1-NPT-I27",
         "unit": 1,
         "topic": "numerical-precision-taylor",
         "difficulty": "intermediate",
-        "type": "numeric",
-        "cognitiveLevel": "apply",
-        "question": "Using the 3-term Maclaurin series 1 + x + x²/2! for e^x, compute the approximation at x = 0.3.",
-        "correctAnswer": {
-          "value": 1.345,
-          "tolerance": 0.001
-        },
-        "explanation": "1 + 0.3 + 0.09/2 = 1.345.",
-        "concept": "3-term Maclaurin approximation",
+        "type": "true-false",
+        "cognitiveLevel": "analyze",
+        "question": "Two sensors each have an absolute error of 0.5 units. Sensor A measures a true value of 500 units; Sensor B measures a true value of 2 units. Because the absolute errors are equal, both sensors are equally accurate in practice.",
+        "options": [
+          "True",
+          "False"
+        ],
+        "correctAnswer": 1,
+        "explanation": "Absolute error alone doesn't capture accuracy in context. Sensor A's relative error is 0.5/500 = 0.1%, negligible, while Sensor B's relative error is 0.5/2 = 25%, a serious discrepancy. The same absolute error can mean very different things depending on the scale of the true value, which is why relative error is often the more meaningful metric for comparing measurement accuracy.",
+        "optionExplanations": [
+          "Incorrect — equal absolute error does not imply equal accuracy; the scale of the true value matters.",
+          "Correct — Sensor B's relative error (25%) is far worse than Sensor A's (0.1%) despite an identical absolute error."
+        ],
+        "concept": "Absolute error alone can be misleading across different magnitudes",
         "tags": [
-          "maclaurin series",
-          "exp"
+          "absolute error",
+          "relative error",
+          "approximation error"
         ],
         "references": [
-          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+          "Unit 1 – Lecture 3"
         ]
       }
     ],
@@ -14644,7 +14315,7 @@
         "question": "A 2-significant-digit system needs to represent 0.00034567. What is the correctly-rounded 2-sig-fig value?",
         "correctAnswer": {
           "value": 0.00035,
-          "tolerance": 1e-7
+          "tolerance": 1e-07
         },
         "explanation": "0.00034567 = 3.4567×10⁻⁴ → rounds to 3.5×10⁻⁴ = 0.00035 at 2 significant digits.",
         "concept": "Rounding to significant digits",
@@ -15071,25 +14742,37 @@
         ]
       },
       {
-        "id": "U1-NPT-A23",
+        "id": "U1-NPT-A26",
         "unit": 1,
         "topic": "numerical-precision-taylor",
         "difficulty": "advanced",
-        "type": "numeric",
+        "type": "multiple-choice",
         "cognitiveLevel": "evaluate",
-        "question": "A function's 5th derivative is bounded by 120 near a=0. Using R ≈ f⁽⁵⁾(ξ)/5! × (x-a)⁵, estimate the maximum truncation error of a 5-term Taylor series (through the 4th-order term) at x = 1.",
-        "correctAnswer": {
-          "value": 1,
-          "tolerance": 0.01
-        },
-        "explanation": "5! = 120, so R ≈ 120/120 × 1⁵ = 1 × 1 = 1.",
-        "concept": "Applying the Lagrange remainder bound",
+        "question": "Two Maclaurin approximations of physiological signals both have an absolute error of 0.08 units at their evaluation point. Approximation P1's true value is 40 units; Approximation P2's true value is 1.6 units. Which is more accurate in relative terms, and what are the two relative errors?",
+        "options": [
+          "P1 is more accurate: 0.2% vs. 5%",
+          "P2 is more accurate: 0.2% vs. 5%",
+          "P1 is more accurate: 5% vs. 0.2%",
+          "Both are equally accurate, since the absolute errors are identical"
+        ],
+        "correctAnswer": 0,
+        "explanation": "Relative error = absolute error / |true value|. For P1: 0.08/40 = 0.002 = 0.2%. For P2: 0.08/1.6 = 0.05 = 5%. Even though the absolute errors are identical, P1 is far more accurate in relative terms because its true value is much larger, so the same absolute discrepancy represents a much smaller fraction of the signal.",
+        "optionExplanations": [
+          "Correct — 0.08/40 = 0.2% (P1) and 0.08/1.6 = 5% (P2).",
+          "Incorrect — the two percentages are right, but they're swapped: 0.2% belongs to P1, not P2.",
+          "Incorrect — the conclusion is backwards, and the two percentages are swapped.",
+          "Incorrect — equal absolute error does not mean equal relative accuracy, since the true values differ dramatically."
+        ],
+        "concept": "Comparing relative accuracy of approximations with equal absolute error",
         "tags": [
-          "lagrange remainder",
-          "truncation error"
+          "absolute error",
+          "relative error",
+          "truncation error",
+          "maclaurin series",
+          "biomedical application"
         ],
         "references": [
-          "Unit 1 Review: Floating-Point Precision & Taylor Series"
+          "Unit 1 – Lecture 3"
         ]
       },
       {
@@ -15657,8 +15340,8 @@
         "cognitiveLevel": "evaluate",
         "question": "A model uses single precision (roughly 7 significant decimal digits) instead of double for a Taylor series computation. If the true mathematical truncation error at some n is 1e-10, but single precision's round-off floor is roughly 1e-7, what is the actual achievable accuracy of the computed result, approximately?",
         "correctAnswer": {
-          "value": 1e-7,
-          "tolerance": 9e-8
+          "value": 1e-07,
+          "tolerance": 9e-08
         },
         "explanation": "Once round-off error (≈1e-7 for single precision) is larger than the mathematical truncation error (1e-10), round-off dominates — the computed result can't be more accurate than about 1e-7, regardless of how small the truncation error mathematically is.",
         "concept": "Round-off floor dominates truncation error",

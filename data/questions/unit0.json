@@ -3221,33 +3221,6 @@
         ]
       },
       {
-        "id": "U0-VAR-B05",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "beginner",
-        "type": "true-false",
-        "cognitiveLevel": "remember",
-        "question": "MATLAB variable names are case-sensitive, so \"Score\" and \"score\" refer to two different variables.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. MATLAB distinguishes uppercase and lowercase letters in identifiers, so Score and score are two completely separate variables.",
-        "optionExplanations": [
-          "Correct — MATLAB is case-sensitive.",
-          "Incorrect — case matters throughout MATLAB, including variable names."
-        ],
-        "concept": "Case sensitivity",
-        "tags": [
-          "variables",
-          "case sensitivity"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
         "id": "U0-VAR-B06",
         "unit": 0,
         "topic": "variables-operators",
@@ -3393,28 +3366,6 @@
         "tags": [
           "pi",
           "naming rules"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
-        "id": "U0-VAR-B11",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "beginner",
-        "type": "numeric",
-        "cognitiveLevel": "apply",
-        "question": "What does 10 - 3 * 2 evaluate to in MATLAB?",
-        "correctAnswer": {
-          "value": 4,
-          "tolerance": 0
-        },
-        "explanation": "Multiplication happens before subtraction: 3 * 2 = 6 is computed first, then 10 - 6 = 4.",
-        "concept": "Operator precedence",
-        "tags": [
-          "operator precedence",
-          "arithmetic"
         ],
         "references": [
           "Unit 0 – Lecture 1"
@@ -3600,37 +3551,6 @@
         ]
       },
       {
-        "id": "U0-VAR-B18",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "Which operator represents exponentiation (raising to a power) in MATLAB?",
-        "options": [
-          "^",
-          "**",
-          "pow",
-          "↑"
-        ],
-        "correctAnswer": 0,
-        "explanation": "MATLAB uses the caret ^ for exponentiation, e.g. 2^3 for 2 cubed.",
-        "optionExplanations": [
-          "Correct — ^ is MATLAB’s exponentiation operator.",
-          "Incorrect — ** is used in some other languages (like Python), not MATLAB.",
-          "Incorrect — pow is not a MATLAB operator (nor a standard function name for this).",
-          "Incorrect — not a MATLAB operator."
-        ],
-        "concept": "The exponentiation operator",
-        "tags": [
-          "exponentiation",
-          "operators"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
         "id": "U0-VAR-B19",
         "unit": 0,
         "topic": "variables-operators",
@@ -3750,28 +3670,6 @@
         ]
       },
       {
-        "id": "U0-VAR-B23",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "beginner",
-        "type": "numeric",
-        "cognitiveLevel": "apply",
-        "question": "What does 20 - 5 - 3 evaluate to, working left to right?",
-        "correctAnswer": {
-          "value": 12,
-          "tolerance": 0
-        },
-        "explanation": "With two subtractions of equal precedence, MATLAB evaluates left to right: (20 - 5) = 15, then 15 - 3 = 12.",
-        "concept": "Left-to-right associativity",
-        "tags": [
-          "associativity",
-          "arithmetic"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
         "id": "U0-VAR-B24",
         "unit": 0,
         "topic": "variables-operators",
@@ -3855,37 +3753,6 @@
         "tags": [
           "variable names",
           "case sensitivity"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
-        "id": "U0-VAR-B27",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "understand",
-        "question": "Which of the following is a valid MATLAB variable name?",
-        "options": [
-          "column1",
-          "1column",
-          "my-variable",
-          "for"
-        ],
-        "correctAnswer": 0,
-        "explanation": "Variable names must start with a letter and contain only letters, digits, and underscores after that. \"1column\" starts with a digit, \"my-variable\" contains a hyphen (read as subtraction), and \"for\" is a reserved keyword.",
-        "optionExplanations": [
-          "Correct — starts with a letter, followed by letters/digits; a valid name.",
-          "Incorrect — variable names cannot start with a digit.",
-          "Incorrect — a hyphen isn't allowed; MATLAB would read this as \"my minus variable\".",
-          "Incorrect — \"for\" is a reserved MATLAB keyword and can't be used as a variable name."
-        ],
-        "concept": "Valid variable name rules",
-        "tags": [
-          "variable names",
-          "isvarname"
         ],
         "references": [
           "Unit 0 – Lecture 1"
@@ -4035,7 +3902,7 @@
           "operators"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – MATLAB Tutorial"
         ]
       },
       {
@@ -4066,7 +3933,7 @@
           "relational"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – Lecture 2"
         ]
       },
       {
@@ -4340,34 +4207,6 @@
         ]
       },
       {
-        "id": "U0-VAR-I13",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "analyze",
-        "question": "Adding a number to a single character, like 'a' + 1, produces another character ('b'), not a number.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 1,
-        "explanation": "False. 'a' + 1 produces the number 98 (a double), because arithmetic operators convert characters to their underlying numeric codes.",
-        "optionExplanations": [
-          "Incorrect — the result is numeric (98), not the character 'b'.",
-          "Correct — character arithmetic in MATLAB yields a number, not another character."
-        ],
-        "concept": "Character arithmetic promotes to numeric",
-        "tags": [
-          "char",
-          "arithmetic",
-          "common pitfall"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
         "id": "U0-VAR-I14",
         "unit": 0,
         "topic": "variables-operators",
@@ -4418,7 +4257,7 @@
           "operators"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – If/Else/Switch/While/Loops Lab"
         ]
       },
       {
@@ -4446,7 +4285,7 @@
           "common pitfall"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – MATLAB Tutorial"
         ]
       },
       {
@@ -4479,38 +4318,7 @@
           "common pitfall"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
-        "id": "U0-VAR-I18",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "intermediate",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "Which is the correct MATLAB syntax for 'greater than or equal to'?",
-        "options": [
-          ">=",
-          "=>",
-          ">==",
-          "≥"
-        ],
-        "correctAnswer": 0,
-        "explanation": "MATLAB writes \"greater than or equal to\" as >=, with the greater-than symbol first.",
-        "optionExplanations": [
-          "Correct — >= is the valid relational operator.",
-          "Incorrect — the symbols are in the wrong order; this is not valid MATLAB syntax.",
-          "Incorrect — not a valid MATLAB operator.",
-          "Incorrect — MATLAB source code uses ASCII operators, not the mathematical ≥ symbol."
-        ],
-        "concept": "Relational operators",
-        "tags": [
-          "operators",
-          "relational"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – Lecture 2"
         ]
       },
       {
@@ -4536,33 +4344,6 @@
           "Incorrect — only one of the two comparisons is true.",
           "Incorrect — adding two logical values produces a number, not the word \"true\".",
           "Incorrect — logical values can be added; they behave as 1 and 0 in arithmetic."
-        ],
-        "concept": "Logical values behave as numbers in arithmetic",
-        "tags": [
-          "logical",
-          "arithmetic"
-        ],
-        "references": [
-          "Unit 0 – Lecture 1"
-        ]
-      },
-      {
-        "id": "U0-VAR-I20",
-        "unit": 0,
-        "topic": "variables-operators",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "understand",
-        "question": "In MATLAB, the logical values true and false behave as 1 and 0 when used in arithmetic.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. Logical values are automatically treated as 1 (true) and 0 (false) whenever they’re used in a numeric expression, such as being added together.",
-        "optionExplanations": [
-          "Correct — logical values numerically act as 1 and 0.",
-          "Incorrect — this numeric behavior is exactly how MATLAB treats logicals in arithmetic contexts."
         ],
         "concept": "Logical values behave as numbers in arithmetic",
         "tags": [
@@ -5146,7 +4927,7 @@
           "relational operators"
         ],
         "references": [
-          "Unit 0 – Lecture 1"
+          "Unit 0 – Lecture 2"
         ]
       },
       {
@@ -9296,63 +9077,6 @@
         ]
       },
       {
-        "id": "U0-PLT-B06",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "Which command closes every currently open figure window?",
-        "options": [
-          "close all",
-          "closeall",
-          "figure(0)",
-          "clear all"
-        ],
-        "correctAnswer": 0,
-        "explanation": "close all closes every open figure window. (close alone closes only the current figure.)",
-        "optionExplanations": [
-          "Correct — close all closes every open figure window.",
-          "Incorrect — not a real MATLAB command (missing the space); \"close all\" is two words.",
-          "Incorrect — figure(0) is not a valid figure number and does not close anything.",
-          "Incorrect — clear all removes variables from the Workspace; it does not affect figure windows."
-        ],
-        "concept": "Closing figure windows",
-        "tags": [
-          "close",
-          "figure"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B07",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "true-false",
-        "cognitiveLevel": "understand",
-        "question": "Calling figure a second time always opens a brand-new window, even if a figure is already open.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. Unlike plot() (which reuses the current figure), calling figure explicitly always creates a new, separate figure window.",
-        "optionExplanations": [
-          "Correct — figure always opens a new window when called with no arguments.",
-          "Incorrect — this is exactly what figure is for; it does not reuse an existing window."
-        ],
-        "concept": "figure vs. automatic figure reuse",
-        "tags": [
-          "figure"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-B08",
         "unit": 0,
         "topic": "plotting-basics",
@@ -9384,42 +9108,6 @@
         ]
       },
       {
-        "id": "U0-PLT-B09",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "output-prediction",
-        "cognitiveLevel": "understand",
-        "question": "What does this code plot on the x-axis?",
-        "code": "v = [10 20 15];\nplot(v)",
-        "language": "matlab",
-        "options": [
-          "The index of each element (1, 2, 3)",
-          "The values of v itself (10, 20, 15)",
-          "Nothing — plot(v) with one argument is an error",
-          "Time in seconds, automatically"
-        ],
-        "correctAnswer": 0,
-        "explanation": "When plot() is called with a single vector argument, MATLAB plots that vector’s values against their own index (1, 2, 3, ...) on the x-axis.",
-        "optionExplanations": [
-          "Correct — a single-argument plot() uses the element index as x.",
-          "Incorrect — the values of v are plotted on the y-axis, not the x-axis, in this case.",
-          "Incorrect — plot(v) with one vector argument is perfectly valid syntax.",
-          "Incorrect — MATLAB has no built-in notion of \"seconds\" unless you explicitly provide a time vector."
-        ],
-        "concept": "plot() with a single argument",
-        "commonMistakes": [
-          "Forgetting that plot(v) plots v against its index, not against some other implied x variable."
-        ],
-        "tags": [
-          "plot",
-          "single argument"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-B10",
         "unit": 0,
         "topic": "plotting-basics",
@@ -9444,32 +9132,6 @@
         "concept": "Toggling gridlines",
         "tags": [
           "grid"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B11",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "true-false",
-        "cognitiveLevel": "understand",
-        "question": "Calling \"hold off\" restores the default behavior where a new plot() call replaces the current axes contents.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. hold off turns off the \"keep adding to the axes\" behavior that hold on enabled, returning to the default where plot() replaces what was there.",
-        "optionExplanations": [
-          "Correct — hold off is exactly the counterpart to hold on.",
-          "Incorrect — this is precisely what hold off does."
-        ],
-        "concept": "hold on / hold off",
-        "tags": [
-          "hold on"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -9567,33 +9229,6 @@
         "tags": [
           "cla",
           "clf"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B15",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "true-false",
-        "cognitiveLevel": "remember",
-        "question": "xlabel and ylabel can be called in either order after plot() — the result looks the same either way.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. xlabel sets the x-axis label and ylabel sets the y-axis label; since they affect different, independent parts of the axes, calling them in either order produces the same final plot.",
-        "optionExplanations": [
-          "Correct — the two calls are independent of each other.",
-          "Incorrect — there is no ordering requirement between xlabel and ylabel."
-        ],
-        "concept": "Independence of axis-labeling calls",
-        "tags": [
-          "xlabel",
-          "ylabel"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -9749,96 +9384,6 @@
           "axis",
           "xlim",
           "ylim"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B21",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "code-completion",
-        "cognitiveLevel": "apply",
-        "question": "Which line correctly completes this code to add gridlines to the plot?",
-        "code": "x = 1:10;\ny = x.^2;\nplot(x, y)\n_____",
-        "language": "matlab",
-        "options": [
-          "grid on",
-          "gridOn()",
-          "showGrid(true)",
-          "plot(x, y, grid)"
-        ],
-        "correctAnswer": 0,
-        "explanation": "grid on is the correct, complete command to turn on gridlines for the current axes.",
-        "optionExplanations": [
-          "Correct — grid on turns on gridlines.",
-          "Incorrect — not a real MATLAB function.",
-          "Incorrect — not a real MATLAB function.",
-          "Incorrect — grid is not a valid argument to pass inside a plot() call."
-        ],
-        "concept": "Adding gridlines",
-        "tags": [
-          "grid",
-          "code completion"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B22",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "true-false",
-        "cognitiveLevel": "understand",
-        "question": "A plot’s title can be set with title(...) either before or after the plot() call, and the final displayed title looks the same either way.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. title() sets the text of the current axes’ title regardless of when it’s called relative to plot() (as long as it’s not later overwritten or the axes cleared) — the end result is the same title either way.",
-        "optionExplanations": [
-          "Correct — the order relative to plot() does not change the final title text shown.",
-          "Incorrect — title text placement does not depend on call order relative to plot()."
-        ],
-        "concept": "title() ordering relative to plot()",
-        "tags": [
-          "title"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-B23",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "beginner",
-        "type": "multiple-choice",
-        "cognitiveLevel": "remember",
-        "question": "Which of the following is NOT a valid MATLAB line-style symbol?",
-        "options": [
-          "'=='",
-          "'--'",
-          "':'",
-          "'-.'"
-        ],
-        "correctAnswer": 0,
-        "explanation": "MATLAB's valid line styles are '-' (solid), '--' (dashed), ':' (dotted), and '-.' (dash-dot). '==' is not a recognized line-style symbol.",
-        "optionExplanations": [
-          "Correct — \"==\" is not a valid MATLAB line-style symbol.",
-          "Incorrect — \"--\" is a valid dashed line style.",
-          "Incorrect — \":\" is a valid dotted line style.",
-          "Incorrect — \"-.\" is a valid dash-dot line style."
-        ],
-        "concept": "Valid line-style symbols",
-        "tags": [
-          "plot",
-          "line style"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -10138,42 +9683,6 @@
     ],
     "intermediate": [
       {
-        "id": "U0-PLT-I01",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "code-completion",
-        "cognitiveLevel": "apply",
-        "question": "Which line correctly completes this code to plot y versus x?",
-        "code": "x = 0:0.1:2*pi;\ny = sin(x);\n_____\nxlabel('x'); ylabel('sin(x)');",
-        "language": "matlab",
-        "options": [
-          "plot(x, y)",
-          "plot(y, x)",
-          "plot(x)",
-          "plot(sin)"
-        ],
-        "correctAnswer": 0,
-        "explanation": "plot(x, y) plots the y-values against the corresponding x-values, which is what \"y versus x\" means.",
-        "optionExplanations": [
-          "Correct — plots y as a function of x, in the conventional order.",
-          "Incorrect — this would plot x as a function of y, swapping the intended axes.",
-          "Incorrect — plot(x) alone plots x against its own index, not against y.",
-          "Incorrect — \"sin\" by itself is a function handle-like reference, not the computed data; this is not valid usage here."
-        ],
-        "concept": "plot(x, y) argument order",
-        "commonMistakes": [
-          "Swapping the x and y arguments to plot()."
-        ],
-        "tags": [
-          "plot",
-          "code completion"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-I02",
         "unit": 0,
         "topic": "plotting-basics",
@@ -10399,32 +9908,6 @@
         ]
       },
       {
-        "id": "U0-PLT-I09",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "apply",
-        "question": "axis equal forces the same scale on the x-axis and y-axis, so, for example, a circle is displayed as a circle rather than an ellipse.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. axis equal makes one unit along the x-axis represent the same physical length on screen as one unit along the y-axis, preventing shape distortion.",
-        "optionExplanations": [
-          "Correct — this is exactly the purpose of axis equal.",
-          "Incorrect — axis equal specifically exists to prevent this kind of distortion."
-        ],
-        "concept": "axis equal",
-        "tags": [
-          "axis"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-I10",
         "unit": 0,
         "topic": "plotting-basics",
@@ -10515,32 +9998,6 @@
         "tags": [
           "text",
           "annotation"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-I13",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "analyze",
-        "question": "subplot(2,2,1) and subplot(221) (a single three-digit number) refer to the same subplot cell.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. When rows, columns, and index are each single digits, MATLAB allows the shorthand of combining them into one number — subplot(221) means the same thing as subplot(2,2,1).",
-        "optionExplanations": [
-          "Correct — this compact three-digit shorthand is valid MATLAB syntax for single-digit grid dimensions.",
-          "Incorrect — this shorthand is genuinely equivalent, not a different cell."
-        ],
-        "concept": "Compact subplot() shorthand",
-        "tags": [
-          "subplot"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -10673,55 +10130,6 @@
         ]
       },
       {
-        "id": "U0-PLT-I18",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "code-entry",
-        "cognitiveLevel": "apply",
-        "question": "Write a single line of MATLAB code that sets the x-axis range to [0, 10].",
-        "acceptableAnswers": [
-          "xlim([0 10]);",
-          "xlim([0, 10]);"
-        ],
-        "correctAnswer": "xlim([0 10]);",
-        "explanation": "xlim takes a single 2-element vector [xmin xmax] specifying the new x-axis range.",
-        "concept": "Setting axis limits",
-        "tags": [
-          "xlim"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-I19",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "analyze",
-        "question": "A single plot() call can accept multiple x-y pairs, each with its own line-spec string, without needing hold on.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. hold on is only needed to accumulate lines across SEPARATE plot() calls; a single plot() call already supports multiple x-y-linespec triplets that all appear together.",
-        "optionExplanations": [
-          "Correct — multiple line pairs in one plot() call don’t require hold on.",
-          "Incorrect — hold on is unnecessary within a single plot() call; it only matters between separate calls."
-        ],
-        "concept": "When hold on is (and isn’t) needed",
-        "tags": [
-          "plot",
-          "hold on"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-I20",
         "unit": 0,
         "topic": "plotting-basics",
@@ -10837,32 +10245,6 @@
           "plot",
           "line style",
           "markers"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-I24",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "intermediate",
-        "type": "true-false",
-        "cognitiveLevel": "analyze",
-        "question": "Calling xlim('auto') tells MATLAB to go back to automatically choosing the x-axis range based on the plotted data.",
-        "options": [
-          "True",
-          "False"
-        ],
-        "correctAnswer": 0,
-        "explanation": "True. Passing 'auto' to xlim (or ylim) restores MATLAB's automatic limit-selection behavior, undoing any manually set fixed range.",
-        "optionExplanations": [
-          "Correct — 'auto' restores automatic axis-limit selection.",
-          "Incorrect — this is exactly what 'auto' does."
-        ],
-        "concept": "Restoring automatic axis limits",
-        "tags": [
-          "xlim"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -11183,40 +10565,6 @@
         "tags": [
           "subplot",
           "plotting"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-A04",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "advanced",
-        "type": "code-debug",
-        "cognitiveLevel": "analyze",
-        "question": "This code throws an error. Why?",
-        "code": "x = 1:5;\ny = [2 4 6 8];\nplot(x, y)",
-        "language": "matlab",
-        "options": [
-          "x has 5 elements and y has 4 — plot(x, y) requires them to be the same length",
-          "plot cannot accept a range like 1:5 as an argument",
-          "y must be defined before x",
-          "Missing semicolons cause plot() to error"
-        ],
-        "correctAnswer": 0,
-        "explanation": "plot(x, y) pairs up x(i) with y(i) for every point, so x and y must have the same number of elements. Here x has 5 and y has 4, which MATLAB rejects with a dimension-mismatch error.",
-        "optionExplanations": [
-          "Correct — mismatched lengths are exactly the problem.",
-          "Incorrect — 1:5 produces a perfectly normal numeric vector, which plot accepts.",
-          "Incorrect — variable definition order here is fine; x is used correctly after being defined.",
-          "Incorrect — semicolons only control output display, not whether code runs."
-        ],
-        "concept": "Matching vector lengths for plot()",
-        "tags": [
-          "plot",
-          "dimension mismatch",
-          "debugging"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
@@ -11800,27 +11148,6 @@
         ]
       },
       {
-        "id": "U0-PLT-A23",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "advanced",
-        "type": "numeric",
-        "cognitiveLevel": "apply",
-        "question": "A figure lays out sensor channels using subplot(4,3,p) (4 rows, 3 columns). How many total subplot cells does this grid provide?",
-        "correctAnswer": {
-          "value": 12,
-          "tolerance": 0
-        },
-        "explanation": "subplot(rows, cols, index) creates a grid with rows × cols total cells: 4 × 3 = 12.",
-        "concept": "subplot() grid cell count",
-        "tags": [
-          "subplot"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
         "id": "U0-PLT-A24",
         "unit": 0,
         "topic": "plotting-basics",
@@ -11846,34 +11173,6 @@
         "tags": [
           "title",
           "subplot"
-        ],
-        "references": [
-          "Unit 0 – MATLAB Example Presentation"
-        ]
-      },
-      {
-        "id": "U0-PLT-A25",
-        "unit": 0,
-        "topic": "plotting-basics",
-        "difficulty": "advanced",
-        "type": "select-all",
-        "cognitiveLevel": "evaluate",
-        "question": "A legend shows the correct NUMBER of entries, but each label sits next to the wrong line. Which of the following would actually fix this? Select all that apply.",
-        "options": [
-          "Reorder the legend() label arguments to match the order the lines were actually plotted in",
-          "Re-check the actual plotting order and correct the label list to match it exactly",
-          "Increase the font size of the legend text",
-          "Move the legend box to a different corner of the plot"
-        ],
-        "correctAnswer": [
-          0,
-          1
-        ],
-        "explanation": "A label/line mismatch is fixed by correcting the ORDER of the labels to match plotting order — options 1 and 2 both describe doing that. Font size and legend position are purely cosmetic and don’t change which label is associated with which line.",
-        "concept": "Fixing a legend label/line order mismatch",
-        "tags": [
-          "legend",
-          "debugging"
         ],
         "references": [
           "Unit 0 – MATLAB Example Presentation"
