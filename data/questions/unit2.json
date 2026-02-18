@@ -5351,7 +5351,7 @@
         "cognitiveLevel": "analyze",
         "question": "A 3-compartment model gives A = [[2,1,0],[1,2,1],[0,1,2]] (a tridiagonal structure common in compartmental models), b = [3;4;3]. This system is symmetric and well-posed. Using the fact that this A is symmetric, what is x2 (verify by direct substitution: by symmetry of both A and b here, expect x1=x3)?",
         "correctAnswer": {
-          "value": 1.5,
+          "value": 1,
           "tolerance": 0.05
         },
         "explanation": "By the symmetry of both A and b (row 1 mirrors row 3, and b's outer values match), x1=x3 by symmetry. Substituting into row 2: x1 + 2x2 + x3 = 4 → 2x1 + 2x2 = 4. Row 1: 2x1 + x2 = 3 → x1 = (3-x2)/2. Substituting: 2((3-x2)/2) + 2x2 = 4 → (3-x2) + 2x2 = 4 → 3 + x2 = 4 → x2 = 1.",
@@ -7176,12 +7176,12 @@
         "difficulty": "intermediate",
         "type": "numeric",
         "cognitiveLevel": "analyze",
-        "question": "x = [1;2;3], y = [3;5;9]. Using the design matrix A = [x, ones(3,1)] and A\\y giving beta ≈ [3; -0.6667] (slope, intercept), predict y at x=4.",
+        "question": "x = [1;2;3], y = [3;5;9]. Using the design matrix A = [x, ones(3,1)] and A\\y giving beta ≈ [3; -0.3333] (slope, intercept), predict y at x=4.",
         "correctAnswer": {
-          "value": 11.3333,
+          "value": 11.6667,
           "tolerance": 0.1
         },
-        "explanation": "y_pred = 3*4 + (-0.6667) = 12 - 0.6667 = 11.3333.",
+        "explanation": "y_pred = 3*4 + (-0.3333) = 12 - 0.3333 = 11.6667.",
         "concept": "Using a fitted model to predict a new point",
         "tags": [
           "regression",
@@ -7833,10 +7833,10 @@
         "cognitiveLevel": "analyze",
         "question": "x=[1;2;3;4;5], y=[1;4;9;16;25] (a perfect y=x² relationship). Fitting a LINEAR (degree-1) model, roughly what would you expect R² to be — high (close to 1) or notably below 1? Report your numeric estimate of R² as a single number between 0 and 1 (compute exactly: p=polyfit(x,y,1) gives slope≈6, intercept≈-7; use these to compute R² by hand).",
         "correctAnswer": {
-          "value": 0.966,
+          "value": 0.9626,
           "tolerance": 0.02
         },
-        "explanation": "y_fit = 6x - 7: at x=1..5, y_fit=[-1,5,11,17,23]. Residuals: [2,-1,-2,-1,2], SSE=4+1+4+1+4=14. mean(y)=11, TSS=(1-11)²+(4-11)²+(9-11)²+(16-11)²+(25-11)²=100+49+4+25+196=374. R²=1-14/374≈1-0.0374=0.9626 (close to the accepted ~0.966 with rounding in the linear fit coefficients).",
+        "explanation": "y_fit = 6x - 7: at x=1..5, y_fit=[-1,5,11,17,23]. Residuals: [2,-1,-2,-1,2], SSE=4+1+4+1+4=14. mean(y)=11, TSS=(1-11)²+(4-11)²+(9-11)²+(16-11)²+(25-11)²=100+49+4+25+196=374. R²=1-14/374≈1-0.0374=0.9626 — still notably below 1 (about 96%) despite the underlying data being a perfect quadratic, since a linear model can't capture curvature; the small remaining gap from a \"perfect\" score comes from the systematic curved pattern left in the residuals, not from any noise.",
         "concept": "A linear fit to nonlinear data can still have high R²",
         "tags": [
           "regression",
@@ -9307,7 +9307,8 @@
           "profiler"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -9334,7 +9335,8 @@
           "profiler"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -10044,7 +10046,8 @@
           "scenario"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -10204,7 +10207,8 @@
           "scenario"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -10231,7 +10235,8 @@
           "profiler"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -10770,7 +10775,8 @@
           "profiler"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       },
       {
@@ -11246,7 +11252,8 @@
           "profiler"
         ],
         "references": [
-          "Unit 2 Review: Vectorization & Efficiency"
+          "Unit 2 Review: Vectorization & Efficiency",
+          "Profiler Tutorial"
         ]
       }
     ],

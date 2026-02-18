@@ -601,6 +601,7 @@ body.dark-mode .scratchpad-editor-host{background:#0f1f38!important}
 .review-prevnext{display:flex;justify-content:space-between;gap:16px;margin-top:22px;flex-wrap:wrap}
 .review-prevnext-link{font-size:.85em;color:var(--muted)}
 .review-next{margin-left:auto;text-align:right}
+.review-lecture-note{font-size:.72em;font-family:var(--mono);color:var(--dimmer);margin-top:18px;text-transform:uppercase;letter-spacing:.04em}
 
 /* ─── Try-it blocks (js/review-tryit.js) ──────────────────── */
 .tryit-bar-actions{display:flex;gap:6px;align-items:center}
@@ -637,6 +638,7 @@ body.dark-mode .review-diagram figcaption{color:#94a3b8!important}
 body.dark-mode .review-photo-card{border-color:#1c3050!important}
 body.dark-mode .review-photo figcaption{color:#94a3b8!important}
 body.dark-mode .review-photo-credit{color:#64748b!important}
+body.dark-mode .review-lecture-note{color:#64748b!important}
 body.dark-mode .quick-check{background:#0f1f38!important;border-color:#1c3050!important}
 body.dark-mode .quick-check-q{color:#e2e8f0!important}
 body.dark-mode .quick-check-answer{color:#94a3b8!important;border-color:#1c3050!important}

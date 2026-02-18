@@ -772,10 +772,10 @@
         "cognitiveLevel": "apply",
         "question": "The true (analytic) roots of f(x) = x^2 - 22x - 230 are x = 11 ± sqrt(1404)/2. What is the negative root, to 3 decimal places?",
         "correctAnswer": {
-          "value": -7.737,
+          "value": -7.735,
           "tolerance": 0.01
         },
-        "explanation": "sqrt(1404) ≈ 37.470. x = 11 - 37.470/2 = 11 - 18.735 = -7.735, which rounds to approximately -7.737 with more precise arithmetic (sqrt(1404) = 37.4700...). The Newton iterate from x0=-9 (≈-7.775) is already converging toward this value.",
+        "explanation": "sqrt(1404) ≈ 37.470. x = 11 - 37.470/2 = 11 - 18.735 = -7.735. The Newton iterate from x0=-9 (≈-7.775) is already converging toward this value.",
         "concept": "Verifying Newton's method against the analytic root",
         "tags": [
           "newton's method",
@@ -1140,7 +1140,7 @@
           "value": -7.7365,
           "tolerance": 0.01
         },
-        "explanation": "f(-7.775) = 60.4256 + 171.05 - 230 ≈ 1.476, fp(-7.775) = -15.55 - 22 = -37.55. x2 = -7.775 - 1.476/(-37.55) ≈ -7.775 + 0.0393 ≈ -7.736, already very close to the analytic root ≈ -7.737 after just 2 iterations, illustrating Newton's method's fast convergence.",
+        "explanation": "f(-7.775) = 60.4256 + 171.05 - 230 ≈ 1.476, fp(-7.775) = -15.55 - 22 = -37.55. x2 = -7.775 - 1.476/(-37.55) ≈ -7.775 + 0.0393 ≈ -7.736, already very close to the analytic root ≈ -7.735 after just 2 iterations, illustrating Newton's method's fast convergence.",
         "concept": "Iterating Newton's method by hand",
         "tags": [
           "newton's method",
@@ -2409,12 +2409,12 @@
         "difficulty": "expert",
         "type": "numeric",
         "cognitiveLevel": "analyze",
-        "question": "For f(x) = x^2 - 22x - 230, Newton's method from x0=-9 reached x1≈-7.775 in one step, x2≈-7.736 in a second (very close to the true root ≈-7.737). What is |x2 - root| approximately, in units of 10^-4?",
+        "question": "For f(x) = x^2 - 22x - 230, Newton's method from x0=-9 reached x1≈-7.775 in one step, x2≈-7.736 in a second (very close to the true root ≈-7.735). What is |x2 - root| approximately, in units of 10^-4?",
         "correctAnswer": {
           "value": 1,
           "tolerance": 5
         },
-        "explanation": "|x2 - root| = |-7.736 - (-7.7365)| ≈ 0.0005, i.e., about 5×10^-4, in the same order of magnitude — illustrating that after just 2 iterations from a reasonable starting guess, Newton's method has already converged to within a fraction of a thousandth, the quadratic-convergence behavior the chapter alludes to as its main advantage.",
+        "explanation": "Using the unrounded iterate x2≈-7.735037 and the analytic root ≈-7.734994, |x2 - root| ≈ 0.000043, i.e., under 1×10^-4 — illustrating that after just 2 iterations from a reasonable starting guess, Newton's method has already converged to within a fraction of a thousandth, the quadratic-convergence behavior the chapter alludes to as its main advantage.",
         "concept": "Quantifying quadratic convergence numerically",
         "tags": [
           "numeric",
@@ -7453,10 +7453,10 @@
         "question": "For the enzyme model v([S]) = Vmax[S]/(Km+[S]+[S]²/Ki), with a guess Vmax=8, Km=1.5, Ki=15, compute v(2) (to 3 decimal places).",
         "code": "Vmax=8; Km=1.5; Ki=15; S=2;\nv = Vmax*S / (Km + S + S^2/Ki)",
         "correctAnswer": {
-          "value": 3.883,
+          "value": 4.248,
           "tolerance": 0.02
         },
-        "explanation": "v(2) = 8*2 / (1.5 + 2 + 4/15) = 16 / (3.5 + 0.2667) = 16 / 3.7667 ≈ 4.248. (Rechecking: 1.5+2=3.5, 4/15=0.2667, sum=3.7667, 16/3.7667=4.248.) Using the initial guess parameters, v(2) ≈ 4.248 — accepted within the stated tolerance band around the computed value.",
+        "explanation": "v(2) = 8*2 / (1.5 + 2 + 4/15) = 16 / (3.5 + 0.2667) = 16 / 3.7667 ≈ 4.248, using the initial guess parameters.",
         "concept": "Evaluating the enzyme inhibition model at a guess",
         "tags": [
           "numeric",

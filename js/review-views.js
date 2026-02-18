@@ -107,6 +107,7 @@ export async function renderLearnUnit(container, unitSlug) {
         <span class="unit-card-pct">${exploredPct}% explored</span>
       </div>
       <div class="dashboard-actions"><a class="btn btn-outline" href="#/unit/${unit.id}">Go to Practice for this Unit</a></div>
+      ${lectureFooterHtml(unit)}
     </div>
     <div class="section">
       <h2 class="section-title">Chapters</h2>
@@ -176,6 +177,7 @@ export async function renderLearnChapter(container, unitSlug, chapterId) {
             ${prev ? `<a class="review-prevnext-link review-prev" href="${reviewChapterHref(prev.unit, prev.id)}">← Previous: ${escapeHtml(prev.title)}</a>` : '<span></span>'}
             ${next ? `<a class="review-prevnext-link review-next" href="${reviewChapterHref(next.unit, next.id)}">Next: ${escapeHtml(next.title)} →</a>` : '<span></span>'}
           </div>
+          ${lectureFooterHtml(unit)}
         </div>
       </div>
     </div>
@@ -196,6 +198,17 @@ export async function renderLearnChapter(container, unitSlug, chapterId) {
 
 function backLink() {
   return `<div class="dashboard-actions"><a class="btn btn-outline" href="#/learn">Back to Review</a></div>`;
+}
+
+/** Pulls just the "Lecture N" entries out of a unit's materials list, in order. */
+function unitLectures(unit) {
+  return (unit.materials || []).filter(m => /^Lecture \d+$/.test(m));
+}
+
+function lectureFooterHtml(unit) {
+  const lectures = unitLectures(unit);
+  if (!lectures.length) return '';
+  return `<div class="review-lecture-note">Further covers: ${lectures.join(' · ')}</div>`;
 }
 
 // ─── Block rendering ────────────────────────────────────────
