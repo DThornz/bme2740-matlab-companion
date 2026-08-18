@@ -1,0 +1,506 @@
+[
+  {
+    "id": "U2-WB-B01",
+    "unit": 2,
+    "topic": "linear-systems-basics",
+    "difficulty": "beginner",
+    "title": "Blending Two IV Dextrose Solutions to a Target Concentration",
+    "context": "A pharmacy technician needs to prepare 200 mL of a 9% dextrose IV solution by combining a 5% stock solution and a 15% stock solution. Two conservation rules -- total volume and total dextrose mass -- give a system of two linear equations in the two unknown volumes.",
+    "parts": [
+      { "label": "a", "prompt": "Let x1 = volume (mL) of 5% solution and x2 = volume (mL) of 15% solution. Write the total-volume equation (x1+x2=200) and the total-dextrose-mass equation (0.05x1+0.15x2 = 0.09*200) as a 2x2 coefficient matrix A and right-hand-side vector b." },
+      { "label": "b", "prompt": "Solve for x1 and x2 using the backslash operator, storing the result in vol (a 2x1 vector), and display it." },
+      { "label": "c", "prompt": "Using fprintf, display the answer in the form \"Use 120.0 mL of 5% solution and 80.0 mL of 15% solution.\"" }
+    ],
+    "starterCode": "% Problem: Blending Two IV Dextrose Solutions to a Target Concentration\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A and b from the volume and mass-balance equations\n\n\n% b) Solve for vol = [x1; x2] using backslash\n\n\n% c) Display the result with fprintf\n",
+    "hints": [
+      "\"Total volume\" gives one equation (x1+x2=200); \"total dextrose mass\" gives the other (0.05x1+0.15x2 = 0.09*200) -- write each equation's coefficients as one row of A, and each equation's right-hand side as one entry of b.",
+      "Once A and b are built correctly, MATLAB's backslash operator solves Ax=b in one step: vol = A\\b, with no need to compute an inverse by hand.",
+      "The mass-balance equation's right-hand side is 0.09*200 = 18 grams of dextrose, not just 9 or 0.09 -- make sure you multiply the target percentage by the total volume before it goes into b."
+    ],
+    "solutionCode": "% a) Build the system: x1+x2=200, 0.05x1+0.15x2=18\nA = [1 1; 0.05 0.15];\nb = [200; 0.09*200];\n\n% b) Solve using backslash\nvol = A\\b;\ndisp(vol)\n\n% c) Display the result\nfprintf('Use %.1f mL of 5%% solution and %.1f mL of 15%% solution.\\n', vol(1), vol(2));",
+    "solutionExplanation": "Each physical constraint becomes one row of the system: the first row, [1 1], encodes \"the two volumes must add up to 200 mL,\" and the second row, [0.05 0.15], encodes \"the dextrose contributed by each solution (5% of x1 plus 15% of x2) must add up to the 18 g of dextrose that a 9%-of-200-mL target requires.\" Solving vol = A\\b gives vol = [120; 80], meaning 120 mL of the 5% stock and 80 mL of the 15% stock -- a quick check confirms 120+80 = 200 mL total and 0.05(120)+0.15(80) = 6+12 = 18 g, exactly matching the target. The backslash operator handles this two-unknown, two-equation system directly, without the student ever needing to invert a matrix by hand.",
+    "concept": "Formulating a mixing problem as a linear system Ax=b and solving it with backslash",
+    "tags": ["linear systems", "Ax=b", "backslash", "mixing problem", "IV solutions"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-B02",
+    "unit": 2,
+    "topic": "solving-ax-b",
+    "difficulty": "beginner",
+    "title": "Solving a Two-Reagent Bioreactor Yield System with Backslash",
+    "context": "A bioprocess engineer runs two small bioreactor trials, each seeded with a different combination of two growth-promoting reagents (Reagent P and Reagent Q, in mL). The total cell yield measured in each trial gives two equations relating the yield contributed per mL of each reagent.",
+    "parts": [
+      { "label": "a", "prompt": "The system is: 3p + 2q = 18 (Trial 1 yield) and p + 4q = 16 (Trial 2 yield), where p and q are the per-mL yield contributions of Reagent P and Reagent Q. Store the coefficient matrix as A = [3 2; 1 4] and the right-hand side as b = [18; 16]." },
+      { "label": "b", "prompt": "Solve for p and q using the backslash operator, storing the result in yieldRates, and display it." },
+      { "label": "c", "prompt": "Using fprintf, display \"Reagent P: 4.0 yield/mL, Reagent Q: 3.0 yield/mL\"." }
+    ],
+    "starterCode": "% Problem: Solving a Two-Reagent Bioreactor Yield System with Backslash\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A and b\n\n\n% b) Solve for yieldRates using backslash\n\n\n% c) Display the result with fprintf\n",
+    "hints": [
+      "This system is already set up for you -- backslash solves Ax=b directly, so there's no need to isolate variables by hand or build a matrix inverse.",
+      "yieldRates = A\\b returns a 2x1 column vector; yieldRates(1) is p and yieldRates(2) is q, in the same order the columns of A were written.",
+      "Double-check your answer by plugging it back in by hand: 3(4)+2(3) should equal 18, and 1(4)+4(3) should equal 16."
+    ],
+    "solutionCode": "% a) Build the system\nA = [3 2; 1 4];\nb = [18; 16];\n\n% b) Solve using backslash\nyieldRates = A\\b;\ndisp(yieldRates)\n\n% c) Display the result\nfprintf('Reagent P: %.1f yield/mL, Reagent Q: %.1f yield/mL\\n', yieldRates(1), yieldRates(2));",
+    "solutionExplanation": "Because the system is already expressed as Ax=b, the backslash operator solves for both unknowns at once: yieldRates = A\\b returns [4; 3], meaning each mL of Reagent P contributes 4 units of yield and each mL of Reagent Q contributes 3 units. Plugging these back in confirms both equations: 3(4)+2(3) = 18 matches Trial 1, and 1(4)+4(3) = 16 matches Trial 2. Backslash is the standard, numerically preferred way to solve a square system like this one in MATLAB -- it does not require the student to ever construct or think about A inverse directly.",
+    "concept": "Solving a square linear system with the backslash operator",
+    "tags": ["Ax=b", "backslash", "linear systems", "bioreactor", "yield model"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-B03",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "beginner",
+    "title": "Fitting a Dose-Heart-Rate-Change Line with polyfit",
+    "context": "A pharmacology lab measured the change in heart rate (bpm) at five increasing doses (mg) of a stimulant. You'll fit a straight line to this data using MATLAB's built-in polyfit function, the simplest way to get a best-fit line's slope and intercept.",
+    "parts": [
+      { "label": "a", "prompt": "Create dose_mg = [5 10 15 20 25] and hrChange = [2.1 4.3 5.8 8.2 9.9]." },
+      { "label": "b", "prompt": "Use polyfit(dose_mg, hrChange, 1) to fit a first-degree (line) model, storing the two coefficients [slope, intercept] in p. Display p." },
+      { "label": "c", "prompt": "Using polyval, predict the heart-rate change for a dose of 12 mg, storing the result in predictedChange, and display it rounded to 2 decimal places with fprintf." }
+    ],
+    "starterCode": "% Problem: Fitting a Dose-Heart-Rate-Change Line with polyfit\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create dose_mg and hrChange\n\n\n% b) Fit a line with polyfit -> p\n\n\n% c) Predict the change at dose = 12 mg using polyval\n",
+    "hints": [
+      "polyfit(x, y, n) fits an nth-degree polynomial to your data and returns its coefficients from highest power to lowest -- for n=1 that means [slope, intercept], in that order.",
+      "polyval(p, xNew) evaluates the fitted polynomial p at a new x-value, doing exactly what \"plug xNew into slope*xNew + intercept\" would do, but reading the coefficients directly out of p so you don't retype them.",
+      "p(1) is the slope and p(2) is the intercept -- keep that order in mind if you want to display them separately."
+    ],
+    "solutionCode": "% a) Data\ndose_mg = [5 10 15 20 25];\nhrChange = [2.1 4.3 5.8 8.2 9.9];\n\n% b) Fit a line with polyfit\np = polyfit(dose_mg, hrChange, 1);\ndisp(p)\n\n% c) Predict at dose = 12 mg\npredictedChange = polyval(p, 12);\nfprintf('Predicted HR change at 12 mg: %.2f bpm\\n', predictedChange);",
+    "solutionExplanation": "polyfit(dose_mg, hrChange, 1) finds the line hrChange ~ slope*dose_mg + intercept that minimizes the sum of squared errors between the line and the five data points, returning p ~ [0.39, 0.21] -- a slope of about 0.39 bpm of heart-rate change per mg of dose, and a small positive intercept near 0.21 bpm. polyval(p, 12) then evaluates that fitted line at a new dose of 12 mg by computing p(1)*12 + p(2), giving a predicted heart-rate change of about 4.89 bpm. This is the simplest way to fit a straight line in MATLAB -- polyfit handles the least-squares computation internally, without the student needing to build a design matrix or apply the normal equation by hand.",
+    "concept": "Fitting a best-fit line to data using polyfit and predicting with polyval",
+    "tags": ["polyfit", "polyval", "linear regression", "least squares", "dose-response"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Lecture 7"]
+  },
+  {
+    "id": "U2-WB-B04",
+    "unit": 2,
+    "topic": "vectorization-efficiency",
+    "difficulty": "beginner",
+    "title": "Timing a Preallocated Loop with tic/toc",
+    "context": "Before comparing more advanced optimization techniques, you'll practice the most basic profiling tool in MATLAB: wrapping a block of code with tic and toc to measure how long it takes to run, and using zeros() to preallocate an array before filling it in a loop.",
+    "parts": [
+      { "label": "a", "prompt": "Create n = 100000. Preallocate a row vector x of n zeros using zeros()." },
+      { "label": "b", "prompt": "Start a timer with tic, then use a for-loop to fill x so that x(i) = i^2 for i = 1 to n, then stop the timer with toc, storing the elapsed time in elapsedTime." },
+      { "label": "c", "prompt": "Using fprintf, display the elapsed time rounded to 4 decimal places, and separately display the first 5 elements of x using disp." }
+    ],
+    "starterCode": "% Problem: Timing a Preallocated Loop with tic/toc\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Preallocate x with zeros\n\n\n% b) Time a loop that fills x with i^2\n\n\n% c) Display the elapsed time and the first 5 elements of x\n",
+    "hints": [
+      "zeros(1, n) creates a 1-by-n row vector of zeros in one call -- that's your preallocated space, ready to be filled in the loop.",
+      "tic starts a stopwatch and toc stops it and returns the elapsed time; assign that returned value directly, e.g. elapsedTime = toc;, rather than calling toc twice.",
+      "Preallocating with zeros(1,n) before the loop means each x(i) = i^2 assignment just overwrites an existing slot in memory, instead of MATLAB having to resize the whole array on every iteration."
+    ],
+    "solutionCode": "% a) Preallocate x\nn = 100000;\nx = zeros(1, n);\n\n% b) Time a loop that fills x\ntic\nfor i = 1:n\n    x(i) = i^2;\nend\nelapsedTime = toc;\n\n% c) Display results\nfprintf('Elapsed time: %.4f sec\\n', elapsedTime);\ndisp(x(1:5))",
+    "solutionExplanation": "Preallocating x = zeros(1, n) before the loop reserves all 100,000 slots in memory up front, so each x(i) = i^2 inside the loop simply overwrites an already-existing element rather than forcing MATLAB to grow the array and copy its old contents on every single iteration. tic and toc bracket exactly the code being measured -- tic starts the stopwatch, and elapsedTime = toc stops it and returns the number of seconds elapsed, giving a simple, direct way to quantify runtime for later comparison against other approaches. The first five elements of x confirm the loop worked correctly: [1 4 9 16 25], matching 1^2 through 5^2.",
+    "concept": "Preallocating an array with zeros() and timing code with tic/toc",
+    "tags": ["preallocation", "tic toc", "zeros", "for loop", "timing"],
+    "references": ["Unit 2 – Optimizing Code Lecture"]
+  },
+  {
+    "id": "U2-WB-B05",
+    "unit": 2,
+    "topic": "linear-systems-basics",
+    "difficulty": "beginner",
+    "title": "Estimating Growth-Factor Contributions from Three Assay Wells",
+    "context": "A cell-culture lab measures how three growth factors (GF1, GF2, GF3) combine to drive a proliferation score, using three assay wells prepared with different concentration mixtures. Each well's design gives one linear equation relating the three unknown per-unit contributions to that well's measured score.",
+    "parts": [
+      { "label": "a", "prompt": "The three wells give this system: Well 1 (concentrations 1,1,1) scores 10; Well 2 (concentrations 2,1,0) scores 7; Well 3 (concentrations 0,1,3) scores 18. Build the coefficient matrix A (one row per well) and the score vector b, and display both." },
+      { "label": "b", "prompt": "Solve for the per-unit contributions of GF1, GF2, and GF3 using the backslash operator, storing the result in contrib, and display it." },
+      { "label": "c", "prompt": "Using fprintf and a loop, display each growth factor's contribution in the form \"GF1 contributes 2.0 per unit\" (and similarly for GF2 and GF3)." }
+    ],
+    "starterCode": "% Problem: Estimating Growth-Factor Contributions from Three Assay Wells\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A (one row per well) and b\n\n\n% b) Solve for contrib using backslash\n\n\n% c) Display each growth factor's contribution\n",
+    "hints": [
+      "Each well is one row of A, listing that well's concentration of GF1, GF2, and GF3 in order; the well's measured score is the matching entry of b.",
+      "This is a 3x3 square system, so the same backslash approach you used for a 2x2 system still applies directly: contrib = A\\b.",
+      "A for-loop with fprintf inside it can reuse the same format string for each growth factor, just changing which index of contrib (and which label) it prints on each pass."
+    ],
+    "solutionCode": "% a) Build the system: one row per well\nA = [1 1 1; 2 1 0; 0 1 3];\nb = [10; 7; 18];\ndisp(A)\ndisp(b)\n\n% b) Solve for the three contributions\ncontrib = A\\b;\ndisp(contrib)\n\n% c) Display each contribution\nlabels = {'GF1', 'GF2', 'GF3'};\nfor i = 1:3\n    fprintf('%s contributes %.1f per unit\\n', labels{i}, contrib(i));\nend",
+    "solutionExplanation": "Each well's row in A lists how much of each growth factor was present in that well, and building the system this way turns three separate experimental observations into one 3x3 matrix equation. Solving contrib = A\\b gives contrib = [2; 3; 5], meaning GF1 contributes 2 points of proliferation score per unit concentration, GF2 contributes 3, and GF3 contributes 5. As a sanity check, plugging these back into Well 1's equation gives 1(2)+1(3)+1(5) = 10, matching the observed score, and the same check works for Wells 2 and 3. This mirrors the two-protein wing-size model from lecture, just scaled up to three unknowns solved from three equations instead of two.",
+    "concept": "Building a 3x3 linear system Ax=b from multiple experimental observations and solving with backslash",
+    "tags": ["linear systems", "Ax=b", "backslash", "matrix construction", "cell biology model"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-I01",
+    "unit": 2,
+    "topic": "solving-ax-b",
+    "difficulty": "intermediate",
+    "title": "Verifying a Coagulation-Factor Solution with Inverse and Rank",
+    "context": "A hematology lab models how two clotting factors (Factor A and Factor B, in arbitrary dose units) combine to produce two measured clotting-time changes across two experimental trials. You'll solve for the two dose levels with backslash, then double-check the result using the matrix inverse and confirm the system was well-posed using rank.",
+    "parts": [
+      { "label": "a", "prompt": "The trials give: 2a + 5b = 22 (Trial 1) and 3a - b = 16 (Trial 2), where a and b are the Factor A and Factor B doses. Build A and y (the right-hand side), then solve for doses = [a; b] using backslash." },
+      { "label": "b", "prompt": "Verify your answer by computing doses again using inv(A)*y, storing it in dosesCheck, and confirm the two results agree by rounding both to a few decimal places and comparing them." },
+      { "label": "c", "prompt": "Compute rank(A) and store it in A_rank. As a comment, explain in one sentence what a rank of 2 confirms about this particular 2x2 system." },
+      { "label": "d", "prompt": "Display doses, dosesCheck, and A_rank." }
+    ],
+    "starterCode": "% Problem: Verifying a Coagulation-Factor Solution with Inverse and Rank\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A and y, solve for doses with backslash\n\n\n% b) Verify with inv(A)*y -> dosesCheck\n\n\n% c) Compute A_rank and explain what it confirms (comment)\n\n\n% d) Display doses, dosesCheck, and A_rank\n",
+    "hints": [
+      "Two equations directly give you two rows: [2 5] and [3 -1] for A, with y = [22; 16].",
+      "inv(A)*y and A\\y should return the same answer for a well-posed square system like this one, though backslash is the numerically preferred method in practice -- rounding both to a few decimal places before comparing avoids flagging tiny floating-point differences as a mismatch.",
+      "For a 2x2 matrix, rank(A) can only be 0, 1, or 2; a rank of 2 (full rank, matching the matrix's size) means both equations carry independent information, guaranteeing the system has exactly one solution."
+    ],
+    "solutionCode": "% a) Build the system and solve with backslash\nA = [2 5; 3 -1];\ny = [22; 16];\ndoses = A\\y;\n\n% b) Verify with the matrix inverse\ndosesCheck = inv(A)*y;\nagree = round(doses, 6) == round(dosesCheck, 6);\n\n% c) Confirm the system is well-posed\nA_rank = rank(A);\n% A rank of 2 (full rank for a 2x2 matrix) confirms the two trial equations are\n% independent, so the system has exactly one solution.\n\n% d) Display results\ndisp(doses)\ndisp(dosesCheck)\ndisp(A_rank)",
+    "solutionExplanation": "Solving doses = A\\y gives [6; 2] -- a Factor A dose of 6 and a Factor B dose of 2 -- and computing dosesCheck = inv(A)*y returns the identical result, since for a well-posed square system both methods solve exactly the same equation, just via different computational routes (backslash is generally preferred in practice because it avoids explicitly forming the inverse, which can amplify numerical error for larger or less well-behaved matrices). rank(A) returns 2, which is the maximum possible rank for a 2x2 matrix -- confirming that the two trial equations are linearly independent rather than one being a disguised multiple of the other, which is precisely the condition that guarantees a unique solution exists in the first place.",
+    "concept": "Solving a system with backslash, verifying with the inverse, and confirming well-posedness with rank",
+    "tags": ["backslash", "inverse", "rank", "verification", "linear systems"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-I02",
+    "unit": 2,
+    "topic": "solving-ax-b",
+    "difficulty": "intermediate",
+    "title": "Detecting a Redundant Buffer-Dilution Recipe",
+    "context": "A lab tech is given two buffer-dilution \"recipes\" that are supposed to independently pin down the concentrations of two stock components, but the two recipes turn out to carry duplicate information. You'll use the determinant to catch this before wasting time trying to solve the system.",
+    "parts": [
+      { "label": "a", "prompt": "The two recipes give the system: 3x + 6y = 30 and x + 2y = 10, where x and y are the two component concentrations. Build A and b." },
+      { "label": "b", "prompt": "Before attempting to solve, compute det(A) and store it in detA. Display it." },
+      { "label": "c", "prompt": "Attempt to solve for [x; y] using backslash anyway, storing the result in sol, and display it (MATLAB will issue a warning -- that's expected)." },
+      { "label": "d", "prompt": "As a comment, explain in 2-3 sentences what detA = 0 tells you about these two recipes, and why sol does not give a single trustworthy answer even though MATLAB returned some numeric values." }
+    ],
+    "starterCode": "% Problem: Detecting a Redundant Buffer-Dilution Recipe\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A and b\n\n\n% b) Check the determinant before solving -> detA\n\n\n% c) Attempt to solve anyway -> sol\n\n\n% d) Written explanation (comment)\n",
+    "hints": [
+      "Notice that the second equation's coefficients are exactly 1/3 of the first equation's coefficients (3->1, 6->2, and 30->10 also follows that same 1/3 ratio) -- that's the algebraic sign of redundancy you're about to confirm with det().",
+      "det(A) = 0 is MATLAB's way of confirming a matrix is singular before you even try to solve anything -- checking this first can save you from misinterpreting a backslash warning as a \"solution.\"",
+      "Because the second recipe is just the first one scaled down, there are really only 2 unknowns but 1 independent equation -- infinitely many (x,y) pairs satisfy both recipes at once, which is why backslash cannot return one single, reliable answer here."
+    ],
+    "solutionCode": "% a) Build the system\nA = [3 6; 1 2];\nb = [30; 10];\n\n% b) Check the determinant before solving\ndetA = det(A);\ndisp(detA)\n\n% c) Attempt to solve anyway\nsol = A\\b;  % MATLAB will warn: \"Matrix is singular to working precision.\"\ndisp(sol)\n\n% d) Written explanation:\n% detA = 0 confirms A is singular -- the two recipes are not actually independent\n% information, since recipe 2 is just recipe 1 scaled by 1/3. Because of that, there\n% are infinitely many (x,y) pairs that satisfy both equations at once, so backslash\n% cannot pin down one unique, trustworthy answer; the numeric output it returns here\n% should not be read as \"the\" solution.",
+    "solutionExplanation": "Checking det(A) = 3(2) - 6(1) = 0 before attempting to solve reveals a problem that a numeric answer might otherwise hide: this determinant is zero because the second recipe's row, [1 2], is exactly the first recipe's row, [3 6], scaled by 1/3, meaning the two equations carry duplicate rather than independent information. Since b follows that same scaling (10 is 30 scaled by 1/3), the system is consistent, but consistent-and-singular means infinitely many (x,y) pairs satisfy both recipes simultaneously, not zero and not exactly one. Backslash still returns some numeric vector along with a \"Matrix is singular to working precision\" warning, but that output is only one point on an entire line of equally valid solutions -- checking det(A) first is what tells you to distrust that single answer rather than accepting it at face value.",
+    "concept": "Using the determinant to detect a singular (redundant) system before solving",
+    "tags": ["determinant", "singular matrix", "backslash", "linear dependence", "diagnostics"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-I03",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "intermediate",
+    "title": "Fitting and Interpreting a Grip-Strength Recovery Line",
+    "context": "A physical therapy clinic tracked a patient's grip strength (N) at five points during a hand-recovery program, measured against the number of weeks since starting therapy. You'll fit a line using the normal equation and interpret the coefficient of determination.",
+    "parts": [
+      { "label": "a", "prompt": "Create weeks = [1 2 3 4 5]' and gripStrength = [2.1 3.9 6.2 7.8 10.1]' (column vectors). Build the design matrix A_design = [weeks, ones(size(weeks))]." },
+      { "label": "b", "prompt": "Solve for beta = [slope; intercept] using the normal equation, (A_design'*A_design) \\ (A_design'*gripStrength), and display beta." },
+      { "label": "c", "prompt": "Compute the fitted values gripFit = A_design*beta, the residuals r = gripStrength - gripFit, and the coefficient of determination R2 = 1 - (r'*r)/((gripStrength-mean(gripStrength))'*(gripStrength-mean(gripStrength))). Display R2." },
+      { "label": "d", "prompt": "As a comment, interpret in one sentence what the R2 value tells you about how well a straight line describes this patient's recovery trend." }
+    ],
+    "starterCode": "% Problem: Fitting and Interpreting a Grip-Strength Recovery Line\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data and design matrix\n\n\n% b) Solve the normal equation -> beta\n\n\n% c) Fitted values, residuals, and R2\n\n\n% d) Written interpretation (comment)\n",
+    "hints": [
+      "weeks' (with an apostrophe) converts a row vector into a column vector; A_design then needs weeks and a column of ones side by side, both as columns, concatenated with a comma inside square brackets.",
+      "The normal equation beta = (A_design'*A_design) \\ (A_design'*gripStrength) is the general recipe for a least-squares fit -- it works the same way regardless of how many columns A_design has.",
+      "R2 close to 1 means the line explains almost all the variation in gripStrength around its mean; you don't need to compare it to any other model here to interpret it -- just look at how close it is to 1."
+    ],
+    "solutionCode": "% a) Data and design matrix\nweeks = [1 2 3 4 5]';\ngripStrength = [2.1 3.9 6.2 7.8 10.1]';\nA_design = [weeks, ones(size(weeks))];\n\n% b) Solve the normal equation\nbeta = (A_design'*A_design) \\ (A_design'*gripStrength);\ndisp(beta)\n\n% c) Fitted values, residuals, and R^2\ngripFit = A_design*beta;\nr = gripStrength - gripFit;\nR2 = 1 - (r'*r) / ((gripStrength-mean(gripStrength))'*(gripStrength-mean(gripStrength)));\ndisp(R2)\n\n% d) Written interpretation:\n% R2 is about 0.997, meaning this straight line explains roughly 99.7% of the\n% week-to-week variation in grip strength -- a very strong linear recovery trend.",
+    "solutionExplanation": "The design matrix A_design pairs each week with a constant 1, so the normal equation beta = (A_design'*A_design)\\(A_design'*gripStrength) solves for both a slope and an intercept at once, returning beta ~ [1.99; 0.05] -- roughly a 2 N/week gain in grip strength starting from close to 0 N at week 0. Computing R2 = 1 - SSres/SStot compares how much of the total spread in gripStrength around its mean is left unexplained by the fitted line (SSres) versus the total spread itself (SStot); here R2 ~ 0.997, meaning the line accounts for about 99.7% of the variation in the data, which is about as strong a linear trend as you could hope to see in real recovery data. A value this close to 1 suggests a straight line is a very reasonable model for this patient's short-term recovery, without needing to try a more complex model.",
+    "concept": "Fitting a line with the normal equation and interpreting R-squared as goodness-of-fit",
+    "tags": ["normal equation", "least squares", "R-squared", "linear regression", "physical therapy"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Lecture 7"]
+  },
+  {
+    "id": "U2-WB-I04",
+    "unit": 2,
+    "topic": "vectorization-efficiency",
+    "difficulty": "intermediate",
+    "title": "Flagging Sensor-Artifact Heart-Rate Readings",
+    "context": "A wearable heart-rate monitor occasionally records obvious sensor artifacts -- readings far outside a plausible resting range. You'll compute how far each reading deviates from the group's average two ways (a loop and a vectorized expression) and confirm they agree, then use logical indexing to pull out the likely artifacts in one step.",
+    "parts": [
+      { "label": "a", "prompt": "Create hr = [72 75 130 68 74 71 77 76 129 73]. Compute avgHR = mean(hr) and stdHR = std(hr)." },
+      { "label": "b", "prompt": "Using a for-loop, compute each reading's deviation from avgHR and store the results in devLoop (same size as hr)." },
+      { "label": "c", "prompt": "Using a single vectorized expression (no loop), compute the same deviations and store them in devVec. Confirm the two match using isequal, displaying the result." },
+      { "label": "d", "prompt": "Using logical indexing (no loop, no find), create a vector artifacts containing the actual hr values whose deviation magnitude exceeds stdHR, and display it." }
+    ],
+    "starterCode": "% Problem: Flagging Sensor-Artifact Heart-Rate Readings\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data and summary stats\n\n\n% b) Loop-based deviation -> devLoop\n\n\n% c) Vectorized deviation -> devVec, confirm match\n\n\n% d) Logical indexing -> artifacts\n",
+    "hints": [
+      "hr - avgHR works directly on the whole vector at once, subtracting avgHR from every element in a single expression -- no loop needed for that version.",
+      "isequal(devLoop, devVec) returns true only if every corresponding element matches exactly; since both methods do the exact same arithmetic, they should agree exactly here.",
+      "abs(devVec) > stdHR produces a logical vector the same size as hr, and using that logical vector directly inside hr(...) returns only the actual hr values at the flagged positions -- this is logical indexing, not a search function like find()."
+    ],
+    "solutionCode": "% a) Data and summary stats\nhr = [72 75 130 68 74 71 77 76 129 73];\navgHR = mean(hr);\nstdHR = std(hr);\n\n% b) Loop-based deviation\ndevLoop = zeros(size(hr));\nfor i = 1:length(hr)\n    devLoop(i) = hr(i) - avgHR;\nend\n\n% c) Vectorized deviation, confirm it matches\ndevVec = hr - avgHR;\ndisp(isequal(devLoop, devVec))\n\n% d) Flag likely artifacts using logical indexing\nartifacts = hr(abs(devVec) > stdHR);\ndisp(artifacts)",
+    "solutionExplanation": "devLoop and devVec compute the exact same quantity -- each reading's distance from avgHR -- but devVec does it in one vectorized expression, hr - avgHR, which subtracts the scalar avgHR from every element of hr simultaneously rather than one element at a time in a loop; isequal confirms they produce identical results, since both are doing the same underlying arithmetic. abs(devVec) > stdHR then builds a logical vector flagging any reading whose deviation from the mean exceeds one standard deviation, and using that logical vector directly as an index into hr -- hr(abs(devVec) > stdHR) -- returns only the flagged readings themselves, [130 129], in one step without a loop or a separate find() call. Both of the obviously implausible readings (130 and 129 bpm, likely motion artifacts) get caught by this single vectorized filter.",
+    "concept": "Vectorized arithmetic versus an equivalent loop, combined with logical indexing to filter data",
+    "tags": ["vectorization", "logical indexing", "for loop", "mean", "std", "artifact detection"],
+    "references": ["Unit 2 – Optimizing Code Lecture", "Unit 2 – Random Grid Optimization Examples"]
+  },
+  {
+    "id": "U2-WB-I05",
+    "unit": 2,
+    "topic": "linear-systems-basics",
+    "difficulty": "intermediate",
+    "title": "Solving and Verifying a Three-Component Enteral Formula",
+    "context": "A clinical nutrition team blends three protein components (in grams) into a custom enteral feeding formula, subject to three linear constraints on total mass, weighted caloric content, and protein density. You'll solve for the three component amounts and verify your answer with matrix multiplication.",
+    "parts": [
+      { "label": "a", "prompt": "The three constraints give: x1+x2+x3 = 30 (total mass, g); 4x1+2x2+x3 = 75 (weighted caloric constraint); x2+2x3 = 25 (protein-density constraint). Build A (3x3) and b (3x1)." },
+      { "label": "b", "prompt": "Solve for amounts = [x1; x2; x3] using backslash, and display it." },
+      { "label": "c", "prompt": "Verify your solution by computing check = A*amounts and confirming (by rounding both and using isequal, or by inspection) that it reproduces b." },
+      { "label": "d", "prompt": "Using fprintf and a loop, display each component's amount in the form \"Component 1: 10.0 g\" (etc.)." }
+    ],
+    "starterCode": "% Problem: Solving and Verifying a Three-Component Enteral Formula\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build A and b\n\n\n% b) Solve for amounts using backslash\n\n\n% c) Verify with matrix multiplication\n\n\n% d) Display each component's amount\n",
+    "hints": [
+      "Each constraint becomes one row of A and one entry of b, in the same order -- three constraints give a 3x3 A and a 3x1 b.",
+      "amounts = A\\b solves all three unknowns simultaneously, exactly the same way backslash worked for a 2x2 system, just scaled up to three equations and three unknowns.",
+      "A*amounts should reproduce b (up to tiny floating-point rounding) -- round both sides to a reasonable number of decimal places before comparing them with isequal, so rounding noise doesn't make an otherwise-correct check report false."
+    ],
+    "solutionCode": "% a) Build the system\nA = [1 1 1; 4 2 1; 0 1 2];\nb = [30; 75; 25];\n\n% b) Solve for the three component amounts\namounts = A\\b;\ndisp(amounts)\n\n% c) Verify with matrix multiplication\ncheck = A*amounts;\ndisp(isequal(round(check, 6), round(b, 6)))\n\n% d) Display each component's amount\nfor i = 1:3\n    fprintf('Component %d: %.1f g\\n', i, amounts(i));\nend",
+    "solutionExplanation": "Building A row by row from the three constraints and solving amounts = A\\b gives amounts = [10; 15; 5] grams for the three components, so 10 g of Component 1, 15 g of Component 2, and 5 g of Component 3 satisfy all three requirements simultaneously. Multiplying back, check = A*amounts, recomputes each constraint's left-hand side using the solved amounts -- [1(10)+1(15)+1(5); 4(10)+2(15)+1(5); 0(10)+1(15)+2(5)] = [30; 75; 25] -- which matches b exactly, confirming the solution is correct rather than just plausible-looking. This matrix-multiplication check is the general-purpose way to verify any solved linear system: if A*x doesn't reproduce b, either the system was set up incorrectly or a computational mistake was made somewhere along the way.",
+    "concept": "Building and solving a 3x3 linear system, then verifying the solution with matrix multiplication",
+    "tags": ["linear systems", "Ax=b", "backslash", "verification", "nutrition formula"],
+    "references": ["Unit 2 – Lecture 5", "Unit 2 – Lecture 6"]
+  },
+  {
+    "id": "U2-WB-A01",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "advanced",
+    "title": "Multilinear Regression of Post-Stress-Test Recovery Score",
+    "context": "A cardiac rehab program wants to predict a patient's recovery score after a stress test from two easily measured predictors: resting heart rate (HR, bpm) and body mass index (BMI). You'll fit a multilinear model using the normal equation, evaluate its fit, examine one subject's residual, and predict a new patient's score.",
+    "parts": [
+      { "label": "a", "prompt": "Create HR = [62 68 74 70 78 65 72 80]', BMI = [22 24 27 25 29 23 26 30]', and RecoveryScore = [47.7 52.6 59.9 54.6 63.9 50.3 56.9 66.4]'. Build the design matrix A_design = [HR, BMI, ones(size(HR))]." },
+      { "label": "b", "prompt": "Solve for beta (a 3x1 vector: [HR coefficient; BMI coefficient; intercept]) using the normal equation, and display it." },
+      { "label": "c", "prompt": "Compute the fitted values, residuals r, and R2. Display R2." },
+      { "label": "d", "prompt": "Display the residual for the 4th subject specifically (r(4))." },
+      { "label": "e", "prompt": "Using your fitted beta, predict the recovery score for a new subject with HR = 75 and BMI = 28, storing the result in newPrediction, and display it." }
+    ],
+    "starterCode": "% Problem: Multilinear Regression of Post-Stress-Test Recovery Score\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data and design matrix\n\n\n% b) Solve the normal equation -> beta\n\n\n% c) Fitted values, residuals, and R2\n\n\n% d) Residual for subject 4\n\n\n% e) Predict a new subject's score\n",
+    "hints": [
+      "The design matrix needs three columns in this order: HR values, BMI values, and a column of ones for the intercept -- A_design = [HR, BMI, ones(size(HR))] builds all three at once.",
+      "The normal equation beta = (A_design'*A_design)\\(A_design'*RecoveryScore) works identically whether A_design has 2 columns or 3 -- more predictors just means a longer beta vector.",
+      "To predict a brand-new subject, build a single-row version of the same design matrix, [75 28 1], and multiply it by beta -- the order of that row's entries must match the column order used to build A_design."
+    ],
+    "solutionCode": "% a) Data and design matrix\nHR = [62 68 74 70 78 65 72 80]';\nBMI = [22 24 27 25 29 23 26 30]';\nRecoveryScore = [47.7 52.6 59.9 54.6 63.9 50.3 56.9 66.4]';\nA_design = [HR, BMI, ones(size(HR))];\n\n% b) Solve the normal equation\nbeta = (A_design'*A_design) \\ (A_design'*RecoveryScore);\ndisp(beta)\n\n% c) Fitted values, residuals, R^2\nfitted = A_design*beta;\nr = RecoveryScore - fitted;\nR2 = 1 - (r'*r) / ((RecoveryScore-mean(RecoveryScore))'*(RecoveryScore-mean(RecoveryScore)));\ndisp(R2)\n\n% d) Residual for subject 4\ndisp(r(4))\n\n% e) Predict a new subject's score\nnewPrediction = [75 28 1] * beta;\ndisp(newPrediction)",
+    "solutionExplanation": "Building A_design with HR, BMI, and a column of ones lets the normal equation solve for all three parameters -- an HR coefficient, a BMI coefficient, and an intercept -- in a single beta ~ [0.066; 2.177; -4.183], meaning BMI has a much stronger estimated effect on recovery score than resting HR does in this small sample. The fit is extremely strong here, R2 ~ 0.999, meaning the model explains almost all of the variation in RecoveryScore across the eight subjects; subject 4's residual, about -0.23, shows their actual score was just slightly below what the model predicted. Because newPrediction is computed with the exact same column order used to build A_design (HR, then BMI, then a 1 for the intercept), [75 28 1]*beta correctly evaluates the fitted model at HR=75, BMI=28, giving a predicted recovery score of about 61.7 -- consistent with the trend the model already captured across the observed subjects.",
+    "concept": "Multilinear regression via the normal equation, evaluating R-squared, inspecting a residual, and predicting new data",
+    "tags": ["multilinear regression", "normal equation", "R-squared", "residuals", "prediction"],
+    "references": ["Unit 2 – Lecture 7", "Unit 2 – Assignment 2"]
+  },
+  {
+    "id": "U2-WB-A02",
+    "unit": 2,
+    "topic": "solving-ax-b",
+    "difficulty": "advanced",
+    "title": "Comparing a Well-Conditioned and Ill-Conditioned Two-Compartment Model",
+    "context": "A pharmacokinetics researcher builds two-compartment models for two different drugs, relating each drug's transfer-rate coefficients (matrix A) to its observed plasma concentrations (vector b) at two time points. One drug's model is numerically well-behaved; the other's is nearly singular because its two compartments barely behave differently, and you'll show why that matters once the measurements carry any noise at all.",
+    "parts": [
+      { "label": "a", "prompt": "Drug 1: A_good = [2 1; 1 3], b1 = [5; 8]. Solve for x1 = A_good\\b1 and compute cond(A_good)." },
+      { "label": "b", "prompt": "Drug 2: A_bad = [1 1; 1 1.0005], b2 = [2; 2.0005]. Solve for x2 = A_bad\\b2 and compute cond(A_bad)." },
+      { "label": "c", "prompt": "Simulate small measurement noise by perturbing each b by [0.01; -0.01] (b1_pert, b2_pert), re-solve both systems (x1_pert, x2_pert), and compute how much each solution changed using norm(x1_pert - x1) and norm(x2_pert - x2)." },
+      { "label": "d", "prompt": "In 3-4 sentences (as a comment), compare the two condition numbers and the two solution changes from part (c), and explain what this means for how much you should trust Drug 2's fitted transfer-rate coefficients." }
+    ],
+    "starterCode": "% Problem: Comparing a Well-Conditioned and Ill-Conditioned Two-Compartment Model\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Drug 1: well-conditioned system\n\n\n% b) Drug 2: nearly-singular system\n\n\n% c) Perturb both systems by the same small amount and re-solve\n\n\n% d) Written comparison (comment)\n",
+    "hints": [
+      "cond(A) gives a single number quantifying how much a small change in b can get amplified into a much larger change in the solution x -- compute it for both matrices before drawing any conclusions from the perturbation results.",
+      "Adding the exact same small perturbation, [0.01; -0.01], to both b vectors keeps the comparison fair -- any difference you see in how much the solutions move is due to the matrices themselves, not to using different-sized perturbations.",
+      "norm(x1_pert - x1) collapses the 2-element difference vector into one number representing \"how far the solution moved\" -- compare this single number between the two systems rather than comparing individual solution components one at a time."
+    ],
+    "solutionCode": "% a) Drug 1: well-conditioned system\nA_good = [2 1; 1 3];\nb1 = [5; 8];\nx1 = A_good\\b1;\ncond_good = cond(A_good);\n\n% b) Drug 2: nearly-singular system\nA_bad = [1 1; 1 1.0005];\nb2 = [2; 2.0005];\nx2 = A_bad\\b2;\ncond_bad = cond(A_bad);\n\n% c) Perturb both systems by the same small amount and re-solve\nb1_pert = b1 + [0.01; -0.01];\nx1_pert = A_good\\b1_pert;\nchange_good = norm(x1_pert - x1);\n\nb2_pert = b2 + [0.01; -0.01];\nx2_pert = A_bad\\b2_pert;\nchange_bad = norm(x2_pert - x2);\n\ndisp([cond_good, cond_bad])\ndisp([change_good, change_bad])\n\n% d) Written comparison:\n% Drug 1's condition number is small (about 2.6), and the same tiny perturbation to b\n% only moved its solution by about 0.01 -- proportional to the size of the perturbation\n% itself. Drug 2's condition number is enormous (about 8000), and the identical-sized\n% perturbation moved its solution by more than 56 units -- wildly out of proportion to\n% how small the input change was. Because real plasma-concentration measurements always\n% carry at least some noise, Drug 2's fitted transfer-rate coefficients cannot be trusted:\n% almost any two runs of the same experiment would produce drastically different\n% \"best-fit\" coefficients, even though the underlying biology hasn't changed.",
+    "solutionExplanation": "cond(A_good) is about 2.6, a small number close to 1, while cond(A_bad) is about 8000 -- several orders of magnitude larger -- because A_bad's two rows, [1 1] and [1 1.0005], are almost exact multiples of each other, making the matrix nearly singular even though its determinant is technically nonzero. Applying the identical perturbation, [0.01; -0.01], to both systems' right-hand sides demonstrates exactly what the condition number predicts: Drug 1's solution shifts by only about 0.01 (roughly the same size as the perturbation itself), while Drug 2's solution shifts by more than 56 units in norm -- an amplification factor of thousands, consistent with its huge condition number. This is not a hypothetical concern: any real plasma-concentration assay has measurement noise at least this large, so a model with a condition number like Drug 2's cannot be trusted to report meaningful, reproducible transfer-rate coefficients, even though MATLAB is perfectly willing to compute some answer for it.",
+    "concept": "Using the condition number to predict how sensitive a solved system is to small input perturbations",
+    "tags": ["condition number", "cond", "backslash", "numerical stability", "pharmacokinetics"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Assignment 2"]
+  },
+  {
+    "id": "U2-WB-A03",
+    "unit": 2,
+    "topic": "vectorization-efficiency",
+    "difficulty": "advanced",
+    "title": "Timing a Loop-Based vs. Vectorized Sensor Calibration Transform",
+    "context": "A biosensor's raw voltage readings need to be converted to a calibrated concentration using a quadratic calibration curve. You'll apply this transform to a large batch of readings two ways -- a for-loop and a fully vectorized expression -- confirm they produce identical results, and compare their runtimes with tic/toc.",
+    "parts": [
+      { "label": "a", "prompt": "Create rawVoltage = linspace(0, 5, 2000000) (2 million simulated readings) and calibration coefficients a = 0.8, b = 1.2, c = 0.05 for the transform concentration = a*rawVoltage.^2 + b*rawVoltage + c." },
+      { "label": "b", "prompt": "Using a for-loop and preallocation (zeros of the right size), compute concLoop, timing it with tic/toc and storing the elapsed time in t_loop." },
+      { "label": "c", "prompt": "Using a single vectorized expression, compute concVec, timing it with tic/toc and storing the elapsed time in t_vec." },
+      { "label": "d", "prompt": "Confirm the two methods agree using max(abs(concLoop - concVec)) (should be at, or extremely close to, 0), and display both elapsed times and the maximum difference with fprintf." }
+    ],
+    "starterCode": "% Problem: Timing a Loop-Based vs. Vectorized Sensor Calibration Transform\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Simulated readings and calibration coefficients\n\n\n% b) Loop-based transform (preallocated) -> concLoop, t_loop\n\n\n% c) Vectorized transform -> concVec, t_vec\n\n\n% d) Confirm agreement and report timing\n",
+    "hints": [
+      "Preallocate concLoop with zeros(size(rawVoltage)) before the loop starts -- without it, the loop version would be penalized twice over, once for the loop itself and once for repeated array resizing.",
+      "The vectorized version applies the exact same formula to the whole array at once: a*rawVoltage.^2 + b*rawVoltage + c, using .^ for element-wise squaring since rawVoltage is a vector.",
+      "tic and toc should wrap only the computation you're timing, not the preallocation or display steps -- start tic right before the loop (or the vectorized line) and stop toc right after it finishes."
+    ],
+    "solutionCode": "% a) Simulated readings and calibration coefficients\nrawVoltage = linspace(0, 5, 2000000);\na = 0.8; b = 1.2; c = 0.05;\n\n% b) Loop-based transform (preallocated)\nconcLoop = zeros(size(rawVoltage));\ntic\nfor i = 1:length(rawVoltage)\n    concLoop(i) = a*rawVoltage(i)^2 + b*rawVoltage(i) + c;\nend\nt_loop = toc;\n\n% c) Vectorized transform\ntic\nconcVec = a*rawVoltage.^2 + b*rawVoltage + c;\nt_vec = toc;\n\n% d) Confirm agreement and report timing\nmaxDiff = max(abs(concLoop - concVec));\nfprintf('Loop: %.4f sec, Vectorized: %.4f sec, Max difference: %.2e\\n', t_loop, t_vec, maxDiff);",
+    "solutionExplanation": "Both concLoop and concVec apply the identical quadratic formula to every one of the 2 million readings, so maxDiff comes out at essentially 0 (at most a few times floating-point epsilon) -- confirming the two approaches are mathematically equivalent and only differ in how the computation is carried out. The loop version still benefits from preallocating concLoop with zeros(size(rawVoltage)) beforehand, since without that the array would also have to grow on every iteration, but it still pays the overhead of MATLAB's interpreter dispatching one squaring-and-scaling operation at a time, 2 million separate times. The vectorized version, a*rawVoltage.^2 + b*rawVoltage + c, hands the entire operation to MATLAB's underlying compiled array routines in one call, which is why it consistently runs many times faster than even a properly preallocated loop doing the exact same arithmetic -- the actual speedup factor will vary by machine, but the vectorized version should never be slower.",
+    "concept": "Comparing a preallocated loop to an equivalent vectorized expression using tic/toc",
+    "tags": ["vectorization", "tic toc", "preallocation", "timing", "calibration"],
+    "references": ["Unit 2 – Optimizing Code Lecture", "Unit 2 – Profiler Tutorial"]
+  },
+  {
+    "id": "U2-WB-A04",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "advanced",
+    "title": "Choosing Between a Linear and Quadratic Mobility-Recovery Model",
+    "context": "A post-surgical mobility score was tracked daily for nine days as a patient recovered, then began to plateau. You'll fit both a straight line and a quadratic curve to this data using the normal equation, compare their R2 values, and confirm your quadratic fit against MATLAB's built-in polyfit.",
+    "parts": [
+      { "label": "a", "prompt": "Create day = (0:8)' and mobilityScore = [2.1 4.55 7.15 8.65 10.05 10.95 10.85 10.85 9.95]'." },
+      { "label": "b", "prompt": "Fit a linear model (design matrix [day, ones(size(day))]) using the normal equation, compute its R2, and display it." },
+      { "label": "c", "prompt": "Fit a quadratic model (design matrix [day.^2, day, ones(size(day))]) using the normal equation, compute its R2, and display it." },
+      { "label": "d", "prompt": "Compare your quadratic coefficients to polyfit(day, mobilityScore, 2) using max(abs(...)) on the difference between the two coefficient vectors, and display the max difference (should be at or near 0)." },
+      { "label": "e", "prompt": "In 2-3 sentences (as a comment), explain what the shift in R2 from the linear to the quadratic model tells you about the shape of this patient's recovery." }
+    ],
+    "starterCode": "% Problem: Choosing Between a Linear and Quadratic Mobility-Recovery Model\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data\n\n\n% b) Linear fit -> R2_lin\n\n\n% c) Quadratic fit -> R2_quad\n\n\n% d) Compare against polyfit\n\n\n% e) Written explanation (comment)\n",
+    "hints": [
+      "Build both design matrices the same way you've built them before -- linear needs [day, ones(...)], quadratic needs an extra day.^2 column in front, so the highest power comes first, matching polyfit's convention.",
+      "R2 is computed the same way regardless of how many columns the design matrix has: 1 minus the ratio of the residual sum of squares to the total sum of squares around the mean.",
+      "polyfit(day, mobilityScore, 2) returns coefficients in the order [quadratic, linear, constant] -- exactly matching the column order [day.^2, day, ones(...)] you used to build your own design matrix, so the two coefficient vectors should line up directly for comparison."
+    ],
+    "solutionCode": "% a) Data\nday = (0:8)';\nmobilityScore = [2.1 4.55 7.15 8.65 10.05 10.95 10.85 10.85 9.95]';\n\n% b) Linear fit\nA_lin = [day, ones(size(day))];\nbeta_lin = (A_lin'*A_lin) \\ (A_lin'*mobilityScore);\nfit_lin = A_lin*beta_lin;\nr_lin = mobilityScore - fit_lin;\nR2_lin = 1 - (r_lin'*r_lin) / ((mobilityScore-mean(mobilityScore))'*(mobilityScore-mean(mobilityScore)));\ndisp(R2_lin)\n\n% c) Quadratic fit\nA_quad = [day.^2, day, ones(size(day))];\nbeta_quad = (A_quad'*A_quad) \\ (A_quad'*mobilityScore);\nfit_quad = A_quad*beta_quad;\nr_quad = mobilityScore - fit_quad;\nR2_quad = 1 - (r_quad'*r_quad) / ((mobilityScore-mean(mobilityScore))'*(mobilityScore-mean(mobilityScore)));\ndisp(R2_quad)\n\n% d) Compare against polyfit\np = polyfit(day, mobilityScore, 2);\nmaxCoeffDiff = max(abs(beta_quad' - p));\ndisp(maxCoeffDiff)\n\n% e) Written explanation:\n% R2 jumps from about 0.75 for the linear model to about 0.998 for the quadratic model,\n% which means a straight line misses a real, systematic curvature in the data -- mobility\n% doesn't just rise at a constant rate, it rises quickly at first and then levels off and\n% even dips slightly, which only a model with a day^2 term can capture.",
+    "solutionExplanation": "The linear fit's R2 of about 0.75 looks reasonable at first glance, but it's noticeably worse than the quadratic fit's R2 of about 0.998, and the gap between them is the real signal here -- a straight line cannot bend, so it systematically misses the plateau-and-slight-decline shape near the end of the recovery window. The quadratic design matrix, [day.^2, day, ones(size(day))], lets the normal equation fit a curve instead of a line, and beta_quad comes out essentially identical to what polyfit(day, mobilityScore, 2) returns independently (maxCoeffDiff at or near 0), confirming both routes solve the same least-squares problem correctly. The takeaway is that a high R2 alone doesn't tell you a model has the right functional form -- comparing R2 across a couple of reasonable candidate models, as done here, is what reveals that this particular recovery trend genuinely needs a quadratic term to be well described.",
+    "concept": "Comparing linear and quadratic least-squares fits via R-squared and cross-checking with polyfit",
+    "tags": ["normal equation", "polyfit", "R-squared", "quadratic regression", "model comparison"],
+    "references": ["Unit 2 – Lecture 7", "Unit 2 – Quiz 2"]
+  },
+  {
+    "id": "U2-WB-A05",
+    "unit": 2,
+    "topic": "vectorization-efficiency",
+    "difficulty": "advanced",
+    "title": "Three Ways to Flag Hyperglycemic Readings from a Glucose Monitor",
+    "context": "A continuous glucose monitor (CGM) streams tens of thousands of readings per patient per month. You'll flag every reading above a hyperglycemia threshold using three progressively better approaches -- a growing array, a preallocated loop, and vectorized logical indexing -- and confirm all three produce identical results while timing the difference.",
+    "parts": [
+      { "label": "a", "prompt": "Create glucose = 70 + 60*rand(1,50000) (simulated readings between 70 and 130 mg/dL) and threshold = 125." },
+      { "label": "b", "prompt": "Using a for-loop that grows an initially empty array flagsGrow on each iteration (no preallocation), build a 0/1 flag for each reading, timing the loop with tic/toc and storing the time in t_grow." },
+      { "label": "c", "prompt": "Using a for-loop with flagsPre preallocated via zeros(1, length(glucose)) beforehand, build the same 0/1 flags, timing it and storing the time in t_pre." },
+      { "label": "d", "prompt": "Using a single vectorized expression with no loop, build the same flags as flagsVec = double(glucose > threshold), timing it and storing the time in t_vec." },
+      { "label": "e", "prompt": "Confirm all three methods agree using isequal, and display all three elapsed times with fprintf, along with how many readings were flagged (sum(flagsVec))." }
+    ],
+    "starterCode": "% Problem: Three Ways to Flag Hyperglycemic Readings from a Glucose Monitor\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Simulated readings\n\n\n% b) Growing array (no preallocation) -> flagsGrow, t_grow\n\n\n% c) Preallocated loop -> flagsPre, t_pre\n\n\n% d) Vectorized, no loop -> flagsVec, t_vec\n\n\n% e) Confirm agreement and report timing\n",
+    "hints": [
+      "A growing array starts as flagsGrow = [] and each iteration appends one new value with flagsGrow(end+1) = ... -- MATLAB has to resize the whole array behind the scenes every single time this happens.",
+      "flagsPre = zeros(1, length(glucose)) reserves all the space up front, so the preallocated loop's iterations only overwrite existing elements instead of growing the array -- expect it to be noticeably faster than the growing version, even though both still use a loop.",
+      "double(glucose > threshold) converts a logical true/false array directly into a numeric 0/1 array in one step -- no loop, no if statement, and no preallocation needed at all."
+    ],
+    "solutionCode": "% a) Simulated readings\nglucose = 70 + 60*rand(1,50000);\nthreshold = 125;\n\n% b) Growing array (no preallocation)\ntic\nflagsGrow = [];\nfor i = 1:length(glucose)\n    if glucose(i) > threshold\n        flagsGrow(end+1) = 1;\n    else\n        flagsGrow(end+1) = 0;\n    end\nend\nt_grow = toc;\n\n% c) Preallocated loop\ntic\nflagsPre = zeros(1, length(glucose));\nfor i = 1:length(glucose)\n    if glucose(i) > threshold\n        flagsPre(i) = 1;\n    else\n        flagsPre(i) = 0;\n    end\nend\nt_pre = toc;\n\n% d) Vectorized, no loop\ntic\nflagsVec = double(glucose > threshold);\nt_vec = toc;\n\n% e) Confirm agreement and report timing\nallMatch = isequal(flagsGrow, flagsPre) && isequal(flagsPre, flagsVec);\nfprintf('Match: %d | Grow: %.4f sec, Prealloc: %.4f sec, Vectorized: %.4f sec\\n', allMatch, t_grow, t_pre, t_vec);\nfprintf('Readings flagged: %d\\n', sum(flagsVec));",
+    "solutionExplanation": "All three methods compute the exact same thing -- a 1 wherever a reading exceeds 125 mg/dL and a 0 otherwise -- so isequal confirms flagsGrow, flagsPre, and flagsVec are identical despite being built three completely different ways. The growing-array version is the slowest, because flagsGrow(end+1) = ... forces MATLAB to allocate a new, slightly larger array and copy over every existing element on every single iteration; preallocating with flagsPre = zeros(1, length(glucose)) removes that resizing cost entirely, so the loop only ever overwrites existing memory, which is noticeably faster even though it's still a loop. The vectorized version, double(glucose > threshold), is fastest of all, since glucose > threshold evaluates the comparison across all 50,000 readings in one internal, compiled operation rather than dispatching 50,000 separate interpreted loop iterations -- the general lesson being that preallocation helps a loop, but replacing the loop with a vectorized expression altogether typically helps far more.",
+    "concept": "Comparing a growing array, a preallocated loop, and vectorized logical indexing for the same task",
+    "tags": ["preallocation", "vectorization", "logical indexing", "tic toc", "CGM data"],
+    "references": ["Unit 2 – Optimizing Code Lecture", "Unit 2 – Random Grid Optimization Examples"]
+  },
+  {
+    "id": "U2-WB-X01",
+    "unit": 2,
+    "topic": "solving-ax-b",
+    "difficulty": "expert",
+    "title": "Why Rank Alone Didn't Catch a Near-Singular PK Identification",
+    "context": "A researcher is identifying three transfer-rate constants for a three-compartment pharmacokinetic model from three experimental measurements. The experimental design matrix technically has full rank, but you'll show that rank alone is not enough to guarantee the fitted parameters can be trusted, and explain why in writing.",
+    "parts": [
+      { "label": "a", "prompt": "Build A = [1 2 1; 2 4.001 2; 1 1 3] and b = [8; 16.002; 9]. Compute rank(A) and det(A), and display both." },
+      { "label": "b", "prompt": "Solve for x = A\\b and display it." },
+      { "label": "c", "prompt": "Compute cond(A) and display it." },
+      { "label": "d", "prompt": "Perturb b by adding [0; 0.01; 0] (simulating a tiny measurement error on the second experiment only), re-solve for x_pert, and compute norm(x_pert - x)." },
+      { "label": "e", "prompt": "In 4-5 sentences (as a comment), reconcile the fact that rank(A) reports full rank (suggesting a \"good\" system) with the huge condition number and the dramatic change from a tiny perturbation -- what does this reveal about relying on rank alone to judge whether a solved system's parameters are trustworthy?" }
+    ],
+    "starterCode": "% Problem: Why Rank Alone Didn't Catch a Near-Singular PK Identification\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build the system, check rank and determinant\n\n\n% b) Solve for x\n\n\n% c) Condition number\n\n\n% d) Perturb the second measurement slightly and re-solve\n\n\n% e) Written reconciliation (comment)\n",
+    "hints": [
+      "rank(A) only tells you whether A is technically invertible (full rank) or not -- it does not distinguish between a matrix that's comfortably invertible and one that's invertible \"by a hair,\" which is exactly the distinction cond(A) is built to capture.",
+      "Look closely at A's first two rows: [1 2 1] and [2 4.001 2] -- the second is almost exactly double the first, differing only in the middle entry by 0.001. That near-duplication is what makes this matrix nearly singular despite technically having full rank.",
+      "Perturbing only the second entry of b (the measurement tied to that almost-duplicate row) and comparing norm(x_pert - x) to the unperturbed solution's own scale will show just how disproportionate the resulting change is."
+    ],
+    "solutionCode": "% a) Build the system and check rank/determinant\nA = [1 2 1; 2 4.001 2; 1 1 3];\nb = [8; 16.002; 9];\nA_rank = rank(A);\ndetA = det(A);\ndisp(A_rank)\ndisp(detA)\n\n% b) Solve\nx = A\\b;\ndisp(x)\n\n% c) Condition number\ncondA = cond(A);\ndisp(condA)\n\n% d) Perturb the second measurement slightly and re-solve\nb_pert = b + [0; 0.01; 0];\nx_pert = A\\b_pert;\nchange = norm(x_pert - x);\ndisp(change)\n\n% e) Written reconciliation:\n% rank(A) reports 3 -- technically \"full rank,\" which is the textbook condition for a\n% unique solution to exist -- yet cond(A) is roughly 37,000, an enormous number, because\n% the first two rows of A are nearly duplicates of each other (row 2 is almost exactly\n% 2 times row 1). rank is a binary, all-or-nothing test: it only asks whether A is\n% invertible at all, not how close it is to failing to be invertible. A tiny, entirely\n% realistic 0.01 measurement error on just one experiment shifted the fitted rate\n% constants by more than 27 units in norm -- larger than the solution itself -- which\n% shows that \"full rank\" alone provides no protection against this kind of instability.\n% Any credible parameter-identification workflow needs to check cond(A), not just\n% rank(A), before trusting the fitted values.",
+    "solutionExplanation": "rank(A) returns 3, confirming A is technically invertible and satisfying the textbook requirement for Ax=b to have a unique solution, and det(A) is a small but nonzero 0.002 -- also technically consistent with invertibility. Yet cond(A) comes out to roughly 37,000, revealing that A sits extremely close to the boundary of being singular, because its first two rows, [1 2 1] and [2 4.001 2], are nearly exact multiples of one another (row 2 is almost precisely 2x row 1, differing only by 0.001 in the middle entry) -- two of the three \"independent\" experiments are nearly measuring the same thing. Solving gives x = [2.5; 2; 1.5], but adding a perturbation of just 0.01 to the second measurement and re-solving moves the solution by more than 27 units in norm -- an amplification of nearly 3000x relative to the size of the perturbation itself, entirely consistent with what the enormous condition number predicted. The core lesson is that rank is a yes/no test for invertibility, while cond is a continuous measure of how close to \"no\" a technically-\"yes\" answer actually is; a full-rank matrix can still be numerically untrustworthy, so any real identification problem needs both checks, not rank alone.",
+    "concept": "Distinguishing rank (a yes/no invertibility test) from condition number (a continuous stability measure)",
+    "tags": ["rank", "condition number", "near-singular", "sensitivity analysis", "pharmacokinetics"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Assignment 2"]
+  },
+  {
+    "id": "U2-WB-X02",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "expert",
+    "title": "When a Perfect R2 Means Overfitting, Not a Good Model",
+    "context": "A team fits a risk-score model using five subjects and four predictors plus an intercept -- exactly as many parameters as data points. You'll compute the fit, discover a suspiciously perfect R2, and explain in writing why that number should raise concern rather than confidence.",
+    "parts": [
+      { "label": "a", "prompt": "Create Age = [65 70 58 72 61]', BMI = [24 27 21 29 23]', SBP = [120 128 115 132 118]', Chol = [190 205 180 210 188]', and RiskScore = [45 62 30 68 38]'. Build A_design = [Age, BMI, SBP, Chol, ones(5,1)] (5x5)." },
+      { "label": "b", "prompt": "Solve for beta using backslash (A_design\\RiskScore) rather than the normal equation this time, since A_design is square. Display beta." },
+      { "label": "c", "prompt": "Compute the fitted values, residuals, and R2. Display R2." },
+      { "label": "d", "prompt": "Compute rank(A_design) and cond(A_design), and display both." },
+      { "label": "e", "prompt": "In 4-5 sentences (as a comment), explain why R2 came out exactly (or essentially) 1 here, why that is a red flag rather than good news, and what you would need to do differently to actually trust a model like this." }
+    ],
+    "starterCode": "% Problem: When a Perfect R2 Means Overfitting, Not a Good Model\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data and design matrix\n\n\n% b) Solve (square system -- backslash directly)\n\n\n% c) Fit quality\n\n\n% d) Rank and condition number\n\n\n% e) Written explanation (comment)\n",
+    "hints": [
+      "A_design here is a full 5x5 square matrix (4 predictors plus an intercept column, matched to exactly 5 subjects) -- since it's square rather than tall, you can solve beta = A_design\\RiskScore directly, the same way you'd solve any square Ax=b system.",
+      "Compute R2 exactly the way you have in every other regression problem -- nothing about the formula changes just because the design matrix happens to be square this time.",
+      "When the number of parameters equals the number of data points, a square, invertible design matrix can reproduce every single data point exactly, by construction -- that's a mathematical guarantee, not evidence that the underlying relationship between the predictors and the outcome is real or generalizable."
+    ],
+    "solutionCode": "% a) Data and design matrix\nAge = [65 70 58 72 61]';\nBMI = [24 27 21 29 23]';\nSBP = [120 128 115 132 118]';\nChol = [190 205 180 210 188]';\nRiskScore = [45 62 30 68 38]';\nA_design = [Age, BMI, SBP, Chol, ones(5,1)];\n\n% b) Solve (square system -- backslash directly)\nbeta = A_design\\RiskScore;\ndisp(beta)\n\n% c) Fit quality\nfitted = A_design*beta;\nr = RiskScore - fitted;\nR2 = 1 - (r'*r) / ((RiskScore-mean(RiskScore))'*(RiskScore-mean(RiskScore)));\ndisp(R2)\n\n% d) Rank and condition number\ndisp(rank(A_design))\ndisp(cond(A_design))\n\n% e) Written explanation:\n% R2 comes out to essentially 1.0 because A_design is a square, invertible 5x5 matrix\n% solving for exactly 5 parameters from exactly 5 data points -- with that many free\n% parameters, the model has enough flexibility to pass exactly through every single\n% observation, regardless of whether Age, BMI, SBP, and Cholesterol actually have any\n% real relationship to RiskScore at all. A \"perfect\" fit here is a guaranteed mathematical\n% consequence of having as many parameters as data points (an exactly-determined system),\n% not evidence of a good or generalizable model -- this is the same overfitting trap\n% described in lecture with the 20-protein wing-size example. To actually trust a model\n% like this, you would need substantially more subjects than predictors (an over-determined\n% system), so that the least-squares fit has to compromise across many observations rather\n% than simply reproducing each one exactly.",
+    "solutionExplanation": "Because A_design is exactly 5x5 -- four predictors plus an intercept, matched to exactly five subjects -- solving beta = A_design\\RiskScore finds parameters that make A_design*beta reproduce RiskScore exactly, which is why R2 comes out to 1.0 (or a value indistinguishable from 1.0 aside from floating-point rounding) regardless of whether Age, BMI, SBP, and Chol have any genuine predictive relationship with RiskScore. This is the same trap the wing-size lecture example warns about when there are as many unknowns as equations: an exactly-determined system is not \"solving\" a modeling problem so much as constructing one particular hyperplane that happens to thread through every data point, and rank(A_design) = 5 alongside a large cond(A_design) only reinforces that this square system, while technically invertible, is not a meaningfully validated model. Trusting a fit like this would require collecting substantially more subjects than predictors, turning the problem into a genuinely over-determined least-squares system where the model has to find a compromise across many observations rather than simply memorizing each one -- only then would a high R2 actually reflect a real, generalizable relationship rather than an artifact of parameter count.",
+    "concept": "Recognizing that an exactly-determined regression system guarantees a perfect but meaningless R-squared",
+    "tags": ["overfitting", "R-squared", "rank", "condition number", "critical reasoning", "model validation"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Lecture 7"]
+  },
+  {
+    "id": "U2-WB-X03",
+    "unit": 2,
+    "topic": "vectorization-efficiency",
+    "difficulty": "expert",
+    "title": "Vectorizing a Medical-Image Thresholding Pipeline",
+    "context": "A simple tissue-segmentation step thresholds a simulated medical-image intensity grid to separate high-intensity tissue from background. You'll implement it with a naive nested loop, then with vectorization and logical indexing, and explain in writing what a Profiler run on the naive version would reveal.",
+    "parts": [
+      { "label": "a", "prompt": "Create img = rand(800, 800) (a simulated 800x800 intensity grid) and threshold = 0.6." },
+      { "label": "b", "prompt": "Using a nested double for-loop over every row and column (no preallocation of mask1), build mask1 with a 1 wherever img(i,j) > threshold and 0 otherwise, timing it with tic/toc as t_loop." },
+      { "label": "c", "prompt": "Using preallocation and vectorized logical indexing (mask2 = zeros(800,800); mask2(img > threshold) = 1;), build the same mask, timing it as t_vec." },
+      { "label": "d", "prompt": "Confirm isequal(mask1, mask2), and display t_loop, t_vec, and how many pixels were flagged." },
+      { "label": "e", "prompt": "In 3-4 sentences (as a comment), describe what you would expect MATLAB's Profiler to report as the single most time-consuming line if you ran profile on this naive nested-loop version, and explain why that line specifically (rather than, say, the img = rand(800,800) line) dominates the runtime." }
+    ],
+    "starterCode": "% Problem: Vectorizing a Medical-Image Thresholding Pipeline\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Simulated image and threshold\n\n\n% b) Naive nested loop -> mask1, t_loop\n\n\n% c) Preallocated + vectorized logical indexing -> mask2, t_vec\n\n\n% d) Confirm agreement and report timing\n\n\n% e) Written Profiler prediction (comment)\n",
+    "hints": [
+      "A nested for-loop needs an outer loop over rows (i = 1:800) and an inner loop over columns (j = 1:800) -- the assignment mask1(i,j) = ... goes inside both, so it executes 800*800 = 640,000 times total.",
+      "mask2(img > threshold) = 1 does the entire 800x800 comparison and assignment in two vectorized steps: first building a logical mask of every pixel that passes the threshold, then assigning 1 to exactly those positions in one indexed assignment -- no loop at all.",
+      "The Profiler ranks lines by total accumulated time, and a single line executed 640,000 times inside nested loops will almost always dominate over a line -- like generating the initial random image -- that only executes once."
+    ],
+    "solutionCode": "% a) Simulated image and threshold\nimg = rand(800, 800);\nthreshold = 0.6;\n\n% b) Naive nested loop\ntic\nfor i = 1:800\n    for j = 1:800\n        if img(i,j) > threshold\n            mask1(i,j) = 1;\n        else\n            mask1(i,j) = 0;\n        end\n    end\nend\nt_loop = toc;\n\n% c) Preallocated + vectorized logical indexing\ntic\nmask2 = zeros(800,800);\nmask2(img > threshold) = 1;\nt_vec = toc;\n\n% d) Confirm agreement and report timing\ndisp(isequal(mask1, mask2))\nfprintf('Loop: %.4f sec, Vectorized: %.4f sec\\n', t_loop, t_vec);\nfprintf('Pixels flagged: %d\\n', sum(mask2(:)));\n\n% e) Written explanation:\n% Running the Profiler on the naive version would almost certainly flag the\n% \"mask1(i,j) = 1;\" / \"mask1(i,j) = 0;\" assignment inside the nested loop as the single\n% most time-consuming line, because it executes 640,000 times (800 rows x 800 columns),\n% and since mask1 is never preallocated, many of those assignments also force MATLAB to\n% grow the array. The one-time img = rand(800,800) line, by contrast, executes exactly\n% once and is handled by a single optimized built-in call, so no matter how \"large\" that\n% line looks, it cannot compete with a line that runs 640,000 separate times.",
+    "solutionExplanation": "The nested-loop version executes the conditional assignment 800*800 = 640,000 times, once per pixel, and since mask1 is never preallocated, MATLAB likely also has to keep resizing it as it grows row by row and column by column, compounding the cost; the vectorized version instead performs the comparison img > threshold and the indexed assignment mask2(...) = 1 as two single operations over the entire 800x800 array at once, which is why it finishes dramatically faster despite producing an identical mask (confirmed by isequal). If the naive version were profiled, MATLAB's Profiler would report accumulated time per line, and the assignment line inside the double loop would dominate the report precisely because \"time per execution times number of executions\" is what the Profiler tallies -- a cheap-looking single assignment run 640,000 times easily outweighs a single call to rand(800,800), even though generating that initial random matrix is itself a nontrivial one-time operation. This is exactly the kind of finding the Profiler is designed to surface: not which line of code \"looks\" complex, but which line actually accumulates the most total runtime once execution counts are taken into account.",
+    "concept": "Vectorizing a nested-loop image-thresholding operation and reasoning about what the Profiler would report",
+    "tags": ["vectorization", "logical indexing", "preallocation", "profiler", "nested loops", "image processing"],
+    "references": ["Unit 2 – Profiler Tutorial", "Unit 2 – Optimizing Code Lecture", "Unit 2 – Random Grid Optimization Examples"]
+  },
+  {
+    "id": "U2-WB-X04",
+    "unit": 2,
+    "topic": "linear-systems-basics",
+    "difficulty": "expert",
+    "title": "Classifying Existence and Uniqueness Across Three Diagnostic Panels",
+    "context": "A lab is setting up three different diagnostic-panel systems, each meant to solve for two unknown reagent concentrations from two measurements. Depending on how the two measurement equations relate to each other, a system may have exactly one solution, no solution, or infinitely many -- and you'll classify all three cases and connect the idea to a real imaging scenario.",
+    "parts": [
+      { "label": "a", "prompt": "Panel 1: A1 = [3 2; 1 4], b1 = [16; 18]. Compute det(A1) and, since it is nonzero, solve for x1 using backslash." },
+      { "label": "b", "prompt": "Panel 2: A2 = [2 3; 4 6], b2 = [5; 9]. Compute det(A2), then attempt x2 = A2\\b2 (MATLAB will warn). Display the result." },
+      { "label": "c", "prompt": "Panel 3: A3 = [2 3; 4 6], b3 = [5; 10]. Compute det(A3), then attempt x3 = A3\\b3 (MATLAB will also warn here). Display the result." },
+      { "label": "d", "prompt": "In 2-3 sentences (as a comment), explain, using the determinants and the two b vectors, why Panel 2 has no solution while Panel 3 has infinitely many, even though A2 and A3 are identical matrices." },
+      { "label": "e", "prompt": "In 3-4 sentences (as a comment), connect this idea to medical imaging: Lecture 7 mentions that CT reconstruction can be an underdetermined system with infinitely many possible reconstructions from limited X-ray measurements. Explain, in your own words, why having \"too few independent equations\" (however that arises) is a genuine practical problem in that setting, not just an abstract math curiosity." }
+    ],
+    "starterCode": "% Problem: Classifying Existence and Uniqueness Across Three Diagnostic Panels\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Panel 1: expect a unique solution\n\n\n% b) Panel 2: expect no solution\n\n\n% c) Panel 3: expect infinitely many solutions\n\n\n% d) Written explanation, Panels 2 vs 3 (comment)\n\n\n% e) Written connection to medical imaging (comment)\n",
+    "hints": [
+      "Compute all three determinants before trying to interpret any of the backslash results -- det(A1) not equal to 0 signals Panel 1 is the well-behaved case, while det(A2) = det(A3) = 0 signals both remaining panels are singular in the same way.",
+      "For the two singular panels, look at whether b is a scaled multiple of the same ratio that makes A's rows proportional: A2 and A3 share the exact same rows, [2 3] and [4 6] (row 2 is exactly 2x row 1), so the deciding factor is whether each b vector also follows that same 2x ratio between its two entries.",
+      "In Panel 2, b2 = [5; 9] does NOT follow the 2x ratio (9 is not 2x5), meaning the two equations contradict each other -- no point can satisfy both. In Panel 3, b3 = [5; 10] DOES follow it (10 is exactly 2x5), meaning the second equation adds no new information at all -- every point satisfying the first equation automatically satisfies the second too."
+    ],
+    "solutionCode": "% a) Panel 1: expect a unique solution\nA1 = [3 2; 1 4];\nb1 = [16; 18];\ndet1 = det(A1);\ndisp(det1)\nx1 = A1\\b1;\ndisp(x1)\n\n% b) Panel 2: expect no solution\nA2 = [2 3; 4 6];\nb2 = [5; 9];\ndet2 = det(A2);\ndisp(det2)\nx2 = A2\\b2;   % MATLAB warns: matrix is singular\ndisp(x2)\n\n% c) Panel 3: expect infinitely many solutions\nA3 = [2 3; 4 6];\nb3 = [5; 10];\ndet3 = det(A3);\ndisp(det3)\nx3 = A3\\b3;   % MATLAB warns: matrix is singular\ndisp(x3)\n\n% d) Written explanation (Panels 2 vs 3):\n% A2 and A3 are the identical matrix, with row 2 exactly 2x row 1 in both cases, so both\n% determinants are 0 and neither panel has a unique solution. The difference is entirely\n% in b: b2 = [5;9] does NOT scale by that same factor of 2 (9 is not 2*5), so the two\n% equations describe parallel, non-intersecting lines -- no (x,y) pair can satisfy both,\n% hence no solution. b3 = [5;10] DOES scale by exactly 2 (10 = 2*5), so the second equation\n% is a redundant restatement of the first -- every point on that one line satisfies both\n% equations, hence infinitely many solutions.\n\n% e) Written connection to imaging:\n% In CT reconstruction, each X-ray measurement is one equation constraining the unknown\n% tissue-density values, and the image is only fully determined if there are at least as\n% many independent measurements as unknowns. If a patient can only tolerate a limited\n% number of X-ray angles (for radiation-dose or time reasons), the resulting system is\n% genuinely underdetermined -- not because of a math error, but because of a real physical\n% limitation -- so infinitely many different tissue-density images could all satisfy the\n% measurements equally well. Picking any one of them without additional assumptions\n% (regularization) risks reconstructing a plausible-looking image that isn't actually the\n% patient's real anatomy, which is a patient-safety concern, not just a curiosity.",
+    "solutionExplanation": "Panel 1 has det(A1) = 10, nonzero, so backslash returns a single well-defined solution, x1 = [2.8; 3.8]. Panels 2 and 3 share the exact same coefficient matrix, [2 3; 4 6], whose rows are proportional (row 2 is exactly 2x row 1), giving det = 0 for both -- but their outcomes diverge based on b: b2 = [5; 9] breaks that same 2x proportionality (9 is not 2x5), making the two equations contradictory (parallel, non-intersecting lines), so Panel 2 has no solution, which is why MATLAB's backslash returns an Inf/-Inf-flavored output along with a singularity warning. b3 = [5; 10], on the other hand, does follow the 2x proportionality (10 = 2x5), so Panel 3's second equation is just a restatement of the first -- the two lines are identical, and infinitely many (x,y) pairs satisfy both at once, which is why backslash returns a warning plus a not-fully-meaningful numeric answer rather than the one true infinite solution set. The imaging connection matters because CT reconstruction turns exactly this same math into a patient-safety issue: too few independent X-ray measurements relative to unknown tissue densities produces a genuinely underdetermined system, and picking just one of the infinitely many mathematically-valid reconstructions without additional constraints (regularization) risks displaying an image that looks plausible but doesn't reflect the patient's actual anatomy.",
+    "concept": "Classifying existence/uniqueness of linear-system solutions via determinant and consistency, applied to medical imaging",
+    "tags": ["determinant", "existence and uniqueness", "singular matrix", "underdetermined system", "medical imaging", "critical reasoning"],
+    "references": ["Unit 2 – Lecture 6", "Unit 2 – Lecture 7"]
+  },
+  {
+    "id": "U2-WB-X05",
+    "unit": 2,
+    "topic": "least-squares-regression",
+    "difficulty": "expert",
+    "title": "Reading a Residual Pattern and the Danger of Extrapolating a Quadratic Dose Model",
+    "context": "A radiobiology study measured cell viability (percent) across nine radiation doses. You'll fit a line, discover a systematic pattern in its residuals rather than random scatter, fit a quadratic model instead, and then confront a specific danger of trusting that quadratic model outside the range it was built from.",
+    "parts": [
+      { "label": "a", "prompt": "Create dose = (0:2:16)' (Gy) and viability = [95.3 93.0 90.8 86.3 81.9 74.8 67.5 58.3 49.0]' (percent)." },
+      { "label": "b", "prompt": "Fit a linear model to this data using the normal equation, compute R2_lin, and display it. Also display the residual vector r_lin." },
+      { "label": "c", "prompt": "In 2-3 sentences (as a comment), describe the pattern you see in r_lin's signs (do the residuals start one way, dip the other way, and return, in a way that looks systematic rather than random?) and explain what a patterned residual vector like this suggests about whether a straight line is the right model, independent of what R2_lin's actual number is." },
+      { "label": "d", "prompt": "Fit a quadratic model to the same data, compute R2_quad, and display it alongside R2_lin for comparison." },
+      { "label": "e", "prompt": "Using your quadratic model, predict viability at dose = 30 Gy (well outside the observed 0-16 Gy range), storing the result in extrapolated. Display it." },
+      { "label": "f", "prompt": "In 3-4 sentences (as a comment), explain why the value in extrapolated is physically nonsensical, and what that tells you about the risk of using even a well-fitting (high-R2) polynomial model to predict outside the range of the data it was fit on." }
+    ],
+    "starterCode": "% Problem: Reading a Residual Pattern and the Danger of Extrapolating a Quadratic Dose Model\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Data\n\n\n% b) Linear fit -> R2_lin, r_lin\n\n\n% c) Written residual-pattern observation (comment)\n\n\n% d) Quadratic fit -> R2_quad\n\n\n% e) Extrapolate to dose = 30 Gy -> extrapolated\n\n\n% f) Written explanation (comment)\n",
+    "hints": [
+      "Build both design matrices the same way as previous problems -- linear needs [dose, ones(...)], quadratic needs [dose.^2, dose, ones(...)] -- and compute R2 with the same formula both times.",
+      "Look at the actual signs of r_lin in order, not just their magnitudes -- a run of same-signed residuals followed by a run of the opposite sign (rather than the signs flipping back and forth unpredictably) is the tell-tale mark of a systematic pattern, not random noise.",
+      "For the extrapolation, evaluate your quadratic model at dose=30 using the same three-term formula (beta_quad(1)*30^2 + beta_quad(2)*30 + beta_quad(3)) that you used to build the design matrix -- percent viability can never be negative in reality, so pay close attention to the sign of the result."
+    ],
+    "solutionCode": "% a) Data\ndose = (0:2:16)';\nviability = [95.3 93.0 90.8 86.3 81.9 74.8 67.5 58.3 49.0]';\n\n% b) Linear fit\nA_lin = [dose, ones(size(dose))];\nbeta_lin = (A_lin'*A_lin) \\ (A_lin'*viability);\nfit_lin = A_lin*beta_lin;\nr_lin = viability - fit_lin;\nR2_lin = 1 - (r_lin'*r_lin) / ((viability-mean(viability))'*(viability-mean(viability)));\ndisp(R2_lin)\ndisp(r_lin')\n\n% c) Written observation:\n% r_lin's signs run negative, negative, positive, positive, positive, positive, positive,\n% negative, negative -- a clear hump shape, not a random back-and-forth pattern. This kind\n% of systematic residual pattern indicates the straight line is missing real curvature in\n% the data, regardless of how large R2_lin itself looks.\n\n% d) Quadratic fit\nA_quad = [dose.^2, dose, ones(size(dose))];\nbeta_quad = (A_quad'*A_quad) \\ (A_quad'*viability);\nfit_quad = A_quad*beta_quad;\nr_quad = viability - fit_quad;\nR2_quad = 1 - (r_quad'*r_quad) / ((viability-mean(viability))'*(viability-mean(viability)));\nfprintf('R2 linear: %.4f, R2 quadratic: %.4f\\n', R2_lin, R2_quad);\n\n% e) Extrapolate to dose = 30 Gy\nextrapolated = beta_quad(1)*30^2 + beta_quad(2)*30 + beta_quad(3);\ndisp(extrapolated)\n\n% f) Written explanation:\n% extrapolated comes out negative (around -53.5% viability), which is physically\n% impossible -- a percentage can never go below 0%. This happens because the quadratic\n% term that fits the observed 0-16 Gy range so well (R2 ~ 0.9996) curves downward\n% increasingly steeply once you plug in a dose far outside that range, and nothing in the\n% fitting process \"knows\" that viability must stay within [0, 100]. A high R2 only\n% certifies that a model describes the data it was fit on; it says nothing about the\n% model's behavior outside that range, which is why extrapolating a polynomial fit --\n% however good it looks in-sample -- is a common and dangerous mistake.",
+    "solutionExplanation": "The linear fit's residuals, r_lin, run negative for the first two doses, positive through the middle five, and negative again for the last two -- a clear hump-shaped pattern rather than random up-and-down noise, which is the classic sign that a straight line is missing real curvature in the underlying relationship (here, R2_lin is still a respectable 0.9493, showing that a decent-looking R2 alone can mask a systematic misfit that the residual pattern reveals immediately). Adding a dose-squared term lets the quadratic model capture that curvature, raising R2_quad to about 0.9996 and leaving residuals with no discernible pattern in sign. However, evaluating that same quadratic model at dose = 30 Gy -- nearly double the highest observed dose of 16 Gy -- gives extrapolated of about -53.5%, a physically impossible negative viability percentage, because the fitted quadratic curve was only ever constrained to match data between 0 and 16 Gy and continues curving downward without limit past that range. This is the core danger of extrapolation: R2 measures how well a model describes the data it was trained on, not whether the model's mathematical form remains meaningful outside that range, so a high-R2 polynomial fit should never be trusted to predict conditions well beyond the doses actually tested.",
+    "concept": "Reading residual patterns to detect model misspecification, and recognizing the danger of extrapolating a polynomial fit beyond its data range",
+    "tags": ["residual analysis", "R-squared", "quadratic regression", "extrapolation", "model validation", "critical reasoning"],
+    "references": ["Unit 2 – Lecture 7", "Unit 2 – Quiz 2"]
+  }
+]

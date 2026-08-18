@@ -1,0 +1,505 @@
+[
+  {
+    "id": "U1-WB-B01",
+    "unit": 1,
+    "topic": "numerical-precision-taylor",
+    "difficulty": "beginner",
+    "title": "Absolute and Relative Error in Two Clinical Measurements",
+    "context": "Every measurement device has some amount of error, but whether that error actually matters depends on the scale of what's being measured. You'll compute both absolute and relative error for two very different clinical measurements and see why the same-looking error can mean very different things.",
+    "parts": [
+      { "label": "a", "prompt": "Create trueVol = 500 and measuredVol = 512, representing the true and measured volume (in mL) of an IV bag. Compute the absolute error absErrorIV = |trueVol - measuredVol| using abs(), and the relative error relErrorIV as a percentage using the formula |(trueVol - measuredVol)/trueVol| * 100." },
+      { "label": "b", "prompt": "Create truePipette = 5 and measuredPipette = 5.4, representing the true and measured volume (in microliters) dispensed by a micropipette. Compute absErrorPipette and relErrorPipette (as a percentage) the same way." },
+      { "label": "c", "prompt": "Using fprintf, display all four error values (absErrorIV, relErrorIV, absErrorPipette, relErrorPipette), each rounded to 2 decimal places, with clear labels." }
+    ],
+    "starterCode": "% Problem: Absolute and Relative Error in Two Clinical Measurements\n% Name:\n% Date:\n\nclear; clc;\n\n% a) IV bag: true vs. measured volume -> absErrorIV, relErrorIV\ntrueVol = 500; measuredVol = 512;\n\n\n% b) Micropipette: true vs. measured volume -> absErrorPipette, relErrorPipette\ntruePipette = 5; measuredPipette = 5.4;\n\n\n% c) Display all four values with fprintf, rounded to 2 decimals\n",
+    "hints": [
+      "Absolute error is just abs(true - measured); relative error divides that same absolute error by the true value before converting to a percentage by multiplying by 100.",
+      "Both calculations use the exact same two-line pattern -- only the numbers change between the IV bag and the pipette, so you can reuse the same formula structure for part (b).",
+      "Once computed, compare relErrorPipette to relErrorIV: even though the pipette's absolute error (0.4 mcL) is much smaller than the IV bag's (12 mL), its relative error works out to be several times larger."
+    ],
+    "solutionCode": "% a) IV bag\ntrueVol = 500; measuredVol = 512;\nabsErrorIV = abs(trueVol - measuredVol);\nrelErrorIV = abs((trueVol - measuredVol)/trueVol) * 100;\n\n% b) Micropipette\ntruePipette = 5; measuredPipette = 5.4;\nabsErrorPipette = abs(truePipette - measuredPipette);\nrelErrorPipette = abs((truePipette - measuredPipette)/truePipette) * 100;\n\n% c) Display all four values\nfprintf('IV bag: absolute error = %.2f mL, relative error = %.2f%%\\n', absErrorIV, relErrorIV);\nfprintf('Pipette: absolute error = %.2f mcL, relative error = %.2f%%\\n', absErrorPipette, relErrorPipette);",
+    "solutionExplanation": "absErrorIV comes out to 12 mL and absErrorPipette comes out to only 0.4 mcL, so at first glance the IV bag looks like the far less accurate measurement. But dividing each absolute error by its own true value tells a different story: relErrorIV is 12/500 = 2.4%, while relErrorPipette is 0.4/5 = 8%, more than three times larger. This is exactly the pattern from lecture's pool-versus-gold comparison -- absolute error only tells you the raw size of a discrepancy, while relative error puts that discrepancy in proportion to the quantity being measured, which is usually the number that actually matters when deciding whether a measurement is 'close enough' for a given clinical use.",
+    "concept": "Absolute error vs. relative error",
+    "tags": ["absolute error", "relative error", "abs", "fprintf", "measurement error"],
+    "references": ["Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-B02",
+    "unit": 1,
+    "topic": "fundamentals-review",
+    "difficulty": "beginner",
+    "title": "Flagging Elevated Glucose Readings with Logical Indexing",
+    "context": "Reviewing Unit 0's vector and indexing fundamentals, you'll use a relational expression and logical indexing to pull out only the abnormal glucose readings from a full day's worth of measurements, and convert the whole vector to a different unit using element-wise arithmetic.",
+    "parts": [
+      { "label": "a", "prompt": "Create the row vector glucose = [95 102 130 118 140 88], six fasting glucose readings (mg/dL) taken over one day. Using a relational expression (no if statement or loop), create a logical vector highGlucose that is true wherever a reading exceeds 125 mg/dL." },
+      { "label": "b", "prompt": "Using highGlucose as a logical index into glucose, extract the actual flagged readings into a variable named flaggedValues, and display it." },
+      { "label": "c", "prompt": "Convert the entire glucose vector from mg/dL to mmol/L by dividing every element by 18.0182 (element-wise, in one expression), storing the result in glucose_mmol. Display it rounded to 2 decimal places using round()." }
+    ],
+    "starterCode": "% Problem: Flagging Elevated Glucose Readings with Logical Indexing\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create glucose and the highGlucose logical vector\nglucose = [95 102 130 118 140 88];\n\n\n% b) Extract flagged values using logical indexing\n\n\n% c) Convert glucose to mmol/L (element-wise) -> glucose_mmol\n",
+    "hints": [
+      "A relational operator like > applied directly to a whole vector compares every element to 125 at once and returns a same-size logical vector -- no loop needed.",
+      "glucose(highGlucose) uses that logical vector directly as an index, returning only the elements of glucose where highGlucose is true, in their original order.",
+      "Dividing a vector by a single number (glucose / 18.0182) already applies that division to every element individually -- this is a scalar-vector operation, and it works the same way arithmetic on a single number does."
+    ],
+    "solutionCode": "% a) Flag elevated readings\nglucose = [95 102 130 118 140 88];\nhighGlucose = glucose > 125;\n\n% b) Extract the flagged values\nflaggedValues = glucose(highGlucose);\ndisp(flaggedValues)\n\n% c) Convert to mmol/L\nglucose_mmol = glucose / 18.0182;\ndisp(round(glucose_mmol, 2))",
+    "solutionExplanation": "highGlucose = glucose > 125 compares all six readings to 125 in a single expression, producing [0 0 1 0 1 0] since only the 3rd and 5th readings (130 and 140) exceed the cutoff. glucose(highGlucose) then uses that logical vector as an index directly, which MATLAB interprets as 'keep only the positions where this is true,' returning flaggedValues = [130 140] without ever needing an if statement or a loop. Part (c) applies the standard mg/dL-to-mmol/L glucose conversion factor to the whole vector in one division, since MATLAB automatically applies scalar-vector arithmetic element-by-element, giving glucose_mmol = [5.27 5.66 7.21 6.55 7.77 4.88] once rounded to 2 decimal places.",
+    "concept": "Logical indexing and element-wise scalar arithmetic on vectors",
+    "tags": ["logical indexing", "relational operators", "vectors", "element-wise operations", "unit conversion"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Assignment 1"]
+  },
+  {
+    "id": "U1-WB-B03",
+    "unit": 1,
+    "topic": "io-and-scripts",
+    "difficulty": "beginner",
+    "title": "Writing a Simple Function to Compute Mean Arterial Pressure",
+    "context": "Mean arterial pressure (MAP) is a common vital-sign summary computed from systolic and diastolic blood pressure: MAP = DBP + (SBP - DBP)/3. Rather than retyping this formula every time, you'll package it into a reusable MATLAB function and practice calling it two different ways.",
+    "parts": [
+      { "label": "a", "prompt": "Write a function named meanArterialPressure that takes two inputs, SBP and DBP, and returns one output, MAP, computed with the formula above. (Write it as a local function at the bottom of your script.) Call it for SBP = 120, DBP = 80, storing the result in MAP1, and display it with fprintf rounded to 1 decimal place." },
+      { "label": "b", "prompt": "Create a function handle mapFun = @meanArterialPressure, and use mapFun (not the function name directly) to compute the MAP for a second patient with SBP = 142, DBP = 95, storing the result in MAP2. Display it the same way." },
+      { "label": "c", "prompt": "Using a single relational expression (no if statement), create a logical variable named isElevated that is true if MAP2 exceeds 100 mmHg, and display it with disp." }
+    ],
+    "starterCode": "% Problem: Writing a Simple Function to Compute Mean Arterial Pressure\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Call meanArterialPressure(120, 80) -> MAP1\n\n\n% b) Create a function handle and call it for SBP = 142, DBP = 95 -> MAP2\n\n\n% c) isElevated: true if MAP2 > 100\n\n\n% --- Local function (must stay at the bottom of the script) ---\nfunction MAP = meanArterialPressure(SBP, DBP)\n    % statements\nend\n",
+    "hints": [
+      "Translate the formula directly into the function body: MAP = DBP + (SBP - DBP)/3, using the function's own input names SBP and DBP.",
+      "A function handle is created with the @ symbol in front of a function's name, e.g. mapFun = @meanArterialPressure; -- once created, mapFun(142, 95) calls the exact same function as meanArterialPressure(142, 95).",
+      "A relational expression like MAP2 > 100 already evaluates to true or false on its own -- assign that result straight into isElevated without writing an if statement."
+    ],
+    "solutionCode": "% a) Call the function directly\nSBP1 = 120; DBP1 = 80;\nMAP1 = meanArterialPressure(SBP1, DBP1);\nfprintf('MAP1: %.1f mmHg\\n', MAP1);\n\n% b) Call the same function through a function handle\nmapFun = @meanArterialPressure;\nSBP2 = 142; DBP2 = 95;\nMAP2 = mapFun(SBP2, DBP2);\nfprintf('MAP2: %.1f mmHg\\n', MAP2);\n\n% c) Check against the 100 mmHg concern threshold\nisElevated = MAP2 > 100;\ndisp(isElevated)\n\n% --- Local function ---\nfunction MAP = meanArterialPressure(SBP, DBP)\n    MAP = DBP + (SBP - DBP)/3;\nend",
+    "solutionExplanation": "meanArterialPressure packages the MAP formula once so it never has to be retyped: calling it with SBP1 = 120 and DBP1 = 80 gives MAP1 = 80 + (120-80)/3 = 93.3 mmHg. A function handle, created with mapFun = @meanArterialPressure, is simply a variable that points at that same function -- calling mapFun(142, 95) runs the identical code as meanArterialPressure(142, 95) and returns MAP2 = 95 + (142-95)/3 = 110.7 mmHg, just reached through a variable instead of the function's name directly, which becomes useful later when a function needs to be passed around or swapped out. Because isElevated = MAP2 > 100 is a relational expression, it evaluates straight to a logical true/false value (true here, since 110.7 > 100) without needing any if statement at all.",
+    "concept": "Writing and calling a function, plus creating and using a function handle",
+    "tags": ["functions", "function handle", "fprintf", "relational operators"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-B04",
+    "unit": 1,
+    "topic": "plotting-patterns",
+    "difficulty": "beginner",
+    "title": "Comparing Two Patients' Heart-Rate Recovery Curves",
+    "context": "After exercise, heart rate should decline steadily back toward resting levels. You'll plot two patients' recovery curves on the same axes using MATLAB's basic multi-line plotting recipe, so they can be compared at a glance.",
+    "parts": [
+      { "label": "a", "prompt": "Create time = 0:1:5 (minutes) and the two heart-rate vectors hrA = [160 148 130 118 108 100] and hrB = [165 155 140 128 115 102] (beats per minute)." },
+      { "label": "b", "prompt": "Plot hrA versus time as a solid blue line with square markers. Then, using hold on, plot hrB versus time as a dashed red line with triangle markers on the same axes." },
+      { "label": "c", "prompt": "Label the x-axis 'Time (min)', the y-axis 'Heart Rate (bpm)', add the title 'Post-Exercise Heart Rate Recovery', and add a legend distinguishing 'Patient A' and 'Patient B'." }
+    ],
+    "starterCode": "% Problem: Comparing Two Patients' Heart-Rate Recovery Curves\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Create time, hrA, hrB\n\n\n% b) Plot hrA, hold on, then plot hrB\n\n\n% c) Labels, title, and legend\n",
+    "hints": [
+      "plot(x, y, style) plots one line at a time -- hold on keeps the current axes' contents in place so a second plot(...) call adds a new line instead of replacing the first one.",
+      "A style string can combine a color, line type, and marker in any order, e.g. 'b-s' for a solid blue line with square markers, or 'r--^' for a dashed red line with triangle markers.",
+      "legend takes one label per line, in the same order the lines were plotted -- since hrA was plotted first, 'Patient A' should be listed first in the legend call."
+    ],
+    "solutionCode": "% a) Create the data\ntime = 0:1:5;\nhrA = [160 148 130 118 108 100];\nhrB = [165 155 140 128 115 102];\n\n% b) Plot both recovery curves on the same axes\nfigure\nplot(time, hrA, 'b-s')\nhold on\nplot(time, hrB, 'r--^')\nhold off\n\n% c) Labels, title, and legend\nxlabel('Time (min)')\nylabel('Heart Rate (bpm)')\ntitle('Post-Exercise Heart Rate Recovery')\nlegend('Patient A', 'Patient B')",
+    "solutionExplanation": "hold on is what allows the second plot(time, hrB, 'r--^') call to draw onto the same axes as the first plot(time, hrA, 'b-s') call instead of erasing it and starting over, which is the standard MATLAB recipe any time two or more series need to appear on one set of axes. The style strings 'b-s' and 'r--^' each pack a color, a line type, and a marker shape into one short code, which is what makes the two recovery curves visually distinguishable even before reading the legend. Matching the legend('Patient A', 'Patient B') call's argument order to the order the lines were actually plotted in is what keeps each label attached to the correct curve.",
+    "concept": "Multi-line plotting with hold on, plus axis labels/title/legend",
+    "tags": ["plotting", "hold on", "legend", "xlabel", "ylabel", "title"],
+    "references": ["Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-B05",
+    "unit": 1,
+    "topic": "reading-output",
+    "difficulty": "beginner",
+    "title": "Predicting Command Window Output from a Short Script",
+    "context": "Before you can debug a broken script, you need to be able to read a correct one and predict exactly what it will print. You'll trace through a short script by hand and reason about the difference between fprintf and disp.",
+    "parts": [
+      { "label": "a", "prompt": "Without running it, predict exactly what will print to the Command Window, line by line, when the script below executes. Write your answer as comments.\n\na = 3;\nb = a^2 - 1;\nfprintf('b = %d\\n', b);\nc = mod(b, 4);\ndisp(c)\nif c == 0\n    disp('Divisible')\nelse\n    disp('Not divisible')\nend" },
+      { "label": "b", "prompt": "In one sentence, explain what capability fprintf('b = %d\\n', b) has that disp(b) does not, even though both would display the same numeric value." },
+      { "label": "c", "prompt": "Run the script (or trace it again carefully) to confirm which branch of the if/else executes, and state, in one sentence, exactly why -- referencing the actual value mod(b,4) computes." }
+    ],
+    "starterCode": "% Problem: Predicting Command Window Output from a Short Script\n% Name:\n% Date:\n\n% Given script (trace this by hand for part a; do not change it)\na = 3;\nb = a^2 - 1;\nfprintf('b = %d\\n', b);\nc = mod(b, 4);\ndisp(c)\nif c == 0\n    disp('Divisible')\nelse\n    disp('Not divisible')\nend\n\n% a) Written prediction (as comments)\n\n\n% b) One-sentence written explanation (as a comment)\n\n\n% c) One-sentence written explanation (as a comment)\n",
+    "hints": [
+      "Work top to bottom: a is 3, so b = 3^2 - 1 = 8 -- that value is what fprintf's %d slot will substitute in.",
+      "mod(b, 4) returns the remainder of b divided by 4; disp(c) will print just that number, with no label attached.",
+      "fprintf lets you build a formatted string with labels and multiple values combined (like 'b = 8'), while disp only ever prints a single value's contents with no surrounding text -- that formatting control is the key difference."
+    ],
+    "solutionCode": "% a) Predicted output (as comments), top to bottom:\n% b = 8\n% 0\n% Divisible\n\n% b) Written explanation:\n% fprintf lets you build a labeled, formatted line of text around a value (like \"b = 8\"),\n% while disp only ever prints the bare value itself with no label or surrounding text.\n\n% c) Written explanation:\n% mod(8, 4) equals 0, so the condition c == 0 is true, which means the if branch runs\n% and disp('Divisible') executes, printing \"Divisible\" -- the else branch never runs.",
+    "solutionExplanation": "Tracing top to bottom: a = 3, so b = 3^2 - 1 = 8, and fprintf('b = %d\\n', b) prints the literal text 'b = 8' since %d is replaced by b's value. c = mod(8, 4) = 0 (8 divides evenly by 4 with no remainder), so disp(c) prints just '0' with no label. Because c == 0 is true, the if branch runs and prints 'Divisible', and the else branch is skipped entirely. The key conceptual point is that fprintf and disp both display values, but fprintf accepts a format string that can mix literal text and multiple substituted values in one line, while disp can only show the raw contents of a single variable -- which is why fprintf is used whenever a label or specific number formatting (like %d or %.2f) is needed.",
+    "concept": "Tracing script execution and the difference between fprintf and disp",
+    "tags": ["reading output", "fprintf", "disp", "mod", "if else", "tracing"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-I01",
+    "unit": 1,
+    "topic": "reading-output",
+    "difficulty": "intermediate",
+    "title": "Debug a BMI Classification Function",
+    "context": "A classmate wrote a function meant to classify each of four patients' BMI into a standard category, called from a loop. It contains two bugs -- one crashes the script, one silently misclassifies certain patients. Find and fix both, then extend the script.",
+    "parts": [
+      { "label": "a", "prompt": "Run the script below. It errors out immediately. Identify and fix Bug #1: a variable name typo in the loop that references a vector under a name that was never actually created." },
+      { "label": "b", "prompt": "After fixing Bug #1, the script runs without error, but Patient 1 (BMI = 15.6) is reported as 'Normal' instead of 'Underweight'. Identify and fix Bug #2 inside the classifyBMI function -- a control-flow mistake that lets a later condition silently overwrite an earlier, correct one." },
+      { "label": "c", "prompt": "After fixing both bugs, add a line inside the loop that also displays (via fprintf) a logical flag for whether each patient's BMI is at least 30 (i.e., in the 'Obese' range), computed directly with a relational expression -- without modifying classifyBMI itself." }
+    ],
+    "starterCode": "% BMI classification script -- contains 2 bugs, fix both of them\nweights = [45 75 90 55];\nheights = [1.7 1.75 1.8 1.6];\nfor i = 1:length(weights)\n    bmi = weight(i) / heights(i)^2;\n    category = classifyBMI(bmi);\n    fprintf('Patient %d: BMI = %.1f (%s)\\n', i, bmi, category);\nend\n\n% c) add an obesity flag display below (inside the loop above)\n\nfunction cat = classifyBMI(bmi)\n    if bmi < 18.5\n        cat = 'Underweight';\n    end\n    if bmi <= 24.9\n        cat = 'Normal';\n    elseif bmi < 29.9\n        cat = 'Overweight';\n    else\n        cat = 'Obese';\n    end\nend\n",
+    "hints": [
+      "The vector of body weights was created under one name, but the loop body references it under a very similar, but different, name -- check weight vs weights carefully.",
+      "Inside classifyBMI, the very first bmi < 18.5 check sits in its own separate if block rather than being the start of an if/elseif chain -- once that block runs, execution falls straight into a SECOND, independent if/elseif/else chain that starts from scratch, without knowing an underweight patient was already classified.",
+      "Combining the two conditions into a single if/elseif/elseif/else chain (rather than two separate if statements) guarantees only the first matching branch ever runs, exactly like the classification patterns from Unit 0."
+    ],
+    "solutionCode": "weights = [45 75 90 55];\nheights = [1.7 1.75 1.8 1.6];\nfor i = 1:length(weights)\n    bmi = weights(i) / heights(i)^2;         % fix: weights, not weight\n    category = classifyBMI(bmi);\n    isObese = bmi >= 30;                      % c) obesity flag, computed outside the function\n    fprintf('Patient %d: BMI = %.1f (%s), Obese: %d\\n', i, bmi, category, isObese);\nend\n\nfunction cat = classifyBMI(bmi)\n    if bmi < 18.5                 % fix: single if/elseif/else chain, not two separate if blocks\n        cat = 'Underweight';\n    elseif bmi <= 24.9\n        cat = 'Normal';\n    elseif bmi < 29.9\n        cat = 'Overweight';\n    else\n        cat = 'Obese';\n    end\nend",
+    "solutionExplanation": "Bug #1 is a simple name mismatch: weights(i) inside the loop was mistakenly typed as weight(i), a variable that was never created, so MATLAB stops immediately with an undefined-variable error the first time the loop body runs -- an easy bug to spot since it crashes right away. Bug #2 is more dangerous because it produces a plausible-looking wrong answer instead of an error: writing the Underweight check as its own standalone if block, followed by a completely separate if/elseif/else chain, means that for a genuinely underweight patient (BMI = 15.6), the first block correctly sets cat = 'Underweight', but execution then falls into the second block regardless, where bmi <= 24.9 is also true, silently overwriting cat to 'Normal'. Combining everything into one single if/elseif/elseif/else chain fixes this, because MATLAB stops checking further conditions the moment one branch's condition is met -- exactly the branching behavior relied on throughout Unit 0's classification problems. After both fixes, Patient 1 correctly reports as Underweight, and the added isObese flag (bmi >= 30) is computed independently in the loop without needing to touch the classifyBMI function at all.",
+    "concept": "Debugging a crashing name error and a silent control-flow bug caused by using two separate if blocks instead of one if/elseif chain",
+    "tags": ["debugging", "functions", "if elseif else", "control flow", "logic error"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-I02",
+    "unit": 1,
+    "topic": "io-and-scripts",
+    "difficulty": "intermediate",
+    "title": "A Two-Output Vitals Summary Function and an Anonymous Unit Converter",
+    "context": "Summarizing a vector of repeated vital-sign measurements often means reporting more than one number at once. You'll write a function that returns two outputs in a single call, then pair it with a quick anonymous function for a one-off unit conversion.",
+    "parts": [
+      { "label": "a", "prompt": "Write a local function [avgVal, rangeVal] = vitalsSummary(readings) that returns both the average (computed with sum and length, not MATLAB's mean()) and the range (max minus min, using max and min) of a numeric vector." },
+      { "label": "b", "prompt": "Call vitalsSummary on hr = [72 75 78 74 80 76] (bpm), storing both outputs as avgHR and rangeHR. Display both with fprintf." },
+      { "label": "c", "prompt": "Create an anonymous function toFahrenheit = @(C) C*9/5 + 32, and use it to convert tempC = [36.5 37.1 38.0] (degrees C) into tempF (degrees F) in one line." },
+      { "label": "d", "prompt": "Call your vitalsSummary function again, this time on tempF, to display the average Fahrenheit temperature across the three readings." }
+    ],
+    "starterCode": "% Problem: A Two-Output Vitals Summary Function and an Anonymous Unit Converter\n% Name:\n% Date:\n\nclear; clc;\n\n% b) Call vitalsSummary on hr -> avgHR, rangeHR\nhr = [72 75 78 74 80 76];\n\n\n% c) Anonymous function toFahrenheit, applied to tempC -> tempF\ntempC = [36.5 37.1 38.0];\n\n\n% d) Call vitalsSummary on tempF -> average Fahrenheit temperature\n\n\n% --- Local function (must stay at the bottom of the script) ---\nfunction [avgVal, rangeVal] = vitalsSummary(readings)\n    % statements\nend\n",
+    "hints": [
+      "A function can return two outputs at once just by listing both output variable names in square brackets in its interface line, e.g. function [avgVal, rangeVal] = vitalsSummary(readings) -- and the caller collects both the same way: [avgHR, rangeHR] = vitalsSummary(hr).",
+      "range is simply the largest value minus the smallest: max(readings) - min(readings).",
+      "An anonymous function is defined in one line with @(inputName) expression, and like any MATLAB arithmetic expression, it already works element-wise on an entire vector automatically -- toFahrenheit(tempC) converts all three temperatures in a single call."
+    ],
+    "solutionCode": "% b) Heart rate summary\nhr = [72 75 78 74 80 76];\n[avgHR, rangeHR] = vitalsSummary(hr);\nfprintf('avgHR = %.2f bpm, rangeHR = %d bpm\\n', avgHR, rangeHR);\n\n% c) Anonymous function for unit conversion\ntempC = [36.5 37.1 38.0];\ntoFahrenheit = @(C) C*9/5 + 32;\ntempF = toFahrenheit(tempC);\ndisp(tempF)\n\n% d) Reuse vitalsSummary on the converted temperatures\n[avgTempF, ~] = vitalsSummary(tempF);\nfprintf('Average temperature: %.2f F\\n', avgTempF);\n\n% --- Local function ---\nfunction [avgVal, rangeVal] = vitalsSummary(readings)\n    avgVal = sum(readings) / length(readings);\n    rangeVal = max(readings) - min(readings);\nend",
+    "solutionExplanation": "vitalsSummary computes both outputs from the same input vector: avgVal reproduces what mean() does internally by dividing the sum of the readings by how many there are, and rangeVal is just the spread between the largest and smallest reading. Calling [avgHR, rangeHR] = vitalsSummary(hr) collects both of those return values in one call, giving avgHR = 75.83 bpm and rangeHR = 8 bpm. The anonymous function toFahrenheit = @(C) C*9/5 + 32 is a compact, throwaway function defined entirely in one line -- since the arithmetic inside it is already scalar-vector-safe, calling toFahrenheit(tempC) converts the whole 3-element vector to tempF = [97.7 98.78 100.4] in a single call, no loop required. Reusing vitalsSummary on tempF (using the ~ placeholder to discard the range output this time, since only the average is needed) demonstrates why writing a general-purpose function is worth it -- the exact same two-output function works unchanged on a completely different vector of temperature readings, giving an average of 98.96 F.",
+    "concept": "Functions with multiple outputs, paired with an anonymous function for a quick unit conversion",
+    "tags": ["functions", "multiple outputs", "anonymous functions", "fprintf"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-I03",
+    "unit": 1,
+    "topic": "numerical-precision-taylor",
+    "difficulty": "intermediate",
+    "title": "Approximating sin(x) with a Truncated Maclaurin Series",
+    "context": "A biomechanics model needs sin(x) at several angles but wants to avoid calling MATLAB's built-in trig functions directly, so you'll build a truncated Maclaurin (Taylor series at a=0) approximation instead, and see how its accuracy changes with distance from the expansion point.",
+    "parts": [
+      { "label": "a", "prompt": "The Maclaurin series for sin(x) is x - x^3/3! + x^5/5! - ... . Create an anonymous function sin3 = @(x) x - x.^3/6 + x.^5/120 representing its first three nonzero terms." },
+      { "label": "b", "prompt": "At x = 0.5, compute the absolute error absErr = abs(sin(0.5) - sin3(0.5)) and the relative error relErr (as a percentage) between this approximation and MATLAB's built-in sin(). Display both." },
+      { "label": "c", "prompt": "Repeat the same two error calculations at x = 2, storing absErr2 and relErr2, and display them." },
+      { "label": "d", "prompt": "As a one-line comment, note which of the two points (x = 0.5 or x = 2) has the larger error, and state whether that's what you'd expect given where the series is centered." }
+    ],
+    "starterCode": "% Problem: Approximating sin(x) with a Truncated Maclaurin Series\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define sin3, the first three nonzero Maclaurin terms of sin(x)\n\n\n% b) Error at x = 0.5\n\n\n% c) Error at x = 2\n\n\n% d) One-line comment: which point has more error, and is that expected?\n",
+    "hints": [
+      "The odd powers of x in sin's Maclaurin series come from its odd derivatives at 0 -- each successive nonzero term divides by that power's factorial (3! = 6, 5! = 120), with alternating sign.",
+      "Relative error is the absolute error divided by the true value's magnitude, then multiplied by 100 to express it as a percent: relErr = absErr / abs(sin(0.5)) * 100.",
+      "Since a Maclaurin series is built to match a function and its derivatives exactly AT x = 0, the further a point is from 0, the more terms it typically takes to stay accurate -- x = 2 is four times farther from the expansion point than x = 0.5."
+    ],
+    "solutionCode": "% a) Truncated Maclaurin series for sin(x)\nsin3 = @(x) x - x.^3/6 + x.^5/120;\n\n% b) Error at x = 0.5\nabsErr = abs(sin(0.5) - sin3(0.5));\nrelErr = absErr / abs(sin(0.5)) * 100;\nfprintf('x=0.5: absErr = %.8f, relErr = %.6f%%\\n', absErr, relErr);\n\n% c) Error at x = 2\nabsErr2 = abs(sin(2) - sin3(2));\nrelErr2 = absErr2 / abs(sin(2)) * 100;\nfprintf('x=2: absErr2 = %.6f, relErr2 = %.4f%%\\n', absErr2, relErr2);\n\n% d) x = 2 has far more error than x = 0.5, which is expected: the series is\n% centered at x = 0, so accuracy degrades the farther you move away from that point.",
+    "solutionExplanation": "At x = 0.5, sin3(0.5) is accurate to about 1.5e-6, giving a relative error of roughly 0.0003% -- essentially indistinguishable from the true sin(0.5). At x = 2, the same three-term polynomial is off by about 0.024, a relative error of roughly 2.6%, thousands of times worse than at x = 0.5. This isn't a coincidence: a Maclaurin series is constructed so that its value and first several derivatives match the target function exactly at x = 0, and every term left out of the truncated series (starting with -x^7/7! here) contributes error that grows quickly with |x|. Since 2 is four times farther from the expansion point than 0.5, and the omitted terms scale with a high power of x, the error at x = 2 is dramatically larger -- exactly the truncation-error behavior discussed in lecture.",
+    "concept": "Truncated Maclaurin series accuracy as a function of distance from the expansion point",
+    "tags": ["taylor series", "maclaurin series", "absolute error", "relative error", "anonymous functions"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Taylor Series Slides"]
+  },
+  {
+    "id": "U1-WB-I04",
+    "unit": 1,
+    "topic": "fundamentals-review",
+    "difficulty": "intermediate",
+    "title": "Rectifying and Thresholding a Simulated EMG Signal",
+    "context": "Raw EMG (electromyography) readings swing positive and negative around a baseline, so a common first processing step is to rectify the signal (take its absolute value) before checking which samples represent real muscle activation above a threshold.",
+    "parts": [
+      { "label": "a", "prompt": "Create emg = [-0.2 0.5 -0.8 1.2 -0.1 0.9 -1.5 0.3] (mV), a short strip of raw EMG samples. Compute the rectified signal emgRect = abs(emg) (element-wise)." },
+      { "label": "b", "prompt": "Using a relational expression on emgRect (no loop), create a logical vector active that flags samples where emgRect exceeds 0.5 mV, an activation threshold." },
+      { "label": "c", "prompt": "Using active as a logical index into emgRect, extract only the active-period amplitudes into activeValues, and display how many samples were active using sum()." },
+      { "label": "d", "prompt": "Compute the average amplitude during active periods only (not the whole signal) using sum and length on activeValues -- do not use mean(). Display the result." }
+    ],
+    "starterCode": "% Problem: Rectifying and Thresholding a Simulated EMG Signal\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create emg and compute emgRect\nemg = [-0.2 0.5 -0.8 1.2 -0.1 0.9 -1.5 0.3];\n\n\n% b) active: logical flag where emgRect > 0.5\n\n\n% c) activeValues via logical indexing; count with sum()\n\n\n% d) Average amplitude during active periods only (sum/length, no mean())\n",
+    "hints": [
+      "abs() applied to a whole vector rectifies every sample at once, since it operates element-wise automatically -- no loop needed.",
+      "emgRect > 0.5 compares every rectified sample to the threshold in one expression, and emgRect(active) then keeps only the samples where that comparison was true.",
+      "sum(active) counts how many entries of active are true (since true behaves as 1 in arithmetic); sum(activeValues)/length(activeValues) then averages only those kept values, not all eight original samples."
+    ],
+    "solutionCode": "% a) Rectify the signal\nemg = [-0.2 0.5 -0.8 1.2 -0.1 0.9 -1.5 0.3];\nemgRect = abs(emg);\n\n% b) Flag samples above the activation threshold\nactive = emgRect > 0.5;\ndisp(active)\n\n% c) Extract and count active-period amplitudes\nactiveValues = emgRect(active);\ndisp(activeValues)\nfprintf('Active samples: %d\\n', sum(active));\n\n% d) Average amplitude during active periods only\navgActive = sum(activeValues) / length(activeValues);\nfprintf('Average active amplitude: %.2f mV\\n', avgActive);",
+    "solutionExplanation": "emgRect = abs(emg) flips every negative sample positive in one step, giving [0.2 0.5 0.8 1.2 0.1 0.9 1.5 0.3]. active = emgRect > 0.5 then compares all eight rectified samples to the threshold at once, producing [0 0 1 1 0 1 1 0] -- note that the sample exactly equal to 0.5 does NOT count as active, since > is a strict inequality. emgRect(active) uses that logical vector as an index to keep only the four samples where active is true, giving activeValues = [0.8 1.2 0.9 1.5], and sum(active) counts those four true entries directly. Averaging only activeValues (not the full 8-sample emgRect) with sum(activeValues)/length(activeValues) gives 4.4/4 = 1.1 mV -- a meaningfully different (and more useful) number than averaging the whole signal would give, since it excludes the quiet baseline periods entirely.",
+    "concept": "Rectifying a signal and computing statistics over a logically-indexed subset",
+    "tags": ["logical indexing", "abs", "relational operators", "vectorized arithmetic", "signal processing"],
+    "references": ["Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-I05",
+    "unit": 1,
+    "topic": "plotting-patterns",
+    "difficulty": "intermediate",
+    "title": "Comparing Two Vital Signs with Stacked Subplots",
+    "context": "When two related signals share a time axis but have very different scales, stacking them in separate subplots (rather than overlaying them on one axis) is usually the clearer idiom. You'll practice the standard subplot(rows, cols, index) pattern comparing heart rate and oxygen saturation during a recovery walk.",
+    "parts": [
+      { "label": "a", "prompt": "Create time = 0:5:30 (minutes), hr = [72 78 85 90 88 82 76] (bpm), and spo2 = [98 97 95 93 94 96 98] (percent)." },
+      { "label": "b", "prompt": "Using subplot(2,1,1), plot hr versus time in the top subplot, with its own x-label, y-label, and title. Using subplot(2,1,2), plot spo2 versus time in the bottom subplot, also with its own labels and title." },
+      { "label": "c", "prompt": "Add one overall title above both subplots, 'Patient Monitoring During Recovery Walk', using sgtitle." }
+    ],
+    "starterCode": "% Problem: Comparing Two Vital Signs with Stacked Subplots\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Create time, hr, spo2\n\n\n% b) subplot(2,1,1) for hr, subplot(2,1,2) for spo2\n\n\n% c) Overall title with sgtitle\n",
+    "hints": [
+      "subplot(2,1,1) means 'set up a 2-row, 1-column grid of axes, and make the 1st one active' -- every plotting command after it (plot, xlabel, title, etc.) applies to that specific subplot until a different subplot() call is made.",
+      "Each subplot gets its own independent xlabel, ylabel, and title calls -- they don't need to match between the two subplots.",
+      "sgtitle (not title) is the function specifically meant for adding one title that sits above an entire grid of subplots, rather than belonging to just one of them."
+    ],
+    "solutionCode": "% a) Create the data\ntime = 0:5:30;\nhr = [72 78 85 90 88 82 76];\nspo2 = [98 97 95 93 94 96 98];\n\n% b) Top subplot: heart rate\nfigure\nsubplot(2,1,1)\nplot(time, hr, 'b-o')\nxlabel('Time (min)')\nylabel('Heart Rate (bpm)')\ntitle('Heart Rate')\n\n% Bottom subplot: SpO2\nsubplot(2,1,2)\nplot(time, spo2, 'r-o')\nxlabel('Time (min)')\nylabel('SpO2 (%)')\ntitle('Oxygen Saturation')\n\n% c) Overall title above both subplots\nsgtitle('Patient Monitoring During Recovery Walk')",
+    "solutionExplanation": "subplot(2,1,1) and subplot(2,1,2) divide the figure into a 2-row, 1-column grid and select which cell subsequent plotting commands apply to, which is the standard MATLAB idiom for showing two or more related signals stacked vertically rather than crammed onto one shared y-axis, where SpO2's roughly 93-98% range would be nearly invisible next to heart rate's 72-90 bpm range. Each subplot keeps its own independent xlabel, ylabel, and title, since they're really two separate small axes living inside one figure window. sgtitle is used instead of a second title call specifically because it places one title above the entire subplot grid, rather than inside either individual subplot, giving the whole figure a single unifying label ('Patient Monitoring During Recovery Walk') without needing to squeeze it into either subplot's own title.",
+    "concept": "Stacked subplots for comparing signals on different scales",
+    "tags": ["plotting", "subplot", "sgtitle", "xlabel", "ylabel"],
+    "references": ["Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-A01",
+    "unit": 1,
+    "topic": "numerical-precision-taylor",
+    "difficulty": "advanced",
+    "title": "Scaling a Maclaurin Approximation of e^x Across a Range",
+    "context": "A pharmacokinetic model leans on the exponential term e^x throughout, and it's worth knowing exactly how much error a truncated Taylor series introduces across the whole range of x values a model might actually use, not just at one point. You'll build a 4-term Maclaurin approximation of e^x, compare it to the exact curve across a range, and find exactly where the approximation stops being trustworthy.",
+    "parts": [
+      { "label": "a", "prompt": "Create x = linspace(-2, 2, 200) and compute the exact curve yExact = exp(x)." },
+      { "label": "b", "prompt": "Compute the 4-term Maclaurin polynomial approximation yApprox = 1 + x + x.^2/2 + x.^3/6 (the x^0/0!, x^1/1!, x^2/2!, and x^3/3! terms), evaluated across the whole vector x at once (vectorized, no loop)." },
+      { "label": "c", "prompt": "Plot yExact and yApprox on the same figure with different line styles, label the axes, add a title, and add a legend." },
+      { "label": "d", "prompt": "Compute the absolute error vector absErr = abs(yExact - yApprox) across all of x (vectorized, no loop), and plot absErr versus x on a separate figure with its own axis labels and title." },
+      { "label": "e", "prompt": "Using find() combined with a relational expression on absErr (no loop), determine the first x value (scanning the vector left to right) at which the absolute error exceeds 0.5, and display it using fprintf." }
+    ],
+    "starterCode": "% Problem: Scaling a Maclaurin Approximation of e^x Across a Range\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) x and the exact curve yExact\n\n\n% b) 4-term Maclaurin approximation -> yApprox (vectorized)\n\n\n% c) Plot yExact and yApprox together with labels, title, legend\n\n\n% d) absErr across all of x; plot absErr vs x\n\n\n% e) find() the first x where absErr exceeds 0.5\n",
+    "hints": [
+      "Because x is a vector, an expression like x.^2/2 already computes that term at every point in x at once -- building yApprox is just adding four such vectorized terms together in one line.",
+      "abs(yExact - yApprox) works the same way: it's a single vectorized subtraction and absolute value applied to two same-size vectors, producing an entire error curve without a loop.",
+      "find(absErr > 0.5, 1) returns only the FIRST index where the condition holds (scanning from the start of the vector) -- using that index on x itself, not on absErr, gives you the actual x value where the crossing happens."
+    ],
+    "solutionCode": "% a) Exact curve\nx = linspace(-2, 2, 200);\nyExact = exp(x);\n\n% b) 4-term Maclaurin approximation (vectorized)\nyApprox = 1 + x + x.^2/2 + x.^3/6;\n\n% c) Plot both curves together\nfigure\nplot(x, yExact, 'b-', x, yApprox, 'r--')\nxlabel('x')\nylabel('e^x')\ntitle('Exact e^x vs. 4-Term Maclaurin Approximation')\nlegend('Exact e^x', '4-term approximation')\n\n% d) Absolute error curve\nabsErr = abs(yExact - yApprox);\nfigure\nplot(x, absErr, 'k-')\nxlabel('x')\nylabel('Absolute error')\ntitle('Approximation Error vs. x')\n\n% e) First x where the error exceeds 0.5\nidx = find(absErr > 0.5, 1);\nfprintf('Error first exceeds 0.5 at x = %.4f (error = %.4f)\\n', x(idx), absErr(idx));",
+    "solutionExplanation": "Because x is a 200-element vector, yApprox = 1 + x + x.^2/2 + x.^3/6 evaluates the 4-term Maclaurin polynomial at every one of those 200 points in a single line, and absErr = abs(yExact - yApprox) does the same for the error curve -- neither line needs a loop because MATLAB's arithmetic operators are already element-wise between same-size vectors. Plotting the two curves together shows them essentially overlapping near x = 0 (where the series is centered) and visibly separating as |x| grows, which is confirmed numerically by the absErr curve, which is near zero at the center and grows on both sides. Since the series only has 4 terms, it grows fastest on the positive side (where every omitted term contributes positively) and find(absErr > 0.5, 1) locates that crossing at approximately x = 1.70, meaning the 4-term approximation is only trustworthy to within 0.5 for roughly -2 < x < 1.7 across this range -- a concrete, checkable definition of 'how far you can trust a truncated series' rather than a vague rule of thumb.",
+    "concept": "Vectorized evaluation of a truncated Taylor series and its error across a range, with find() locating an error threshold crossing",
+    "tags": ["taylor series", "maclaurin series", "vectorized arithmetic", "find", "plotting", "absolute error"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Taylor Series Slides"]
+  },
+  {
+    "id": "U1-WB-A02",
+    "unit": 1,
+    "topic": "io-and-scripts",
+    "difficulty": "advanced",
+    "title": "A Multi-Input, Multi-Output Plasma Concentration Function",
+    "context": "A one-compartment pharmacokinetic model predicts plasma drug concentration over time as it clears from the body. You'll package this model into a function with several inputs and two outputs, pair it with an anonymous function and a function handle, and confirm the function works equally well on a single time point or a whole vector of them at once.",
+    "parts": [
+      { "label": "a", "prompt": "Write a local function [C, safe] = plasmaConc(dose, Vd, k, t) that computes plasma concentration using C = (dose/Vd) * exp(-k*t) and a logical output safe that is true when C is at or below a toxicity ceiling of 8 mg/L. Call it for dose = 500, Vd = 40, k = 0.15, t = 2, and display both outputs." },
+      { "label": "b", "prompt": "Create an anonymous function elimFraction = @(k,t) exp(-k*t) representing the fraction of the dose remaining at time t. Confirm it's consistent with the formula used inside plasmaConc by computing abs(elimFraction(0.15,2) - exp(-0.15*2)) and checking that it's less than 1e-9." },
+      { "label": "c", "prompt": "Using a function handle (fun = @plasmaConc;) instead of calling plasmaConc directly, loop over t = 0:1:8 and display the concentration and safety status at each hour with fprintf." },
+      { "label": "d", "prompt": "Now call plasmaConc a single time with t = 0:1:8 passed in as a whole vector (no loop), and confirm the resulting concentration vector matches part (c)'s hour-by-hour values." }
+    ],
+    "starterCode": "% Problem: A Multi-Input, Multi-Output Plasma Concentration Function\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Call plasmaConc(500, 40, 0.15, 2) -> C, safe\n\n\n% b) elimFraction anonymous function + consistency check\n\n\n% c) Function handle + for-loop over t = 0:1:8\n\n\n% d) Vectorized call: plasmaConc(500, 40, 0.15, 0:1:8), no loop\n\n\n% --- Local function (must stay at the bottom of the script) ---\nfunction [C, safe] = plasmaConc(dose, Vd, k, t)\n    % statements\nend\n",
+    "hints": [
+      "A function's interface line can list as many inputs and outputs as needed, in whatever order makes sense -- function [C, safe] = plasmaConc(dose, Vd, k, t) is a straightforward 4-input, 2-output function.",
+      "Inside plasmaConc, C = (dose/Vd) * exp(-k*t) and safe = C <= 8 are both just ordinary expressions -- because exp() and arithmetic operators are already element-wise, this same function body works whether t is a single number or an entire vector, with no changes needed.",
+      "A function handle created with fun = @plasmaConc lets you call fun(...) exactly as you would plasmaConc(...) -- the two are completely interchangeable, which is useful in part (d) since the same function, unmodified, accepts a vector t directly."
+    ],
+    "solutionCode": "% a) Single time point\ndose = 500; Vd = 40; k = 0.15;\n[C, safe] = plasmaConc(dose, Vd, k, 2);\nfprintf('C = %.4f mg/L, safe = %d\\n', C, safe);\n\n% b) Anonymous function consistency check\nelimFraction = @(k,t) exp(-k*t);\ndiffCheck = abs(elimFraction(0.15,2) - exp(-0.15*2));\nfprintf('diffCheck = %.2e (consistent: %d)\\n', diffCheck, diffCheck < 1e-9);\n\n% c) Function handle + for-loop\nfun = @plasmaConc;\nfor t = 0:1:8\n    [Ct, safeT] = fun(dose, Vd, k, t);\n    fprintf('t=%d hr: C = %.4f mg/L, safe = %d\\n', t, Ct, safeT);\nend\n\n% d) Vectorized call -- no loop needed\n[Cvec, safeVec] = plasmaConc(dose, Vd, k, 0:1:8);\ndisp(Cvec)\ndisp(safeVec)\n\n% --- Local function ---\nfunction [C, safe] = plasmaConc(dose, Vd, k, t)\n    C = (dose/Vd) * exp(-k*t);\n    safe = C <= 8;\nend",
+    "solutionExplanation": "plasmaConc packages the one-compartment decay formula C = (dose/Vd)*exp(-k*t) alongside a safety check into a single 4-input, 2-output function; calling it at t = 2 gives C = 9.2602 mg/L, which is still above the 8 mg/L ceiling, so safe = false at that early hour. The anonymous function elimFraction isolates just the exp(-k*t) piece of the same formula, and the near-zero diffCheck confirms both expressions compute the identical quantity. Looping over t = 0:1:8 with the function handle fun (which behaves exactly like calling plasmaConc directly) shows the concentration declining from 12.5 mg/L at t=0 down through the safety threshold between hours 2 and 3, and staying safe afterward. Part (d) then reveals why plasmaConc never needed to change at all to handle this: because exp(-k*t) and the rest of the formula are already element-wise, passing the whole vector t = 0:1:8 directly into a single call produces the exact same 9-element concentration vector as the 9 separate loop calls in part (c), just faster and without a loop.",
+    "concept": "A multi-input, multi-output function used through direct calls, an anonymous function, a function handle, and vectorized input",
+    "tags": ["functions", "multiple outputs", "function handle", "anonymous functions", "vectorized arithmetic", "pharmacokinetics"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-A03",
+    "unit": 1,
+    "topic": "reading-output",
+    "difficulty": "advanced",
+    "title": "Debug a Cumulative IV Fluid Volume Tracker",
+    "context": "A script meant to track a patient's cumulative IV fluid intake hour by hour contains three bugs -- one is a syntax error that stops the script from running at all, one is a runtime error, and one is a silent logic error that displays a plausible but wrong number. Find and fix all three.",
+    "parts": [
+      { "label": "a", "prompt": "Try to run the script below. MATLAB refuses to run it at all. Identify and fix Bug #1 -- a syntax error caused by a mismatched bracket." },
+      { "label": "b", "prompt": "After fixing Bug #1, the script starts running but crashes partway through with an invalid-index error. Identify and fix Bug #2 -- the loop references cumulative(i-1) when i = 1, which doesn't exist since MATLAB indexes from 1." },
+      { "label": "c", "prompt": "After fixing Bugs #1 and #2, the script runs to completion with no error, but always displays the wrong total. Identify and fix Bug #3 in the final fprintf call." },
+      { "label": "d", "prompt": "After fixing all three bugs, add a line that also displays (via fprintf) the average hourly infusion rate, computed as cumulative(end)/n." }
+    ],
+    "starterCode": "% Cumulative IV fluid volume tracker -- contains 3 bugs, fix all of them\nhourlyRates = [50 75 60 80 65);   % mL infused each hour\nn = length(hourlyRates);\ncumulative = zeros(1, n);\nfor i = 1:n\n    cumulative(i) = cumulative(i-1) + hourlyRates(i);\nend\nfprintf('Total fluid after %d hours: %d mL\\n', n, hourlyRates(end));\n\n% d) add a display of the average hourly rate below\n",
+    "hints": [
+      "MATLAB pairs square brackets with square brackets -- check the closing character at the end of the hourlyRates line carefully.",
+      "cumulative(i-1) needs a valid value already stored at position i-1 before it can be read -- the very first pass through the loop (i = 1) tries to read cumulative(0), which doesn't exist. Setting cumulative(1) = hourlyRates(1) before the loop, and starting the loop from i = 2, avoids ever referencing position 0.",
+      "The final fprintf call runs without error and displays a real number, which is exactly what makes this bug dangerous -- check carefully whether it's actually displaying the running total (cumulative(end)) or something else entirely."
+    ],
+    "solutionCode": "hourlyRates = [50 75 60 80 65];   % fix: matching square bracket\nn = length(hourlyRates);\ncumulative = zeros(1, n);\ncumulative(1) = hourlyRates(1);   % fix: seed the first value directly\nfor i = 2:n                        % fix: start from i = 2, not i = 1\n    cumulative(i) = cumulative(i-1) + hourlyRates(i);\nend\nfprintf('Total fluid after %d hours: %d mL\\n', n, cumulative(end));   % fix: cumulative(end), not hourlyRates(end)\n\n% d) Average hourly infusion rate\nfprintf('Average hourly rate: %.1f mL/hr\\n', cumulative(end)/n);",
+    "solutionExplanation": "Bug #1 is a pure syntax error -- hourlyRates = [50 75 60 80 65) closes a square bracket with a parenthesis, which MATLAB's parser rejects before a single line of the script is allowed to run, reporting an 'Unmatched )' error. Bug #2 only becomes visible once parsing succeeds: with the loop starting at i = 1, the very first iteration tries to read cumulative(0), a position that doesn't exist in a MATLAB array, crashing with an invalid-index error -- the fix is to seed cumulative(1) directly from hourlyRates(1) and start the accumulating loop from i = 2, so cumulative(i-1) always refers to an already-computed position. Bug #3 is the most dangerous of the three because it produces no error at all: the final fprintf call displays hourlyRates(end), which is just the last hour's individual rate (65 mL), rather than cumulative(end), the actual running total (330 mL) -- a believable-looking number that happens to be completely wrong. After all three fixes, cumulative = [50 125 185 265 330], the total is correctly reported as 330 mL, and the average hourly rate is 330/5 = 66.0 mL/hr.",
+    "concept": "Debugging a running-total accumulator: a bracket-mismatch syntax error, an off-by-one indexing runtime error, and a silent wrong-variable logic error",
+    "tags": ["debugging", "for loop", "accumulator pattern", "syntax error", "runtime error", "logic error"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-A04",
+    "unit": 1,
+    "topic": "plotting-patterns",
+    "difficulty": "advanced",
+    "title": "Looping Over Elimination Rates to Build a Multi-Curve Plot",
+    "context": "Comparing how a drug clears differently across patient populations (say, pediatric, adult, and geriatric renal clearance) is a common plotting task where the number of curves is driven by a vector of parameter values rather than being hardcoded one at a time. You'll practice the idiomatic for-loop-plus-hold-on plotting pattern, building the legend labels dynamically instead of retyping them.",
+    "parts": [
+      { "label": "a", "prompt": "Create t = linspace(0, 12, 100) (hours), C0 = 100 (mg/L), and kVals = [0.1 0.2 0.35], three patient elimination rate constants (1/hr)." },
+      { "label": "b", "prompt": "Using a for-loop over kVals, compute each concentration curve C = C0*exp(-k*t) and plot it on the same figure using hold on. Inside the loop, build each curve's legend label dynamically with sprintf (e.g., sprintf('k = %.2f', k)), storing all three labels in a cell array." },
+      { "label": "c", "prompt": "After the loop, add axis labels, a title, and call legend using the cell array of labels you built (rather than retyping the labels)." },
+      { "label": "d", "prompt": "Using find() and a relational expression (no additional loop), determine the first time in t at which the curve for the LARGEST k value drops below a therapeutic minimum of 5 mg/L, and display that time using fprintf." }
+    ],
+    "starterCode": "% Problem: Looping Over Elimination Rates to Build a Multi-Curve Plot\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) t, C0, kVals\nt = linspace(0, 12, 100);\nC0 = 100;\nkVals = [0.1 0.2 0.35];\n\n\n% b) For-loop: plot each curve, hold on, build legend labels with sprintf\n\n\n% c) Labels, title, and legend using the cell array of labels\n\n\n% d) find() the first time the largest-k curve drops below 5 mg/L\n",
+    "hints": [
+      "hold on needs to be called once, before or during the first pass through the loop, so every subsequent plot(...) call inside the loop adds a new curve instead of replacing the previous one.",
+      "A cell array can grow one entry at a time inside a loop with curly braces, e.g. labels{i} = sprintf('k = %.2f', kVals(i)); -- legend can then accept that entire cell array as its argument list directly: legend(labels).",
+      "You don't need to store every curve from the loop to answer part (d) -- just recompute the curve for kMax = max(kVals) once on its own, then apply find() to that single vector."
+    ],
+    "solutionCode": "% a) Parameters\nt = linspace(0, 12, 100);\nC0 = 100;\nkVals = [0.1 0.2 0.35];\n\n% b) Loop over kVals, plotting each curve and building legend labels\nfigure\nhold on\nlabels = cell(1, length(kVals));\nfor i = 1:length(kVals)\n    C = C0 * exp(-kVals(i) * t);\n    plot(t, C)\n    labels{i} = sprintf('k = %.2f', kVals(i));\nend\nhold off\n\n% c) Labels, title, and legend\nxlabel('Time (hr)')\nylabel('Concentration (mg/L)')\ntitle('Concentration Decay Across Elimination Rates')\nlegend(labels)\n\n% d) First time the largest-k curve drops below 5 mg/L\nkMax = max(kVals);\nCMax = C0 * exp(-kMax * t);\nidx = find(CMax < 5, 1);\nfprintf('For k = %.2f, concentration first drops below 5 mg/L at t = %.2f hr\\n', kMax, t(idx));",
+    "solutionExplanation": "The for-loop builds one curve per entry of kVals, and because hold on is active for the whole loop, each plot(t, C) call adds a new line to the same axes rather than replacing the previous one -- this is the standard pattern for plotting a family of curves whose count is driven by data (kVals) rather than being written out by hand three separate times. Building labels{i} = sprintf('k = %.2f', kVals(i)) inside the same loop keeps each label automatically in sync with the curve it describes, and passing the whole cell array to legend(labels) afterward avoids retyping anything or risking a label ending up next to the wrong curve. For part (d), rather than storing all three curves from the loop, it's simpler to just recompute the single curve for the largest k (0.35) on its own: CMax = C0*exp(-kMax*t), and find(CMax < 5, 1) scans that vector for the first point where concentration drops below the 5 mg/L therapeutic minimum, which happens at approximately t = 8.61 hours -- the fastest-clearing patient population drops out of the therapeutic range soonest, exactly as the larger elimination rate constant would predict.",
+    "concept": "Looping over a parameter vector to build a multi-curve plot with dynamically-generated legend labels, plus a first-crossing search with find()",
+    "tags": ["plotting", "for loop", "legend", "sprintf", "cell arrays", "find", "pharmacokinetics"],
+    "references": ["Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-A05",
+    "unit": 1,
+    "topic": "fundamentals-review",
+    "difficulty": "advanced",
+    "title": "Auditing ICU Vitals for Simultaneous Abnormalities",
+    "context": "A single abnormal vital sign is common and often not urgent on its own, but two or more abnormal vitals at the same time point is a much stronger warning sign. You'll build a matrix of flags across three vitals and five time points, then use vectorized counting (not a loop) to identify the genuinely concerning time points.",
+    "parts": [
+      { "label": "a", "prompt": "Create vitals = [98 22 37.0; 145 30 37.0; 88 16 39.0; 160 34 39.5; 102 24 37.2], where rows are 5 time points and columns are HR (bpm), RR (breaths/min), and TempC (degrees C)." },
+      { "label": "b", "prompt": "Using vectorized comparisons on each column separately (no loop), create three logical column vectors: hrAbnormal (HR > 140 or HR < 50), rrAbnormal (RR > 28), and tempAbnormal (TempC > 38.5). Combine them into a single 5x3 logical matrix named flags using horizontal concatenation." },
+      { "label": "c", "prompt": "Using sum(flags, 2), count how many of the three vitals are abnormal at each time point, storing the 5x1 vector abnormalCount." },
+      { "label": "d", "prompt": "Using logical indexing on abnormalCount, extract the full rows of vitals for every time point where 2 or more vitals are simultaneously abnormal, storing criticalTimePoints, and display it." },
+      { "label": "e", "prompt": "Using fprintf, display how many of the 5 time points meet this '2 or more abnormal vitals' critical criterion." }
+    ],
+    "starterCode": "% Problem: Auditing ICU Vitals for Simultaneous Abnormalities\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create vitals (rows = time points; columns = HR, RR, TempC)\n\n\n% b) hrAbnormal, rrAbnormal, tempAbnormal -> flags (5x3 logical matrix)\n\n\n% c) abnormalCount using sum(flags, 2)\n\n\n% d) criticalTimePoints: rows where abnormalCount >= 2\n\n\n% e) Display how many time points are critical\n",
+    "hints": [
+      "vitals(:,1), vitals(:,2), and vitals(:,3) pull out the HR, RR, and TempC columns separately -- compare each to its own threshold with a relational expression, then use | for the HR check since it has two conditions (too high OR too low).",
+      "[hrAbnormal rrAbnormal tempAbnormal] concatenates three same-length column vectors side by side into a matrix, the same way you'd combine row vectors, just along the other dimension.",
+      "sum(flags, 2) sums ACROSS each row (the second dimension) rather than down each column, so it produces one total per time point -- exactly the abnormal-vital count needed before comparing to a threshold with >= 2."
+    ],
+    "solutionCode": "% a) Create the vitals matrix\nvitals = [ 98 22 37.0;\n          145 30 37.0;\n           88 16 39.0;\n          160 34 39.5;\n          102 24 37.2];\n\n% b) Per-column abnormality checks, combined into a flags matrix\nhrAbnormal   = vitals(:,1) > 140 | vitals(:,1) < 50;\nrrAbnormal   = vitals(:,2) > 28;\ntempAbnormal = vitals(:,3) > 38.5;\nflags = [hrAbnormal rrAbnormal tempAbnormal];\ndisp(flags)\n\n% c) Count abnormal vitals per time point\nabnormalCount = sum(flags, 2);\ndisp(abnormalCount)\n\n% d) Full rows for time points with 2+ abnormal vitals\ncritical = abnormalCount >= 2;\ncriticalTimePoints = vitals(critical, :);\ndisp(criticalTimePoints)\n\n% e) Count of critical time points\nfprintf('Critical time points: %d\\n', sum(critical));",
+    "solutionExplanation": "Each of hrAbnormal, rrAbnormal, and tempAbnormal is computed independently on its own column with a single vectorized comparison, and horizontally concatenating them into flags = [hrAbnormal rrAbnormal tempAbnormal] lines all three checks up column-by-column against the original vitals matrix's own column order. sum(flags, 2) then adds across each row (the explicit dimension argument 2 is what makes it sum across columns within a row, rather than down each column), giving abnormalCount = [0; 2; 1; 3; 0] -- time point 2 has both an abnormal HR and RR but a normal temperature, time point 3 has only an abnormal temperature, and time point 4 has all three abnormal. Applying critical = abnormalCount >= 2 as a logical index into vitals pulls out the full rows for time points 2 and 4 only, correctly excluding time point 3 even though it does have one abnormal reading -- the whole point of counting simultaneous abnormalities rather than flagging on any single vital is that it distinguishes an isolated, possibly noisy reading from a pattern of concurrent physiological stress.",
+    "concept": "Building a logical flag matrix across multiple vitals and counting across rows with sum(..., 2) to find simultaneous abnormalities",
+    "tags": ["logical indexing", "matrices", "sum", "vectorized comparison", "data validation"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Assignment 1"]
+  },
+  {
+    "id": "U1-WB-X01",
+    "unit": 1,
+    "topic": "numerical-precision-taylor",
+    "difficulty": "expert",
+    "title": "How Many Taylor Terms Does a Clearance Factor Actually Need?",
+    "context": "A pharmacokinetic calculation needs exp(-0.8) (the fraction of a dose cleared over a normalized time interval) accurate to within 1e-6, but computing a Maclaurin series by hand raises the question of exactly how many terms are enough -- guessing and checking is wasteful, but the Lagrange remainder bound from lecture can answer it in advance.",
+    "parts": [
+      { "label": "a", "prompt": "For f(x) = e^x expanded about a = 0, the Lagrange remainder bound is R_n(x) <= |x|^(n+1) / (n+1)! (using the fact that e^xi <= 1 for xi between x = -0.8 and 0). Using a vectorized expression over nvals = 5:9 (no loop), compute this bound for each candidate degree n, and identify the SMALLEST n for which the bound first drops below 1e-6, storing it in nRequired." },
+      { "label": "b", "prompt": "Using a for-loop that accumulates the Maclaurin polynomial term by term from k = 0 to k = nRequired (each term is x^k/factorial(k)), evaluate the approximation at x = -0.8, storing approxVal." },
+      { "label": "c", "prompt": "Compute actualErr = abs(exp(-0.8) - approxVal) and confirm it is indeed smaller than 1e-6." },
+      { "label": "d", "prompt": "In 2-3 sentences, explain (as a comment) why the actualErr found in (c) is typically even smaller than the theoretical bound computed in (a) -- i.e., why the Lagrange bound is a worst-case guarantee rather than an exact prediction of the real error." },
+      { "label": "e", "prompt": "In 2-3 sentences, explain (as a comment) what would happen to nRequired if the tolerance were tightened from 1e-6 to 1e-10, in general terms (you do not need to recompute it), and why a smaller tolerance always demands at least as many terms, never fewer." }
+    ],
+    "starterCode": "% Problem: How Many Taylor Terms Does a Clearance Factor Actually Need?\n% Name:\n% Date:\n\nclear; clc;\n\nx = -0.8;\ntolerance = 1e-6;\n\n% a) Vectorized Lagrange remainder bound over nvals = 5:9 -> nRequired\nnvals = 5:9;\n\n\n% b) For-loop: accumulate the Maclaurin polynomial up to degree nRequired -> approxVal\n\n\n% c) actualErr, and confirm it's below tolerance\n\n\n% d) 2-3 sentence written explanation (as a comment)\n\n\n% e) 2-3 sentence written explanation (as a comment)\n",
+    "hints": [
+      "abs(x).^(nvals+1) ./ factorial(nvals+1) computes the remainder bound for every candidate degree in nvals at once -- factorial() and the arithmetic operators both work element-wise on a vector of integers.",
+      "find(bounds < tolerance, 1) returns the position of the first bound below tolerance within the bounds vector -- using that same position to index nvals (not the bounds vector) gives you the actual degree n it corresponds to.",
+      "Inside the accumulation loop, each term is x^k / factorial(k); starting approxVal at 0 before the loop and adding one term per iteration for k = 0:nRequired reproduces the same polynomial the bound was computed for."
+    ],
+    "solutionCode": "x = -0.8;\ntolerance = 1e-6;\n\n% a) Vectorized Lagrange remainder bound\nnvals = 5:9;\nbounds = abs(x).^(nvals+1) ./ factorial(nvals+1);\ndisp(bounds)\nidxN = find(bounds < tolerance, 1);\nnRequired = nvals(idxN);\nfprintf('nRequired = %d\\n', nRequired);\n\n% b) Accumulate the Maclaurin polynomial term by term\napproxVal = 0;\nfor k = 0:nRequired\n    approxVal = approxVal + x.^k / factorial(k);\nend\nfprintf('approxVal = %.10f\\n', approxVal);\n\n% c) Actual error vs. the true value\nactualErr = abs(exp(x) - approxVal);\nfprintf('actualErr = %.3e (below tolerance: %d)\\n', actualErr, actualErr < tolerance);\n\n% d) Written explanation:\n% The Lagrange bound uses the WORST-CASE value of e^xi over the entire interval between\n% x and 0 (here, its maximum possible value of 1, at xi = 0), but the derivative e^xi is\n% actually smaller than 1 everywhere else in that interval (since x is negative), so the\n% true remainder is always somewhat less than what the bound conservatively allows for.\n\n% e) Written explanation:\n% Tightening the tolerance to 1e-10 would require a LARGER nRequired, never a smaller one,\n% because each additional term only ever shrinks the remainder bound further -- the bound\n% is a strictly decreasing sequence in n, so demanding a smaller error simply means you have\n% to keep adding terms until that stricter threshold is finally crossed.",
+    "solutionExplanation": "The remainder bounds for n = 5 through 9 are approximately 3.64e-4, 4.16e-5, 4.16e-6, 3.70e-7, and 2.96e-8, so n = 8 is the smallest degree whose bound (3.70e-7) first drops below the 1e-6 tolerance, giving nRequired = 8. Accumulating the 9-term polynomial (k = 0 through 8) at x = -0.8 gives approxVal ~ 0.4493293, and comparing that to MATLAB's own exp(-0.8) ~ 0.4493290 gives an actual error of about 3.4e-7 -- comfortably under the 1e-6 target, and consistent with (though noticeably smaller than) the theoretical bound of 3.70e-7 computed for that same degree. The bound is deliberately conservative because it assumes the worst possible value of the (n+1)-th derivative anywhere between x and the expansion point, which for e^x on a negative interval is only actually reached at one endpoint (xi = 0); everywhere else on the interval, e^xi is strictly smaller, so the true error comes in under the guaranteed ceiling. This is exactly why the bound is useful for engineering purposes: it lets you commit to a number of terms in advance, with the guarantee that the real error will never exceed it, even though it usually won't be reached exactly.",
+    "concept": "Using the Lagrange remainder bound to determine the number of Taylor terms needed for a target accuracy, then verifying against the actual error",
+    "tags": ["taylor series", "lagrange remainder", "truncation error", "factorial", "find", "vectorized arithmetic"],
+    "references": ["Unit 1 – Taylor Series Slides", "Unit 1 – Lecture 3"]
+  },
+  {
+    "id": "U1-WB-X02",
+    "unit": 1,
+    "topic": "io-and-scripts",
+    "difficulty": "expert",
+    "title": "Building a Small Pharmacokinetics Toolkit",
+    "context": "Real analysis projects reuse the same handful of formulas across many scripts, and MATLAB gives you three different ways to package a formula for reuse: a local function, a full standalone function file, and an anonymous function. You'll build a tiny toolkit using two local functions and an anonymous function, then reason in writing about when each construct actually earns its place in a larger project.",
+    "parts": [
+      { "label": "a", "prompt": "Write a local function halfLife = elimHalfLife(k) that returns a drug's elimination half-life, t(1/2) = log(2)/k, for a given elimination rate constant k (1/hr). Call it for k = 0.15 and display the half-life rounded to 2 decimal places." },
+      { "label": "b", "prompt": "Write a second local function [Cmax, tCmax] = peakConcentration(doses, times) that, given a vector of concentration measurements and a matching vector of times, returns the maximum concentration and the time at which it occurred (use MATLAB's two-output form of max: [Cmax, idx] = max(doses); then index times with idx). Call it on doses = [2.1 5.4 8.9 7.2 4.8 2.6], times = [0 1 2 4 6 8], and display both outputs." },
+      { "label": "c", "prompt": "Create an anonymous function oneCompartment = @(dose, Vd, k, t) (dose/Vd) * exp(-k*t) for quick one-off concentration checks, and use it to compute the concentration at t = 3 for dose = 400, Vd = 35, k = 0.15." },
+      { "label": "d", "prompt": "In 3-4 sentences, explain (as a comment) the practical tradeoffs between the three constructs you just used -- a local function in the same file, a full standalone function file (as you would use in a real multi-file MATLAB project with several scripts), and an anonymous function -- specifically addressing when you would reach for each one." },
+      { "label": "e", "prompt": "In 1-2 sentences, explain why MATLAB requires a function's file name to match its function name only for a TOP-LEVEL function saved on its own in a file, but not for the local functions you wrote in parts (a) and (b) here." }
+    ],
+    "starterCode": "% Problem: Building a Small Pharmacokinetics Toolkit\n% Name:\n% Date:\n\nclear; clc;\n\n% a) elimHalfLife(0.15) -> halfLife\n\n\n% b) peakConcentration(doses, times) -> Cmax, tCmax\ndoses = [2.1 5.4 8.9 7.2 4.8 2.6];\ntimes = [0 1 2 4 6 8];\n\n\n% c) oneCompartment anonymous function -> value at t = 3\n\n\n% d) 3-4 sentence written explanation (as a comment)\n\n\n% e) 1-2 sentence written explanation (as a comment)\n\n\n% --- Local functions (must stay at the bottom of the script) ---\nfunction halfLife = elimHalfLife(k)\n    % statements\nend\n\nfunction [Cmax, tCmax] = peakConcentration(doses, times)\n    % statements\nend\n",
+    "hints": [
+      "log(2)/k translates directly into MATLAB as log(2)/k -- MATLAB's log() is the natural logarithm (ln), which is exactly what the half-life formula calls for.",
+      "MATLAB's max() can return the position of the maximum as a second output: [Cmax, idx] = max(doses) gives you both the peak value and where it occurred, and times(idx) then converts that position into the actual time it happened at.",
+      "For the written parts, think about SCOPE and REUSE: a local function only exists inside the one script file it's written in, a standalone function file can be called from any script in a project as long as it's on the MATLAB path, and an anonymous function is quick to write but can't easily span more than one line or be reused across separate script files without being redefined each time."
+    ],
+    "solutionCode": "% a) Elimination half-life\nk = 0.15;\nhalfLife = elimHalfLife(k);\nfprintf('Half-life: %.2f hr\\n', halfLife);\n\n% b) Peak concentration and its timing\ndoses = [2.1 5.4 8.9 7.2 4.8 2.6];\ntimes = [0 1 2 4 6 8];\n[Cmax, tCmax] = peakConcentration(doses, times);\nfprintf('Cmax = %.1f mg/L at t = %d hr\\n', Cmax, tCmax);\n\n% c) Anonymous function for a quick one-off check\noneCompartment = @(dose, Vd, k, t) (dose/Vd) * exp(-k*t);\nvalAt3 = oneCompartment(400, 35, 0.15, 3);\nfprintf('Concentration at t=3: %.4f mg/L\\n', valAt3);\n\n% d) Written explanation:\n% A local function is convenient when the formula is only ever used within this one script,\n% since it keeps everything in a single file with no extra bookkeeping. A full standalone\n% function file is the right choice once a formula (like elimHalfLife) needs to be called from\n% MULTIPLE different scripts in a real project, since MATLAB can find any function file on its\n% path regardless of which script is currently running -- a local function, by contrast, is only\n% visible inside the file it's defined in. An anonymous function is best for a short, throwaway,\n% single-expression formula needed right where it's used (like oneCompartment here), since it\n% avoids writing a whole function block, but it becomes awkward for anything needing multiple\n% lines, loops, or reuse across several separate script files.\n\n% e) Written explanation:\n% MATLAB locates a top-level function by searching its path for a FILE whose name matches the\n% function being called, so the file name and function name must agree; local functions, on the\n% other hand, are only ever reached by code already inside the same file, so MATLAB finds them\n% by name within that file directly and never needs to search the path for them at all.\n\n% --- Local functions ---\nfunction halfLife = elimHalfLife(k)\n    halfLife = log(2)/k;\nend\n\nfunction [Cmax, tCmax] = peakConcentration(doses, times)\n    [Cmax, idx] = max(doses);\n    tCmax = times(idx);\nend",
+    "solutionExplanation": "elimHalfLife(0.15) applies log(2)/k directly, giving a half-life of about 4.62 hours. peakConcentration uses the two-output form of max() to get both the peak value (8.9 mg/L) and its position (the 3rd entry) in one call, then uses that position to index times, correctly reporting tCmax = 2 hr rather than just the position 3. The anonymous function oneCompartment packages the same one-compartment decay formula used elsewhere in this problem set into a single throwaway line, giving a concentration of about 7.29 mg/L at t = 3 for the given parameters. The written parts get at something all three constructs share: they all let a formula be written once and reused, but they trade off differently on scope (local functions are file-bound, standalone function files are project-wide) and overhead (anonymous functions are fastest to write but limited to a single expression) -- picking the right one is about matching that tradeoff to how widely and how simply a given formula actually needs to be reused.",
+    "concept": "Comparing local functions, standalone function files, and anonymous functions for code reuse in a multi-script project",
+    "tags": ["functions", "anonymous functions", "multiple outputs", "code organization", "critical reasoning"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-X03",
+    "unit": 1,
+    "topic": "reading-output",
+    "difficulty": "expert",
+    "title": "Debug a Rep-Progression Sequence Generator (5 Bugs, 3 Error Types)",
+    "context": "A physical therapy clinic uses a Fibonacci-like progression to plan a patient's repetition targets: starting from two seeded sessions, each new session's target is the sum of the previous two. The script meant to compute the 12th session's target contains 5 bugs spanning all three error categories from lecture -- syntax, runtime, and logic. Find and fix all 5, then reflect on why they aren't equally dangerous.",
+    "parts": [
+      { "label": "a", "prompt": "Try to run the script below. MATLAB refuses to parse it at all. Identify and fix Bug #1 -- a mismatched bracket." },
+      { "label": "b", "prompt": "The script still won't parse after fixing Bug #1. Identify and fix Bug #2 -- a space accidentally typed inside what was meant to be a single variable name, which MATLAB tries (and fails) to interpret as a command." },
+      { "label": "c", "prompt": "The script now runs but crashes with an invalid-index error. Identify and fix Bug #3 -- the for-loop's starting index doesn't match how the recurrence is defined (the first two sessions are already seeded values, not ones the loop should compute)." },
+      { "label": "d", "prompt": "The script now runs further but crashes on the very last line instead of printing a result. Identify and fix Bug #4 -- a variable name that doesn't exactly match due to capitalization." },
+      { "label": "e", "prompt": "The script now runs to completion and prints a result with no error at all -- but it's the wrong number for the 12th session. Identify and fix Bug #5, a one-character indexing error in the final fprintf call." },
+      { "label": "f", "prompt": "In 3-4 sentences, explain (as a comment) why Bug #5 is more dangerous in practice than Bugs #1-#4, tying your answer back to the three error categories (syntax, runtime, logic) covered in lecture." }
+    ],
+    "starterCode": "% Rep-progression sequence -- contains 5 bugs across all 3 error types, fix all of them\ntarget Session = 12;             % Session index whose target we want\nrepSeq = [3 5);                  % Session 1 = 3 reps, Session 2 = 5 reps\nfor ii = 1:targetSession\n    nextReps = repSeq(ii-2) + repSeq(ii-1);\n    repSeq = [repSeq nextReps];\nend\nfprintf('Session %d target: %d reps\\n', targetSession, RepSeq(end-1));\n",
+    "hints": [
+      "MATLAB pairs square brackets with square brackets, not parentheses -- check the closing character on the repSeq line.",
+      "A variable name cannot contain a space -- MATLAB reads 'target Session = 12' as an attempt to call a function named target with the text argument 'Session', which fails since no such function exists.",
+      "The recurrence needs two existing values (positions ii-2 and ii-1) already sitting in repSeq before it can compute a new one -- since repSeq starts with exactly 2 seeded values (positions 1 and 2), the loop's first NEW value should be computed at ii = 3, not ii = 1.",
+      "MATLAB variable names are case-sensitive: repSeq and RepSeq are two completely different names as far as MATLAB is concerned, and only one of them was ever actually created.",
+      "After the loop, repSeq should have exactly targetSession entries -- the very last one, repSeq(end), is the requested session's target; a nearby but different index like end-1 would instead report the PREVIOUS session's target with no error or warning at all."
+    ],
+    "solutionCode": "targetSession = 12;              % fix: no space in the variable name\nrepSeq = [3 5];                  % fix: matching square bracket\nfor ii = 3:targetSession          % fix: start at ii = 3 -- sessions 1 and 2 are already seeded\n    nextReps = repSeq(ii-2) + repSeq(ii-1);\n    repSeq = [repSeq nextReps];\nend\nfprintf('Session %d target: %d reps\\n', targetSession, repSeq(end));   % fix: repSeq (lowercase r), and end (not end-1)\n\n% f) Written explanation:\n% Bugs #1 and #2 are syntax errors that stop the script from running at all, and Bugs #3 and #4\n% are runtime errors that crash it partway through -- both categories are actually the SAFEST\n% kinds of bugs in practice, because MATLAB refuses to produce any output at all until they're\n% fixed, so there's no risk of trusting a wrong answer. Bug #5, by contrast, is a logic error:\n% the script runs perfectly and prints a completely plausible-looking number (377 reps) with no\n% error or warning of any kind, so unless someone independently re-derives what the 12th session's\n% target SHOULD be by hand, this wrong answer could easily be trusted and acted on directly.",
+    "solutionExplanation": "Fixing all 5 bugs in order: the mismatched bracket [3 5) must become [3 5] before MATLAB can parse the file at all; the space inside 'target Session' must be removed to form the single valid identifier targetSession; the loop must start at ii = 3 rather than ii = 1, since referencing repSeq(ii-2) when ii = 1 would require a nonexistent position 'repSeq(-1)'; the capitalization mismatch RepSeq must become repSeq, since MATLAB treats those as two entirely different variables and RepSeq was never created; and the final fprintf call must use repSeq(end) rather than repSeq(end-1), since end-1 reports the 11th session's target (377) instead of the requested 12th session's target (610). With all 5 fixes applied, repSeq becomes [3 5 8 13 21 34 55 89 144 233 377 610], and the script correctly reports 610 reps for session 12. Bugs #1, #2, #3, and #4 are all self-announcing -- the script simply refuses to produce any output until each is resolved -- while Bug #5 is the one genuinely dangerous case, because it silently produces a real, plausible number that happens to be wrong, exactly the kind of error lecture describes as the hardest to catch since nothing about running the script signals that anything is wrong at all.",
+    "concept": "Debugging a five-bug script spanning syntax errors, runtime errors, and a silent logic error, and reasoning about their relative danger",
+    "tags": ["debugging", "syntax error", "runtime error", "logic error", "recurrence", "for loop", "critical reasoning"],
+    "references": ["Unit 1 – Lecture 4"]
+  },
+  {
+    "id": "U1-WB-X04",
+    "unit": 1,
+    "topic": "plotting-patterns",
+    "difficulty": "expert",
+    "title": "Visualizing How Sampling Density Approximates a Continuous Recovery Curve",
+    "context": "A simulated muscle-force recovery signal, sig(t) = 1 - exp(-t), is continuous in theory, but any real measurement or simulation only ever samples it at a finite number of time points. You'll compare coarse, medium, and fine sampling of the same curve, quantify how sampling density affects accuracy at one comparison time, and justify your plotting choices in writing -- directly extending the step-size demonstration from lecture to a new function.",
+    "parts": [
+      { "label": "a", "prompt": "Create three time vectors sampling [0, 5] seconds at different resolutions: tCoarse = linspace(0,5,6), tMed = linspace(0,5,26), and tFine = linspace(0,5,501). For each, compute sig = 1 - exp(-t)." },
+      { "label": "b", "prompt": "On one figure, plot all three sampled curves together (using the fine-resolution curve as a stand-in for the 'true' continuous curve), with different line styles/markers, axis labels, a title, and a legend distinguishing 'Coarse (n=6)', 'Medium (n=26)', and 'Fine (n=501)'." },
+      { "label": "c", "prompt": "Using min() and abs() (no loop), find the tCoarse sample closest to t = 2.5 seconds, and compute the absolute error between that sample's sig value and the true value 1 - exp(-2.5) at that instant." },
+      { "label": "d", "prompt": "In 3-4 sentences, justify (as a comment) your choice of line styles/markers for the three curves, specifically explaining why they need to remain visually distinguishable even where they nearly overlap near the fine-resolution curve." },
+      { "label": "e", "prompt": "In 2-3 sentences, explain (as a comment) how this figure illustrates a more general point from lecture about computers and continuous functions: that increasing sample density only ever produces a closer APPROXIMATION, never an exact match." }
+    ],
+    "starterCode": "% Problem: Visualizing How Sampling Density Approximates a Continuous Recovery Curve\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Three time vectors and their sig = 1 - exp(-t) curves\n\n\n% b) Plot all three together with labels, title, legend\n\n\n% c) Closest tCoarse sample to t = 2.5, and its absolute error vs. the true value\n\n\n% d) 3-4 sentence written justification (as a comment)\n\n\n% e) 2-3 sentence written explanation (as a comment)\n",
+    "hints": [
+      "linspace(0,5,6) with only 6 points creates a much coarser grid than linspace(0,5,501) -- computing sig = 1 - exp(-t) on each is the same one-line formula applied to differently-spaced vectors.",
+      "abs(tCoarse - 2.5) computes the distance from every coarse sample to 2.5 at once; [~, idx] = min(abs(tCoarse - 2.5)) then finds the position of whichever sample is closest, without a loop or find().",
+      "Just like the exp(x) step-size example from lecture, using distinguishable line styles AND markers (not color alone) matters most exactly where curves nearly overlap -- near the fine-resolution reference curve, that's where two sampling densities can otherwise become impossible to tell apart."
+    ],
+    "solutionCode": "% a) Three sampling resolutions of the same signal\ntCoarse = linspace(0,5,6);\ntMed = linspace(0,5,26);\ntFine = linspace(0,5,501);\nsigCoarse = 1 - exp(-tCoarse);\nsigMed = 1 - exp(-tMed);\nsigFine = 1 - exp(-tFine);\n\n% b) Plot all three together\nfigure\nplot(tFine, sigFine, 'k-', 'LineWidth', 1)\nhold on\nplot(tMed, sigMed, 'b--o', 'MarkerSize', 4)\nplot(tCoarse, sigCoarse, 'r:s', 'MarkerSize', 8, 'LineWidth', 1.5)\nhold off\nxlabel('Time (s)')\nylabel('Recovery signal')\ntitle('Sampling Density vs. a Continuous Recovery Curve')\nlegend('Fine (n=501)', 'Medium (n=26)', 'Coarse (n=6)', 'Location', 'southeast')\n\n% c) Closest coarse sample to t = 2.5 and its error\n[~, idxClose] = min(abs(tCoarse - 2.5));\ntrueVal = 1 - exp(-2.5);\nabsErrClose = abs(trueVal - sigCoarse(idxClose));\nfprintf('Closest coarse sample: t = %.2f, absolute error at t=2.5 is %.4f\\n', tCoarse(idxClose), absErrClose);\n\n% d) Written justification:\n% The coarse curve uses a dotted line with large square markers, the medium curve uses a dashed\n% line with small circle markers, and the fine curve uses a solid black line with no markers at\n% all -- three different line styles AND marker choices together, not color alone. This matters\n% most right near the fine curve, where the medium and coarse samples visually converge onto it;\n% relying on color alone there would make it easy to lose track of which points belong to which\n% sampling density, while the distinct line style and marker shape stay identifiable regardless.\n\n% e) Written explanation:\n% Even the 501-point 'fine' curve is still just a finite set of connected straight-line segments\n% approximating the true continuous function 1 - exp(-t), not the function itself -- it is simply\n% dense enough that the approximation error becomes visually imperceptible. This mirrors lecture's\n% point about exp(x): a computer can only ever evaluate a function at a finite number of points\n% and connect them, so more samples always mean a BETTER approximation, never a perfectly exact one.",
+    "solutionExplanation": "The coarse grid (6 points spanning 0 to 5 seconds, one every second) visibly cuts corners on the curve's fast initial rise, while the medium (26 points) and fine (501 points) grids increasingly hug the true shape of 1 - exp(-t), with the fine curve serving as a visual stand-in for the exact continuous function. At t = 2.5, the closest actual coarse sample turns out to be t = 2 (since tCoarse only contains whole-second values and 2 and 3 are equally close to 2.5, min() returns the first such minimum), where sigCoarse is about 0.8647 versus the true 1-exp(-2.5) is about 0.9179, an absolute error of about 0.0533 -- a concrete, checkable illustration that coarse sampling isn't just visually rougher, it's measurably less accurate at any given instant. The written parts tie this back to two ideas from lecture: redundant visual encoding (line style and marker shape, not color alone) keeps closely-overlapping curves distinguishable, and no amount of additional sampling density ever produces an exact match to a continuous function on a computer -- only a progressively closer approximation, which is the entire reason numerical error and step size matter in the first place.",
+    "concept": "Comparing sampling density against a continuous function visually and numerically, and communicating the approximation concept from lecture",
+    "tags": ["plotting", "legend", "line style", "min", "sampling", "communication", "discretization"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Numerical Computation Slides"]
+  },
+  {
+    "id": "U1-WB-X05",
+    "unit": 1,
+    "topic": "numerical-precision-taylor",
+    "difficulty": "expert",
+    "title": "Truncation Error vs. Round-Off Error in a Logarithm Approximation",
+    "context": "A biosensor calibration routine needs ln(1+x) for a small x, and two different mistakes can corrupt that calculation: stopping a Taylor series too early (truncation error) or computing it in a numerically unstable way that loses precision (round-off error). You'll reproduce both kinds of error separately on the same target value and explain why only one of them can be fixed by adding more series terms.",
+    "parts": [
+      { "label": "a", "prompt": "The Maclaurin series for ln(1+x) is x - x^2/2 + x^3/3 - x^4/4 + ... . Using a for-loop (outer) and x = 0.2, compute the n-term approximation for n = [2 4 6 8 10] terms, storing the absolute error against MATLAB's built-in log(1+x) for each n in a vector allErrors." },
+      { "label": "b", "prompt": "Display allErrors with fprintf (one line per n). Using find() (no manual scanning), identify which of the tested n values first drives the error below 1e-8, storing it in nMin." },
+      { "label": "c", "prompt": "In 2-3 sentences, explain (as a comment) why the error in allErrors keeps shrinking as n increases -- this is TRUNCATION error, caused by stopping an infinite series early -- referencing the general Taylor remainder idea that each additional correct term shrinks the remaining error." },
+      { "label": "d", "prompt": "Now compute the SAME quantity, ln(1.2), using a deliberately unstable approach: bigApprox = log(1 + x + 1e15) - log(1e15), which subtracts two nearly-equal enormous numbers instead of evaluating log(1+x) directly. Compute its absolute error against log(1+x) and display it." },
+      { "label": "e", "prompt": "In 3-4 sentences, explain (as a comment) the difference between the two kinds of error demonstrated in (c) and (d), and why adding more Taylor terms would fix (a)'s problem but would do nothing at all to fix (d)'s problem." }
+    ],
+    "starterCode": "% Problem: Truncation Error vs. Round-Off Error in a Logarithm Approximation\n% Name:\n% Date:\n\nclear; clc;\n\nx = 0.2;\nns = [2 4 6 8 10];\n\n% a) For each n in ns, compute the n-term Maclaurin approximation and its error -> allErrors\n\n\n% b) Display allErrors; find() the first n driving error below 1e-8 -> nMin\n\n\n% c) 2-3 sentence written explanation (as a comment)\n\n\n% d) Round-off demonstration: bigApprox, and its absolute error\n\n\n% e) 3-4 sentence written explanation (as a comment)\n",
+    "hints": [
+      "The Maclaurin term for ln(1+x) at power k is (-1)^(k+1) * x^k / k -- an inner loop from k = 1 to n, accumulating that term each pass, builds the n-term approximation for a given n.",
+      "find(allErrors < 1e-8, 1) returns the position of the first entry of allErrors meeting the condition -- use that position to index ns (not allErrors) to report the actual n value.",
+      "In bigApprox, 1e15 is so large that adding x = 0.2 to it and then taking log() loses almost all of x's contribution to floating-point rounding before the subtraction even happens -- no amount of extra Taylor terms changes how that arithmetic is carried out, since the problem isn't which formula is used, it's how the numbers are represented in memory."
+    ],
+    "solutionCode": "x = 0.2;\nns = [2 4 6 8 10];\nallErrors = zeros(size(ns));\nfor i = 1:length(ns)\n    n = ns(i);\n    approx = 0;\n    for k = 1:n\n        approx = approx + (-1)^(k+1) * x^k / k;\n    end\n    allErrors(i) = abs(log(1+x) - approx);\nend\n\n% b) Display errors and find the first n meeting the tolerance\nfor i = 1:length(ns)\n    fprintf('n = %2d: error = %.3e\\n', ns(i), allErrors(i));\nend\nidxMin = find(allErrors < 1e-8, 1);\nnMin = ns(idxMin);\nfprintf('nMin = %d\\n', nMin);\n\n% c) Written explanation:\n% Each additional pair of terms in the Maclaurin series for ln(1+x) adds a smaller and smaller\n% correction (since x = 0.2 is less than 1, higher powers of x shrink quickly), so truncating\n% the series later leaves a smaller leftover (untruncated) remainder -- exactly the Taylor\n% remainder idea from lecture, where the omitted terms bound how far the approximation can be\n% from the true value, and that bound shrinks as more correct terms are included.\n\n% d) Round-off error demonstration\nbigApprox = log(1 + x + 1e15) - log(1e15);\nabsErrBig = abs(log(1+x) - bigApprox);\nfprintf('bigApprox = %.10f, true = %.10f, absErrBig = %.6e\\n', bigApprox, log(1+x), absErrBig);\n\n% e) Written explanation:\n% The error in (c) is TRUNCATION error: it comes from deliberately stopping an infinite,\n% mathematically exact series after a finite number of terms, so computing more terms always\n% recovers more of the true value and shrinks the error. The error in (d) is ROUND-OFF error:\n% it comes from how floating-point numbers are actually stored, since adding a small x = 0.2\n% to an enormous 1e15 loses almost all of x's precision the moment the addition happens (long\n% before log() or the subtraction ever runs), so the two nearly-equal log() results subtract\n% down to almost nothing useful. Because this error is baked into the arithmetic itself rather\n% than into which formula or how many series terms were chosen, no number of additional Taylor\n% terms could ever fix it -- the fix has to be a different, numerically stable way of computing\n% the same quantity, not a more accurate series.",
+    "solutionExplanation": "allErrors comes out to roughly [2.3e-3, 5.5e-5, 1.6e-6, 4.8e-8, 1.6e-9] for n = [2 4 6 8 10], shrinking by roughly an order of magnitude every couple of terms, and find(allErrors < 1e-8, 1) identifies n = 10 as the first tested value whose error drops below 1e-8 (n = 8's error, about 4.8e-8, is still just above that threshold). This behavior is truncation error exactly as described in lecture: the Maclaurin series for ln(1+x) is mathematically exact only with infinitely many terms, and each additional correct term recovers more of what was left out, so the remainder shrinks predictably as n grows. The round-off demonstration in (d) is a completely different failure mode: computing bigApprox = log(1 + 0.2 + 1e15) - log(1e15) adds 0.2 to a number so large that double-precision floating point cannot represent the sum with enough precision to preserve that 0.2 at all -- the addition itself already discards nearly all of the useful information before log() or the subtraction ever runs, so bigApprox comes out wildly wrong (essentially 0) regardless of how the rest of the calculation proceeds. Because this error originates in how the numbers are represented in memory rather than in how many series terms were used, it is fundamentally unfixable by adding more Taylor terms -- the only real fix is avoiding the unstable subtraction of two nearly-equal large numbers in the first place, which is why recognizing WHICH kind of error you're looking at matters just as much as knowing an error exists.",
+    "concept": "Distinguishing truncation error (from series length) from floating-point round-off error (from catastrophic cancellation), and why only one is fixable by adding series terms",
+    "tags": ["taylor series", "truncation error", "round-off error", "floating point", "find", "critical reasoning"],
+    "references": ["Unit 1 – Lecture 3", "Unit 1 – Numerical Computation Slides", "Unit 1 – Taylor Series Slides"]
+  }
+]

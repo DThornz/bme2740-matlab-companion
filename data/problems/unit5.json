@@ -1,0 +1,507 @@
+[
+  {
+    "id": "U5-WB-B01",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "beginner",
+    "title": "Clearance of a Contrast Agent from the Bloodstream",
+    "context": "A radiology lab injects a bolus of iodine-based contrast agent and tracks how quickly the kidneys clear it from the blood. The concentration decays at a rate proportional to how much is currently present, a first-order elimination process you can hand straight to ode45.",
+    "parts": [
+      { "label": "a", "prompt": "The elimination rate constant is k = 0.15 per minute. Write an anonymous-function ODE handle f = @(t,C) ... representing dC/dt = -k*C." },
+      { "label": "b", "prompt": "Using tspan = [0 30] and an initial concentration C0 = 8 (mg/L), call ode45 to solve for the concentration over time. Store the outputs as t and C." },
+      { "label": "c", "prompt": "Plot C versus t with axis labels 'Time (min)' and 'Concentration (mg/L)' and the title 'Contrast Agent Clearance'." }
+    ],
+    "starterCode": "% Problem: Clearance of a Contrast Agent from the Bloodstream\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Define k and the ODE handle f = @(t,C) ...\n\n\n% b) Solve with ode45 over tspan = [0 30], C0 = 8\n\n\n% c) Plot C vs t with labels and title\n",
+    "hints": [
+      "Every odefun handle for ode45 must accept exactly two inputs, t and the state (here just C), even though t never actually appears on the right-hand side of dC/dt = -k*C.",
+      "ode45 is called as [t, C] = ode45(f, tspan, C0) -- the function handle first, then the time span, then the initial condition.",
+      "Because this is a single first-order equation, C0 is just the scalar 8, and the output C will come back as a column vector the same length as t."
+    ],
+    "solutionCode": "% a) Elimination rate constant and ODE handle\nk = 0.15;\nf = @(t, C) -k * C;\n\n% b) Solve with ode45\ntspan = [0 30];\nC0 = 8;\n[t, C] = ode45(f, tspan, C0);\n\n% c) Plot the result\nfigure\nplot(t, C, 'b-', 'LineWidth', 1.5)\nxlabel('Time (min)')\nylabel('Concentration (mg/L)')\ntitle('Contrast Agent Clearance')",
+    "solutionExplanation": "dC/dt = -k*C is the simplest kind of first-order ODE ode45 can solve: the derivative depends only on the current value of C, not explicitly on t, but MATLAB's odefun convention still requires the handle to accept both t and C as inputs. ode45 takes that handle, the time interval [0 30], and the scalar initial condition C0 = 8, and returns a column vector t of the (adaptively chosen) time points it evaluated at, along with the matching concentration values in C. Because k = 0.15 > 0 multiplies a negative sign, the concentration decays smoothly toward zero, which is exactly the exponential-decay shape you'd expect from first-order elimination kinetics -- the same behavior you could confirm analytically since this equation's exact solution is C(t) = C0*exp(-k*t).",
+    "concept": "Setting up and calling ode45 for a single first-order ODE",
+    "tags": ["ode45", "anonymous function", "first-order ODE", "pharmacokinetics"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-B02",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "beginner",
+    "title": "Cooling of a Donor Organ in Transit",
+    "context": "A donor organ is packed in an ice-slurry cooler at a fixed ambient temperature for transport. Newton's law of cooling says the organ's temperature approaches the ambient temperature at a rate proportional to the current temperature difference -- another single-equation ode45 setup, but this time with a nonzero forcing term inside the handle.",
+    "parts": [
+      { "label": "a", "prompt": "The cooling constant is k = 0.12 per minute and the ambient cooler temperature is Tamb = 4 (degrees C). Write the ODE handle f = @(t,T) ... representing dT/dt = -k*(T - Tamb)." },
+      { "label": "b", "prompt": "Using tspan = [0 45] and initial organ temperature T0 = 37, call ode45 to solve for T over time." },
+      { "label": "c", "prompt": "Plot T versus t with axis labels and the title 'Donor Organ Cooling Curve', then use fprintf to display the final temperature in T (the last entry) rounded to 1 decimal place." }
+    ],
+    "starterCode": "% Problem: Cooling of a Donor Organ in Transit\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Define k, Tamb, and the ODE handle f = @(t,T) ...\n\n\n% b) Solve with ode45 over tspan = [0 45], T0 = 37\n\n\n% c) Plot, then display the final temperature with fprintf\n",
+    "hints": [
+      "Tamb is a constant that belongs inside the handle's formula, not a second state variable -- the state being solved for is still just T, a single number at each time point.",
+      "T(end) gives you the last row of the solution vector T, which corresponds to the temperature at the final time in tspan.",
+      "Since Tamb = 4 is below the starting T0 = 37, the temperature should decrease and level off near 4 degrees C as t grows, never actually reaching it exactly within a finite time."
+    ],
+    "solutionCode": "% a) Cooling constant, ambient temperature, and ODE handle\nk = 0.12;\nTamb = 4;\nf = @(t, T) -k * (T - Tamb);\n\n% b) Solve with ode45\ntspan = [0 45];\nT0 = 37;\n[t, T] = ode45(f, tspan, T0);\n\n% c) Plot and display the final temperature\nfigure\nplot(t, T, 'r-', 'LineWidth', 1.5)\nxlabel('Time (min)')\nylabel('Temperature (\\circC)')\ntitle('Donor Organ Cooling Curve')\n\nfprintf('Final temperature: %.1f degrees C\\n', T(end));",
+    "solutionExplanation": "The handle f = @(t,T) -k*(T - Tamb) captures Newton's law of cooling: the rate of temperature change is proportional to how far T currently is from the ambient temperature, so the cooling slows down as T approaches Tamb rather than continuing at a constant rate. Passing this handle, tspan = [0 45], and T0 = 37 into ode45 produces a temperature curve that starts at body temperature and decays toward, but never quite reaches, the 4-degree ambient temperature over the 45-minute transport window. T(end) pulls out the very last computed temperature value, which for these parameters comes out just above 4 degrees C, reflecting that 45 minutes is long enough for the organ to have cooled almost all the way to the cooler's temperature.",
+    "concept": "Calling ode45 for a first-order ODE with a constant forcing term",
+    "tags": ["ode45", "anonymous function", "Newton's law of cooling", "first-order ODE"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-B03",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "beginner",
+    "title": "Building a State-Space Handle for a Two-Compartment IV Bolus",
+    "context": "After an IV bolus, drug moves between the bloodstream and a peripheral tissue compartment. Before you can hand a coupled system to ode45, you need to package both equations into a single state vector and a single anonymous function -- the same first step every coupled ODE problem in this unit starts with.",
+    "parts": [
+      { "label": "a", "prompt": "The system is dx1/dt = -0.20*x1 + 0.05*x2 (blood) and dx2/dt = 0.15*x1 - 0.05*x2 (tissue), where x1 and x2 are drug amounts (mg). Define the state vector as s = [x1; x2] and write the combined ODE handle f = @(t,s) [...; ...] returning both derivatives as a 2x1 column." },
+      { "label": "b", "prompt": "Define the initial condition vector s0 = [10; 0] (all drug starts in the blood). Without calling any solver yet, evaluate f(0, s0) directly and display the result -- this is exactly the derivative vector ode45 would use for its very first step." }
+    ],
+    "starterCode": "% Problem: Building a State-Space Handle for a Two-Compartment IV Bolus\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define the combined ODE handle f = @(t,s) [...; ...]\n\n\n% b) Define s0 and evaluate f(0, s0); display the result\n",
+    "hints": [
+      "Each row of the output vector corresponds to one compartment's equation -- row 1 must be dx1/dt using s(1) and s(2), row 2 must be dx2/dt using the same two entries.",
+      "Separate the two expressions with a semicolon inside the brackets, e.g. f = @(t,s) [expr1; expr2], so the handle returns a 2x1 column vector rather than a 1x2 row.",
+      "f(0, s0) just substitutes s(1) = 10 and s(2) = 0 into both formulas -- no loop or solver call is needed to compute this single derivative evaluation."
+    ],
+    "solutionCode": "% a) Combined state-space ODE handle\nf = @(t, s) [-0.20 * s(1) + 0.05 * s(2); ...   % dx1/dt (blood)\n              0.15 * s(1) - 0.05 * s(2)];      % dx2/dt (tissue)\n\n% b) Initial condition and a single derivative evaluation\ns0 = [10; 0];\ninitialDerivative = f(0, s0);\ndisp(initialDerivative)",
+    "solutionExplanation": "Packaging a coupled system for ode45 always starts the same way: stack the individual state variables into one column vector s, then write a single handle whose output is a same-size column vector of derivatives, one row per equation. Here s(1) tracks blood drug amount and s(2) tracks tissue drug amount, so row 1 of f's output must be the blood equation and row 2 the tissue equation, each written in terms of s(1) and s(2) rather than x1 and x2 directly. Evaluating f(0, s0) with s0 = [10; 0] substitutes s(1)=10, s(2)=0 into both rows, giving [-0.20*10 + 0.05*0; 0.15*10 - 0.05*0] = [-2; 1.5] -- meaning that, at the instant the bolus is given, blood drug is falling at 2 mg/min while tissue drug is rising at 1.5 mg/min, which makes physical sense since all the drug starts in the blood and none has yet accumulated in the tissue.",
+    "concept": "Formulating a coupled two-compartment system as a single state vector and ODE handle",
+    "tags": ["coupled ODEs", "state vector", "anonymous function", "pharmacokinetics"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Lecture 16"]
+  },
+  {
+    "id": "U5-WB-B04",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "beginner",
+    "title": "Bacterial Growth in a Wound Culture",
+    "context": "A wound-care lab is monitoring bacterial colony growth in a swab culture. Over the short observation window before nutrients become limiting, the colony grows at a rate proportional to its current size -- exponential growth, one of the simplest physiological ODE models you can hand to ode45.",
+    "parts": [
+      { "label": "a", "prompt": "The growth rate constant is r = 0.4 per hour. Write the ODE handle f = @(t,N) ... representing dN/dt = r*N." },
+      { "label": "b", "prompt": "Using tspan = [0 10] (hours) and an initial colony size N0 = 50 (CFU, arbitrary units), call ode45 to solve for N over time." },
+      { "label": "c", "prompt": "Plot N versus t with axis labels 'Time (hr)' and 'Colony size (CFU)' and the title 'Bacterial Growth in Wound Culture'." }
+    ],
+    "starterCode": "% Problem: Bacterial Growth in a Wound Culture\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Define r and the ODE handle f = @(t,N) ...\n\n\n% b) Solve with ode45 over tspan = [0 10], N0 = 50\n\n\n% c) Plot N vs t with labels and title\n",
+    "hints": [
+      "This is the same one-line pattern as any single-equation ode45 problem: define the rate constant, write f = @(t,N) r*N, then call [t,N] = ode45(f, tspan, N0).",
+      "Because there's no limiting term here (no carrying capacity), N will grow without bound over the 10-hour window rather than leveling off.",
+      "The shape of the resulting curve should look like unrestricted exponential growth -- it should curve upward increasingly steeply, not level off or decay."
+    ],
+    "solutionCode": "% a) Growth rate constant and ODE handle\nr = 0.4;\nf = @(t, N) r * N;\n\n% b) Solve with ode45\ntspan = [0 10];\nN0 = 50;\n[t, N] = ode45(f, tspan, N0);\n\n% c) Plot the result\nfigure\nplot(t, N, 'g-', 'LineWidth', 1.5)\nxlabel('Time (hr)')\nylabel('Colony size (CFU)')\ntitle('Bacterial Growth in Wound Culture')",
+    "solutionExplanation": "dN/dt = r*N is the classic unconstrained exponential-growth model: the larger the colony currently is, the faster it grows, with no term that ever slows that growth down. Handing this handle, a 10-hour tspan, and the starting size N0 = 50 to ode45 produces a solution that climbs from 50 toward roughly 50*exp(0.4*10), about 2730 CFU, tracing the classic upward-curving exponential shape. This same equation form reappears constantly in physiological modeling -- viral load early in an infection, tumor growth before it outstrips its blood supply, or population growth before resources become scarce -- which is why it's worth recognizing on sight even before you look at the parameter values.",
+    "concept": "Exponential growth as a single-equation ode45 model",
+    "tags": ["ode45", "anonymous function", "exponential growth", "microbiology"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-B05",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "beginner",
+    "title": "Comparing tspan Formats for a Sedative Washout Curve",
+    "context": "A sedative's blood concentration falls off after infusion stops, following simple first-order elimination. ode45 accepts tspan either as a two-element interval [t0 tf] (letting the solver pick its own adaptive time points) or as a longer vector of specific times you want reported -- this problem has you try both and see how the outputs differ.",
+    "parts": [
+      { "label": "a", "prompt": "With k = 0.25 per hour and f = @(t,C) -k*C, call ode45 using tspan = [0 12] and C0 = 6. Store the results as t1, C1, and display length(t1)." },
+      { "label": "b", "prompt": "Call ode45 again with the same f and C0, but this time use tspan = 0:1:12 (an explicit vector of hours 0 through 12). Store the results as t2, C2, and display length(t2)." },
+      { "label": "c", "prompt": "In a one-line comment, explain why length(t1) and length(t2) come out different even though both calls solve the exact same differential equation over the exact same overall time range." }
+    ],
+    "starterCode": "% Problem: Comparing tspan Formats for a Sedative Washout Curve\n% Name:\n% Date:\n\nclear; clc;\n\nk = 0.25;\nf = @(t, C) -k * C;\nC0 = 6;\n\n% a) Solve with tspan = [0 12]; display length(t1)\n\n\n% b) Solve with tspan = 0:1:12; display length(t2)\n\n\n% c) One-line comment explaining the length difference\n",
+    "hints": [
+      "A two-element tspan like [0 12] only tells ode45 the start and end times -- everything in between is chosen automatically by its adaptive step-size algorithm.",
+      "A longer tspan vector like 0:1:12 is instead treated as a specific list of times at which you're asking to see the solution -- ode45 still adapts its internal steps, but only reports back the values at exactly those requested points.",
+      "length(t2) should come out to exactly 13 (one value for each hour from 0 to 12), while length(t1) will typically be a different number determined by however many adaptive steps ode45 needed for this particular equation."
+    ],
+    "solutionCode": "k = 0.25;\nf = @(t, C) -k * C;\nC0 = 6;\n\n% a) Two-element tspan -- solver picks its own time points\ntspan1 = [0 12];\n[t1, C1] = ode45(f, tspan1, C0);\ndisp(length(t1))\n\n% b) Explicit tspan vector -- solver reports only at these times\ntspan2 = 0:1:12;\n[t2, C2] = ode45(f, tspan2, C0);\ndisp(length(t2))\n\n% c) length(t1) and length(t2) differ because [0 12] lets ode45's adaptive\n% step-size algorithm choose however many internal points it needs, while\n% 0:1:12 forces it to report the solution at exactly those 13 requested hours.",
+    "solutionExplanation": "Both calls solve the identical equation dC/dt = -k*C from t=0 to t=12 with the same initial condition, so C1 and C2 agree at every time they share in common -- but the two tspan forms tell ode45 to report back differently. Passing tspan = [0 12] only specifies the start and end of the interval, so the adaptive Runge-Kutta stepping inside ode45 is free to choose however many intermediate points it judges necessary to keep the local error within tolerance, which is why length(t1) is whatever number the adaptive algorithm happened to need. Passing tspan = 0:1:12 instead gives ode45 a specific list of 13 output times; the solver still takes its own adaptive internal steps to get from one requested time to the next accurately, but it only returns the solution evaluated at those 13 points, so length(t2) is exactly 13 regardless of how many internal steps were actually taken.",
+    "concept": "The difference between a two-element and vector-form tspan argument to ode45",
+    "tags": ["ode45", "tspan", "adaptive step size", "pharmacokinetics"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-I01",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "intermediate",
+    "title": "A Simplified Host-Pathogen Population Model",
+    "context": "An infectious-disease lab is tracking a simplified predator-prey-style interaction between a pathogen population and an immune-cell population that hunts it. You'll set up the coupled system, solve it, and interpret whether the two populations settle down or keep oscillating.",
+    "parts": [
+      { "label": "a", "prompt": "The pathogen population p and immune-cell population m follow dp/dt = 0.9*p - 0.4*p*m and dm/dt = -0.6*m + 0.2*p*m. Write the combined ODE handle f = @(t,s) [...; ...] with s = [p; m]." },
+      { "label": "b", "prompt": "Solve the system with ode45 over tspan = [0 30] and initial condition s0 = [4; 2]. Store the outputs as t and s." },
+      { "label": "c", "prompt": "Plot both p(t) (s(:,1)) and m(t) (s(:,2)) on the same axes, with a legend distinguishing 'Pathogen' and 'Immune cells', axis labels, and a title." },
+      { "label": "d", "prompt": "In 1-2 sentences, describe the qualitative pattern you see in the plot (do the two populations settle to constants, oscillate, or one wipe out the other?) and relate it to the predator-prey structure of the equations." }
+    ],
+    "starterCode": "% Problem: A Simplified Host-Pathogen Population Model\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Combined ODE handle f = @(t,s) [...; ...]\n\n\n% b) Solve with ode45, tspan = [0 30], s0 = [4; 2]\n\n\n% c) Plot both populations on one set of axes with a legend\n\n\n% d) Written description of the qualitative pattern\n",
+    "hints": [
+      "s(1) is the pathogen population p and s(2) is the immune-cell population m -- write each equation using only those two entries.",
+      "When ode45 returns a matrix output s (rather than separate p and m vectors), each state variable lives in its own column: s(:,1) is the full time history of p, and s(:,2) is the full time history of m.",
+      "This equation structure is the same predator-prey (Lotka-Volterra) form seen in Lecture 16 -- expect the two populations to rise and fall in a repeating, out-of-phase cycle rather than settling to fixed values."
+    ],
+    "solutionCode": "% a) Combined ODE handle\nf = @(t, s) [0.9 * s(1) - 0.4 * s(1) * s(2); ...   % dp/dt\n            -0.6 * s(2) + 0.2 * s(1) * s(2)];      % dm/dt\n\n% b) Solve with ode45\ntspan = [0 30];\ns0 = [4; 2];\n[t, s] = ode45(f, tspan, s0);\n\n% c) Plot both populations\nfigure\nplot(t, s(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t, s(:,2), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (days)')\nylabel('Population')\nlegend('Pathogen', 'Immune cells', 'Location', 'best')\ntitle('Host-Pathogen Population Dynamics')\n\n% d) Written description:\n% Both populations rise and fall in a repeating, out-of-phase cycle rather\n% than settling to constants -- the pathogen surges first, which feeds\n% growth in immune cells, which in turn suppresses the pathogen and then\n% declines again once its food source (the pathogen) is depleted, the\n% classic Lotka-Volterra predator-prey oscillation.",
+    "solutionExplanation": "This system has the exact Lotka-Volterra predator-prey structure from Lecture 16: the pathogen (prey-like) grows on its own via the 0.9*p term but is suppressed by encounters with immune cells via -0.4*p*m, while the immune-cell population (predator-like) decays on its own via -0.6*m but grows from those same encounters via +0.2*p*m. Solving this with ode45 over 30 days from s0 = [4; 2] produces sustained, out-of-phase oscillations in both s(:,1) and s(:,2) rather than either population settling to a fixed value or one driving the other to extinction -- a pathogen surge is followed by a lagged rise in immune cells, which then drives the pathogen back down, after which the immune-cell population itself declines from lack of pathogen to respond to, and the cycle restarts. Recognizing this pattern matters clinically: it's the same qualitative signature (cyclic rather than monotonic) that shows up in real relapsing-infection dynamics, distinct from a system that cleanly resolves to a steady state.",
+    "concept": "Coupled nonlinear (Lotka-Volterra-style) ODE systems and interpreting oscillatory behavior",
+    "tags": ["coupled ODEs", "ode45", "predator-prey", "state vector", "plotting"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Quiz 5"]
+  },
+  {
+    "id": "U5-WB-I02",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "intermediate",
+    "title": "Two-Compartment Oral Drug Absorption",
+    "context": "After swallowing a pill, a drug first sits in the gut before crossing into the bloodstream, where it's eventually eliminated. You'll model this as a two-compartment linear system, solve it, and find when the blood concentration peaks -- a key quantity (Tmax) reported for every real oral drug.",
+    "parts": [
+      { "label": "a", "prompt": "Let g be the amount in the gut and b the amount in the blood, following dg/dt = -0.5*g and db/dt = 0.5*g - 0.2*b. Write the ODE handle f = @(t,s) [...; ...] with s = [g; b]." },
+      { "label": "b", "prompt": "Solve with ode45 over tspan = [0 24] (hours) and initial condition s0 = [100; 0] (all 100 mg starts in the gut). Store the outputs as t and s." },
+      { "label": "c", "prompt": "Plot both g(t) and b(t) on the same axes with a legend, axis labels, and a title." },
+      { "label": "d", "prompt": "Using max on the blood column of s, find the peak blood amount and the time at which it occurs (Tmax). Display both with fprintf." }
+    ],
+    "starterCode": "% Problem: Two-Compartment Oral Drug Absorption\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Combined ODE handle f = @(t,s) [...; ...]\n\n\n% b) Solve with ode45, tspan = [0 24], s0 = [100; 0]\n\n\n% c) Plot both g(t) and b(t) with a legend\n\n\n% d) Find and display the peak blood amount and Tmax\n",
+    "hints": [
+      "s(1) is gut amount g and s(2) is blood amount b -- the gut equation only depends on g itself, while the blood equation depends on both.",
+      "max() can return two outputs at once: [peakValue, peakIndex] = max(s(:,2)) gives you both the peak amount and the row where it occurred.",
+      "Once you have peakIndex, the corresponding time is simply t(peakIndex) -- the same row position in the time vector."
+    ],
+    "solutionCode": "% a) Combined ODE handle\nf = @(t, s) [-0.5 * s(1); ...                  % dg/dt (gut)\n              0.5 * s(1) - 0.2 * s(2)];        % db/dt (blood)\n\n% b) Solve with ode45\ntspan = [0 24];\ns0 = [100; 0];\n[t, s] = ode45(f, tspan, s0);\n\n% c) Plot both compartments\nfigure\nplot(t, s(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t, s(:,2), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Amount (mg)')\nlegend('Gut', 'Blood', 'Location', 'best')\ntitle('Two-Compartment Oral Drug Absorption')\n\n% d) Find the peak blood amount and Tmax\n[peakAmount, peakIndex] = max(s(:,2));\nTmax = t(peakIndex);\nfprintf('Peak blood amount: %.2f mg at Tmax = %.2f hr\\n', peakAmount, Tmax);",
+    "solutionExplanation": "The gut compartment g decays purely on its own (dg/dt = -0.5*g), acting as the drug's source, while the blood compartment b gains drug from the gut's decay and loses it to elimination (db/dt = 0.5*g - 0.2*b), so b first rises while the gut still holds a large reservoir and then falls once the gut supply has mostly emptied and elimination dominates. This rise-then-fall shape is exactly why oral drug concentrations always show a peak rather than either monotonically rising or monotonically falling. [peakAmount, peakIndex] = max(s(:,2)) locates both the largest blood amount reached and the row of the solution array where that maximum occurred, and t(peakIndex) converts that row index into the actual time (Tmax) it happened at -- for these parameters, Tmax comes out to a few hours in, consistent with typical oral-drug absorption profiles where blood levels peak well before all the gut drug has transferred.",
+    "concept": "Two-compartment absorption/elimination pharmacokinetics and locating a peak (Tmax) numerically",
+    "tags": ["coupled ODEs", "ode45", "pharmacokinetics", "max", "plotting"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Assignment 5"]
+  },
+  {
+    "id": "U5-WB-I03",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "intermediate",
+    "title": "Tightening ode45's Tolerances for a Fast-Decaying Signal",
+    "context": "A biosensor's raw voltage decays quickly after a stimulus pulse. ode45's default error tolerances are fine for most systems, but for equations with fast initial dynamics, tightening RelTol and AbsTol via odeset can noticeably change both the solution's accuracy and how many points ode45 reports.",
+    "parts": [
+      { "label": "a", "prompt": "For dV/dt = -5*V with V0 = 10 over tspan = [0 3], solve using ode45 with default tolerances. Store the results as t1, V1, and display length(t1)." },
+      { "label": "b", "prompt": "Using odeset, create an options structure with 'RelTol' set to 1e-8 and 'AbsTol' set to 1e-10. Solve the same equation again, passing options as the fourth argument to ode45. Store the results as t2, V2, and display length(t2)." },
+      { "label": "c", "prompt": "Compare V1(end) and V2(end) (the final values from each run) by displaying their absolute difference. Comment in one line on whether tightening the tolerance changed the final answer meaningfully for this simple equation." }
+    ],
+    "starterCode": "% Problem: Tightening ode45's Tolerances for a Fast-Decaying Signal\n% Name:\n% Date:\n\nclear; clc;\n\nf = @(t, V) -5 * V;\nV0 = 10;\ntspan = [0 3];\n\n% a) Solve with default tolerances -> t1, V1; display length(t1)\n\n\n% b) Build options with odeset; solve again -> t2, V2; display length(t2)\n\n\n% c) Compare V1(end) and V2(end); one-line comment\n",
+    "hints": [
+      "odeset takes name-value pairs, e.g. options = odeset('RelTol', 1e-8, 'AbsTol', 1e-10), and returns a single options structure you pass along.",
+      "ode45 accepts an optional fourth argument for options: [t, V] = ode45(f, tspan, V0, options).",
+      "Tighter tolerances generally force ode45 to take more, smaller steps to stay within the stricter error bound, so expect length(t2) to be noticeably larger than length(t1) even though both solve the identical equation."
+    ],
+    "solutionCode": "f = @(t, V) -5 * V;\nV0 = 10;\ntspan = [0 3];\n\n% a) Default tolerances\n[t1, V1] = ode45(f, tspan, V0);\ndisp(length(t1))\n\n% b) Tightened tolerances via odeset\noptions = odeset('RelTol', 1e-8, 'AbsTol', 1e-10);\n[t2, V2] = ode45(f, tspan, V0, options);\ndisp(length(t2))\n\n% c) Compare final values\nfinalDiff = abs(V1(end) - V2(end));\ndisp(finalDiff)\n% For this simple, well-behaved decay, tightening the tolerance barely\n% changes the final answer -- the default tolerance was already accurate\n% enough, it just took the solver more (smaller) steps to get there.",
+    "solutionExplanation": "odeset('RelTol', 1e-8, 'AbsTol', 1e-10) builds an options structure that tells ode45 to keep its per-step error estimate below a much stricter bound than the defaults (RelTol = 1e-3, AbsTol = 1e-6), and passing that structure as the fourth argument to ode45 changes how carefully -- and therefore how often -- the solver steps forward. Because dV/dt = -5*V is a smooth, simple exponential decay with no sudden dynamics, the default tolerance already tracks the true solution quite well, so length(t2) is larger than length(t1) (more steps were taken to satisfy the tighter bound) but finalDiff, the difference between the two final values, is tiny. This illustrates a general lesson about tolerances: tightening them costs more computation but is only worth it when the extra accuracy is actually needed -- for a well-behaved equation like this one, the default settings were already good enough.",
+    "concept": "Adjusting ode45's error tolerances with odeset and evaluating whether it changes the result",
+    "tags": ["ode45", "odeset", "RelTol", "AbsTol", "tolerances"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-I04",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "intermediate",
+    "title": "State-Space Form for a Tendon-Loading Model",
+    "context": "A biomechanics lab models a tendon under a sudden load as a simple mass-spring system: the tendon's attached mass oscillates according to Newton's second law with a spring-like restoring force. Since this is a second-order equation, you'll first convert it into a two-state system before ode45 can touch it.",
+    "parts": [
+      { "label": "a", "prompt": "The governing equation is m*d2x/dt2 = -k*x, with m = 2 kg and k = 50 N/m. Define the state vector s = [x; dx/dt] = [s1; s2], and derive ds2/dt in terms of s1 and s2." },
+      { "label": "b", "prompt": "Write the ODE handle f = @(t,s) [...; ...] implementing the two-state system from (a), then solve with ode45 over tspan = [0 5] and initial condition s0 = [0.05; 0] (5 cm initial displacement, at rest)." },
+      { "label": "c", "prompt": "Plot displacement (s(:,1)) and velocity (s(:,2)) on the same axes with a legend, axis labels, and a title." },
+      { "label": "d", "prompt": "In one sentence, describe how the displacement and velocity curves relate to each other over time (e.g., where is velocity zero relative to the displacement extremes?)." }
+    ],
+    "starterCode": "% Problem: State-Space Form for a Tendon-Loading Model\n% Name:\n% Date:\n\nclear; clc; close all;\n\nm = 2;   % kg\nk = 50;  % N/m\n\n% a) Derive ds2/dt in terms of s1 and s2 (write as a comment)\n\n\n% b) ODE handle f = @(t,s) [...; ...]; solve with ode45, tspan = [0 5], s0 = [0.05; 0]\n\n\n% c) Plot displacement and velocity with a legend\n\n\n% d) One-sentence written description\n",
+    "hints": [
+      "Rearranging m*d2x/dt2 = -k*x gives d2x/dt2 = -(k/m)*x -- substitute s1 for x, so ds2/dt = -(k/m)*s1.",
+      "The first row of f is always the easy one for this kind of conversion: ds1/dt = s2, since s2 was defined as the derivative of s1.",
+      "Because there's no damping term in this model, expect x(t) to oscillate indefinitely as a clean sine/cosine wave rather than decaying -- velocity should be zero exactly at the peaks and troughs of displacement."
+    ],
+    "solutionCode": "m = 2;   % kg\nk = 50;  % N/m\n\n% a) ds2/dt = -(k/m)*s1  (derived from m*d2x/dt2 = -k*x with s1 = x, s2 = dx/dt)\n\n% b) Combined ODE handle and solve\nf = @(t, s) [s(2); ...                  % ds1/dt = s2\n            -(k/m) * s(1)];             % ds2/dt = -(k/m)*s1\ntspan = [0 5];\ns0 = [0.05; 0];\n[t, s] = ode45(f, tspan, s0);\n\n% c) Plot displacement and velocity\nfigure\nplot(t, s(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t, s(:,2), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (s)')\nylabel('Displacement (m) / Velocity (m/s)')\nlegend('Displacement', 'Velocity', 'Location', 'best')\ntitle('Tendon-Loading Mass-Spring Response')\n\n% d) Written description:\n% Velocity crosses zero exactly at each displacement peak and trough, and\n% is largest in magnitude when displacement itself crosses zero -- the\n% two curves are a quarter-cycle out of phase, as expected for undamped\n% simple harmonic motion.",
+    "solutionExplanation": "Converting the second-order equation m*d2x/dt2 = -k*x into state form follows the recipe from Lecture 15: with s1 = x and s2 = dx/dt, the first equation ds1/dt = s2 is automatic by definition, and the second comes from solving the original equation for the highest derivative, d2x/dt2 = -(k/m)*x, then substituting state variables to get ds2/dt = -(k/m)*s1. With m = 2 and k = 50, this describes undamped simple harmonic motion with angular frequency sqrt(k/m) = 5 rad/s, so ode45 produces a displacement s(:,1) that oscillates sinusoidally between +/-0.05 m and a velocity s(:,2) that is a quarter-cycle out of phase with it -- velocity is exactly zero whenever displacement is at a peak or trough (the mass has momentarily stopped to reverse direction), and velocity is at its own maximum magnitude whenever displacement passes through zero (the mass is moving fastest through its equilibrium point).",
+    "concept": "Converting a second-order mechanical ODE into a two-state system and interpreting the phase relationship between position and velocity",
+    "tags": ["coupled ODEs", "state vector", "second-order ODE", "ode45", "biomechanics"],
+    "references": ["Unit 5 – Lecture 15", "Unit 5 – Lecture 16"]
+  },
+  {
+    "id": "U5-WB-I05",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "intermediate",
+    "title": "A Minimal Glucose-Insulin Feedback Model",
+    "context": "After a meal, blood glucose rises and triggers insulin release, and insulin in turn helps clear glucose from the blood. You'll build a simplified two-state linear feedback model of this loop, solve it, and see which compartment's dynamics dominate the response.",
+    "parts": [
+      { "label": "a", "prompt": "Let g be the glucose deviation from baseline and i be the insulin deviation from baseline, following dg/dt = -0.3*g - 0.5*i and di/dt = 0.4*g - 0.2*i. Write the ODE handle f = @(t,s) [...; ...] with s = [g; i]." },
+      { "label": "b", "prompt": "Solve with ode45 over tspan = [0 20] (hours) and initial condition s0 = [50; 0] (a meal has raised glucose by 50 units above baseline, insulin still at baseline)." },
+      { "label": "c", "prompt": "Plot both g(t) and i(t) on the same axes with a legend, axis labels, and a title." },
+      { "label": "d", "prompt": "Using min, find the lowest value glucose reaches over the simulation and the time at which it occurs. Display both with fprintf." }
+    ],
+    "starterCode": "% Problem: A Minimal Glucose-Insulin Feedback Model\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Combined ODE handle f = @(t,s) [...; ...]\n\n\n% b) Solve with ode45, tspan = [0 20], s0 = [50; 0]\n\n\n% c) Plot both g(t) and i(t) with a legend\n\n\n% d) Find and display the minimum glucose value and its time\n",
+    "hints": [
+      "s(1) is glucose g and s(2) is insulin i -- both equations depend on both state variables, which is what makes this a genuinely coupled (rather than one-way) system.",
+      "[minValue, minIndex] = min(s(:,1)) returns both the smallest glucose value reached and the row at which it occurred, exactly like max() but for the minimum.",
+      "Because insulin responds to glucose and glucose is cleared partly by insulin, expect glucose to overshoot below baseline (go negative) before the whole system settles back toward zero deviation."
+    ],
+    "solutionCode": "% a) Combined ODE handle\nf = @(t, s) [-0.3 * s(1) - 0.5 * s(2); ...   % dg/dt\n              0.4 * s(1) - 0.2 * s(2)];      % di/dt\n\n% b) Solve with ode45\ntspan = [0 20];\ns0 = [50; 0];\n[t, s] = ode45(f, tspan, s0);\n\n% c) Plot both compartments\nfigure\nplot(t, s(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t, s(:,2), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Deviation from baseline')\nlegend('Glucose', 'Insulin', 'Location', 'best')\ntitle('Glucose-Insulin Feedback Response')\n\n% d) Minimum glucose value and its time\n[minGlucose, minIndex] = min(s(:,1));\nfprintf('Minimum glucose deviation: %.2f at t = %.2f hr\\n', minGlucose, t(minIndex));",
+    "solutionExplanation": "This system is a linear caricature of the real glucose-insulin regulatory loop: glucose clears itself somewhat on its own (-0.3*g) and is cleared faster by insulin (-0.5*i), while insulin is secreted in response to elevated glucose (+0.4*g) and decays on its own (-0.2*i). Starting from a post-meal glucose spike (s0 = [50; 0]), ode45 shows glucose falling as insulin rises to meet it, but because insulin keeps acting even after glucose has returned to baseline, glucose typically overshoots below zero deviation before the coupled system relaxes back toward equilibrium -- a real phenomenon called reactive or rebound hypoglycemia. [minGlucose, minIndex] = min(s(:,1)) locates exactly how far below baseline glucose dips and when, turning a qualitative feature of the plot (the undershoot) into a specific reportable number, the same way a clinician might read a continuous glucose monitor trace to identify a post-meal low.",
+    "concept": "A coupled linear feedback model of glucose-insulin regulation and locating an overshoot/undershoot numerically",
+    "tags": ["coupled ODEs", "ode45", "glucose-insulin", "min", "physiological modeling"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Quiz 5"]
+  },
+  {
+    "id": "U5-WB-A01",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "advanced",
+    "title": "Renal Impairment's Effect on a Three-Compartment Drug Chain",
+    "context": "A drug moves sequentially from gut to blood to tissue before being cleared from the tissue compartment by the kidneys. You'll model this as a three-stage chain, then compare a patient with normal renal function against one with impaired renal clearance to see how tissue drug accumulation changes.",
+    "parts": [
+      { "label": "a", "prompt": "Let s = [gut; blood; tissue]. With gut-to-blood rate k1 = 0.6 and blood-to-tissue rate k2 = 0.4, write a parameterized ODE handle f = @(t,s,k3) [...; ...; ...] implementing dgut/dt = -k1*gut, dblood/dt = k1*gut - k2*blood, dtissue/dt = k2*blood - k3*tissue, where k3 is the renal elimination rate from tissue." },
+      { "label": "b", "prompt": "For a patient with normal renal function (k3 = 0.25), wrap f into a two-argument handle and solve with ode45 over tspan = [0 24] and s0 = [100; 0; 0]. Store the result as t_h, s_h." },
+      { "label": "c", "prompt": "For a patient with impaired renal function (k3 = 0.05), solve the same system again with the same tspan and s0. Store the result as t_i, s_i." },
+      { "label": "d", "prompt": "Plot the tissue compartment (column 3) for both patients on the same axes, with a legend distinguishing 'Normal renal function' and 'Impaired renal function'." },
+      { "label": "e", "prompt": "Using max, find and display (with fprintf) the peak tissue drug amount and the time it occurs for each patient." }
+    ],
+    "starterCode": "% Problem: Renal Impairment's Effect on a Three-Compartment Drug Chain\n% Name:\n% Date:\n\nclear; clc; close all;\n\nk1 = 0.6; k2 = 0.4;\n\n% a) Parameterized ODE handle f = @(t,s,k3) [...; ...; ...]\n\n\n% b) Normal renal function (k3 = 0.25) -> t_h, s_h\n\n\n% c) Impaired renal function (k3 = 0.05) -> t_i, s_i\n\n\n% d) Plot tissue compartment for both on the same axes with a legend\n\n\n% e) Peak tissue amount and time for each, via max and fprintf\n",
+    "hints": [
+      "A parameterized handle like f = @(t,s,k3) [...] takes three inputs, but ode45 only ever calls a handle with (t,s) -- wrap it first, e.g. fNormal = @(t,s) f(t,s,0.25), before passing it to ode45.",
+      "Each row of the returned vector must depend only on the state entries it should: dgut/dt uses only s(1), dblood/dt uses s(1) and s(2), and dtissue/dt uses s(2) and s(3).",
+      "[peakValue, peakIndex] = max(s_h(:,3)) gives you both the peak tissue amount and the row it occurred at; the matching time is t_h(peakIndex)."
+    ],
+    "solutionCode": "k1 = 0.6; k2 = 0.4;\n\n% a) Parameterized three-compartment ODE handle\nf = @(t, s, k3) [-k1 * s(1); ...                      % dgut/dt\n                  k1 * s(1) - k2 * s(2); ...           % dblood/dt\n                  k2 * s(2) - k3 * s(3)];               % dtissue/dt\n\n% b) Normal renal function\nfNormal = @(t, s) f(t, s, 0.25);\ntspan = [0 24];\ns0 = [100; 0; 0];\n[t_h, s_h] = ode45(fNormal, tspan, s0);\n\n% c) Impaired renal function\nfImpaired = @(t, s) f(t, s, 0.05);\n[t_i, s_i] = ode45(fImpaired, tspan, s0);\n\n% d) Plot tissue compartment for both\nfigure\nplot(t_h, s_h(:,3), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_i, s_i(:,3), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Tissue drug amount (mg)')\nlegend('Normal renal function', 'Impaired renal function', 'Location', 'best')\ntitle('Tissue Drug Accumulation: Normal vs Impaired Renal Function')\n\n% e) Peak tissue amount and time for each patient\n[peakH, idxH] = max(s_h(:,3));\n[peakI, idxI] = max(s_i(:,3));\nfprintf('Normal: peak tissue = %.2f mg at t = %.2f hr\\n', peakH, t_h(idxH));\nfprintf('Impaired: peak tissue = %.2f mg at t = %.2f hr\\n', peakI, t_i(idxI));",
+    "solutionExplanation": "Both patients share the same gut-to-blood and blood-to-tissue transfer rates, so the only difference is how quickly the kidneys clear drug out of the tissue compartment (k3). With normal renal function (k3 = 0.25), the peak tissue amount comes out to roughly 40 mg at about 5.2 hours, since drug is cleared from tissue nearly as fast as it arrives. With impaired renal function (k3 = 0.05), clearance from tissue is five times slower, so drug backs up in that compartment, producing a substantially higher peak (roughly 71 mg) that also occurs later (around 8.2 hours), because it takes longer for the slower outflow to be overtaken by the inflow's decline. This is exactly the mechanism behind real-world dose adjustments for patients with kidney disease: the same dosing regimen that's safe for a patient with normal renal clearance can allow dangerous drug accumulation in a patient whose elimination pathway is impaired, which is why k3 (and the corresponding real-world creatinine clearance) is one of the first things adjusted when dosing renally-cleared drugs.",
+    "concept": "Parameterized three-compartment chain models and comparing outcomes across a changed physiological parameter",
+    "tags": ["coupled ODEs", "ode45", "pharmacokinetics", "parameterized function", "max"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Lecture 16"]
+  },
+  {
+    "id": "U5-WB-A02",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "advanced",
+    "title": "Spike-Rate Sensitivity in a FitzHugh-Nagumo Neuron Model",
+    "context": "As in Lecture 14's FitzHugh-Nagumo neuron model, you're evaluating whether a proposed treatment that speeds up a neuron's recovery variable actually increases how often it fires. You'll simulate both the untreated and treated neuron and count spikes numerically rather than by eye.",
+    "parts": [
+      { "label": "a", "prompt": "With a = 0.15, b = 0.75, and I = 0.55 fixed, write a parameterized ODE handle f = @(t,s,eps) [...; ...] implementing dv/dt = v - v^3/3 - w + I and dw/dt = eps*(v + a - b*w), where s = [v; w] and eps is the recovery-rate parameter." },
+      { "label": "b", "prompt": "Wrap f with eps = 0.06 (untreated) and solve with ode45 over tspan = [0 200] and s0 = [0; 0]. Store as t1, s1." },
+      { "label": "c", "prompt": "Wrap f with eps = 0.10 (treated, faster recovery) and solve the same way. Store as t2, s2." },
+      { "label": "d", "prompt": "Plot v(t) (column 1) for both cases on the same axes with a legend distinguishing 'Untreated' and 'Treated'." },
+      { "label": "e", "prompt": "Using islocalmax on each v(t) combined with a threshold of v > 0 (to only count genuine spikes, not small wiggles), count and display the number of spikes in each 200 ms window." }
+    ],
+    "starterCode": "% Problem: Spike-Rate Sensitivity in a FitzHugh-Nagumo Neuron Model\n% Name:\n% Date:\n\nclear; clc; close all;\n\na = 0.15; b = 0.75; I = 0.55;\n\n% a) Parameterized ODE handle f = @(t,s,eps) [...; ...]\n\n\n% b) Untreated (eps = 0.06) -> t1, s1\n\n\n% c) Treated (eps = 0.10) -> t2, s2\n\n\n% d) Plot v(t) for both cases with a legend\n\n\n% e) Count spikes in each using islocalmax and a v > 0 threshold\n",
+    "hints": [
+      "islocalmax(v) returns a logical vector that's true at every local peak of v, including small numerical wiggles -- combine it with (v > 0) using & so only genuine action-potential-like peaks are counted.",
+      "sum() on a logical vector counts how many entries are true, which is exactly the number of qualifying peaks once you've combined islocalmax(v) with the threshold.",
+      "Increasing eps makes w react faster to changes in v, which shortens each spike's recovery phase -- expect the treated neuron to fit noticeably more spikes into the same 200 ms window."
+    ],
+    "solutionCode": "a = 0.15; b = 0.75; I = 0.55;\n\n% a) Parameterized ODE handle\nf = @(t, s, eps) [s(1) - s(1)^3/3 - s(2) + I; ...   % dv/dt\n                   eps * (s(1) + a - b * s(2))];    % dw/dt\n\n% b) Untreated neuron\nfUntreated = @(t, s) f(t, s, 0.06);\ntspan = [0 200];\ns0 = [0; 0];\n[t1, s1] = ode45(fUntreated, tspan, s0);\n\n% c) Treated neuron (faster recovery)\nfTreated = @(t, s) f(t, s, 0.10);\n[t2, s2] = ode45(fTreated, tspan, s0);\n\n% d) Plot v(t) for both\nfigure\nplot(t1, s1(:,1), 'b-')\nhold on\nplot(t2, s2(:,1), 'r-')\nhold off\nxlabel('Time (ms)')\nylabel('Voltage v')\nlegend('Untreated', 'Treated', 'Location', 'best')\ntitle('FitzHugh-Nagumo Spiking: Untreated vs Treated')\n\n% e) Count spikes in each trace\nv1 = s1(:,1); v2 = s2(:,1);\nspikes1 = sum(islocalmax(v1) & v1 > 0);\nspikes2 = sum(islocalmax(v2) & v2 > 0);\nfprintf('Untreated spikes: %d\\n', spikes1);\nfprintf('Treated spikes: %d\\n', spikes2);",
+    "solutionExplanation": "Both scenarios share the same rheobase-like parameter a and conductance-like parameter b, so the only thing changing is eps, which scales how quickly the recovery variable w responds to the current state -- a larger eps means w chases v more aggressively, shortening the refractory period after each spike. Solving both cases with ode45 shows the same qualitative limit-cycle spiking behavior in each, but the untreated case (eps = 0.06) produces about 5 spikes in the 200 ms window while the treated case (eps = 0.10) produces about 7, a roughly 40% increase in firing rate from that single parameter change. islocalmax(v) alone would flag every local wiggle in the numerical trace as a 'peak,' including tiny fluctuations that aren't real action potentials, which is why combining it with the v > 0 threshold matters -- it restricts the count to peaks that actually cross into the depolarized range, giving a spike count that matches what you'd see by eye on the plot rather than an inflated count from numerical noise.",
+    "concept": "Parameterized coupled ODE systems, limit-cycle spiking behavior, and numerically counting events with islocalmax",
+    "tags": ["coupled ODEs", "ode45", "FitzHugh-Nagumo", "islocalmax", "neuron model"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Assignment 5"]
+  },
+  {
+    "id": "U5-WB-A03",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "advanced",
+    "title": "Insulin Sensitivity and the Depth of a Glucose Undershoot",
+    "context": "Building on the glucose-insulin feedback loop, you'll compare a metabolically healthy patient against one with reduced insulin sensitivity to see how that single parameter shapes the size of the post-meal glucose swing.",
+    "parts": [
+      { "label": "a", "prompt": "Write a parameterized ODE handle f = @(t,s,Si) [...; ...] implementing dg/dt = -0.3*g - Si*i and di/dt = 0.4*g - 0.2*i, where s = [g; i] and Si is the insulin sensitivity coefficient." },
+      { "label": "b", "prompt": "Wrap f with Si = 0.5 (healthy) and solve with ode45 over tspan = [0 20] and s0 = [50; 0]. Store as t_h, s_h." },
+      { "label": "c", "prompt": "Wrap f with Si = 0.15 (reduced sensitivity) and solve the same way. Store as t_r, s_r." },
+      { "label": "d", "prompt": "Plot glucose g(t) (column 1) for both cases on the same axes with a legend." },
+      { "label": "e", "prompt": "Using min, find and display the lowest glucose value (deepest undershoot) reached in each case." }
+    ],
+    "starterCode": "% Problem: Insulin Sensitivity and the Depth of a Glucose Undershoot\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Parameterized ODE handle f = @(t,s,Si) [...; ...]\n\n\n% b) Healthy sensitivity (Si = 0.5) -> t_h, s_h\n\n\n% c) Reduced sensitivity (Si = 0.15) -> t_r, s_r\n\n\n% d) Plot glucose g(t) for both cases with a legend\n\n\n% e) Find and display the minimum glucose value for each\n",
+    "hints": [
+      "Si only appears in the glucose equation (as the coefficient multiplying insulin's clearance effect) -- the insulin equation itself doesn't change between the two scenarios.",
+      "[minValue, minIndex] = min(s(:,1)) works exactly like max(), just returning the smallest value and its row instead of the largest.",
+      "A smaller Si means insulin has a weaker effect on clearing glucose, so the glucose curve should swing less sharply below baseline for the reduced-sensitivity case than for the healthy case."
+    ],
+    "solutionCode": "% a) Parameterized ODE handle\nf = @(t, s, Si) [-0.3 * s(1) - Si * s(2); ...   % dg/dt\n                  0.4 * s(1) - 0.2 * s(2)];      % di/dt\n\n% b) Healthy sensitivity\nfHealthy = @(t, s) f(t, s, 0.5);\ntspan = [0 20];\ns0 = [50; 0];\n[t_h, s_h] = ode45(fHealthy, tspan, s0);\n\n% c) Reduced sensitivity\nfResistant = @(t, s) f(t, s, 0.15);\n[t_r, s_r] = ode45(fResistant, tspan, s0);\n\n% d) Plot glucose for both\nfigure\nplot(t_h, s_h(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_r, s_r(:,1), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Glucose deviation from baseline')\nlegend('Healthy sensitivity', 'Reduced sensitivity', 'Location', 'best')\ntitle('Effect of Insulin Sensitivity on Glucose Response')\n\n% e) Minimum glucose value for each\n[minH, ~] = min(s_h(:,1));\n[minR, ~] = min(s_r(:,1));\nfprintf('Healthy minimum glucose deviation: %.2f\\n', minH);\nfprintf('Reduced-sensitivity minimum glucose deviation: %.2f\\n', minR);",
+    "solutionExplanation": "Si scales how strongly insulin pulls glucose down in the dg/dt equation, so a larger Si (healthy sensitivity, 0.5) makes glucose respond more aggressively to the rising insulin that follows a meal, producing a deeper rebound below baseline -- roughly -10.6 -- before the system settles back toward equilibrium. With Si reduced to 0.15, insulin's pull on glucose is much weaker, so the same post-meal glucose spike produces a much shallower undershoot, around -3.8. This is a real and somewhat counterintuitive feature of insulin resistance: because insulin is less effective at clearing glucose, the corrective overshoot below baseline is actually smaller, even though the underlying metabolic problem (elevated average glucose over time) is worse -- a reminder that a simplified two-state linear model like this one can capture one physiological effect (undershoot depth) correctly while still leaving out others (like the long-term elevated baseline that defines real insulin resistance).",
+    "concept": "Comparing a coupled physiological model's response across a changed sensitivity parameter",
+    "tags": ["coupled ODEs", "ode45", "glucose-insulin", "min", "parameterized function"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Quiz 5"]
+  },
+  {
+    "id": "U5-WB-A04",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "advanced",
+    "title": "Timing ode45 vs ode15s on a Stiff Enzyme-Substrate System",
+    "context": "A biochemistry lab models an enzyme-substrate reaction with two competing species whose concentrations interact nonlinearly. Over a long observation window, this system turns out to be numerically stiff, giving you a chance to directly compare ode45 against the stiff solver ode15s the way Lecture 14 recommends.",
+    "parts": [
+      { "label": "a", "prompt": "Write the ODE handle f = @(t,s) [...; ...] implementing ds1/dt = 20*s1 - 3*s1^2 - s1*s2 and ds2/dt = 25*s2 - 3*s2^2 - s1*s2, with initial condition s0 = [3; 1.5]." },
+      { "label": "b", "prompt": "Using tic/toc, solve the system with ode45 over tspan = [0 2000]. Display the elapsed time and length(t) (the number of solver output points)." },
+      { "label": "c", "prompt": "Using tic/toc, solve the same system with ode15s over the same tspan. Display the elapsed time and length(t)." },
+      { "label": "d", "prompt": "Display the final state values, s(end,:), from both solutions using fprintf, to confirm the two solvers agree on the answer despite the large difference in effort required to get there." }
+    ],
+    "starterCode": "% Problem: Timing ode45 vs ode15s on a Stiff Enzyme-Substrate System\n% Name:\n% Date:\n\nclear; clc;\n\n% a) ODE handle f = @(t,s) [...; ...]; s0 = [3; 1.5]\n\n\n% b) Solve with ode45 over tspan = [0 2000]; time it, display length(t)\n\n\n% c) Solve with ode15s over the same tspan; time it, display length(t)\n\n\n% d) Display final state values from both solutions\n",
+    "hints": [
+      "tic starts a stopwatch and toc reports (and can return) the elapsed time since the matching tic -- wrap just the ode45 or ode15s call itself, not any of the setup code, so the timing reflects only the solve.",
+      "ode15s is called with exactly the same argument order as ode45: [t, s] = ode15s(f, tspan, s0) -- no changes to the handle or initial condition are needed.",
+      "Expect ode45's length(t) to be dramatically larger than ode15s's for this system -- that gap in step count, not just the elapsed time, is the real signature of stiffness."
+    ],
+    "solutionCode": "% a) ODE handle\nf = @(t, s) [20 * s(1) - 3 * s(1)^2 - s(1) * s(2); ...   % ds1/dt\n             25 * s(2) - 3 * s(2)^2 - s(1) * s(2)];       % ds2/dt\ns0 = [3; 1.5];\ntspan = [0 2000];\n\n% b) Solve with ode45\ntic\n[t45, s45] = ode45(f, tspan, s0);\ntime45 = toc;\nfprintf('ode45: %.4f s, %d points\\n', time45, length(t45));\n\n% c) Solve with ode15s\ntic\n[t15s, s15s] = ode15s(f, tspan, s0);\ntime15s = toc;\nfprintf('ode15s: %.4f s, %d points\\n', time15s, length(t15s));\n\n% d) Compare final values\nfprintf('ode45 final state: %.4f, %.4f\\n', s45(end,1), s45(end,2));\nfprintf('ode15s final state: %.4f, %.4f\\n', s15s(end,1), s15s(end,2));",
+    "solutionExplanation": "Both solvers are handed the exact same nonlinear system and reach essentially the same final answer (around s1 = 4.37, s2 = 6.87 for these parameters), which confirms that the enormous difference in effort between them is purely about numerical efficiency, not accuracy. ode45 is a nonstiff, explicit Runge-Kutta solver that must keep its step size small enough to track the system's fastest-changing component everywhere along the trajectory, even during long stretches where the solution is barely changing -- for this system over 2000 time units, that forces it to take tens of thousands of steps. ode15s is an implicit, variable-order solver built specifically for stiff problems: it can take much larger steps through the slowly-varying stretches without losing stability, needing only a few dozen steps to cover the same interval. This is exactly the diagnostic Lecture 14 describes -- if a nonstiff solver like ode45 is taking an unusually long time or an unusually large number of steps for what looks like a simple system, that's the signal to try a stiff solver like ode15s instead.",
+    "concept": "Diagnosing stiffness by comparing ode45 and ode15s step counts and runtime with tic/toc",
+    "tags": ["ode45", "ode15s", "stiffness", "tic toc", "solver comparison"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Lecture 16"]
+  },
+  {
+    "id": "U5-WB-A05",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "advanced",
+    "title": "Underdamped vs Overdamped Response in an RLC Vessel-Wall Analog",
+    "context": "An RLC circuit is a common electrical analog for a compliant blood vessel wall responding to a pressure pulse: current plays the role of wall displacement, and the circuit's damping term plays the role of vessel wall resistance. You'll build the second-order state system once and compare two damping regimes.",
+    "parts": [
+      { "label": "a", "prompt": "The governing equation is d2i/dt2 + 2*alpha*di/dt + omega^2*i = 0, with omega = 2. Define s = [i; di/dt] and write a parameterized ODE handle f = @(t,s,alpha) [...; ...]." },
+      { "label": "b", "prompt": "Wrap f with alpha = 0.3 (underdamped) and solve with ode45 over tspan = [0 10] and s0 = [1; 0]. Store as t_u, s_u." },
+      { "label": "c", "prompt": "Wrap f with alpha = 3 (overdamped) and solve the same way. Store as t_o, s_o." },
+      { "label": "d", "prompt": "Plot i(t) (column 1) for both cases on the same axes with a legend." },
+      { "label": "e", "prompt": "Using sign and diff on each i(t), count how many times each solution crosses zero, and display both counts. (A sign change between consecutive points means diff(sign(i)) is nonzero there.)" }
+    ],
+    "starterCode": "% Problem: Underdamped vs Overdamped Response in an RLC Vessel-Wall Analog\n% Name:\n% Date:\n\nclear; clc; close all;\n\nomega = 2;\n\n% a) Parameterized ODE handle f = @(t,s,alpha) [...; ...]\n\n\n% b) Underdamped (alpha = 0.3) -> t_u, s_u\n\n\n% c) Overdamped (alpha = 3) -> t_o, s_o\n\n\n% d) Plot i(t) for both cases with a legend\n\n\n% e) Count zero-crossings in each using sign and diff\n",
+    "hints": [
+      "Converting the second-order equation follows the same recipe every time: s1 = i, s2 = di/dt, so ds1/dt = s2 always, and ds2/dt comes from solving the original equation for the highest derivative: d2i/dt2 = -2*alpha*s2 - omega^2*s1.",
+      "sign(i) returns -1, 0, or 1 depending on the sign of each entry; diff(sign(i)) is nonzero exactly at the positions where consecutive entries have different signs, i.e. where the curve crossed zero.",
+      "sum(diff(sign(i)) ~= 0) counts how many such crossings occurred -- expect a meaningfully larger count for the underdamped case than the overdamped one."
+    ],
+    "solutionCode": "omega = 2;\n\n% a) Parameterized ODE handle\nf = @(t, s, alpha) [s(2); ...                          % ds1/dt = di/dt\n                    -2 * alpha * s(2) - omega^2 * s(1)]; % ds2/dt\n\n% b) Underdamped case\nfUnder = @(t, s) f(t, s, 0.3);\ntspan = [0 10];\ns0 = [1; 0];\n[t_u, s_u] = ode45(fUnder, tspan, s0);\n\n% c) Overdamped case\nfOver = @(t, s) f(t, s, 3);\n[t_o, s_o] = ode45(fOver, tspan, s0);\n\n% d) Plot both\nfigure\nplot(t_u, s_u(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_o, s_o(:,1), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (s)')\nylabel('Current i(t)')\nlegend('Underdamped (\\alpha = 0.3)', 'Overdamped (\\alpha = 3)', 'Location', 'best')\ntitle('RLC Vessel-Wall Analog: Underdamped vs Overdamped')\n\n% e) Count zero-crossings in each\ncrossings_u = sum(diff(sign(s_u(:,1))) ~= 0);\ncrossings_o = sum(diff(sign(s_o(:,1))) ~= 0);\nfprintf('Underdamped zero-crossings: %d\\n', crossings_u);\nfprintf('Overdamped zero-crossings: %d\\n', crossings_o);",
+    "solutionExplanation": "The state-space conversion is identical regardless of alpha: s1 = i, s2 = di/dt, ds1/dt = s2 by definition, and ds2/dt = -2*alpha*s2 - omega^2*s1 comes directly from solving the original equation for its highest derivative. What alpha controls is the character of the response relative to omega: when alpha is small compared to omega (alpha = 0.3 versus omega = 2), the system is underdamped and oscillates back and forth across zero repeatedly as it decays, producing several zero-crossings. When alpha is large compared to omega (alpha = 3), the system is overdamped and the restoring force is overwhelmed by damping before it can overshoot past equilibrium even once, so i(t) decays smoothly toward zero without ever crossing it, giving zero crossings. This is the same underdamped/overdamped/critically-damped classification used throughout physiology wherever a compliant, damped structure responds to a pulse -- a healthy, appropriately damped vessel wall settles quickly without ringing, while an underdamped one continues to oscillate long after the initiating pressure pulse has passed.",
+    "concept": "Converting a second-order damped oscillator to state-space form and classifying damping regimes by zero-crossing count",
+    "tags": ["coupled ODEs", "state vector", "second-order ODE", "damping", "ode45"],
+    "references": ["Unit 5 – Lecture 15", "Unit 5 – Lecture 16"]
+  },
+  {
+    "id": "U5-WB-X01",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "expert",
+    "title": "How Fast Is Too Fast? Absorption Rate and Model Plausibility",
+    "context": "A pharmaceutical formulation team is proposing a 'fast-release' oral tablet designed to raise blood drug levels almost instantly. You'll model gut-blood-tissue drug distribution, compare a normal-release and an extreme fast-release formulation, and critically assess whether the fast-release scenario's implied absorption rate is biologically realistic for an oral (as opposed to intravenous) drug.",
+    "parts": [
+      { "label": "a", "prompt": "Let s = [gut; blood; tissue]. With elimination rate ke = 0.15, blood-to-tissue rate k12 = 0.3, and tissue-to-blood rate k21 = 0.2 fixed, write a parameterized ODE handle f = @(t,s,ka) [...; ...; ...] implementing dgut/dt = -ka*gut, dblood/dt = ka*gut - (ke+k12)*blood + k21*tissue, dtissue/dt = k12*blood - k21*tissue." },
+      { "label": "b", "prompt": "Wrap f with ka = 1.5 (normal release) and solve with ode45 over tspan = [0 24] and s0 = [100; 0; 0]. Store as t_n, s_n." },
+      { "label": "c", "prompt": "Wrap f with ka = 15 (fast release, 10x faster absorption) and solve the same way. Store as t_f, s_f." },
+      { "label": "d", "prompt": "Plot blood concentration (column 2) for both formulations on the same axes with a legend." },
+      { "label": "e", "prompt": "Using max, find and display the peak blood amount and the time it occurs (Tmax) for each formulation." },
+      { "label": "f", "prompt": "In a short written comment, discuss whether ka = 15 (implying the gut empties almost completely within about 4 minutes) is a physiologically realistic absorption rate for a swallowed tablet, and what real physiological process (if any) this parameter regime might actually better describe." }
+    ],
+    "starterCode": "% Problem: How Fast Is Too Fast? Absorption Rate and Model Plausibility\n% Name:\n% Date:\n\nclear; clc; close all;\n\nke = 0.15; k12 = 0.3; k21 = 0.2;\n\n% a) Parameterized ODE handle f = @(t,s,ka) [...; ...; ...]\n\n\n% b) Normal release (ka = 1.5) -> t_n, s_n\n\n\n% c) Fast release (ka = 15) -> t_f, s_f\n\n\n% d) Plot blood concentration for both with a legend\n\n\n% e) Peak blood amount and Tmax for each, via max and fprintf\n\n\n% f) Written discussion of ka = 15's biological plausibility\n",
+    "hints": [
+      "The time constant for gut emptying is roughly 1/ka -- for ka = 1.5 that's about 40 minutes, but for ka = 15 that's under 4 minutes, which is worth comparing to how quickly a real tablet actually dissolves and crosses the gut wall.",
+      "[peakValue, peakIndex] = max(s(:,2)) and t(peakIndex) give you the peak blood amount and Tmax exactly as in earlier two- and three-compartment problems.",
+      "Real oral tablets take time to dissolve and cross intestinal membrane before reaching the blood, so an absorption rate this fast is more characteristic of a route that bypasses that barrier entirely, such as intravenous or sublingual administration, rather than a swallowed pill."
+    ],
+    "solutionCode": "ke = 0.15; k12 = 0.3; k21 = 0.2;\n\n% a) Parameterized three-compartment ODE handle\nf = @(t, s, ka) [-ka * s(1); ...                                  % dgut/dt\n                  ka * s(1) - (ke + k12) * s(2) + k21 * s(3); ...  % dblood/dt\n                  k12 * s(2) - k21 * s(3)];                        % dtissue/dt\n\n% b) Normal release\nfNormal = @(t, s) f(t, s, 1.5);\ntspan = [0 24];\ns0 = [100; 0; 0];\n[t_n, s_n] = ode45(fNormal, tspan, s0);\n\n% c) Fast release\nfFast = @(t, s) f(t, s, 15);\n[t_f, s_f] = ode45(fFast, tspan, s0);\n\n% d) Plot blood concentration for both\nfigure\nplot(t_n, s_n(:,2), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_f, s_f(:,2), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Blood amount (mg)')\nlegend('Normal release (ka = 1.5)', 'Fast release (ka = 15)', 'Location', 'best')\ntitle('Blood Drug Levels: Normal vs Fast-Release Formulation')\n\n% e) Peak blood amount and Tmax for each\n[peakN, idxN] = max(s_n(:,2));\n[peakF, idxF] = max(s_f(:,2));\nfprintf('Normal release: peak blood = %.2f mg at Tmax = %.2f hr\\n', peakN, t_n(idxN));\nfprintf('Fast release: peak blood = %.2f mg at Tmax = %.2f hr\\n', peakF, t_f(idxF));\n\n% f) Written discussion:\n% A time constant of 1/ka is under 4 minutes for ka = 15, meaning the gut\n% compartment would have to empty almost completely within a few minutes\n% of swallowing the tablet. Real oral tablets must first dissolve and\n% then cross the intestinal wall, a process that realistically takes on\n% the order of tens of minutes to a couple of hours, not minutes -- so\n% ka = 15 is not a plausible absorption rate for a swallowed pill. A gut\n% compartment emptying that fast is more characteristic of a route that\n% skips gut absorption altogether, such as an IV bolus or a sublingual\n% (under-the-tongue) formulation that's absorbed directly through oral\n% mucosa, rather than an actual 'fast-release' oral tablet.",
+    "solutionExplanation": "Both formulations share identical elimination and distribution rates, so the comparison isolates exactly what changing the absorption rate constant ka does to the blood concentration profile: with ka = 1.5, blood levels rise over a couple of hours to a peak of roughly 61 mg around Tmax = 1.2 hours, while with ka = 15, blood levels spike to a much higher peak of roughly 90 mg within about 15 minutes (Tmax = 0.24 hours). While the model runs without any numerical difficulty at either value -- ode45 doesn't care whether ka is physiologically sensible -- the exercise's real point is that a model can be mathematically well-posed while still describing a physical situation that couldn't actually happen. A rate constant implying the gut essentially empties within minutes ignores the real time it takes a tablet to dissolve and for drug to cross the intestinal wall into the bloodstream, so this parameter regime is better interpreted as describing a different route of administration (IV or sublingual) rather than validating the 'fast-release oral tablet' framing it was given. Recognizing when a parameter value falls outside a model's realistic operating range -- not just whether the solver converges -- is an essential final check on any physiological ODE model.",
+    "concept": "Synthesizing a parameterized multi-compartment PK model with a critical assessment of parameter plausibility",
+    "tags": ["coupled ODEs", "ode45", "pharmacokinetics", "parameterized function", "model plausibility"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – Assignment 5"]
+  },
+  {
+    "id": "U5-WB-X02",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "expert",
+    "title": "Tumor-Immune Dynamics Under a Weakened Immune Response",
+    "context": "An oncology research group models the competition between a growing tumor and the immune cells that attack it as a coupled system: the tumor grows logistically but is suppressed by immune cells, while immune cells are recruited in proportion to tumor burden. You'll compare a normally functioning immune response against a weakened one and assess what the resulting long-term tumor burden implies.",
+    "parts": [
+      { "label": "a", "prompt": "Let s = [T; I] (tumor size, immune cell level). With intrinsic tumor growth rate r = 0.5, carrying capacity K = 100, and kill rate c = 0.1 fixed, write a parameterized ODE handle f = @(t,s,a_im) [...; ...] implementing dT/dt = r*T*(1 - T/K) - c*T*I and dI/dt = a_im*T - 0.2*I, where a_im is the immune activation rate." },
+      { "label": "b", "prompt": "Wrap f with a_im = 0.05 (baseline immune response) and solve with ode45 over tspan = [0 100] and s0 = [5; 1]. Store as t_b, s_b." },
+      { "label": "c", "prompt": "Wrap f with a_im = 0.01 (weakened immune response) and solve the same way. Store as t_w, s_w." },
+      { "label": "d", "prompt": "Plot tumor size T(t) (column 1) for both cases on the same axes with a legend." },
+      { "label": "e", "prompt": "Display the final tumor size, T(end), for each scenario using fprintf." },
+      { "label": "f", "prompt": "In a short written comment, compare the two final tumor sizes to the carrying capacity K = 100, and discuss what the weakened-immune-response outcome represents biologically: is the tumor still being partially controlled, or has it effectively escaped immune surveillance?" }
+    ],
+    "starterCode": "% Problem: Tumor-Immune Dynamics Under a Weakened Immune Response\n% Name:\n% Date:\n\nclear; clc; close all;\n\nr = 0.5; K = 100; c = 0.1;\n\n% a) Parameterized ODE handle f = @(t,s,a_im) [...; ...]\n\n\n% b) Baseline immune response (a_im = 0.05) -> t_b, s_b\n\n\n% c) Weakened immune response (a_im = 0.01) -> t_w, s_w\n\n\n% d) Plot T(t) for both cases with a legend\n\n\n% e) Display final tumor size, T(end), for each\n\n\n% f) Written comparison to carrying capacity and biological interpretation\n",
+    "hints": [
+      "The logistic term r*T*(1 - T/K) alone would let the tumor grow all the way to K = 100; the -c*T*I term is what a functioning immune response subtracts off to hold it below that.",
+      "Both scenarios should settle to a stable, bounded tumor size (not runaway growth and not exact zero) -- compare how close each settled value is to K = 100 to judge how much control the immune system is exerting.",
+      "A tumor size well below K represents a tumor kept in check by ongoing immune pressure, sometimes called immune-mediated dormancy or equilibrium; a tumor size approaching K represents a tumor that has essentially outgrown the immune response's ability to constrain it, regardless of whether immune cells are still present at some nonzero level."
+    ],
+    "solutionCode": "r = 0.5; K = 100; c = 0.1;\n\n% a) Parameterized ODE handle\nf = @(t, s, a_im) [r * s(1) * (1 - s(1) / K) - c * s(1) * s(2); ...  % dT/dt\n                    a_im * s(1) - 0.2 * s(2)];                       % dI/dt\n\n% b) Baseline immune response\nfBaseline = @(t, s) f(t, s, 0.05);\ntspan = [0 100];\ns0 = [5; 1];\n[t_b, s_b] = ode45(fBaseline, tspan, s0);\n\n% c) Weakened immune response\nfWeak = @(t, s) f(t, s, 0.01);\n[t_w, s_w] = ode45(fWeak, tspan, s0);\n\n% d) Plot tumor size for both\nfigure\nplot(t_b, s_b(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_w, s_w(:,1), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (days)')\nylabel('Tumor size T')\nlegend('Baseline immune response', 'Weakened immune response', 'Location', 'best')\ntitle('Tumor-Immune Dynamics: Baseline vs Weakened Response')\n\n% e) Final tumor size for each\nfprintf('Baseline final tumor size: %.2f\\n', s_b(end,1));\nfprintf('Weakened final tumor size: %.2f\\n', s_w(end,1));\n\n% f) Written comparison:\n% The baseline scenario settles to a tumor size of about 16.7, well below\n% the carrying capacity of 100 -- the immune system is clearly still\n% suppressing growth to a small, stable equilibrium. The weakened\n% scenario settles to about 50, three times larger but still well short\n% of the carrying capacity of 100. This means even the 'weakened' immune\n% response in this model isn't a total failure: it still holds the tumor\n% to roughly half of its unconstrained size rather than letting it\n% escape to full carrying capacity, representing a partially effective\n% but clearly degraded state of immune surveillance rather than complete\n% immune evasion.",
+    "solutionExplanation": "The logistic growth term r*T*(1 - T/K) alone would drive the tumor toward the carrying capacity K = 100, but the immune-kill term -c*T*I pulls it down, and how far it pulls depends on how much immune cell activity a_im sustains at equilibrium. With a_im = 0.05, immune cells are recruited quickly enough in response to tumor burden that the coupled system settles to a small stable tumor size around 16.7 -- a state of immune-mediated control. With a_im reduced to 0.01, immune cells are recruited five times more slowly, so less immune pressure builds up per unit of tumor, and the system instead settles at a much larger stable tumor size around 50. The key synthesis point is that 'weakened immune response' in this model does not mean the tumor escapes control entirely (T does not approach K = 100 in either case) -- it means the equilibrium point itself shifts to a larger, still-bounded tumor size, which is a biologically meaningful distinction: real tumor immunology recognizes intermediate states of partial immune control (tumor dormancy at an elevated burden) that are qualitatively different from either full clearance or complete immune escape, and this simplified model happens to reproduce that same three-way distinction from just one changed parameter.",
+    "concept": "Synthesizing a nonlinear tumor-immune competition model and interpreting parameter-dependent equilibria in a biological context",
+    "tags": ["coupled ODEs", "ode45", "tumor-immune model", "logistic growth", "biological plausibility"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Assignment 5"]
+  },
+  {
+    "id": "U5-WB-X03",
+    "unit": 5,
+    "topic": "ode45-solving",
+    "difficulty": "expert",
+    "title": "Diagnosing Stiffness from Fast Enzyme-Substrate Binding",
+    "context": "An enzyme binds and unbinds its substrate very quickly compared to how slowly it converts bound substrate into product. This kind of separation of timescales -- fast binding equilibrium, slow catalysis -- is a textbook source of numerical stiffness. You'll build the model, compare solvers, test whether tightening ode45's tolerance helps, and explain what's really going on.",
+    "parts": [
+      { "label": "a", "prompt": "Let s = [substrate; complex]. With fast binding/unbinding rate kon = koff = 500 and slow catalytic rate kcat = 0.5, write the ODE handle f = @(t,s) [...; ...] implementing dsubstrate/dt = -kon*substrate + (koff+kcat)*complex and dcomplex/dt = kon*substrate - (koff+kcat)*complex, with s0 = [10; 0]." },
+      { "label": "b", "prompt": "Using tic/toc, solve with ode45 over tspan = [0 20]. Display the elapsed time and length(t)." },
+      { "label": "c", "prompt": "Using tic/toc, solve with ode15s over the same tspan. Display the elapsed time and length(t)." },
+      { "label": "d", "prompt": "Re-solve with ode45 using odeset to tighten RelTol to 1e-6 and AbsTol to 1e-9, again timed with tic/toc. Display the elapsed time and length(t), and compare this step count to the default-tolerance ode45 run from (b)." },
+      { "label": "e", "prompt": "In a short written comment, explain why this system is stiff in terms of the two rate constants involved, and explain why tightening ode45's tolerance in part (d) did NOT meaningfully close the step-count gap with ode15s from part (c)." }
+    ],
+    "starterCode": "% Problem: Diagnosing Stiffness from Fast Enzyme-Substrate Binding\n% Name:\n% Date:\n\nclear; clc;\n\nkon = 500; koff = 500; kcat = 0.5;\n\n% a) ODE handle f = @(t,s) [...; ...]; s0 = [10; 0]\n\n\n% b) Solve with ode45, tspan = [0 20], timed with tic/toc; display length(t)\n\n\n% c) Solve with ode15s, same tspan, timed; display length(t)\n\n\n% d) Re-solve with ode45 using tightened odeset tolerances, timed; display length(t)\n\n\n% e) Written explanation of stiffness and why tightening tolerance didn't help\n",
+    "hints": [
+      "The two timescales here are 1/kon (roughly how fast binding equilibrium is reached) and 1/kcat (roughly how fast the slow catalytic conversion happens) -- compare their orders of magnitude.",
+      "odeset('RelTol', 1e-6, 'AbsTol', 1e-9) followed by passing that structure as ode45's fourth argument tightens the accuracy requirement without changing anything about the underlying stiffness of the problem.",
+      "A nonstiff explicit solver like ode45 must keep its step size small enough for numerical stability near the fast timescale everywhere in the simulation, even during the long slow-catalysis stretch -- tightening tolerance changes how accurate each step must be, but doesn't remove that stability-driven step-size ceiling, which is set by the fast rate constant regardless of tolerance."
+    ],
+    "solutionCode": "kon = 500; koff = 500; kcat = 0.5;\n\n% a) ODE handle\nf = @(t, s) [-kon * s(1) + (koff + kcat) * s(2); ...   % dsubstrate/dt\n              kon * s(1) - (koff + kcat) * s(2)];       % dcomplex/dt\ns0 = [10; 0];\ntspan = [0 20];\n\n% b) Solve with ode45 (default tolerance)\ntic\n[t1, y1] = ode45(f, tspan, s0);\ntime45 = toc;\nfprintf('ode45 (default tol): %.4f s, %d points\\n', time45, length(t1));\n\n% c) Solve with ode15s\ntic\n[t2, y2] = ode15s(f, tspan, s0);\ntime15s = toc;\nfprintf('ode15s: %.4f s, %d points\\n', time15s, length(t2));\n\n% d) Solve with ode45, tightened tolerance\noptions = odeset('RelTol', 1e-6, 'AbsTol', 1e-9);\ntic\n[t3, y3] = ode45(f, tspan, s0, options);\ntime45_tight = toc;\nfprintf('ode45 (tight tol): %.4f s, %d points\\n', time45_tight, length(t3));\n\n% e) Written explanation:\n% This system is stiff because kon = koff = 500 sets a very fast\n% timescale (binding equilibrium reached in roughly 1/500 = 0.002 time\n% units) while kcat = 0.5 sets a much slower timescale (roughly 1/0.5 =\n% 2 time units) for the actual catalytic conversion -- a 1000-fold\n% separation between the two rates. Tightening ode45's tolerance in (d)\n% barely changed the step count compared to (b), because ode45's step\n% size here isn't limited by accuracy at all -- it's limited by numerical\n% stability near the fast kon/koff dynamics, which forces small steps\n% everywhere in the simulation regardless of how loose or tight the\n% error tolerance is set. ode15s uses an implicit method that remains\n% stable with much larger steps even when the fast mode is present,\n% which is why it alone -- not a tighter tolerance -- closes the gap.",
+    "solutionExplanation": "The two rate constants kon/koff = 500 and kcat = 0.5 differ by three orders of magnitude, meaning the substrate-complex binding reaction equilibrates almost instantly (on a timescale of milliseconds) while the actual catalytic turnover into product happens on a timescale of seconds -- exactly the kind of multi-timescale separation that defines a stiff system. ode45's explicit Runge-Kutta stepping must stay small enough to remain numerically stable near the fast mode throughout the whole 20-time-unit simulation, even during the long stretch where the system has already settled into its slow-catalysis behavior, which is why it needs tens of thousands of steps. Tightening RelTol and AbsTol in part (d) makes ode45 demand a more accurate answer at each step, but it does nothing to relax the stability-driven step-size ceiling imposed by the fast timescale -- so the step count barely budges, confirming that ode45's struggle here is a stability problem, not an accuracy problem. ode15s solves this by using an implicit method whose stability doesn't depend on resolving the fast mode at every step, letting it take orders-of-magnitude larger steps and finish in a fraction of the steps -- which is the real lesson Lecture 14's stiffness discussion is pointing at: when a nonstiff solver needs a suspiciously large number of steps, the fix is switching solver families, not tightening tolerance.",
+    "concept": "Diagnosing numerical stiffness from disparate rate constants, and distinguishing accuracy-driven from stability-driven step-size limits",
+    "tags": ["ode45", "ode15s", "stiffness", "odeset", "tolerances", "enzyme kinetics"],
+    "references": ["Unit 5 – Lecture 14", "Unit 5 – MATLAB ODE Solving Lab"]
+  },
+  {
+    "id": "U5-WB-X04",
+    "unit": 5,
+    "topic": "physiological-ode-models",
+    "difficulty": "expert",
+    "title": "Windkessel Model of Arterial Pressure Under Vasodilatory Shock",
+    "context": "A two-compartment Windkessel model represents the arterial and venous sides of the circulation, each with its own compliance, connected by a resistance that a doctor can think of as systemic vascular resistance. You'll simulate a normal resting patient and a patient in vasodilatory (septic) shock, where systemic vascular resistance collapses, and assess whether the resulting pressures are consistent with real clinical danger signs.",
+    "parts": [
+      { "label": "a", "prompt": "Let s = [Pa; Pv] (arterial, venous pressure). With cardiac output baseline Q0 = 5, arterial compliance Ca = 0.03, venous compliance Cv = 0.3, venous resistance Rv = 1, and heart rate omega = 2*pi*1.2 fixed, write a parameterized ODE handle f = @(t,s,R) [...; ...] implementing dPa/dt = (1/Ca)*(Q0*(1+sin(omega*t)) - (Pa-Pv)/R) and dPv/dt = (1/Cv)*((Pa-Pv)/R - Pv/Rv), where R is the systemic vascular resistance." },
+      { "label": "b", "prompt": "Wrap f with R = 17 (normal resistance) and solve with ode45 over tspan = [0 10] and s0 = [90; 5]. Store as t_n, s_n." },
+      { "label": "c", "prompt": "Wrap f with R = 3 (severe vasodilation) and solve the same way. Store as t_s, s_s." },
+      { "label": "d", "prompt": "Plot arterial pressure Pa(t) (column 1) for both cases on the same axes with a legend." },
+      { "label": "e", "prompt": "For each case, using only the portion of the solution where t > 8 (to look at the settled, steady periodic behavior), find the minimum and maximum arterial pressure and display the resulting pressure range and mean for each with fprintf." },
+      { "label": "f", "prompt": "In a short written comment, compare both steady-state pressure ranges to a normal resting human arterial pressure of roughly 70-120 mmHg, and discuss whether the R = 3 scenario represents a physiologically dangerous state, tying your answer to what R = 3 represents clinically." }
+    ],
+    "starterCode": "% Problem: Windkessel Model of Arterial Pressure Under Vasodilatory Shock\n% Name:\n% Date:\n\nclear; clc; close all;\n\nQ0 = 5; Ca = 0.03; Cv = 0.3; Rv = 1; omega = 2*pi*1.2;\n\n% a) Parameterized ODE handle f = @(t,s,R) [...; ...]\n\n\n% b) Normal resistance (R = 17) -> t_n, s_n\n\n\n% c) Severe vasodilation (R = 3) -> t_s, s_s\n\n\n% d) Plot Pa(t) for both cases with a legend\n\n\n% e) Steady-state (t > 8) min/max/mean arterial pressure for each, via fprintf\n\n\n% f) Written comparison to normal pressure range and clinical discussion\n",
+    "hints": [
+      "Logical indexing works the same way here as anywhere else: s_n(t_n > 8, 1) pulls out only the arterial pressure values from rows where the corresponding time exceeds 8.",
+      "min and max applied to that filtered slice give the steady-state pressure range directly; mean() on the same slice gives the average pressure once transients have died out.",
+      "R represents systemic vascular resistance -- a very low R means blood vessels have lost their ability to constrict, which is exactly the mechanism behind vasodilatory (septic) shock, where blood pressure can fall dangerously even though the heart itself is still pumping normally."
+    ],
+    "solutionCode": "Q0 = 5; Ca = 0.03; Cv = 0.3; Rv = 1; omega = 2*pi*1.2;\n\n% a) Parameterized two-compartment Windkessel ODE handle\nf = @(t, s, R) [(1/Ca) * (Q0 * (1 + sin(omega*t)) - (s(1) - s(2)) / R); ...  % dPa/dt\n                (1/Cv) * ((s(1) - s(2)) / R - s(2) / Rv)];                   % dPv/dt\n\n% b) Normal systemic vascular resistance\nfNormal = @(t, s) f(t, s, 17);\ntspan = [0 10];\ns0 = [90; 5];\n[t_n, s_n] = ode45(fNormal, tspan, s0);\n\n% c) Severe vasodilation\nfShock = @(t, s) f(t, s, 3);\n[t_s, s_s] = ode45(fShock, tspan, s0);\n\n% d) Plot arterial pressure for both\nfigure\nplot(t_n, s_n(:,1), 'b-', 'LineWidth', 1.5)\nhold on\nplot(t_s, s_s(:,1), 'r-', 'LineWidth', 1.5)\nhold off\nxlabel('Time (s)')\nylabel('Arterial pressure (mmHg)')\nlegend('Normal (R = 17)', 'Vasodilatory shock (R = 3)', 'Location', 'best')\ntitle('Windkessel Arterial Pressure: Normal vs Vasodilatory Shock')\n\n% e) Steady-state pressure range and mean for each\nPa_n_tail = s_n(t_n > 8, 1);\nPa_s_tail = s_s(t_s > 8, 1);\nfprintf('Normal: Pa ranges %.1f to %.1f mmHg (mean %.1f)\\n', min(Pa_n_tail), max(Pa_n_tail), mean(Pa_n_tail));\nfprintf('Shock: Pa ranges %.1f to %.1f mmHg (mean %.1f)\\n', min(Pa_s_tail), max(Pa_s_tail), mean(Pa_s_tail));\n\n% f) Written comparison:\n% The normal scenario settles to an arterial pressure oscillating\n% roughly between 69 and 111 mmHg (mean around 90), squarely within the\n% normal resting range of about 70-120 mmHg. The R = 3 shock scenario\n% settles to a much lower range, roughly 8 to 32 mmHg -- well below even\n% the low end of the normal range, and consistent with severe, likely\n% life-threatening hypotension. R represents systemic vascular\n% resistance, and a value this low corresponds to blood vessels that\n% have lost most of their ability to constrict, exactly the mechanism\n% behind vasodilatory (septic) shock, where the heart may still be\n% pumping an adequate cardiac output (Q0 was left unchanged here) but\n% blood pressure collapses anyway because the vessels can no longer\n% maintain resistance against that flow.",
+    "solutionExplanation": "The Windkessel model splits the circulation into two compliant compartments connected by a resistance R: the arterial side receives pulsatile inflow from the heart (Q0*(1+sin(omega*t))) and loses pressure across R toward the venous side, while the venous side receives that same flow and loses it across its own resistance Rv. With normal resistance (R = 17), the model settles into a steady periodic oscillation with arterial pressure cycling between roughly 69 and 111 mmHg around a mean of about 90 mmHg -- a textbook-realistic systolic/diastolic-like swing. Dropping R to 3 to simulate the loss of vascular tone seen in vasodilatory shock causes the arterial pressure to collapse to a range of roughly 8 to 32 mmHg, since the same cardiac output can no longer generate adequate pressure once the vessels have lost most of their resistance to flow. The key synthesis insight is that this pressure collapse happens even though cardiac output (Q0) was never changed -- it's a pure consequence of the resistance term, which is exactly why vasodilatory shock is treated clinically with vasopressor drugs that restore vessel tone (effectively raising R back up) rather than only with fluids or drugs that increase cardiac output, since the model shows that pumping harder cannot by itself compensate for vessels that have lost their ability to constrict.",
+    "concept": "Synthesizing a forced two-compartment cardiovascular model and evaluating steady-state output against real physiological reference ranges",
+    "tags": ["coupled ODEs", "ode45", "windkessel model", "cardiovascular", "biological plausibility"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Assignment 5"]
+  },
+  {
+    "id": "U5-WB-X05",
+    "unit": 5,
+    "topic": "coupled-ode-systems",
+    "difficulty": "expert",
+    "title": "When Does a Respiratory Oscillator Stop Looking Like Breathing?",
+    "context": "The Van der Pol oscillator is sometimes used as a toy model for a self-sustaining biological rhythm, such as a respiratory central pattern generator producing a periodic breathing drive signal. You'll sweep its nonlinearity parameter across a wide range and assess at what point the oscillation stops resembling a smooth, physiologically plausible breathing rhythm.",
+    "parts": [
+      { "label": "a", "prompt": "Write a parameterized ODE handle f = @(t,s,mu) [...; ...] implementing the Van der Pol system ds1/dt = s2 and ds2/dt = mu*(1 - s1^2)*s2 - s1, with s0 = [2; 0]." },
+      { "label": "b", "prompt": "Using a for-loop over mu = [0.5, 3, 15], solve the system with ode45 for each value over tspan = [0 60], storing each solution's t and s(:,1) (call them v) in a cell array." },
+      { "label": "c", "prompt": "Plot v(t) for all three mu values on the same axes with a legend showing each mu value." },
+      { "label": "d", "prompt": "For each mu, use islocalmax on v to find the peak times, then use diff on those peak times to estimate the average oscillation period. Display all three average periods with fprintf." },
+      { "label": "e", "prompt": "In a short written comment, describe how the waveform's shape changes as mu increases from 0.5 to 15 (comparing period length and how sinusoidal versus 'sharp jump followed by slow ramp' each trace looks), and discuss whether the mu = 15 regime still looks like a plausible model of smooth, periodic breathing." }
+    ],
+    "starterCode": "% Problem: When Does a Respiratory Oscillator Stop Looking Like Breathing?\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Parameterized ODE handle f = @(t,s,mu) [...; ...]; s0 = [2; 0]\n\n\n% b) For-loop over mu = [0.5, 3, 15]; solve each with ode45, tspan = [0 60]\n\n\n% c) Plot v(t) for all three mu values with a legend\n\n\n% d) For each mu, estimate the average period using islocalmax and diff\n\n\n% e) Written description of waveform shape change and plausibility discussion\n",
+    "hints": [
+      "A cell array can hold results of different sizes -- results{k}.t and results{k}.v (or simply two separate cell arrays tAll{k}, vAll{k}) let you store each mu's solution without needing every solution to have the same number of rows.",
+      "islocalmax(v) applied to a full time series returns a logical vector marking every local peak; indexing t with that logical vector, t(islocalmax(v)), gives you just the times those peaks occurred.",
+      "As mu grows large, the Van der Pol oscillator transitions into a 'relaxation oscillation' regime: long slow drifts punctuated by fast, sharp jumps, and the period grows roughly in proportion to mu -- very different from the near-sinusoidal shape seen at small mu."
+    ],
+    "solutionCode": "% a) Parameterized ODE handle\nf = @(t, s, mu) [s(2); ...                       % ds1/dt\n                 mu * (1 - s(1)^2) * s(2) - s(1)]; % ds2/dt\ns0 = [2; 0];\ntspan = [0 60];\n\n% b) Solve for each mu value\nmus = [0.5, 3, 15];\ntAll = cell(1, numel(mus));\nvAll = cell(1, numel(mus));\nfor k = 1:numel(mus)\n    fk = @(t, s) f(t, s, mus(k));\n    [tk, sk] = ode45(fk, tspan, s0);\n    tAll{k} = tk;\n    vAll{k} = sk(:, 1);\nend\n\n% c) Plot all three on the same axes\nfigure\nhold on\nfor k = 1:numel(mus)\n    plot(tAll{k}, vAll{k}, 'LineWidth', 1.5)\nend\nhold off\nxlabel('Time (s)')\nylabel('Respiratory drive v(t)')\nlegend(\"\\mu = \" + string(mus), 'Location', 'best')\ntitle('Van der Pol Respiratory Oscillator Across \\mu')\n\n% d) Estimate average period for each mu\navgPeriods = zeros(1, numel(mus));\nfor k = 1:numel(mus)\n    v = vAll{k};\n    t = tAll{k};\n    peakTimes = t(islocalmax(v));\n    avgPeriods(k) = mean(diff(peakTimes));\n    fprintf('mu = %.1f: average period = %.2f s\\n', mus(k), avgPeriods(k));\nend\n\n% e) Written description:\n% At mu = 0.5, v(t) looks nearly sinusoidal, with a short, fairly\n% constant period (roughly 6.4 s). As mu increases to 3, the waveform\n% starts to distort and the period lengthens noticeably (roughly 8.9 s).\n% By mu = 15, the waveform has become a clear relaxation oscillation:\n% long, slow ramps punctuated by fast, sharp jumps between extremes, and\n% the period has stretched to roughly 27 s -- more than four times\n% longer than the mu = 0.5 case. A real respiratory drive signal rises\n% and falls smoothly and fairly quickly (a normal breath cycle is a few\n% seconds, not tens of seconds), so the mu = 15 regime no longer looks\n% like a plausible model of breathing -- it's mathematically still a\n% self-sustaining oscillator, but its sharp-jump-and-slow-ramp shape and\n% greatly stretched period don't correspond to any real, healthy\n% respiratory pattern.",
+    "solutionExplanation": "The parameterized handle lets a single for-loop sweep mu across [0.5, 3, 15] without rewriting the ODE definition each time, and storing each run's time and v(t) in cell arrays keeps the three (differently-sized) solutions organized for plotting and analysis afterward. islocalmax(v) identifies every local peak in each trace, and taking diff of the resulting peak times estimates the average time between consecutive breaths (the oscillation period) for each mu -- which grows from about 6.4 seconds at mu = 0.5 to about 8.9 seconds at mu = 3 to about 27 seconds at mu = 15, nearly a fourfold increase across the sweep. This lengthening period reflects a real qualitative transition in the Van der Pol oscillator: at small mu the system behaves like a nearly linear, sinusoidal oscillator, but at large mu it becomes a relaxation oscillator dominated by slow, gradual drift phases interrupted by fast, discontinuous-looking jumps between extremes. The synthesis question this problem is really asking is whether the model still describes the physiology it was proposed for -- and the answer is that it doesn't: a real central pattern generator driving breathing produces a period on the order of a few seconds with a comparatively smooth, rounded waveform, so the mu = 15 regime, despite being a perfectly valid mathematical solution to a valid-looking system, represents a parameter combination that has drifted outside the range where the model still means what it was built to mean.",
+    "concept": "Parameter sweeps over a nonlinear oscillator, quantifying period via peak detection, and assessing model plausibility outside a realistic parameter range",
+    "tags": ["coupled ODEs", "ode45", "Van der Pol", "islocalmax", "parameter sweep", "biological plausibility"],
+    "references": ["Unit 5 – Lecture 16", "Unit 5 – Assignment 5"]
+  }
+]

@@ -1,0 +1,510 @@
+[
+  {
+    "id": "U3-WB-B01",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "beginner",
+    "title": "Estimating Drug Exposure (AUC) with the Trapezoidal Rule",
+    "context": "A nurse records a patient's plasma drug concentration at hourly intervals after an IV bolus dose. The area under this concentration-time curve (AUC) reflects total drug exposure, and you can estimate it directly from the sampled data using the trapezoidal rule.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = [0 1 2 3 4] (hours) and C = [10 6 4 3 2] (mg/L) representing the measured plasma concentration at each hour." },
+      { "label": "b", "prompt": "Use MATLAB's built-in trapz function to estimate the AUC over the full 4-hour window and store it in AUC. Display it using fprintf in the form \"AUC: 19.0 mg*h/L\"." },
+      { "label": "c", "prompt": "Confirm the result by hand using the composite trapezoidal formula AUC_manual = h*((C(1)+C(end))/2 + sum(C(2:end-1))), where h is the (uniform) spacing between time points. Display whether AUC_manual matches AUC using isequal." }
+    ],
+    "starterCode": "% Problem: Estimating Drug Exposure (AUC) with the Trapezoidal Rule\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create t and C\n\n\n% b) Estimate AUC using trapz; display with fprintf\n\n\n% c) Confirm by hand using the composite trapezoidal formula\n",
+    "hints": [
+      "trapz(x,y) takes the x-values (here, time) first and the corresponding y-values (concentration) second, and returns the total area under the piecewise-linear curve connecting them.",
+      "Since the time points are evenly spaced with h = 1 hour, the trapezoidal formula's constant portion h*(C(1)+C(end))/2 accounts for the first and last points, while every interior point gets counted once inside the sum.",
+      "With C = [10 6 4 3 2], the interior points are C(2:end-1) = [6 4 3], and (C(1)+C(end))/2 = (10+2)/2 = 6, so AUC = 1*(6 + (6+4+3)) = 19."
+    ],
+    "solutionCode": "% a) Create t and C\nt = [0 1 2 3 4];\nC = [10 6 4 3 2];\n\n% b) Estimate AUC using trapz\nAUC = trapz(t, C);\nfprintf('AUC: %.1f mg*h/L\\n', AUC);\n\n% c) Confirm by hand with the composite trapezoidal formula\nh = t(2) - t(1);\nAUC_manual = h * ((C(1) + C(end))/2 + sum(C(2:end-1)));\ndisp(isequal(AUC, AUC_manual))",
+    "solutionExplanation": "trapz(t,C) approximates the area under the concentration curve by summing the areas of the four trapezoids formed between consecutive time points, giving AUC = 19 mg*h/L. The composite trapezoidal formula makes explicit what trapz is doing internally: the constant term h*(C(1)+C(end))/2 = 1*(10+2)/2 = 6 accounts for the two endpoints, while h*sum(C(2:end-1)) = 1*(6+4+3) = 13 accounts for the three interior points (each counted twice in the underlying derivation, which is why they are not divided by 2). Adding these gives 6 + 13 = 19, matching trapz exactly, which is why AUC_manual and AUC agree.",
+    "concept": "Composite trapezoidal rule applied to discrete data",
+    "tags": ["trapezoidal rule", "trapz", "numerical integration", "AUC"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-B02",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "beginner",
+    "title": "Estimating Urine Output with the Midpoint Rule",
+    "context": "A urine flow meter reports the flow rate (mL/min) measured at the midpoint of each 5-minute interval during a 20-minute test. You'll use the midpoint rule to estimate the total volume collected.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vector midpointFlow = [40 55 62 58] (mL/min), the flow rate measured at the midpoint of each of the four 5-minute intervals, and set h = 5 (the width of each interval, in minutes)." },
+      { "label": "b", "prompt": "Using the midpoint rule formula (total volume = h * sum of the midpoint flow rates), compute the estimated total volume collected over the 20 minutes and store it in totalVolume. Display it using fprintf in the form \"Estimated volume: 1075 mL\"." },
+      { "label": "c", "prompt": "In a comment, explain why this method is called the 'midpoint rule' rather than the trapezoidal rule." }
+    ],
+    "starterCode": "% Problem: Estimating Urine Output with the Midpoint Rule\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create midpointFlow and h\n\n\n% b) Compute totalVolume using the midpoint rule formula\n\n\n% c) One-line comment explaining the name \"midpoint rule\"\n",
+    "hints": [
+      "The midpoint rule approximates the area under a curve using rectangles, where each rectangle's height comes from the function evaluated at the midpoint of its interval, not at either endpoint.",
+      "Since every rectangle has the same width, h, the total estimated area is simply h times the sum of all the rectangle heights -- no separate multiplication for each rectangle is needed.",
+      "sum(midpointFlow) = 40+55+62+58 = 215, so totalVolume = 5*215 = 1075 mL."
+    ],
+    "solutionCode": "% a) Create midpointFlow and h\nmidpointFlow = [40 55 62 58]; % mL/min, measured at each interval's midpoint\nh = 5; % minutes per interval\n\n% b) Midpoint rule: total volume = h * sum(heights)\ntotalVolume = h * sum(midpointFlow);\nfprintf('Estimated volume: %g mL\\n', totalVolume);\n\n% c) Written explanation\n% It's called the midpoint rule because each rectangle's height is taken\n% from the function value at the center of its interval, rather than at\n% the left or right endpoint (a left/right Riemann sum) or from a\n% straight line connecting both endpoints (the trapezoidal rule).",
+    "solutionExplanation": "The midpoint rule treats the area under each 5-minute interval as a rectangle whose height equals the flow rate measured exactly at that interval's midpoint. Because all four rectangles share the same width h = 5 minutes, the total estimated volume collapses to a single multiplication: h * sum(midpointFlow) = 5 * (40+55+62+58) = 5*215 = 1075 mL. This is different from the trapezoidal rule, which instead uses the two endpoint values of each interval and connects them with a straight line -- the midpoint rule only ever needs one function evaluation per interval, taken from the center rather than the edges.",
+    "concept": "Midpoint rule for numerical integration",
+    "tags": ["midpoint rule", "numerical integration", "step size"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-B03",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "beginner",
+    "title": "Estimating SpO2 from a Two-Point Calibration Curve",
+    "context": "A pulse oximeter's calibration relates its LED absorbance ratio, R, to blood oxygen saturation (SpO2). Only two calibration points are available. You'll estimate SpO2 for a new reading using linear interpolation, first by hand with the point-slope formula, then by checking your work with MATLAB's interp1.",
+    "parts": [
+      { "label": "a", "prompt": "Create x = [0.4 0.9] (the calibrated R values) and y = [98 90] (the corresponding SpO2 percentages). Using the point-slope interpolation formula y_new = y(1) + ((y(2)-y(1))/(x(2)-x(1))) * (x_new - x(1)), compute the estimated SpO2 for a new reading of R = 0.65 and store it in spo2_manual." },
+      { "label": "b", "prompt": "Use interp1(x, y, 0.65) to compute the same estimate and store it in spo2_interp1." },
+      { "label": "c", "prompt": "Display both values, and using a relational expression, create a logical variable named valuesMatch that is true if the two values agree to within 1e-9, and display it." }
+    ],
+    "starterCode": "% Problem: Estimating SpO2 from a Two-Point Calibration Curve\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create x, y, and compute spo2_manual by hand\n\n\n% b) Compute spo2_interp1 using interp1\n\n\n% c) Display both and check they match\n",
+    "hints": [
+      "The point-slope formula first computes the slope between the two known points, ((y(2)-y(1))/(x(2)-x(1))), and then walks from the first point to the query point using that slope.",
+      "interp1(x, y, xq) performs exactly this same straight-line calculation automatically whenever there are only two data points -- there's no other curve it could draw between them.",
+      "The slope here is (90-98)/(0.9-0.4) = -16, so spo2_manual = 98 + (-16)*(0.65-0.4) = 98 - 4 = 94."
+    ],
+    "solutionCode": "% a) Manual linear interpolation\nx = [0.4 0.9];\ny = [98 90];\nslope = (y(2) - y(1)) / (x(2) - x(1));\nspo2_manual = y(1) + slope * (0.65 - x(1));\n\n% b) Check with interp1\nspo2_interp1 = interp1(x, y, 0.65);\n\n% c) Display and compare\ndisp(spo2_manual)\ndisp(spo2_interp1)\nvaluesMatch = abs(spo2_manual - spo2_interp1) < 1e-9;\ndisp(valuesMatch)",
+    "solutionExplanation": "The slope between the two calibration points is (90-98)/(0.9-0.4) = -16 SpO2 percentage points per unit of R, meaning SpO2 drops by 16 for every 1.0 increase in R. Starting from the first point (R=0.4, SpO2=98) and stepping forward by (0.65-0.4) = 0.25 units of R at that slope gives spo2_manual = 98 + (-16)(0.25) = 94. interp1 performs the identical calculation internally whenever it is given exactly two data points, since a straight line is the only curve that can connect them, so spo2_interp1 also comes out to 94 and valuesMatch is true.",
+    "concept": "Linear interpolation using the point-slope formula and interp1",
+    "tags": ["linear interpolation", "interp1", "point-slope formula"],
+    "references": ["Unit 3 – Lecture 8"]
+  },
+  {
+    "id": "U3-WB-B04",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "beginner",
+    "title": "Reading Between the Calibration Marks on an Infusion Pump",
+    "context": "An infusion pump's dial has only five calibrated settings, each with a known flow rate. A nurse needs the flow rate for dial settings that fall between the calibrated marks. You'll use interp1 to fill in these missing values.",
+    "parts": [
+      { "label": "a", "prompt": "Create dialSetting = [1 2 3 4 5] and flowRate_mLhr = [48 101 149 205 249]." },
+      { "label": "b", "prompt": "Use interp1 with the default (linear) method to estimate the flow rate at dial setting 2.5, store it in flow_at_2_5, and display it." },
+      { "label": "c", "prompt": "Use interp1 with a vector query [1.5 3.5] to estimate both flow rates at once, storing the result in flow_multi, and display it." }
+    ],
+    "starterCode": "% Problem: Reading Between the Calibration Marks on an Infusion Pump\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create dialSetting and flowRate_mLhr\n\n\n% b) Estimate the flow rate at dial setting 2.5\n\n\n% c) Estimate the flow rates at dial settings 1.5 and 3.5 at once\n",
+    "hints": [
+      "interp1(x, y, xq) works for any query point xq that falls between the smallest and largest values in x, drawing a straight line between whichever two calibrated points surround it.",
+      "interp1 accepts a whole vector of query points at once, e.g. interp1(x, y, [1.5 3.5]), and returns a vector of the same size with one interpolated value per query.",
+      "For dial setting 2.5 (between settings 2 and 3), the interpolated value is 101 + (149-101)*(2.5-2)/(3-2) = 101 + 24 = 125."
+    ],
+    "solutionCode": "% a) Create the calibration data\ndialSetting = [1 2 3 4 5];\nflowRate_mLhr = [48 101 149 205 249];\n\n% b) Estimate flow rate at a single dial setting\nflow_at_2_5 = interp1(dialSetting, flowRate_mLhr, 2.5);\ndisp(flow_at_2_5)\n\n% c) Estimate flow rates at two dial settings at once\nflow_multi = interp1(dialSetting, flowRate_mLhr, [1.5 3.5]);\ndisp(flow_multi)",
+    "solutionExplanation": "interp1 always works by finding the two calibrated points that bracket each query value and drawing a straight line between them. For dial setting 2.5, the bracketing points are (2, 101) and (3, 149); since 2.5 is exactly halfway between them, the interpolated flow rate is halfway between 101 and 149, giving 125 mL/hr. The vectorized call in part (c) repeats this same bracket-and-interpolate process independently for each query point, returning flow_multi = [74.5 177]: dial setting 1.5 lands halfway between (1,48) and (2,101), giving 74.5, and dial setting 3.5 lands halfway between (3,149) and (4,205), giving 177.",
+    "concept": "Linear interpolation with interp1, including vectorized queries",
+    "tags": ["interp1", "linear interpolation", "lookup table"],
+    "references": ["Unit 3 – Lecture 8"]
+  },
+  {
+    "id": "U3-WB-B05",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "beginner",
+    "title": "Total Urine Output from Hourly Flow Measurements",
+    "context": "A nurse measures a patient's urine flow rate once per hour for 4 hours. You'll use trapz to estimate the total volume produced over that window.",
+    "parts": [
+      { "label": "a", "prompt": "Create t = [0 1 2 3 4] (hours) and flow = [30 45 40 35 25] (mL/hr)." },
+      { "label": "b", "prompt": "Use trapz to estimate the total urine output over the 4-hour window, store it in totalOutput, and display it rounded to 1 decimal place using fprintf." },
+      { "label": "c", "prompt": "Using length(t)-1, display the number of trapezoids trapz used to compute this estimate." }
+    ],
+    "starterCode": "% Problem: Total Urine Output from Hourly Flow Measurements\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create t and flow\n\n\n% b) Estimate totalOutput using trapz; display to 1 decimal place\n\n\n% c) Display the number of trapezoids used\n",
+    "hints": [
+      "trapz(x,y) needs the independent variable (time) first and the measured quantity (flow rate) second, in that order.",
+      "Every pair of consecutive time points defines one trapezoid, so n data points always produce n-1 trapezoids.",
+      "With 5 time points, trapz uses 4 trapezoids, and the total should come out to 147.5 mL."
+    ],
+    "solutionCode": "% a) Create t and flow\nt = [0 1 2 3 4];\nflow = [30 45 40 35 25];\n\n% b) Estimate total output\ntotalOutput = trapz(t, flow);\nfprintf('Total output: %.1f mL\\n', totalOutput);\n\n% c) Number of trapezoids used\nnumTrapezoids = length(t) - 1;\ndisp(numTrapezoids)",
+    "solutionExplanation": "trapz(t, flow) adds up the areas of the four trapezoids formed between each pair of consecutive hourly readings, giving a total estimated output of 147.5 mL. In general, any data set of n points produces n-1 trapezoids, since a trapezoid is defined by a pair of adjacent points and there is one fewer adjacent pair than there are points -- here, 5 time points produce exactly 4 trapezoids, matching length(t)-1.",
+    "concept": "Applying trapz to evenly spaced physiological data",
+    "tags": ["trapz", "numerical integration", "trapezoidal rule"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Assignment 3"]
+  },
+  {
+    "id": "U3-WB-I01",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "intermediate",
+    "title": "Trapezoidal vs. Midpoint Rule: Which Gets Closer?",
+    "context": "To test how two integration methods perform against an integral you can also check by hand, you'll approximate the integral of f(x) = x^2 from 0 to 4 using both the trapezoidal rule and the midpoint rule, then compare each against the exact calculus answer.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) x.^2, and store the exact value of the integral (computed by hand using the power rule, the integral of x^2 dx from 0 to 4 = 64/3) in trueValue." },
+      { "label": "b", "prompt": "Using x = 0:1:4 (n=4 segments, h=1) and trapz, compute the trapezoidal estimate and store it in trapEst." },
+      { "label": "c", "prompt": "Using the four interval midpoints [0.5 1.5 2.5 3.5] and the midpoint rule formula (h * sum of f at the midpoints), compute the midpoint estimate and store it in midEst." },
+      { "label": "d", "prompt": "Compute the absolute error of each method against trueValue (errTrap, errMid) and display both. In a comment, state which method is more accurate here." }
+    ],
+    "starterCode": "% Problem: Trapezoidal vs. Midpoint Rule: Which Gets Closer?\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f and the exact value of the integral\n\n\n% b) Trapezoidal estimate using trapz, h = 1\n\n\n% c) Midpoint estimate using the four interval midpoints\n\n\n% d) Compute and display both absolute errors; comment on which is closer\n",
+    "hints": [
+      "The four segments [0,1], [1,2], [2,3], [3,4] each have width h=1, so their midpoints are simply 0.5 more than each segment's left edge: 0.5, 1.5, 2.5, 3.5.",
+      "The midpoint rule formula is a single multiplication by h applied to the sum of function values -- the same sum-of-heights pattern used elsewhere, just with midpoint heights instead of endpoint heights.",
+      "trapEst comes out to 22 and midEst comes out to 21; since trueValue = 64/3 ≈ 21.333, the midpoint rule's error (about 0.33) is about half the trapezoidal rule's error (about 0.67) for this function."
+    ],
+    "solutionCode": "% a) Define f and the exact value\nf = @(x) x.^2;\ntrueValue = 64/3; % by hand: integral of x^2 from 0 to 4 is [x^3/3] = 64/3\n\n% b) Trapezoidal estimate, h = 1\nx = 0:1:4;\ntrapEst = trapz(x, f(x));\n\n% c) Midpoint estimate using the four interval midpoints\nmidpoints = [0.5 1.5 2.5 3.5];\nh = 1;\nmidEst = h * sum(f(midpoints));\n\n% d) Absolute errors\nerrTrap = abs(trapEst - trueValue);\nerrMid = abs(midEst - trueValue);\nfprintf('Trapezoidal error: %.4f\\n', errTrap);\nfprintf('Midpoint error: %.4f\\n', errMid);\n% The midpoint rule is noticeably more accurate here (about half the error).",
+    "solutionExplanation": "trapEst evaluates f at the five grid points 0,1,2,3,4 (giving 0,1,4,9,16) and combines them via trapz to get 22, while midEst evaluates f only at the four midpoints 0.5,1.5,2.5,3.5 (giving 0.25,2.25,6.25,12.25, which sum to 21) and multiplies by h=1 to get 21. Since trueValue = 64/3 ≈ 21.3333, the trapezoidal estimate overshoots by about 0.667 while the midpoint estimate undershoots by about 0.333 -- roughly half as much error. This matches a general pattern for convex functions like x^2: trapezoidal connects two curve points with a chord that lies entirely above the curve, overestimating the area, while a midpoint rectangle straddles the curve more evenly, typically cutting the error roughly in half.",
+    "concept": "Comparing the trapezoidal and midpoint rules against a known integral",
+    "tags": ["trapezoidal rule", "midpoint rule", "numerical integration", "error analysis"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quiz 3"]
+  },
+  {
+    "id": "U3-WB-I02",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "intermediate",
+    "title": "Does Halving the Step Size Quarter the Error?",
+    "context": "The trapezoidal rule's accuracy depends on the step size h. You'll test this directly by approximating the integral of x^2 dx from 0 to 4 with two different step sizes and comparing how much the error shrinks.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) x.^2 and trueValue = 64/3 (the exact integral, as in the previous problem). Using x = 0:1:4 (h=1, n=4 segments), compute the trapezoidal estimate and its absolute error, storing them as est1 and err1." },
+      { "label": "b", "prompt": "Using x = 0:0.5:4 (h=0.5, n=8 segments), compute the trapezoidal estimate and its absolute error, storing them as est2 and err2." },
+      { "label": "c", "prompt": "Compute the ratio err1/err2 and display it." },
+      { "label": "d", "prompt": "In a comment, state what this ratio suggests about how the trapezoidal rule's error scales when the step size is cut in half." }
+    ],
+    "starterCode": "% Problem: Does Halving the Step Size Quarter the Error?\n% Name:\n% Date:\n\nclear; clc;\n\n% a) h = 1 (n = 4 segments): est1, err1\n\n\n% b) h = 0.5 (n = 8 segments): est2, err2\n\n\n% c) Compute and display the ratio err1/err2\n\n\n% d) Comment on what this ratio implies about the trapezoidal rule's error scaling\n",
+    "hints": [
+      "Halving h doubles the number of segments used, but that doesn't necessarily mean the error only gets cut in half -- check the actual ratio rather than guessing.",
+      "est1 should come out to 22 and est2 should come out to 21.5, giving err1 ≈ 0.6667 and err2 ≈ 0.1667.",
+      "err1/err2 comes out to almost exactly 4, meaning that cutting h in half roughly quarters the error -- consistent with the trapezoidal rule's error scaling as O(h^2)."
+    ],
+    "solutionCode": "% a) h = 1\nf = @(x) x.^2;\ntrueValue = 64/3;\nx1 = 0:1:4;\nest1 = trapz(x1, f(x1));\nerr1 = abs(est1 - trueValue);\n\n% b) h = 0.5\nx2 = 0:0.5:4;\nest2 = trapz(x2, f(x2));\nerr2 = abs(est2 - trueValue);\n\n% c) Ratio of errors\nratio = err1 / err2;\nfprintf('Error ratio: %.4f\\n', ratio);\n\n% d) The ratio is approximately 4: halving h roughly quarters the error,\n% consistent with the trapezoidal rule's error scaling as O(h^2).",
+    "solutionExplanation": "With h=1, trapz gives est1 = 22, an error of err1 ≈ 0.6667 against the true value of 64/3 ≈ 21.3333. With h=0.5 (twice as many segments), est2 = 21.5, an error of err2 ≈ 0.1667. The ratio err1/err2 comes out to almost exactly 4, which is the signature of an error term that scales with h^2: since (h/2)^2 = h^2/4, halving the step size should shrink an O(h^2) error to about a quarter of its previous size, and that is exactly what's observed here.",
+    "concept": "Trapezoidal rule error scaling with step size",
+    "tags": ["trapezoidal rule", "step size", "convergence", "error analysis"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-I03",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "intermediate",
+    "title": "Interpolating Within Range vs. Extrapolating Beyond It",
+    "context": "A glucose sensor was calibrated at five sensor readings between 10 and 50 mV. You'll use interp1 to estimate glucose concentration for a reading inside that calibrated range, then see what happens when you ask for a reading well outside it.",
+    "parts": [
+      { "label": "a", "prompt": "Create sensorReading = [10 20 30 40 50] and glucose_mgdL = [54 92 124 165 195]." },
+      { "label": "b", "prompt": "Use interp1(sensorReading, glucose_mgdL, 25, 'linear', 'extrap') to estimate glucose for a sensor reading of 25 mV (inside the calibrated range), storing the result in glucose_interp." },
+      { "label": "c", "prompt": "Use the same interp1 call, but for a sensor reading of 70 mV (well outside the calibrated range), storing the result in glucose_extrap." },
+      { "label": "d", "prompt": "Using a relational expression on 70 and the calibrated range, create a logical variable isExtrapolated that is true when the query point falls outside [min(sensorReading) max(sensorReading)], and display it. In a comment, explain why glucose_extrap should not be trusted clinically." }
+    ],
+    "starterCode": "% Problem: Interpolating Within Range vs. Extrapolating Beyond It\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create sensorReading and glucose_mgdL\n\n\n% b) Interpolate at sensorReading = 25 (inside the calibrated range)\n\n\n% c) Extrapolate at sensorReading = 70 (outside the calibrated range)\n\n\n% d) Flag whether 70 is outside the calibrated range; comment on reliability\n",
+    "hints": [
+      "By default, interp1 returns NaN for any query point outside the range of the input data -- you must explicitly pass the 'extrap' option to force it to extend the trend beyond the calibrated points.",
+      "A query point is 'inside' the calibrated range only if it is between min(sensorReading) and max(sensorReading); anything outside that window is an extrapolation, not an interpolation.",
+      "70 is well beyond the highest calibrated reading of 50, so isExtrapolated should be true, and the returned value simply continues the straight line defined by the last two calibrated points -- it is not backed by any actual measurement."
+    ],
+    "solutionCode": "% a) Create the calibration data\nsensorReading = [10 20 30 40 50];\nglucose_mgdL = [54 92 124 165 195];\n\n% b) Interpolate inside the calibrated range\nglucose_interp = interp1(sensorReading, glucose_mgdL, 25, 'linear', 'extrap');\ndisp(glucose_interp)\n\n% c) Extrapolate outside the calibrated range\nglucose_extrap = interp1(sensorReading, glucose_mgdL, 70, 'linear', 'extrap');\ndisp(glucose_extrap)\n\n% d) Flag the extrapolation and comment\nisExtrapolated = 70 > max(sensorReading) || 70 < min(sensorReading);\ndisp(isExtrapolated)\n% glucose_extrap should not be trusted clinically because the sensor was\n% never actually calibrated anywhere near a 70 mV reading -- the value is\n% just a straight-line continuation of the trend from the last two\n% calibrated points, with no evidence the sensor even behaves linearly\n% that far outside its tested range.",
+    "solutionExplanation": "For sensorReading = 25, which falls between the calibrated points at 20 and 30, interp1 performs genuine interpolation and returns 108 mg/dL, a value directly supported by the surrounding calibration data. For sensorReading = 70, which lies far beyond the highest calibrated point (50), interp1 with 'extrap' instead continues the straight line defined by the last two calibrated points (40, 165) and (50, 195), returning 255 mg/dL -- a number the calibration data never actually demonstrated the sensor could produce. isExtrapolated correctly flags this case as true, since 70 exceeds max(sensorReading). The core issue is that interpolation is only ever as trustworthy as the data bracketing it; once a query point leaves that bracket, the 'estimate' is really just a guess based on the two nearest points' local trend continuing unchanged, which is rarely a safe clinical assumption.",
+    "concept": "Interpolation vs. extrapolation reliability with interp1",
+    "tags": ["interp1", "extrapolation", "interpolation", "reliability"],
+    "references": ["Unit 3 – Lecture 8"]
+  },
+  {
+    "id": "U3-WB-I04",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "intermediate",
+    "title": "Does a Straight Line Miss the Curve? Linear vs. Quadratic Fit",
+    "context": "A wearable monitor logs heart rate during a graded exercise test at three time points, and the rate is accelerating rather than rising steadily. You'll compare a simple linear interpolation to an exact quadratic fit through all three points to see how much the curvature matters.",
+    "parts": [
+      { "label": "a", "prompt": "Create time = [0 4 8] (minutes) and HR = [70 108 180] (bpm)." },
+      { "label": "b", "prompt": "Use interp1 (default linear method) to estimate HR at t = 5 minutes, storing the result in HR_linear." },
+      { "label": "c", "prompt": "Use polyfit(time, HR, 2) to fit the exact quadratic polynomial passing through all three points, then use polyval to evaluate it at t = 5, storing the result in HR_quad." },
+      { "label": "d", "prompt": "Compute the difference between HR_linear and HR_quad. In a comment, explain why the two methods disagree even though the quadratic passes exactly through the same three data points that interp1 uses." }
+    ],
+    "starterCode": "% Problem: Does a Straight Line Miss the Curve? Linear vs. Quadratic Fit\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create time and HR\n\n\n% b) Linear interpolation at t = 5 using interp1\n\n\n% c) Exact quadratic fit through all 3 points using polyfit/polyval\n\n\n% d) Compare the two estimates and comment on why they differ\n",
+    "hints": [
+      "interp1's default linear method only ever looks at the two data points that immediately bracket the query time -- here, (4,108) and (8,180) -- and ignores the third point entirely when estimating at t=5.",
+      "polyfit(time, HR, 2) with exactly 3 data points produces a polynomial that passes through all 3 exactly, using the full shape of the data (including the point at t=0) to inform its curvature everywhere, not just near the query point.",
+      "HR_linear comes out to 126 bpm, while HR_quad comes out to about 122.8 bpm -- a difference of about 3.2 bpm, caused entirely by the quadratic 'seeing' the point at t=0 that the linear method ignores."
+    ],
+    "solutionCode": "% a) Create the data\ntime = [0 4 8];\nHR = [70 108 180];\n\n% b) Linear interpolation at t = 5\nHR_linear = interp1(time, HR, 5);\ndisp(HR_linear)\n\n% c) Exact quadratic fit through all 3 points\np = polyfit(time, HR, 2);\nHR_quad = polyval(p, 5);\ndisp(HR_quad)\n\n% d) Compare\ndiffHR = HR_linear - HR_quad;\ndisp(diffHR)\n% The two disagree because interp1's linear method only uses the two\n% points bracketing t=5 (at t=4 and t=8) and draws a straight line\n% between them, while polyfit's quadratic uses the shape formed by ALL\n% three points (including the one at t=0) to determine its curvature,\n% so it 'remembers' that heart rate was accelerating even as it\n% evaluates a point between the later two samples.",
+    "solutionExplanation": "HR_linear only considers the two points bracketing t=5, namely (4,108) and (8,180), and draws a straight line between them, giving 108 + (180-108)*(5-4)/(8-4) = 126 bpm. HR_quad instead fits the unique quadratic that passes through all three points (0,70), (4,108), and (8,180) exactly, which works out to y = 1.0625x^2 + 5.25x + 70, giving HR_quad = 1.0625(25) + 5.25(5) + 70 ≈ 122.8 bpm at t=5. The roughly 3.2 bpm difference exists because the exercise test is accelerating (the rate of increase from 70 to 108 is smaller than from 108 to 180), and the quadratic captures that acceleration using information from the first point, while the piecewise-linear interp1 method treats each pair of bracketing points independently and never looks beyond them.",
+    "concept": "Linear interpolation vs. exact polynomial fitting with polyfit",
+    "tags": ["interp1", "polyfit", "polyval", "interpolation error", "curvature"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Assignment 3"]
+  },
+  {
+    "id": "U3-WB-I05",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "intermediate",
+    "title": "Coarse vs. Fine Sampling: How Spacing Affects Interpolation Error",
+    "context": "An enzyme's reaction velocity as a function of substrate concentration is modeled by v(x) = 10*sqrt(x). You'll sample this curve at two different spacings and see how much sampling density affects the accuracy of a linear interpolation estimate.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) 10*sqrt(x) and compute the true value at x = 1 directly from the function, storing it as trueVal." },
+      { "label": "b", "prompt": "Build a coarse sample: xCoarse = [0 4], yCoarse = f(xCoarse). Use interp1 to estimate the value at x = 1, storing it as yCoarse_est, and compute the absolute error errCoarse against trueVal." },
+      { "label": "c", "prompt": "Build a fine sample: xFine = [0 2 4], yFine = f(xFine). Use interp1 to estimate the value at x = 1, storing it as yFine_est, and compute the absolute error errFine against trueVal." },
+      { "label": "d", "prompt": "Using a relational expression, compare errCoarse and errFine and display which sampling scheme produced the smaller interpolation error. In a comment, explain why." }
+    ],
+    "starterCode": "% Problem: Coarse vs. Fine Sampling: How Spacing Affects Interpolation Error\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f; compute trueVal at x = 1\n\n\n% b) Coarse sample [0 4]; interp1 estimate at x = 1; errCoarse\n\n\n% c) Fine sample [0 2 4]; interp1 estimate at x = 1; errFine\n\n\n% d) Compare errCoarse and errFine; comment on why one is smaller\n",
+    "hints": [
+      "Both sample sets share the same endpoints (0 and 4) and both are being asked to estimate the same query point (x=1) -- the only thing that changes is whether there's a third data point at x=2 in between.",
+      "f(x) = 10*sqrt(x) curves noticeably between x=0 and x=4 (it rises quickly at first, then more slowly), so a straight line drawn across the full width of that interval misses the curvature far more than a straight line drawn across just half of it.",
+      "trueVal = 10, yCoarse_est comes out to 5 (a large error of 5), while yFine_est comes out to about 7.07 (a much smaller error of about 2.93) -- the finer spacing tracks the curve's shape more closely."
+    ],
+    "solutionCode": "% a) Define f and compute the true value at x = 1\nf = @(x) 10*sqrt(x);\ntrueVal = f(1);\n\n% b) Coarse sample\nxCoarse = [0 4];\nyCoarse = f(xCoarse);\nyCoarse_est = interp1(xCoarse, yCoarse, 1);\nerrCoarse = abs(yCoarse_est - trueVal);\n\n% c) Fine sample\nxFine = [0 2 4];\nyFine = f(xFine);\nyFine_est = interp1(xFine, yFine, 1);\nerrFine = abs(yFine_est - trueVal);\n\n% d) Compare\nfinerIsBetter = errFine < errCoarse;\ndisp(finerIsBetter)\n% The finer sampling produces the smaller interpolation error because it\n% adds a data point (at x=2) closer to the curved region near the query\n% point, so the straight-line segment interp1 uses to estimate x=1 has\n% less curvature to miss than the single, wide segment spanning the\n% entire coarse interval.",
+    "solutionExplanation": "trueVal = f(1) = 10 exactly. The coarse sample only has points at x=0 and x=4, so interp1 draws one long straight line across the whole interval and estimates f(1) as 5 (a quarter of the way from f(0)=0 to f(4)=20), giving errCoarse = 5. The fine sample adds a third point at x=2 (where f(2) ≈ 14.14), so interp1 instead draws a shorter line just between x=0 and x=2 to estimate f(1), giving yFine_est ≈ 7.07 and errFine ≈ 2.93 -- about half the coarse error. Because f(x) = 10*sqrt(x) is concave (it curves downward in slope), any straight-line approximation underestimates it between sample points, but a shorter line segment has less room to deviate from the true curve than a longer one, which is why finer sampling reduces interpolation error.",
+    "concept": "Effect of sample spacing on interpolation error",
+    "tags": ["interp1", "interpolation error", "sampling density"],
+    "references": ["Unit 3 – Lecture 8"]
+  },
+  {
+    "id": "U3-WB-A01",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "advanced",
+    "title": "Building Your Own Trapezoidal Integrator",
+    "context": "Rather than relying on trapz right away, you'll build the composite trapezoidal rule from scratch with a for-loop for a modeled biosignal recovery curve, then check your loop against both trapz and the exact calculus answer.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) 4 - 0.5*x + 0.1*x.^2 (a modeled signal), with a = 0, b = 4, n = 8 segments, and h = (b-a)/n." },
+      { "label": "b", "prompt": "Using a for-loop over each of the n segments (segment i spans from xL = a+(i-1)*h to xR = a+i*h, contributing an area of h/2*(f(xL)+f(xR))), accumulate the total area into trapLoop." },
+      { "label": "c", "prompt": "Using MATLAB's trapz on x = a:h:b, compute trapBuiltin, and confirm the two match to within 1e-10." },
+      { "label": "d", "prompt": "Compute the exact integral by hand using the power rule (the antiderivative of 4 - 0.5x + 0.1x^2 is 4x - 0.25x^2 + (0.1/3)x^3), store it in trueValue, and compute the absolute error of trapBuiltin against it." },
+      { "label": "e", "prompt": "Using a relational expression, create isAccurate = error < 0.01, and display it. In a comment, state whether n=8 segments is fine enough for a clinical application requiring 2-decimal precision." }
+    ],
+    "starterCode": "% Problem: Building Your Own Trapezoidal Integrator\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f, a, b, n, h\n\n\n% b) Build trapLoop with a for-loop over each segment\n\n\n% c) Compute trapBuiltin with trapz; confirm it matches trapLoop\n\n\n% d) Compute trueValue by hand; compute the absolute error\n\n\n% e) isAccurate check; comment on whether n=8 is fine enough\n",
+    "hints": [
+      "Each segment's contribution is exactly the trapezoid-area formula from lecture: h/2*(left height + right height) -- a for-loop just needs to compute the two endpoint x-values for each segment and add that segment's area to a running total.",
+      "For segment i (i going from 1 to n), the left edge is a+(i-1)*h and the right edge is a+i*h; get these right and trapLoop will land exactly on trapz's answer.",
+      "trapLoop and trapBuiltin should both come out to 14.15, while trueValue works out to 14+2/15 ≈ 14.1333, so the error is about 0.0167 -- larger than 0.01, meaning isAccurate is false."
+    ],
+    "solutionCode": "% a) Define f and integration parameters\nf = @(x) 4 - 0.5*x + 0.1*x.^2;\na = 0; b = 4; n = 8;\nh = (b - a) / n;\n\n% b) Build the composite trapezoidal sum with a for-loop\ntrapLoop = 0;\nfor i = 1:n\n    xL = a + (i-1)*h;\n    xR = a + i*h;\n    trapLoop = trapLoop + h/2 * (f(xL) + f(xR));\nend\ndisp(trapLoop)\n\n% c) Compare against trapz\nxv = a:h:b;\ntrapBuiltin = trapz(xv, f(xv));\ndisp(trapBuiltin)\ndisp(abs(trapLoop - trapBuiltin) < 1e-10)\n\n% d) Exact value and error\ntrueValue = (4*b - 0.25*b^2 + (0.1/3)*b^3) - (4*a - 0.25*a^2 + (0.1/3)*a^3);\nerrorVal = abs(trapBuiltin - trueValue);\ndisp(errorVal)\n\n% e) Accuracy check\nisAccurate = errorVal < 0.01;\ndisp(isAccurate)\n% With n = 8, the error (~0.0167) exceeds 0.01, so this step size is NOT\n% fine enough for a clinical application requiring 2-decimal precision --\n% a smaller h (more segments) would be needed.",
+    "solutionExplanation": "The for-loop builds the exact same sum that trapz computes internally: each of the 8 segments contributes h/2*(f(xL)+f(xR)), and adding all 8 contributions gives trapLoop = 14.15, matching trapBuiltin exactly. The exact analytic integral, found by applying the power rule to each term of f(x), evaluates to 14 + 2/15 ≈ 14.1333, so the trapezoidal estimate's absolute error is about 0.0167. Since 0.0167 is larger than the 0.01 precision threshold, isAccurate is false -- this particular function, step size, and interval combination would need a finer grid (smaller h, more segments) before the trapezoidal rule's error is small enough to trust for a 2-decimal clinical reading.",
+    "concept": "Manually implementing and verifying the composite trapezoidal rule",
+    "tags": ["trapezoidal rule", "for loop", "trapz", "numerical integration", "error analysis"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-A02",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "advanced",
+    "title": "Trapezoidal vs. Midpoint on a Concave-Down Signal",
+    "context": "A biomechanics researcher models instantaneous power output during a short sprint as a concave-down curve that rises and then falls. You'll build the composite midpoint rule from scratch, compare it to the trapezoidal rule, and see which method over- or under-estimates the true area for this shape.",
+    "parts": [
+      { "label": "a", "prompt": "Define g = @(x) -0.5*x.^2 + 2*x + 1, with a2 = 0, b2 = 4, n2 = 4 segments, and h2 = 1." },
+      { "label": "b", "prompt": "Using a for-loop over each segment (finding each segment's midpoint xm and accumulating h2*g(xm)), build the composite midpoint estimate midpointLoop." },
+      { "label": "c", "prompt": "Using trapz on x = a2:h2:b2, compute trapzEstimate." },
+      { "label": "d", "prompt": "Compute the exact integral by hand (the antiderivative of -0.5x^2+2x+1 is -x^3/6 + x^2 + x), store it as trueValue2, and compute the signed errors errorMid = midpointLoop - trueValue2 and errorTrap = trapzEstimate - trueValue2." },
+      { "label": "e", "prompt": "In a comment, state which method overestimates and which underestimates the true area for this concave-down function, and explain why in terms of the function's curvature." }
+    ],
+    "starterCode": "% Problem: Trapezoidal vs. Midpoint on a Concave-Down Signal\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define g and integration parameters\n\n\n% b) Build midpointLoop with a for-loop\n\n\n% c) Compute trapzEstimate with trapz\n\n\n% d) Compute trueValue2 by hand; compute signed errors\n\n\n% e) Comment: which method over/underestimates, and why\n",
+    "hints": [
+      "For a concave-down curve, a straight chord connecting two points on the curve always lies below it, while a midpoint rectangle's flat top sits above the curve near the segment's edges -- these two errors point in opposite directions.",
+      "Each segment's midpoint is simply the average of its two endpoints: xm = (xL+xR)/2, and its contribution to the total is h2*g(xm).",
+      "midpointLoop should come out to 9.5 and trapzEstimate to 9, against a true value of 28/3 ≈ 9.3333 -- so the midpoint rule overestimates (errorMid ≈ +0.1667) while the trapezoidal rule underestimates (errorTrap ≈ -0.3333) for this concave-down function."
+    ],
+    "solutionCode": "% a) Define g and integration parameters\ng = @(x) -0.5*x.^2 + 2*x + 1;\na2 = 0; b2 = 4; n2 = 4; h2 = 1;\n\n% b) Build the composite midpoint sum with a for-loop\nmidpointLoop = 0;\nfor i = 1:n2\n    xL = a2 + (i-1)*h2;\n    xR = a2 + i*h2;\n    xm = (xL + xR) / 2;\n    midpointLoop = midpointLoop + h2 * g(xm);\nend\ndisp(midpointLoop)\n\n% c) Trapezoidal estimate\nxv2 = a2:h2:b2;\ntrapzEstimate = trapz(xv2, g(xv2));\ndisp(trapzEstimate)\n\n% d) Exact value and signed errors\ntrueValue2 = (-b2^3/6 + b2^2 + b2) - (-a2^3/6 + a2^2 + a2);\nerrorMid = midpointLoop - trueValue2;\nerrorTrap = trapzEstimate - trueValue2;\nfprintf('errorMid = %.4f, errorTrap = %.4f\\n', errorMid, errorTrap);\n\n% e) The midpoint rule OVERestimates (errorMid > 0) and the trapezoidal\n% rule UNDERestimates (errorTrap < 0) for this concave-down function.\n% A straight chord between two points on a concave-down curve always\n% dips below the curve, so trapezoidal (which uses that chord) misses\n% area and comes in low; a midpoint rectangle instead pokes above the\n% curve near each segment's edges, so it tends to overshoot instead.",
+    "solutionExplanation": "g(x) = -0.5x^2+2x+1 is concave down (its second derivative, -1, is negative everywhere), so the four midpoint rectangles come out to midpointLoop = 9.5 and the trapezoidal estimate comes out to trapzEstimate = 9, against an exact value of trueValue2 = 28/3 ≈ 9.3333. This gives errorMid ≈ +0.1667 (an overestimate) and errorTrap ≈ -0.3333 (an underestimate) -- errors of opposite sign, and the midpoint error is about half the size of the trapezoidal error, mirroring the pattern seen for concave-up functions but flipped. Geometrically, a trapezoid's slanted top is a straight chord connecting two points on the curve, and any chord across a concave-down arc lies entirely below that arc, so the trapezoidal rule systematically loses area. A midpoint rectangle, by contrast, has a flat top set at the curve's central height, which sits above the curve near both edges of the segment, so it systematically gains area instead.",
+    "concept": "How curvature (concavity) determines whether trapezoidal or midpoint over/underestimates",
+    "tags": ["midpoint rule", "trapezoidal rule", "for loop", "concavity", "error analysis"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quiz 3"]
+  },
+  {
+    "id": "U3-WB-A03",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "advanced",
+    "title": "Building a Lagrange Polynomial by Hand and Verifying It",
+    "context": "Rather than trusting a black-box function, you'll construct a Lagrange interpolating polynomial from scratch using nested for-loops for three data points, then confirm your result two different ways.",
+    "parts": [
+      { "label": "a", "prompt": "Given the nodes x = [0 2 4] and y = [3 11 9], implement the Lagrange interpolation formula using nested for-loops (an outer loop over each node i for the summation, and an inner loop over each node j != i for the product) to evaluate the interpolating polynomial at the query point xq = 3. Store the result in L_atQuery." },
+      { "label": "b", "prompt": "Use polyfit(x, y, 2) to fit the exact quadratic through the same three points, then polyval to evaluate it at xq = 3, storing the result in poly_atQuery. Confirm it matches L_atQuery to within 1e-9." },
+      { "label": "c", "prompt": "Use interp1(x, y, 3) (the default linear method) to compute interp_atQuery." },
+      { "label": "d", "prompt": "In a comment, explain why poly_atQuery matches L_atQuery exactly, while interp_atQuery does not." }
+    ],
+    "starterCode": "% Problem: Building a Lagrange Polynomial by Hand and Verifying It\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Nested-loop Lagrange interpolation at xq = 3\nx = [0 2 4];\ny = [3 11 9];\nxq = 3;\n\n\n% b) Verify with polyfit/polyval\n\n\n% c) Compare against interp1's default linear method\n\n\n% d) Comment: why do (a) and (b) match, but not (c)?\n",
+    "hints": [
+      "The outer loop builds the sum L(x) = sum over i of y(i)*l_i(x); the inner loop builds each basis polynomial l_i(x) as a running product of (xq - x(j))/(x(i) - x(j)) for every j not equal to i.",
+      "Skip the i==j term inside the inner loop entirely (an if jj ~= ii check) -- including it would divide by zero, since x(i)-x(i) = 0.",
+      "Both the nested-loop Lagrange calculation and polyfit(x,y,2) are constructing the exact same unique degree-2 polynomial through these 3 points, so L_atQuery and poly_atQuery should both equal 11.25 -- while interp1's straight-line method between (2,11) and (4,9) instead gives 10."
+    ],
+    "solutionCode": "% a) Nested-loop Lagrange interpolation\nx = [0 2 4];\ny = [3 11 9];\nxq = 3;\n\nL_atQuery = 0;\nfor ii = 1:length(x)\n    term = 1;\n    for jj = 1:length(x)\n        if jj ~= ii\n            term = term * (xq - x(jj)) / (x(ii) - x(jj));\n        end\n    end\n    L_atQuery = L_atQuery + y(ii) * term;\nend\ndisp(L_atQuery)\n\n% b) Verify with polyfit/polyval\np = polyfit(x, y, 2);\npoly_atQuery = polyval(p, xq);\ndisp(poly_atQuery)\ndisp(abs(L_atQuery - poly_atQuery) < 1e-9)\n\n% c) Compare against interp1\ninterp_atQuery = interp1(x, y, xq);\ndisp(interp_atQuery)\n\n% d) poly_atQuery matches L_atQuery exactly because both methods construct\n% the SAME unique degree-(n-1) polynomial that passes through all n given\n% points -- there is only one such polynomial, so any correct method for\n% finding it must agree. interp1's default method instead builds a\n% piecewise-linear curve that only ever looks at the two nearest points\n% bracketing the query (here, (2,11) and (4,9)), completely ignoring the\n% point at x=0, which is why it returns a different value (10).",
+    "solutionExplanation": "Both L_atQuery and poly_atQuery evaluate to 11.25, because there is exactly one polynomial of degree 2 (or less) that passes through 3 distinct points, and both the nested-loop Lagrange formula and polyfit(x,y,2) are two different algorithms for computing that same unique polynomial -- checking this by hand, the quadratic through these 3 points is y = 1.0625x^2 + 5.25x + 3, and evaluating it at x=3 gives 1.0625(9)+5.25(3)+3 = 11.25. interp1's default linear method, however, does not fit a single polynomial through all the data at all -- it only draws a straight line between the two points immediately bracketing the query (here, (2,11) and (4,9)), giving interp_atQuery = 10, and never even considers the point at x=0. This is exactly the distinction between a global interpolating polynomial (Lagrange/polyfit) and a piecewise-linear interpolant (interp1's default): the former uses every data point to shape the curve everywhere, while the latter treats each interval independently.",
+    "concept": "Constructing the Lagrange interpolating polynomial and verifying it against polyfit and interp1",
+    "tags": ["lagrange interpolation", "nested loops", "polyfit", "interp1", "polynomial interpolation"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Lagrange Polynomial Material"]
+  },
+  {
+    "id": "U3-WB-A04",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "advanced",
+    "title": "Does a Higher-Degree Fit Always Track the Data Better?",
+    "context": "A researcher has six measurements of nerve conduction velocity across a range of temperatures, forming a rise-then-fall shape. You'll compare an exact degree-5 polynomial fit against a much simpler linear fit to see whether more flexibility always means a more trustworthy curve.",
+    "parts": [
+      { "label": "a", "prompt": "Create temp = [10 20 30 40 50 60] and velocity = [40 52 58 60 55 45]." },
+      { "label": "b", "prompt": "Fit an exact degree-5 polynomial through all six points: poly5 = polyfit(temp, velocity, 5). Confirm it passes through the original data by evaluating polyval(poly5, temp) and comparing to velocity." },
+      { "label": "c", "prompt": "Fit a degree-1 (linear) polynomial to the same data: poly1 = polyfit(temp, velocity, 1). Evaluate both poly5 and poly1 over a fine grid xf = linspace(10, 60, 200), and find the maximum value each fit reaches over that grid (maxY5, maxY1)." },
+      { "label": "d", "prompt": "Using a relational expression, create overshoots = maxY5 > max(velocity), and display it. This flags whether the degree-5 curve rises above every actual measured value anywhere between the data points." },
+      { "label": "e", "prompt": "Evaluate both fits at temp = 35 (a point between two measured temperatures). In a comment, state which fit you would trust more to estimate velocity at 35°C, and why." }
+    ],
+    "starterCode": "% Problem: Does a Higher-Degree Fit Always Track the Data Better?\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create temp and velocity\n\n\n% b) Fit poly5; confirm it passes through the original data\n\n\n% c) Fit poly1; find maxY5 and maxY1 over a fine grid\n\n\n% d) overshoots flag\n\n\n% e) Evaluate both fits at temp = 35; comment on which you'd trust\n",
+    "hints": [
+      "With exactly 6 data points and a degree-5 polynomial (6 coefficients), the fit is forced to pass through every single point exactly -- there's no wiggle room left over, unlike a lower-degree fit which only approximates the data.",
+      "Passing exactly through the given points doesn't guarantee good behavior BETWEEN those points -- a polynomial with enough freedom to hit every target exactly can still swing higher or lower than any of the actual data values in the gaps.",
+      "maxY5 comes out to about 60.08, which is slightly ABOVE max(velocity) = 60, so overshoots is true even though poly5 passes through every measured point exactly -- a small but genuine sign of the oscillation these high-degree exact fits are prone to."
+    ],
+    "solutionCode": "% a) Create the data\ntemp = [10 20 30 40 50 60];\nvelocity = [40 52 58 60 55 45];\n\n% b) Exact degree-5 fit\npoly5 = polyfit(temp, velocity, 5);\ncheckFit = polyval(poly5, temp);\ndisp(checkFit)   % should match velocity almost exactly\n\n% c) Degree-1 fit and fine-grid maxima\npoly1 = polyfit(temp, velocity, 1);\nxf = linspace(10, 60, 200);\ny5 = polyval(poly5, xf);\ny1 = polyval(poly1, xf);\nmaxY5 = max(y5);\nmaxY1 = max(y1);\nfprintf('maxY5 = %.4f, maxY1 = %.4f\\n', maxY5, maxY1);\n\n% d) Overshoot flag\novershoots = maxY5 > max(velocity);\ndisp(overshoots)\n\n% e) Evaluate both fits at temp = 35\nv5_35 = polyval(poly5, 35);\nv1_35 = polyval(poly1, 35);\nfprintf('poly5 at 35: %.4f, poly1 at 35: %.4f\\n', v5_35, v1_35);\n% poly5 (about 59.7) is more trustworthy here, since temp = 35 sits right\n% in the middle of the data where poly5's exact fit and rise-then-fall\n% shape closely tracks the nearby measured points (58 at 30, 60 at 40).\n% poly1 (about 51.7) misses the peak entirely, since a single straight\n% line can't represent a curve that rises and then falls.",
+    "solutionExplanation": "Because temp has 6 distinct values and poly5 has 6 free coefficients, the resulting quintic is forced to pass through all 6 measured points exactly, which checkFit confirms. Evaluated over the fine grid, though, poly5 briefly rises to about 60.08 -- fractionally above the largest actual measurement of 60 -- even though no single data point exceeds 60, so overshoots is true; this is a mild version of the oscillation that high-degree exact-fit polynomials are prone to, especially near the edges of a dataset or wherever the data is unevenly curved. At temp = 35, however, which sits comfortably inside the data's interior between two closely-matching neighbors (58 at 30°C and 60 at 40°C), poly5 gives about 59.7 -- consistent with those neighbors -- while poly1, a single straight line fit across all six points, gives about 51.7, badly underestimating the peak because a straight line has no way to represent a curve that rises and then falls. The lesson is that passing through every data point exactly (as poly5 does) is not the same as behaving well everywhere between those points, but for an interior interpolation point away from the data's edges, a higher-degree fit that matches the local shape is often still the more trustworthy choice.",
+    "concept": "Trade-offs of high-degree exact polynomial fits vs. low-degree fits",
+    "tags": ["polyfit", "polyval", "polynomial interpolation", "interpolation error"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Lagrange Polynomial Material"]
+  },
+  {
+    "id": "U3-WB-A05",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "advanced",
+    "title": "Watching the Trapezoidal Rule Converge",
+    "context": "Rather than comparing just two step sizes, you'll systematically refine the trapezoidal rule across three step sizes for the integral of x^3 dx from 0 to 2 (which has a known exact answer) and watch the error shrink in a very predictable pattern.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) x.^3, a=0, b=2, and compute the exact integral by hand (the antiderivative of x^3 is x^4/4), storing it as trueValue." },
+      { "label": "b", "prompt": "For each value of n in [4 8 16], compute h = (b-a)/n, build x = a:h:b, and compute the trapezoidal estimate using trapz. Store the three estimates in a vector estimates and the corresponding absolute errors in a vector errs (use a for-loop over the three n values)." },
+      { "label": "c", "prompt": "Display errs. Compute the ratio of each consecutive pair of errors (errs(1)/errs(2) and errs(2)/errs(3)) and display both ratios." },
+      { "label": "d", "prompt": "In a comment, state what these two ratios suggest about the trapezoidal rule's error scaling as the step size is repeatedly halved." }
+    ],
+    "starterCode": "% Problem: Watching the Trapezoidal Rule Converge\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f and compute trueValue by hand\n\n\n% b) Loop over n = [4 8 16]: compute estimates and errs\n\n\n% c) Display errs and the two consecutive error ratios\n\n\n% d) Comment on what the ratios suggest about error scaling\n",
+    "hints": [
+      "You can preallocate estimates and errs as zeros(1,3) and fill in one entry per loop iteration, indexing by the loop counter rather than the n value itself.",
+      "Each iteration should rebuild x from scratch using that iteration's own h, since a:h:b depends on h.",
+      "The three errors should come out to about 0.25, 0.0625, and 0.015625 -- each one almost exactly a quarter of the previous one, so both ratios should be almost exactly 4."
+    ],
+    "solutionCode": "% a) Define f and the exact value\nf = @(x) x.^3;\na = 0; b = 2;\ntrueValue = b^4/4 - a^4/4;\n\n% b) Loop over increasing n\nns = [4 8 16];\nestimates = zeros(1,3);\nerrs = zeros(1,3);\nfor k = 1:length(ns)\n    n = ns(k);\n    h = (b - a) / n;\n    x = a:h:b;\n    estimates(k) = trapz(x, f(x));\n    errs(k) = abs(estimates(k) - trueValue);\nend\n\n% c) Display errors and their ratios\ndisp(errs)\nratio1 = errs(1) / errs(2);\nratio2 = errs(2) / errs(3);\nfprintf('ratio1 = %.4f, ratio2 = %.4f\\n', ratio1, ratio2);\n\n% d) Both ratios come out to almost exactly 4, confirming that each time\n% the step size h is halved, the trapezoidal rule's error shrinks to\n% about a quarter of its previous value -- the hallmark of an error term\n% that scales as O(h^2).",
+    "solutionExplanation": "trueValue = 2^4/4 = 4 exactly. Stepping through n = 4, 8, 16 (h = 0.5, 0.25, 0.125), trapz gives estimates of 4.25, 4.0625, and 4.015625, corresponding to absolute errors of 0.25, 0.0625, and 0.015625. Dividing consecutive errors gives ratio1 = 0.25/0.0625 = 4 and ratio2 = 0.0625/0.015625 = 4, both landing almost exactly on 4. This is a textbook confirmation that the trapezoidal rule's error term scales as O(h^2): since each refinement exactly halves h, and (1/2)^2 = 1/4, the error should shrink to a quarter of its previous size at each step -- which is precisely the pattern observed here.",
+    "concept": "Empirically confirming O(h^2) convergence of the trapezoidal rule",
+    "tags": ["trapezoidal rule", "convergence", "step size", "error analysis"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-X01",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "expert",
+    "title": "Measuring the Trapezoidal Rule's Observed Convergence Order",
+    "context": "Theory says the trapezoidal rule's error should scale as O(h^2), but a good engineer verifies claims like this in their own code rather than taking them on faith. You'll compute the trapezoidal rule's error across four step sizes for a known integral and calculate the observed order of convergence directly from the numbers.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) sin(x), a = 0, b = pi/2. By hand (using the fact that the antiderivative of sin(x) is -cos(x)), the exact value of this integral is exactly 1; store this as trueValue." },
+      { "label": "b", "prompt": "For each n in [4 8 16 32], compute h = (b-a)/n, build x = a:h:b, compute the trapezoidal estimate, and store the resulting absolute errors in a vector errs (one entry per n, using a for-loop)." },
+      { "label": "c", "prompt": "Display errs." },
+      { "label": "d", "prompt": "Compute the observed order of convergence between each consecutive pair using orders = log2(errs(1:end-1) ./ errs(2:end)), and display orders." },
+      { "label": "e", "prompt": "In a written explanation (2-4 sentences), explain why orders should come out close to 2 for the trapezoidal rule, and describe what it would mean if you instead observed values close to 1." },
+      { "label": "f", "prompt": "In a comment (no new code required), describe one real scenario -- in biomechanics, signal processing, or pharmacokinetics -- where confirming a numerical method's convergence order in your own code, rather than trusting the textbook formula, would matter for the reliability of your final result." }
+    ],
+    "starterCode": "% Problem: Measuring the Trapezoidal Rule's Observed Convergence Order\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f, a, b, and the exact value trueValue\n\n\n% b) Loop over n = [4 8 16 32]: compute errs\n\n\n% c) Display errs\n\n\n% d) Compute and display the observed convergence orders\n\n\n% e) Written explanation: why should orders be close to 2?\n\n\n% f) Written comment: a real scenario where this check matters\n",
+    "hints": [
+      "log2(errs(1:end-1) ./ errs(2:end)) computes, for each consecutive pair of refinements, how many times the error was halved relative to how many times h was halved -- if error shrinks by exactly 4x every time h is halved, that ratio's log base 2 is exactly 2.",
+      "Make sure errs is built in order of INCREASING n (equivalently, decreasing h) -- errs(1:end-1) should be the coarser (larger-error) estimates and errs(2:end) the finer (smaller-error) ones, so each computed order comes out positive.",
+      "The four errors should come out to roughly 0.0129, 0.0032, 0.0008, 0.0002, and each computed order should land almost exactly on 2.00, confirming the theoretical O(h^2) behavior."
+    ],
+    "solutionCode": "% a) Define f and the exact value\nf = @(x) sin(x);\na = 0; b = pi/2;\ntrueValue = 1; % antiderivative of sin(x) is -cos(x); -cos(pi/2)+cos(0) = 1\n\n% b) Loop over increasing n\nns = [4 8 16 32];\nerrs = zeros(1, length(ns));\nfor k = 1:length(ns)\n    n = ns(k);\n    h = (b - a) / n;\n    x = a:h:b;\n    est = trapz(x, f(x));\n    errs(k) = abs(est - trueValue);\nend\n\n% c) Display the errors\ndisp(errs)\n\n% d) Observed convergence order\norders = log2(errs(1:end-1) ./ errs(2:end));\ndisp(orders)\n\n% e) Written explanation:\n% orders should be close to 2 because the trapezoidal rule's error term\n% is theoretically proportional to h^2. Since each refinement here\n% exactly halves h, the error should shrink by a factor of (1/2)^2 = 1/4\n% at each step, and log2(4) = 2 -- which is exactly what an 'order 2'\n% method means. If the observed orders were closer to 1 instead, it\n% would suggest the method were only behaving like a lower-accuracy,\n% O(h) technique (such as a simple left/right Riemann sum) for this\n% function, possibly because the function isn't smooth enough over this\n% interval for the trapezoidal rule's usual error behavior to hold.\n\n% f) Written comment:\n% In pharmacokinetic AUC calculations used to support a dosing decision,\n% silently trusting that trapz has 'good enough' accuracy without ever\n% checking how the estimate changes as you refine the sampling schedule\n% could mean reporting a drug-exposure estimate that is still changing\n% significantly as you add more time points -- confirming the observed\n% convergence order in code is a concrete way to know when you've\n% sampled finely enough to trust the number you report.",
+    "solutionExplanation": "The four absolute errors, at n = 4, 8, 16, 32 (h = pi/8, pi/16, pi/32, pi/64), come out to approximately 0.0129, 0.0032, 0.0008, and 0.0002. Taking log2 of each consecutive ratio (0.0129/0.0032, 0.0032/0.0008, 0.0008/0.0002) gives three values all extremely close to 2.00, directly confirming that this implementation of the trapezoidal rule is behaving as an O(h^2) method for this particular integral, exactly as the theoretical error formula predicts. This kind of check matters because the O(h^2) formula is a limiting/asymptotic result -- it describes behavior as h gets small, and assumes the integrand is reasonably smooth -- so computing the observed order directly from your own code's output, rather than assuming the textbook rate automatically applies, is the only way to catch cases where a rough or discontinuous function, a coding bug, or too few refinement levels would make that assumption break down.",
+    "concept": "Empirically measuring a numerical method's observed order of convergence",
+    "tags": ["trapezoidal rule", "convergence", "error analysis", "log2"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Quadrature Lab"]
+  },
+  {
+    "id": "U3-WB-X02",
+    "unit": 3,
+    "topic": "numerical-quadrature",
+    "difficulty": "expert",
+    "title": "Why Sparse Sampling Can Wreck an AUC Estimate",
+    "context": "Pharmacokinetic studies often estimate a drug's total exposure (AUC) from blood samples taken at a limited number of times, since more frequent blood draws are costly and burdensome to patients. You'll model a concentration curve with a known exact AUC, then compare a sparse clinical sampling schedule to a dense one to see how badly under-sampling near the concentration peak can bias the result.",
+    "parts": [
+      { "label": "a", "prompt": "Define C = @(t) 10*(exp(-0.5*t) - exp(-2*t)) (a one-compartment oral-dose concentration model, mg/L) and its exact antiderivative F = @(t) 10*(-2*exp(-0.5*t) + 0.5*exp(-2*t)). Compute the true AUC from t=0 to t=8 hours as F(8)-F(0), storing it as trueAUC." },
+      { "label": "b", "prompt": "Build a sparse sampling schedule tSparse = 0:2:8 (a blood draw every 2 hours) and a dense schedule tDense = 0:0.25:8 (every 15 minutes). Evaluate C at each and use trapz to compute AUCsparse and AUCdense." },
+      { "label": "c", "prompt": "Compute the signed errors errSparse = AUCsparse - trueAUC and errDense = AUCdense - trueAUC, and display both." },
+      { "label": "d", "prompt": "Find the approximate time of peak concentration by evaluating C over a fine grid (e.g. linspace(0,8,1000)) and using max to locate it. Display the peak time and peak concentration." },
+      { "label": "e", "prompt": "In a written explanation (2-4 sentences), explain why the sparse 2-hour schedule underestimates the AUC so severely, referencing where the peak concentration falls relative to the sparse sample times." },
+      { "label": "f", "prompt": "In a comment (no new code required), propose one alternative sampling schedule that would reduce this error without simply sampling everything at 15-minute resolution, and justify your reasoning." }
+    ],
+    "starterCode": "% Problem: Why Sparse Sampling Can Wreck an AUC Estimate\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define C, F, and compute trueAUC\n\n\n% b) Sparse (tSparse = 0:2:8) and dense (tDense = 0:0.25:8) trapz estimates\n\n\n% c) Signed errors errSparse and errDense\n\n\n% d) Locate the approximate peak time and concentration\n\n\n% e) Written explanation: why does the sparse schedule underestimate so badly?\n\n\n% f) Written comment: propose and justify a better sampling schedule\n",
+    "hints": [
+      "trueAUC should be found by evaluating the given antiderivative F at both endpoints and subtracting, exactly as the Fundamental Theorem of Calculus describes: F(b) - F(a).",
+      "The concentration rises very quickly after t=0 and then decays -- so a sample schedule that only checks in every 2 hours starting at t=0 may almost completely miss how high (and how briefly) the curve actually peaks.",
+      "trueAUC comes out to about 14.63 mg*h/L. AUCsparse comes out to about 10.87 (a large underestimate, error ≈ -3.76), while AUCdense comes out to about 14.56 (a much smaller error, ≈ -0.08) -- the peak itself occurs at roughly t ≈ 0.92 hours, a time the sparse schedule (0, 2, 4, 6, 8) never samples anywhere near."
+    ],
+    "solutionCode": "% a) Define the concentration model and compute the true AUC\nC = @(t) 10*(exp(-0.5*t) - exp(-2*t));\nF = @(t) 10*(-2*exp(-0.5*t) + 0.5*exp(-2*t));\ntrueAUC = F(8) - F(0);\ndisp(trueAUC)\n\n% b) Sparse and dense sampling schedules\ntSparse = 0:2:8;\ncSparse = C(tSparse);\nAUCsparse = trapz(tSparse, cSparse);\n\ntDense = 0:0.25:8;\ncDense = C(tDense);\nAUCdense = trapz(tDense, cDense);\n\n% c) Signed errors\nerrSparse = AUCsparse - trueAUC;\nerrDense = AUCdense - trueAUC;\nfprintf('errSparse = %.4f, errDense = %.4f\\n', errSparse, errDense);\n\n% d) Locate the peak\ntFine = linspace(0, 8, 1000);\ncFine = C(tFine);\n[peakC, idx] = max(cFine);\npeakTime = tFine(idx);\nfprintf('Peak concentration %.4f mg/L occurs near t = %.4f h\\n', peakC, peakTime);\n\n% e) Written explanation:\n% The sparse schedule samples only at t = 0, 2, 4, 6, 8 hours, but the\n% true concentration peaks very early, near t ~ 0.9 hours, and has\n% already dropped substantially by t = 2. Since trapz only ever draws\n% straight lines between the points it's given, and the sparse schedule\n% has no point anywhere near the peak, the straight line from (0, C(0))\n% to (2, C(2)) badly underestimates the true area under the sharp early\n% rise-and-fall the real curve traces out.\n\n% f) Written comment:\n% Rather than uniformly resampling everything every 15 minutes, a\n% clinical study could use a NON-uniform schedule: sample frequently\n% (e.g., every 15-30 minutes) during the first couple of hours, when the\n% concentration is changing quickly, then switch to the coarser 2-hour\n% spacing once the curve has flattened out and is decaying slowly --\n% this concentrates the limited number of blood draws where the curve's\n% shape actually needs them most, without requiring dense sampling for\n% the whole 8-hour window.",
+    "solutionExplanation": "trueAUC, computed exactly from the antiderivative, is F(8)-F(0) ≈ 14.6337 mg*h/L. The sparse schedule (0, 2, 4, 6, 8 hours) gives AUCsparse ≈ 10.87, an error of about -3.76 mg*h/L -- a huge underestimate -- while the dense schedule (every 15 minutes) gives AUCdense ≈ 14.56, an error of only about -0.08. The reason for this dramatic difference is where the true peak sits: evaluating C over a fine grid shows the concentration peaks around t ≈ 0.92 hours at roughly 4.72 mg/L, well before the sparse schedule's first interior sample at t=2 hours. Because trapz only ever connects the points it is actually given with straight lines, the sparse schedule's very first segment (from t=0 to t=2) draws a chord straight across the entire rapid rise-and-fall the drug undergoes in that window, missing almost all of the area under the true peak -- a vivid illustration of why sampling density near a rapidly-changing region of a curve matters far more than sampling density overall.",
+    "concept": "How sample placement relative to a curve's peak affects trapezoidal AUC accuracy",
+    "tags": ["trapz", "AUC", "pharmacokinetics", "sampling", "numerical integration"],
+    "references": ["Unit 3 – Lecture 9", "Unit 3 – Assignment 3"]
+  },
+  {
+    "id": "U3-WB-X03",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "expert",
+    "title": "When High-Degree Interpolation Betrays You: Runge's Phenomenon",
+    "context": "A sharply peaked sensor response curve is sampled at evenly spaced points, and you fit an exact high-degree polynomial through all of them. You'll discover that this 'perfect fit' can wildly misrepresent the true curve near the edges of the sampled range -- the classic warning sign known as Runge's phenomenon.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(x) 1./(1 + 25*x.^2) (a sharply peaked response curve) and sample it at 9 equally spaced nodes: xnodes = linspace(-1, 1, 9), ynodes = f(xnodes)." },
+      { "label": "b", "prompt": "Fit an exact degree-8 polynomial through all 9 nodes: p8 = polyfit(xnodes, ynodes, 8). Evaluate it over a fine grid xf = linspace(-1, 1, 400) as y8." },
+      { "label": "c", "prompt": "Fit a much lower-degree polynomial to the same 9 nodes: p2 = polyfit(xnodes, ynodes, 2) (this will NOT pass exactly through every node). Evaluate it over the same fine grid as y2." },
+      { "label": "d", "prompt": "Compute the maximum absolute deviation of each fit from the true function evaluated on the fine grid (maxErr8 = max(abs(y8 - f(xf))), maxErr2 = max(abs(y2 - f(xf)))) and display both." },
+      { "label": "e", "prompt": "Evaluate f, the degree-8 fit, and the degree-2 fit all at x = 0.9 (near the edge of the sampled domain), and display the three values side by side." },
+      { "label": "f", "prompt": "In a written explanation (2-4 sentences), describe what you observe at x=0.9, identify it as Runge's phenomenon, and state a general rule for when high-degree polynomial interpolation on equally spaced points should not be trusted." }
+    ],
+    "starterCode": "% Problem: When High-Degree Interpolation Betrays You: Runge's Phenomenon\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Define f; sample at 9 equally spaced nodes\n\n\n% b) Fit exact degree-8 polynomial p8; evaluate over a fine grid\n\n\n% c) Fit degree-2 polynomial p2; evaluate over the same fine grid\n\n\n% d) Compute and display maxErr8 and maxErr2\n\n\n% e) Evaluate f, p8, and p2 at x = 0.9; display all three\n\n\n% f) Written explanation: what happened at x=0.9, and the general rule\n",
+    "hints": [
+      "With 9 equally spaced nodes and a degree-8 polynomial (9 coefficients), the fit is forced to hit every node exactly -- but between and beyond the nodes, especially near the edges of the range, it has no such constraint.",
+      "f(x) = 1/(1+25x^2) is always positive and never exceeds 1 -- so if a fitted curve near the edge of the domain comes out negative, or wildly different from the true function's small, smooth values there, that is a clear red flag.",
+      "At x=0.9, f(0.9) ≈ 0.047 and the degree-2 fit stays reasonably close (≈0.031), but the exact degree-8 fit swings to roughly -0.96 -- a wild, unphysical oscillation near the edge of the sampled range, even though that same degree-8 polynomial passes through every one of the 9 original nodes exactly."
+    ],
+    "solutionCode": "% a) Define f and sample at 9 equally spaced nodes\nf = @(x) 1./(1 + 25*x.^2);\nxnodes = linspace(-1, 1, 9);\nynodes = f(xnodes);\n\n% b) Exact degree-8 fit\np8 = polyfit(xnodes, ynodes, 8);\nxf = linspace(-1, 1, 400);\ny8 = polyval(p8, xf);\n\n% c) Much lower-degree fit (degree 2, not exact)\np2 = polyfit(xnodes, ynodes, 2);\ny2 = polyval(p2, xf);\n\n% d) Maximum deviation from the true function\nyTrue = f(xf);\nmaxErr8 = max(abs(y8 - yTrue));\nmaxErr2 = max(abs(y2 - yTrue));\nfprintf('maxErr8 = %.4f, maxErr2 = %.4f\\n', maxErr8, maxErr2);\n\n% e) Compare all three near the edge of the domain\ntrueAt09 = f(0.9);\ndeg8At09 = polyval(p8, 0.9);\ndeg2At09 = polyval(p2, 0.9);\nfprintf('true = %.4f, degree-8 fit = %.4f, degree-2 fit = %.4f\\n', trueAt09, deg8At09, deg2At09);\n\n% f) Written explanation:\n% At x=0.9, the true function is a small positive number (~0.047), and\n% the crude degree-2 fit stays reasonably close (~0.031). But the exact\n% degree-8 fit -- despite passing through all 9 original nodes exactly\n% -- swings down to roughly -0.96, wildly overshooting in the wrong\n% direction near the edge of the domain. This is Runge's phenomenon: a\n% high-degree polynomial forced to interpolate equally spaced points can\n% oscillate with increasing amplitude near the edges of the interval,\n% even while matching the data at the nodes perfectly. The general rule:\n% do not trust a high-degree polynomial interpolant's behavior BETWEEN\n% or near the EDGES of equally spaced nodes just because it passes\n% through the nodes themselves -- for many points, a piecewise method\n% (like a spline or a lower-degree local fit) is safer than one single\n% high-degree polynomial.",
+    "solutionExplanation": "Both fits are built from the same 9 nodes, but they behave very differently in between. The maximum deviation from the true function over the fine grid is roughly maxErr8 ≈ 1.05 for the degree-8 fit -- larger than the true function's entire range of values (which never exceeds 1) -- compared to maxErr2 ≈ 0.51 for the far less flexible degree-2 fit, even though the degree-2 fit does not pass through any of the interior nodes exactly. The clearest single symptom appears at x=0.9: the true function is a small positive value (≈0.047), the degree-2 fit stays in the right neighborhood (≈0.031), but the 'exact' degree-8 fit has swung to roughly -0.96 -- not just wrong, but the wrong sign entirely, despite matching every one of the 9 measured nodes exactly. This is the textbook signature of Runge's phenomenon: forcing a single high-degree polynomial through many equally spaced points can produce wild, physically nonsensical oscillations near the edges of the sampled interval, which is why interpolation error should always be checked between nodes and near domain boundaries, not just judged by how well a fit matches the nodes it was built from.",
+    "concept": "Runge's phenomenon: instability of high-degree polynomial interpolation on equally spaced nodes",
+    "tags": ["polyfit", "polynomial interpolation", "runge's phenomenon", "interpolation error"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Lagrange Polynomial Material"]
+  },
+  {
+    "id": "U3-WB-X04",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "expert",
+    "title": "When Extrapolating a Growth Curve Goes Physically Wrong",
+    "context": "A pediatric researcher has bone mineral density (BMD) measurements for five patients aged 5 to 17 and fits an exact polynomial through all five points. You'll use that fit to estimate BMD at ages inside and outside the measured range, and see exactly how badly polynomial extrapolation can fail once you leave the data behind.",
+    "parts": [
+      { "label": "a", "prompt": "Create age = [5 8 11 14 17] and BMD = [0.55 0.68 0.78 0.90 0.95]. Fit an exact degree-4 polynomial through all five points: p4 = polyfit(age, BMD, 4). Confirm it passes through the original data by comparing polyval(p4, age) to BMD." },
+      { "label": "b", "prompt": "Use polyval to estimate BMD at age = 12 (a genuine interpolation point, inside [5, 17]), storing the result as BMD_at12, and display it." },
+      { "label": "c", "prompt": "Use polyval to estimate BMD at age = 25 and age = 40 (both well outside the fitted range), storing the results as BMD_at25 and BMD_at40, and display both." },
+      { "label": "d", "prompt": "Using a relational expression, create isPhysical25 = BMD_at25 > 0 (since bone density cannot be negative), and display it." },
+      { "label": "e", "prompt": "In a written explanation (2-4 sentences), describe what went wrong with the age=25 and age=40 estimates, and state the general principle about why polynomial extrapolation becomes increasingly unreliable the farther you go outside the fitted node range." },
+      { "label": "f", "prompt": "In a comment (no new code required), propose one alternative approach a biomedical engineer could use if they truly needed an estimate for age=25, instead of extrapolating this fitted polynomial." }
+    ],
+    "starterCode": "% Problem: When Extrapolating a Growth Curve Goes Physically Wrong\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create age, BMD; fit exact degree-4 polynomial p4; confirm the fit\n\n\n% b) Estimate BMD at age = 12 (interpolation)\n\n\n% c) Estimate BMD at age = 25 and age = 40 (extrapolation)\n\n\n% d) isPhysical25 check\n\n\n% e) Written explanation: what went wrong, and why extrapolation degrades\n\n\n% f) Written comment: propose an alternative approach for age = 25\n",
+    "hints": [
+      "With 5 data points and a degree-4 polynomial (5 coefficients), the fit is forced to pass through every point exactly -- but nothing constrains its behavior once x moves past the last node at age=17.",
+      "A polynomial's terms involve powers of x (x^2, x^3, x^4, ...), and outside the range where those powers were 'balanced' by the fitting process, even a modest increase in x can make the highest-power term dominate and blow the whole expression up.",
+      "BMD_at12 should come out to a perfectly reasonable ~0.82 g/cm^2, consistent with its neighbors (0.78 at 11, 0.90 at 14) -- but BMD_at25 comes out NEGATIVE (around -1.45), and BMD_at40 is even more absurd (around -50.6), even though bone density can never physically be negative."
+    ],
+    "solutionCode": "% a) Create the data and fit an exact degree-4 polynomial\nage = [5 8 11 14 17];\nBMD = [0.55 0.68 0.78 0.90 0.95];\np4 = polyfit(age, BMD, 4);\ncheckFit = polyval(p4, age);\ndisp(checkFit)   % should match BMD almost exactly\n\n% b) Interpolation: age = 12 is inside [5, 17]\nBMD_at12 = polyval(p4, 12);\ndisp(BMD_at12)\n\n% c) Extrapolation: age = 25 and age = 40 are well outside [5, 17]\nBMD_at25 = polyval(p4, 25);\nBMD_at40 = polyval(p4, 40);\nfprintf('BMD_at25 = %.4f, BMD_at40 = %.4f\\n', BMD_at25, BMD_at40);\n\n% d) Physical plausibility check\nisPhysical25 = BMD_at25 > 0;\ndisp(isPhysical25)\n\n% e) Written explanation:\n% BMD_at12 (~0.82) is a perfectly reasonable estimate, consistent with\n% its neighboring measured values. But BMD_at25 comes out NEGATIVE\n% (~-1.45), and BMD_at40 is even more extreme (~-50.6) -- both\n% physically impossible, since bone mineral density can never be\n% negative. This happens because polyfit only guarantees good behavior\n% AT and NEAR the fitted nodes (ages 5-17); once x moves far outside\n% that range, the polynomial's highest-power term (here, x^4) grows\n% much faster than the lower-order terms that were balancing it inside\n% the fitted range, and the whole expression rapidly diverges from any\n% physically sensible value. The farther outside the node range you go,\n% the worse this gets, since the dominant term's growth compounds.\n\n% f) Written comment:\n% Rather than extrapolating this fitted polynomial to age=25, a\n% biomedical engineer should either collect actual BMD measurements for\n% patients in that age range, or switch to a different, physiologically\n% motivated growth model (e.g., one with a known plateau in adulthood)\n% that is designed to behave sensibly outside pediatric ages, instead of\n% trusting a polynomial that was only ever fit to pediatric data.",
+    "solutionExplanation": "The degree-4 polynomial exactly reproduces all five original BMD measurements (checkFit matches BMD), and BMD_at12, an interpolation point sitting between the measured ages of 11 and 14, comes out to a sensible ~0.82 g/cm^2. But BMD_at25 comes out to roughly -1.45 g/cm^2 and BMD_at40 to roughly -50.6 g/cm^2 -- both physically impossible, since bone density is never negative. isPhysical25 correctly flags this failure as false. The underlying cause is that polyfit's degree-4 polynomial has terms up to x^4, and the specific coefficients were chosen only to balance out correctly across ages 5 to 17; nothing constrains what happens once x is far outside that window, so as age grows past 17, the x^4 term increasingly dominates the sum and drags the whole polynomial toward implausible values, with the effect compounding the farther out you extrapolate -- exactly why age=40 is so much worse than age=25.",
+    "concept": "Physical implausibility as evidence of unreliable polynomial extrapolation",
+    "tags": ["polyfit", "polyval", "extrapolation", "interpolation error"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Assignment 3"]
+  },
+  {
+    "id": "U3-WB-X05",
+    "unit": 3,
+    "topic": "interpolation",
+    "difficulty": "expert",
+    "title": "From Data Points to Area: Does the Interpolant Change the Answer?",
+    "context": "An enzyme's activity was measured at only four pH values, forming a bell-shaped curve that peaks near neutral pH. You'll build an exact Lagrange polynomial through these four points, then compare estimating the 'area under the activity curve' two different ways: directly from the four raw points, versus from the smooth interpolant built from them.",
+    "parts": [
+      { "label": "a", "prompt": "Create pH = [5 6 7 8] and activity = [20 55 78 40]. Using nested for-loops and MATLAB's poly() and conv() functions (building each Lagrange basis polynomial in coefficient form, as shown in lecture), construct the coefficients of the exact cubic polynomial passing through all four points, storing them in LagrangeCoeffs. Confirm it reproduces the original activity values using polyval." },
+      { "label": "b", "prompt": "Compute a 'raw' estimate of the area under the activity curve using trapz directly on the four original data points, storing it as AUC_raw." },
+      { "label": "c", "prompt": "Evaluate the Lagrange cubic on a fine grid xf = linspace(5, 8, 2000) and use trapz on that fine evaluation to estimate the same area, storing it as AUC_poly. Also compute the exact value directly from the polynomial using polyint and polyval, storing it as AUC_exact, and confirm AUC_poly and AUC_exact agree to within 1e-3." },
+      { "label": "d", "prompt": "Display AUC_raw and AUC_poly side by side, and compute their difference." },
+      { "label": "e", "prompt": "In a written explanation (2-4 sentences), explain why AUC_raw and AUC_poly disagree, tying it to what trapz assumes about the shape of the curve between data points versus what the Lagrange cubic assumes." },
+      { "label": "f", "prompt": "In a comment (no new code required), describe a situation where trusting the interpolant-based estimate (AUC_poly) instead of the raw trapz estimate (AUC_raw) could backfire." }
+    ],
+    "starterCode": "% Problem: From Data Points to Area: Does the Interpolant Change the Answer?\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build the exact Lagrange cubic through the 4 points using poly()/conv()\npH = [5 6 7 8];\nactivity = [20 55 78 40];\n\n\n% b) AUC_raw: trapz directly on the 4 raw points\n\n\n% c) AUC_poly: trapz on a fine evaluation of the Lagrange cubic;\n%    AUC_exact: using polyint/polyval; confirm they agree\n\n\n% d) Display AUC_raw and AUC_poly; compute their difference\n\n\n% e) Written explanation: why do AUC_raw and AUC_poly disagree?\n\n\n% f) Written comment: a situation where trusting AUC_poly could backfire\n",
+    "hints": [
+      "This is the same coefficient-building pattern as the lecture's alternative Lagrange method: for each node i, build a running product L of scaled linear factors (using poly() for each factor and conv() to multiply polynomials together), then scale by activity(i) and add it to a running LagrangeCoeffs total.",
+      "trapz(pH, activity) only ever has 4 points to work with, so it draws 3 straight line segments between them -- it has no way to 'know' the curve bulges upward toward a peak between pH 6 and 7 the way the actual cubic does.",
+      "AUC_raw comes out to 163, while AUC_poly and AUC_exact both come out to 172.125 -- confirming that trapz on the fine grid and the exact polyint/polyval calculation agree with each other, but differ meaningfully from the raw 4-point trapz estimate."
+    ],
+    "solutionCode": "% a) Build the exact Lagrange cubic in coefficient form\npH = [5 6 7 8];\nactivity = [20 55 78 40];\n\nLagrangeCoeffs = 0;\nfor ii = 1:length(pH)\n    L = 1;\n    for jj = 1:length(pH)\n        if jj ~= ii\n            c = poly(pH(jj));\n            c_scaled = c / (pH(ii) - pH(jj));\n            L = conv(L, c_scaled);\n        end\n    end\n    term = L * activity(ii);\n    LagrangeCoeffs = LagrangeCoeffs + term;\nend\ndisp(polyval(LagrangeCoeffs, pH))   % should match activity\n\n% b) Raw trapz estimate on the 4 original points\nAUC_raw = trapz(pH, activity);\n\n% c) Trapz on a fine evaluation of the interpolant, and the exact value\nxf = linspace(pH(1), pH(end), 2000);\nyf = polyval(LagrangeCoeffs, xf);\nAUC_poly = trapz(xf, yf);\n\npolyIntCoeffs = polyint(LagrangeCoeffs);\nAUC_exact = diff(polyval(polyIntCoeffs, [pH(1) pH(end)]));\ndisp(abs(AUC_poly - AUC_exact) < 1e-3)\n\n% d) Compare\nfprintf('AUC_raw = %.4f, AUC_poly = %.4f\\n', AUC_raw, AUC_poly);\ndiffAUC = AUC_poly - AUC_raw;\ndisp(diffAUC)\n\n% e) Written explanation:\n% AUC_raw and AUC_poly disagree because trapz on just the 4 raw points\n% assumes the activity changes in a perfectly straight line BETWEEN each\n% pair of measured pH values, while the Lagrange cubic instead captures\n% the actual curved, bell-shaped rise-and-fall that a single straight\n% line between just two points cannot represent. Since the true\n% biological relationship almost certainly curves smoothly rather than\n% forming sharp straight-line corners at each measured pH, the\n% interpolant-based estimate captures area near the peak that the raw\n% trapezoidal segments miss, which is why AUC_poly ends up larger.\n\n% f) Written comment:\n% Trusting AUC_poly could backfire if the true activity-vs-pH\n% relationship is NOT well-approximated by a single low-order polynomial\n% through so few points -- with only 4 points, the cubic is forced\n% through all of them exactly, but (as with Runge's phenomenon) that\n% same exact fit could just as easily overshoot or oscillate between\n% points instead of smoothly filling in the true curve, especially if\n% the real relationship has a sharper peak or an asymmetric shape the\n% four sparse samples don't fully reveal -- more data points, not a\n% fancier interpolant over the same 4 points, would be the safer fix.",
+    "solutionExplanation": "The nested-loop Lagrange construction produces a cubic that reproduces all four original activity values exactly (confirmed by polyval(LagrangeCoeffs, pH) matching activity). AUC_raw, computed with trapz directly on the four raw points, comes out to 163 -- this is the area under three straight-line segments connecting (5,20)-(6,55), (6,55)-(7,78), and (7,78)-(8,40). AUC_poly, computed by evaluating the Lagrange cubic on a fine grid and integrating that with trapz, comes out to 172.125, and AUC_exact (computed directly from the polynomial's antiderivative via polyint/polyval) agrees with AUC_poly to well within the 1e-3 tolerance (the two differ by only about 2e-5, the small residual trapezoidal-rule error left over from integrating the smooth cubic on a merely-2000-point grid rather than by an exact formula), confirming both integration approaches are consistent with each other. The roughly 9.1-unit difference between AUC_raw and AUC_poly exists because the cubic bulges upward between the measured points (reflecting the smooth bell-shaped rise-and-fall a real enzyme activity curve would likely follow), area that the raw trapezoidal segments -- which only ever draw straight lines directly between consecutive measurements -- cannot see. This is the same fundamental tension raised in the Runge's phenomenon problem: an exact interpolant reveals more structure between sparse data points, but that structure is only trustworthy if the true underlying relationship really does behave like the fitted polynomial, which four points alone cannot confirm.",
+    "concept": "Synthesizing Lagrange interpolation and numerical integration: how the choice of interpolant changes an area estimate",
+    "tags": ["lagrange interpolation", "trapz", "polyint", "numerical integration", "synthesis"],
+    "references": ["Unit 3 – Lecture 8", "Unit 3 – Lecture 9", "Unit 3 – Lagrange Polynomial Material"]
+  }
+]

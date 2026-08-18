@@ -1,0 +1,506 @@
+[
+  {
+    "id": "U4-WB-B01",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "beginner",
+    "title": "Forward-Difference Estimate of Drug Clearance",
+    "context": "A nurse draws blood samples at three evenly spaced time points after a single IV dose and measures the drug concentration in each sample. Before a full pharmacokinetic model is available, you can get a quick estimate of how fast the drug is clearing using the forward-difference formula.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = [0 1 2] (hours) and C = [80 65 53] (mg/L), the measured drug concentrations at each time point." },
+      { "label": "b", "prompt": "Using the forward-difference formula f'(x) ≈ (f(x+h) - f(x))/h, estimate the rate of change of concentration at t = 0 using C(1) and C(2) with step size h = 1. Store the result in dC0 and display it." },
+      { "label": "c", "prompt": "Using the same forward-difference formula, estimate the rate of change of concentration at t = 1 using C(2) and C(3), storing the result in dC1. Display it, and add a one-line comment stating whether clearance appears to be speeding up or slowing down between these two estimates." }
+    ],
+    "starterCode": "% Problem: Forward-Difference Estimate of Drug Clearance\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create t and C\n\n\n% b) Forward difference at t = 0 -> dC0\n\n\n% c) Forward difference at t = 1 -> dC1\n",
+    "hints": [
+      "The forward-difference formula only ever looks one step 'ahead' of the point of interest: f'(x) ≈ (f(x+h) - f(x))/h, so to estimate the derivative at t=0 you need the values at t=0 and the very next time point, t=1.",
+      "In MATLAB terms, C(1) and C(2) correspond to t=0 and t=1, so dC0 = (C(2) - C(1))/h with h = 1.",
+      "Sliding the same formula one time point over, dC1 = (C(3) - C(2))/h uses C(2) and C(3); since |dC1| < |dC0|, the concentration is dropping more slowly by t=1 than it was at t=0."
+    ],
+    "solutionCode": "% a) Create the data vectors\nt = [0 1 2];\nC = [80 65 53];\n\n% b) Forward difference at t = 0\nh = 1;\ndC0 = (C(2) - C(1)) / h;\ndisp(dC0)\n\n% c) Forward difference at t = 1\ndC1 = (C(3) - C(2)) / h;\ndisp(dC1)\n% Clearance is slowing down: the concentration is dropping less steeply\n% (|dC1| = 12 mg/L/hr) between t=1 and t=2 than it was (|dC0| = 15 mg/L/hr) between t=0 and t=1.",
+    "solutionExplanation": "The forward-difference formula f'(x) ≈ (f(x+h) - f(x))/h approximates a derivative using only the current point and the next one, which is exactly what's available from three sequential blood draws. dC0 = (C(2)-C(1))/1 = (65-80)/1 = -15 mg/L per hour estimates the clearance rate right after the dose, and dC1 = (C(3)-C(2))/1 = (53-65)/1 = -12 mg/L per hour estimates it one hour later. Both are negative, correctly reflecting that concentration is falling, but the second estimate has a smaller magnitude, showing that the drug is clearing more slowly as time goes on -- consistent with the way first-order elimination naturally slows down as concentration itself decreases.",
+    "concept": "Forward-difference approximation of a first derivative from discrete data",
+    "tags": ["numerical differentiation", "forward difference", "finite differences", "pharmacokinetics"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-B02",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "beginner",
+    "title": "One Euler Step for Postoperative Temperature Recovery",
+    "context": "After being taken off a warming blanket in the OR, a patient's core body temperature drifts toward room temperature following Newton's law of cooling, dT/dt = -k(T - Troom). You'll take a single forward-Euler step to predict the temperature a short time later.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.05 (1/min), Troom = 20 (deg C), T0 = 37 (deg C), and h = 2 (min). Using the ODE dT/dt = -k*(T - Troom), compute the derivative at the initial condition and store it in dT0." },
+      { "label": "b", "prompt": "Using the forward Euler formula T1 = T0 + h*dT0, compute the predicted temperature after one step and store it in T1. Display it." },
+      { "label": "c", "prompt": "In a one-line comment, state whether this single Euler step predicts the patient's temperature is moving closer to or farther from room temperature." }
+    ],
+    "starterCode": "% Problem: One Euler Step for Postoperative Temperature Recovery\n% Name:\n% Date:\n\nclear; clc;\n\nk = 0.05;      % 1/min\nTroom = 20;    % deg C\nT0 = 37;       % deg C\nh = 2;         % min\n\n% a) Compute dT0 = f(T0)\n\n\n% b) Forward Euler step -> T1\n\n\n% c) One-line comment\n",
+    "hints": [
+      "dT/dt = -k*(T - Troom) is just a formula you can evaluate at any known temperature -- plug T0 in directly to get dT0, the instantaneous rate of change right at the starting point.",
+      "Forward Euler always has the same shape: new value = old value + step size * (rate of change at the old value). Here that's T1 = T0 + h*dT0.",
+      "Since T0 = 37 is above Troom = 20, dT0 should come out negative, meaning the Euler step should predict T1 to be a bit lower than 37 -- moving toward, not away from, room temperature."
+    ],
+    "solutionCode": "% a) Evaluate the ODE at the initial condition\nk = 0.05; Troom = 20; T0 = 37; h = 2;\ndT0 = -k * (T0 - Troom);\ndisp(dT0)\n\n% b) Forward Euler step\nT1 = T0 + h * dT0;\ndisp(T1)\n\n% c) Comment:\n% T1 (35.3) is lower than T0 (37) and closer to Troom (20), so the step\n% correctly predicts the patient's temperature moving toward room temperature.",
+    "solutionExplanation": "dT0 = -0.05*(37-20) = -0.05*17 = -0.85 deg C/min is the instantaneous cooling rate predicted by Newton's law of cooling at the starting temperature. Forward Euler then assumes that rate stays constant over the whole step of h = 2 minutes, giving T1 = 37 + 2*(-0.85) = 35.3 deg C. Because T0 was above room temperature, the ODE's right-hand side came out negative, and adding a negative quantity moved the prediction downward, toward Troom -- exactly the physically expected direction for a body cooling toward its surroundings.",
+    "concept": "One step of forward Euler applied to a linear cooling/recovery ODE",
+    "tags": ["forward euler", "IVP", "single step", "Newton's law of cooling"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-B03",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "beginner",
+    "title": "Backward-Difference Estimate of Glucose Rate of Change",
+    "context": "A continuous glucose monitor (CGM) reports a new reading every 5 minutes. To flag a rapid rise in real time, the monitor can only ever look backward at readings it has already collected, so it must use a backward-difference estimate of the rate of change.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = [0 5 10] (minutes) and G = [110 118 130] (mg/dL), the CGM readings." },
+      { "label": "b", "prompt": "Using the backward-difference formula f'(x) ≈ (f(x) - f(x-h))/h, estimate the rate of change of glucose at the most recent reading (t = 10) using G(3) and G(2), with h = 5. Store the result in dG_backward and display it." },
+      { "label": "c", "prompt": "In a one-line comment, state what the sign and magnitude of dG_backward indicate about the patient's glucose trend." }
+    ],
+    "starterCode": "% Problem: Backward-Difference Estimate of Glucose Rate of Change\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create t and G\n\n\n% b) Backward difference at the latest reading -> dG_backward\n\n\n% c) One-line comment on the trend\n",
+    "hints": [
+      "A backward difference only uses information already collected -- the current reading and the one right before it -- which is exactly what a real-time monitor has available.",
+      "G(3) and G(2) are the two most recent readings (t=10 and t=5), so dG_backward = (G(3) - G(2))/h with h = 5.",
+      "A positive dG_backward means glucose is rising; the value here (2.4 mg/dL per minute) is a meaningfully fast rise for a CGM to flag."
+    ],
+    "solutionCode": "% a) Create the data vectors\nt = [0 5 10];\nG = [110 118 130];\n\n% b) Backward difference at the most recent reading\nh = 5;\ndG_backward = (G(3) - G(2)) / h;\ndisp(dG_backward)\n\n% c) Comment:\n% dG_backward = 2.4 mg/dL per minute (positive), indicating glucose is\n% currently rising at a clinically noticeable rate.",
+    "solutionExplanation": "The backward-difference formula f'(x) ≈ (f(x)-f(x-h))/h only ever reaches into the past, using the current sample and the one before it, which matches how a real-time device must operate -- it cannot use a future reading it hasn't collected yet. Plugging in the two most recent samples gives dG_backward = (G(3)-G(2))/5 = (130-118)/5 = 2.4 mg/dL per minute. The positive sign shows glucose is currently trending upward, and a magnitude of 2.4 mg/dL/min is fast enough that a monitoring algorithm using this estimate could reasonably flag it for attention.",
+    "concept": "Backward-difference approximation for causal, real-time rate-of-change estimation",
+    "tags": ["numerical differentiation", "backward difference", "finite differences", "glucose monitoring"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-B04",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "beginner",
+    "title": "Two Euler Steps for Bacterial Colony Growth",
+    "context": "A biologist tracks a bacterial colony whose growth follows dN/dt = rN, unconstrained exponential growth. You'll take two forward-Euler steps by hand to predict the colony size a short time later.",
+    "parts": [
+      { "label": "a", "prompt": "Define r = 0.3 (1/hr), N0 = 200 (cells), and h = 1 (hr). Using the forward Euler formula, compute N1, the predicted population one hour after N0." },
+      { "label": "b", "prompt": "Using the same formula, compute N2, the predicted population one hour after N1." },
+      { "label": "c", "prompt": "Display N1 and N2 using a single fprintf call in the form: \"N1 = 260.0, N2 = 338.0\"." }
+    ],
+    "starterCode": "% Problem: Two Euler Steps for Bacterial Colony Growth\n% Name:\n% Date:\n\nclear; clc;\n\nr = 0.3;   % 1/hr\nN0 = 200;  % cells\nh = 1;     % hr\n\n% a) Compute N1\n\n\n% b) Compute N2\n\n\n% c) Display both with fprintf\n",
+    "hints": [
+      "Forward Euler's rule never changes: next value = current value + h * (rate of change at the current value), and here the rate of change is simply r*N.",
+      "N1 = N0 + h*r*N0. Once you have N1, N2 is found the exact same way, just starting from N1 instead of N0: N2 = N1 + h*r*N1.",
+      "Each step multiplies the current population by (1 + r*h) = 1.3, so N1 = 200*1.3 = 260 and N2 = 260*1.3 = 338."
+    ],
+    "solutionCode": "% a) First Euler step\nr = 0.3; N0 = 200; h = 1;\nN1 = N0 + h * r * N0;\n\n% b) Second Euler step\nN2 = N1 + h * r * N1;\n\n% c) Display both\nfprintf('N1 = %.1f, N2 = %.1f\\n', N1, N2);",
+    "solutionExplanation": "Forward Euler treats the derivative as constant over each step, so it applies the same update rule, next = current + h*f(current), repeatedly, feeding each step's output back in as the next step's starting point. Since f(N) = r*N here, each step multiplies the population by (1 + r*h) = (1 + 0.3*1) = 1.3: N1 = 200*1.3 = 260 cells, and N2 = 260*1.3 = 338 cells. This recursive, one-step-at-a-time structure -- where you only ever need the most recently computed value to find the next one -- is exactly why Euler's method is naturally implemented with a for-loop once more than a couple of steps are needed.",
+    "concept": "Repeated forward-Euler steps for an exponential-growth IVP",
+    "tags": ["forward euler", "IVP", "exponential growth", "single step"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-B05",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "beginner",
+    "title": "Does a Smaller Step Size Improve a Single Euler Estimate?",
+    "context": "To build intuition for why step size matters, you'll estimate the same quantity two different ways: one big forward-Euler step versus two smaller steps covering the same total time, for a simple decay process dy/dt = -y, y(0) = 1, and compare both against the exact solution.",
+    "parts": [
+      { "label": "a", "prompt": "Using a single step of h = 1, apply forward Euler to dy/dt = -y with y(0) = 1 to estimate y(1). Store the result in y1_h1." },
+      { "label": "b", "prompt": "Using two steps of h = 0.5 each, apply forward Euler to estimate y(1). Store the final result in y1_h05." },
+      { "label": "c", "prompt": "Compute the exact value y_exact = exp(-1). Using fprintf, display the absolute error of each estimate (|y1_h1 - y_exact| and |y1_h05 - y_exact|), and state in a comment which step size produced the more accurate estimate." }
+    ],
+    "starterCode": "% Problem: Does a Smaller Step Size Improve a Single Euler Estimate?\n% Name:\n% Date:\n\nclear; clc;\n\n% a) One step, h = 1 -> y1_h1\n\n\n% b) Two steps, h = 0.5 -> y1_h05\n\n\n% c) Compare both to the exact solution\n",
+    "hints": [
+      "For dy/dt = -y, the forward Euler update is simply y_new = y_old + h*(-y_old) = y_old*(1-h).",
+      "For part (b), apply that same update rule twice in a row, each time with h = 0.5, using the result of the first step as the starting point for the second.",
+      "exp(-1) is about 0.3679; comparing |y1_h1 - 0.3679| against |y1_h05 - 0.3679| should show the two-step (smaller h) estimate is noticeably closer."
+    ],
+    "solutionCode": "% a) One step, h = 1\ny1_h1 = 1 + 1*(-1);   % = 0\n\n% b) Two steps, h = 0.5\ny_half = 1 + 0.5*(-1);            % first half-step\ny1_h05 = y_half + 0.5*(-y_half);  % second half-step\n\n% c) Compare against the exact solution\ny_exact = exp(-1);\nfprintf('Error (h=1): %.4f\\n', abs(y1_h1 - y_exact));\nfprintf('Error (h=0.5): %.4f\\n', abs(y1_h05 - y_exact));\n% The h = 0.5 estimate has the smaller error -- taking two smaller steps\n% tracked the true exponential decay curve more closely than one big step.",
+    "solutionExplanation": "With h = 1, a single Euler step gives y1_h1 = 1 + 1*(-1) = 0, badly overshooting the true decay. Splitting the same interval into two steps of h = 0.5 gives y_half = 1 + 0.5*(-1) = 0.5 after the first step, then y1_h05 = 0.5 + 0.5*(-0.5) = 0.25 after the second. The true value is y_exact = exp(-1) ≈ 0.3679, so the one-step estimate is off by about 0.3679 while the two-step estimate is off by only about 0.1179. Taking smaller steps let the method re-evaluate the (changing) slope more often, so its piecewise-linear path stayed closer to the true, curving exponential decay -- the core reason smaller step sizes generally improve Euler's method accuracy, at the cost of more computation.",
+    "concept": "Effect of step size on forward-Euler accuracy for a single interval",
+    "tags": ["forward euler", "step size", "IVP", "error comparison"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-I01",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "intermediate",
+    "title": "Comparing Forward, Backward, and Central Differences for Muscle Force Data",
+    "context": "A biomechanics lab records force output at evenly spaced instants during a rapid muscle contraction. You'll estimate the rate of change of force at one interior time point three different ways and compare them.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = [0 0.1 0.2 0.3 0.4] (s) and F = [0 12 30 42 46] (N)." },
+      { "label": "b", "prompt": "Using h = 0.1, compute the forward-difference estimate of dF/dt at t = 0.2 using F(3) and F(4). Store it in dF_fwd." },
+      { "label": "c", "prompt": "Compute the backward-difference estimate at the same point (t = 0.2) using F(3) and F(2). Store it in dF_bwd." },
+      { "label": "d", "prompt": "Compute the central-difference estimate at the same point using F(4) and F(2). Store it in dF_ctr. Display all three estimates with a single fprintf call, and add a comment on how dF_ctr relates mathematically to dF_fwd and dF_bwd." }
+    ],
+    "starterCode": "% Problem: Comparing Forward, Backward, and Central Differences for Muscle Force Data\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create t and F\n\n\n% b) Forward difference at t = 0.2 -> dF_fwd\n\n\n% c) Backward difference at t = 0.2 -> dF_bwd\n\n\n% d) Central difference at t = 0.2 -> dF_ctr\n",
+    "hints": [
+      "All three formulas are being asked to estimate the derivative at the SAME point, t=0.2 (index 3 in F) -- they just use different neighboring data to do it.",
+      "Forward looks ahead: dF_fwd = (F(4)-F(3))/h. Backward looks behind: dF_bwd = (F(3)-F(2))/h. Central skips over the middle point entirely and uses both neighbors: dF_ctr = (F(4)-F(2))/(2*h).",
+      "Algebraically, dF_ctr always works out to be the simple average of dF_fwd and dF_bwd whenever the data is evenly spaced -- a useful way to sanity-check your three answers against each other."
+    ],
+    "solutionCode": "% a) Create the data vectors\nt = [0 0.1 0.2 0.3 0.4];\nF = [0 12 30 42 46];\nh = 0.1;\n\n% b) Forward difference at t = 0.2\ndF_fwd = (F(4) - F(3)) / h;\n\n% c) Backward difference at t = 0.2\ndF_bwd = (F(3) - F(2)) / h;\n\n% d) Central difference at t = 0.2\ndF_ctr = (F(4) - F(2)) / (2*h);\n\nfprintf('Forward: %.1f, Backward: %.1f, Central: %.1f\\n', dF_fwd, dF_bwd, dF_ctr);\n% dF_ctr (150) is exactly the average of dF_fwd (120) and dF_bwd (180),\n% since (F(4)-F(2))/(2h) = [(F(4)-F(3)) + (F(3)-F(2))] / (2h).",
+    "solutionExplanation": "All three estimates target the derivative at t=0.2 (F(3)), but they draw on different neighboring samples: dF_fwd = (F(4)-F(3))/0.1 = (42-30)/0.1 = 120 N/s looks only forward, dF_bwd = (F(3)-F(2))/0.1 = (30-12)/0.1 = 180 N/s looks only backward, and dF_ctr = (F(4)-F(2))/0.2 = (42-12)/0.2 = 150 N/s uses both neighbors and skips F(3) entirely. Because the data is evenly spaced, dF_ctr is exactly the arithmetic mean of dF_fwd and dF_bwd (120 and 180 average to 150), which is not a coincidence -- algebraically expanding (F(4)-F(2))/(2h) always decomposes into half of (F(4)-F(3))/h plus half of (F(3)-F(2))/h. This is part of why central differences are generally the most accurate of the three: they effectively cancel out the one-sided bias present in a purely forward or purely backward look.",
+    "concept": "Forward, backward, and central finite-difference formulas applied to the same point",
+    "tags": ["numerical differentiation", "forward difference", "backward difference", "central difference", "biomechanics"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-I02",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "intermediate",
+    "title": "Finding Peak Heel-Marker Velocity with Vectorized Central Differences",
+    "context": "A motion-capture system records the vertical position of a heel marker at six evenly spaced instants during a gait cycle. You'll estimate vertical velocity at every interior time point in one vectorized computation, then find the moment of peak upward velocity.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = 0:0.1:0.5 and y = [0.02 0.05 0.09 0.11 0.08 0.04] (meters)." },
+      { "label": "b", "prompt": "Using vectorized indexing (no loop), compute the central-difference velocity estimate at every interior time point in one line: v_interior = (y(3:end) - y(1:end-2)) / (2*h). Display v_interior." },
+      { "label": "c", "prompt": "Using max on v_interior, find the peak (most positive) velocity value and which interior time point it occurs at. Note that v_interior(1) corresponds to t(2), v_interior(2) corresponds to t(3), and so on -- display the peak time and velocity using fprintf." },
+      { "label": "d", "prompt": "In a one-line comment, explain why this central-difference approach cannot produce a velocity estimate for the very first or very last data point in y." }
+    ],
+    "starterCode": "% Problem: Finding Peak Heel-Marker Velocity with Vectorized Central Differences\n% Name:\n% Date:\n\nclear; clc;\n\nt = 0:0.1:0.5;\ny = [0.02 0.05 0.09 0.11 0.08 0.04];\nh = t(2) - t(1);\n\n% b) Vectorized central difference -> v_interior\n\n\n% c) Find peak velocity and its time using max\n\n\n% d) One-line comment\n",
+    "hints": [
+      "y(3:end) shifts two positions ahead of y(1:end-2) at every position simultaneously, so (y(3:end)-y(1:end-2))/(2*h) computes a central difference at every interior point all at once, without writing a for-loop.",
+      "max() can return two outputs at once: [value, index] = max(v_interior) gives you both the largest value and where it occurred, in one call.",
+      "Because v_interior(1) is actually the estimate AT t(2) (not t(1)), the time associated with index idx from max() is t(idx+1), not t(idx)."
+    ],
+    "solutionCode": "% a) Data\nt = 0:0.1:0.5;\ny = [0.02 0.05 0.09 0.11 0.08 0.04];\nh = t(2) - t(1);\n\n% b) Vectorized central difference at all interior points\nv_interior = (y(3:end) - y(1:end-2)) / (2*h);\ndisp(v_interior)\n\n% c) Find the peak velocity and its time\n[vpeak, idx] = max(v_interior);\ntpeak = t(idx + 1);\nfprintf('Peak velocity %.2f m/s at t = %.2f s\\n', vpeak, tpeak);\n\n% d) Comment:\n% A central difference needs both a 'before' and 'after' neighbor, and\n% y(1) has no point before it while y(end) has no point after it.",
+    "solutionExplanation": "The vectorized expression (y(3:end) - y(1:end-2))/(2*h) computes y(3)-y(1), y(4)-y(2), y(5)-y(3), and y(6)-y(4) all in one shot, each divided by 2h, giving v_interior = [0.35, 0.30, -0.05, -0.35] m/s for the four interior points t = 0.1, 0.2, 0.3, 0.4. max(v_interior) returns 0.35 as the largest value at index 1, and because that first entry of v_interior corresponds to t(2) rather than t(1) (a central difference is always centered one position later than where it starts reading from), the peak upward velocity of 0.35 m/s occurs at t = 0.10 s. Part (d) highlights a structural limitation of central differences: computing a derivative at y(1) would require a nonexistent y(0), and computing one at y(end) would require a nonexistent point past the end of the recorded data, which is exactly why the vectorized formula above only ever produces length(y)-2 estimates.",
+    "concept": "Vectorized central-difference computation and locating an extremum with max",
+    "tags": ["numerical differentiation", "central difference", "vectorization", "max", "biomechanics"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-I03",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "intermediate",
+    "title": "Simulating Drug Elimination with Forward Euler and Comparing to the Exact Solution",
+    "context": "A single IV dose of a drug is eliminated from the bloodstream following first-order kinetics, dC/dt = -kC. You'll simulate several hours of this decay with forward Euler, plot it against the known exact exponential solution, and quantify the mismatch.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.15 (1/hr), C0 = 100 (mg/L), h = 1 (hr), and simulate from t = 0 to 6 hours using a for-loop implementation of forward Euler (preallocate C with zeros first). Store your time vector as t and concentration vector as C." },
+      { "label": "b", "prompt": "Compute the exact solution Cexact = C0*exp(-k*t) at the same time points." },
+      { "label": "c", "prompt": "Plot C (Euler, with markers) and Cexact (smooth line) on the same figure, with axis labels and a legend distinguishing the two." },
+      { "label": "d", "prompt": "Using fprintf, display the absolute error between your Euler estimate and the exact solution at t = 6 hours." }
+    ],
+    "starterCode": "% Problem: Simulating Drug Elimination with Forward Euler and Comparing to the Exact Solution\n% Name:\n% Date:\n\nclear; clc; close all;\n\nk = 0.15;   % 1/hr\nC0 = 100;   % mg/L\nh = 1;      % hr\ntfinal = 6; % hr\n\n% a) Time vector, preallocate C, apply IC, Euler for-loop\n\n\n% b) Exact solution -> Cexact\n\n\n% c) Plot both\n\n\n% d) Absolute error at t = 6\n",
+    "hints": [
+      "Set up t = 0:h:tfinal first, preallocate C = zeros(size(t)), apply the initial condition C(1) = C0, then loop from ii = 1 to length(t)-1 updating C(ii+1) = C(ii) + h*(-k*C(ii)).",
+      "Cexact should be computed as one vectorized line, Cexact = C0*exp(-k*t), evaluated at every point in the same t vector used for the Euler simulation.",
+      "The absolute error you want is abs(C(end) - Cexact(end)), since both vectors' last entries correspond to t = 6 hours."
+    ],
+    "solutionCode": "% a) Forward Euler simulation\nk = 0.15; C0 = 100; h = 1; tfinal = 6;\nt = 0:h:tfinal;\nC = zeros(size(t));\nC(1) = C0;\nfor ii = 1:length(t)-1\n    C(ii+1) = C(ii) + h * (-k * C(ii));\nend\n\n% b) Exact solution\nCexact = C0 * exp(-k*t);\n\n% c) Plot\nfigure\nplot(t, C, 'o-', 'LineWidth', 1.5)\nhold on\nplot(t, Cexact, 'LineWidth', 1.5)\nhold off\nxlabel('Time (hr)')\nylabel('Concentration (mg/L)')\nlegend('Forward Euler', 'Exact', 'Location', 'northeast')\n\n% d) Absolute error at t = 6\nerr = abs(C(end) - Cexact(end));\nfprintf('Absolute error at t = 6 hr: %.4f mg/L\\n', err);",
+    "solutionExplanation": "The Euler loop repeatedly applies C(ii+1) = C(ii) + h*(-k*C(ii)) = C(ii)*(1 - k*h), so with h = 1 hr and k = 0.15, each step simply multiplies the previous concentration by 0.85; starting from C0 = 100, this produces C = [100, 85, 72.25, ..., 37.71] mg/L by t = 6 hours. The true exact solution C0*exp(-k*t) decays smoothly rather than in these discrete 15% jumps, reaching about 40.66 mg/L at t = 6, so the Euler approximation undershoots it by about 2.94 mg/L. This gap exists because forward Euler assumes the elimination rate stays constant (at its value from the start of the step) across each whole hour-long step, when in reality the rate itself is decreasing continuously as concentration drops -- a coarser step size like h = 1 hr simply cannot track that continuous change as closely as a smaller step size would.",
+    "concept": "Forward-Euler simulation of a first-order decay ODE compared against its exact solution",
+    "tags": ["forward euler", "IVP", "for loop", "pharmacokinetics", "exact solution comparison"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-I04",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "intermediate",
+    "title": "Simulating Oxygen Saturation Recovery After a Brief Apnea Event",
+    "context": "Following a brief apnea event, a patient's blood oxygen saturation recovers toward a baseline level according to a first-order recovery model, dS/dt = k(Sbase - S). You'll simulate the recovery with forward Euler and determine when saturation crosses back above a clinically important threshold.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.4 (1/min), Sbase = 98 (%), S0 = 88 (%), h = 0.25 (min), and tfinal = 5 (min). Build the time vector t = 0:h:tfinal." },
+      { "label": "b", "prompt": "Preallocate S with zeros, apply the initial condition, and use a for-loop implementation of forward Euler to fill in the rest of S." },
+      { "label": "c", "prompt": "Plot S versus t with axis labels." },
+      { "label": "d", "prompt": "Using find together with a relational expression on S (no loop), determine the first time at which S reaches or exceeds 95%. Display that time using fprintf." }
+    ],
+    "starterCode": "% Problem: Simulating Oxygen Saturation Recovery After a Brief Apnea Event\n% Name:\n% Date:\n\nclear; clc; close all;\n\nk = 0.4;      % 1/min\nSbase = 98;   % %\nS0 = 88;      % %\nh = 0.25;     % min\ntfinal = 5;   % min\nt = 0:h:tfinal;\n\n% b) Preallocate S, apply IC, forward Euler for-loop\n\n\n% c) Plot S vs t\n\n\n% d) find first time S >= 95\n",
+    "hints": [
+      "The ODE dS/dt = k*(Sbase - S) is evaluated the same way at every step: f(S) = k*(Sbase - S), then S(ii+1) = S(ii) + h*f(S(ii)).",
+      "find(S >= 95, 1) returns the INDEX of the first entry of S meeting that condition -- you then need t at that same index, i.e., t(idx), to report a time.",
+      "Since S only exists at the discrete time points in t, the time you report is whichever grid point first crosses 95%, not necessarily the exact instant it happened."
+    ],
+    "solutionCode": "% a) Setup\nk = 0.4; Sbase = 98; S0 = 88; h = 0.25; tfinal = 5;\nt = 0:h:tfinal;\n\n% b) Forward Euler for-loop\nS = zeros(size(t));\nS(1) = S0;\nfor ii = 1:length(t)-1\n    S(ii+1) = S(ii) + h * k * (Sbase - S(ii));\nend\n\n% c) Plot\nfigure\nplot(t, S, 'o-', 'LineWidth', 1.5)\nxlabel('Time (min)')\nylabel('SpO_2 (%)')\ntitle('Oxygen Saturation Recovery After Apnea')\n\n% d) First time S reaches 95%\nidx = find(S >= 95, 1);\nfprintf('S first reaches 95%% at t = %.2f min\\n', t(idx));",
+    "solutionExplanation": "Each Euler step computes S(ii+1) = S(ii) + h*k*(Sbase - S(ii)), which pulls S toward Sbase = 98% more strongly the farther away it currently is, producing the classic decelerating recovery curve rather than a straight line. Starting from S0 = 88%, the simulated saturation climbs steadily -- 89.0% after the first step, 89.9% after the second, and so on -- crossing the 95% threshold at t = 3.00 min (S = 95.18% at that grid point). find(S >= 95, 1) is the key tool here: rather than scanning the array by eye or writing a loop, it returns the index of the first entry satisfying the logical condition, and indexing t at that same position converts that index back into a clinically meaningful time.",
+    "concept": "Forward-Euler simulation of a first-order recovery ODE with threshold detection via find",
+    "tags": ["forward euler", "IVP", "for loop", "find", "relational operators", "physiology"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-I05",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "intermediate",
+    "title": "How Step Size Shrinks Forward-Difference Truncation Error",
+    "context": "Before formally studying error order, it helps to see it firsthand: for a smooth, known decay function C(t) = C0*exp(-kt), you'll compute the forward-difference derivative estimate at a fixed point using several step sizes and watch the error shrink as h shrinks.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(t) 50*exp(-0.2*t) and its exact derivative dfExact = @(t) -0.2*50*exp(-0.2*t). Evaluate and display the exact derivative at t0 = 2." },
+      { "label": "b", "prompt": "For h = [1, 0.5, 0.1, 0.01], compute the forward-difference estimate of the derivative at t0 = 2 for each h using a for-loop, storing all four estimates in a vector dEst." },
+      { "label": "c", "prompt": "Compute the absolute error between dEst and the exact derivative for each h, storing the result in errVec, then display h alongside its corresponding error using fprintf inside a loop." },
+      { "label": "d", "prompt": "In a one-line comment, describe the overall trend you observe in errVec as h decreases." }
+    ],
+    "starterCode": "% Problem: How Step Size Shrinks Forward-Difference Truncation Error\n% Name:\n% Date:\n\nclear; clc;\n\nf = @(t) 50*exp(-0.2*t);\ndfExact = @(t) -0.2*50*exp(-0.2*t);\nt0 = 2;\nhVals = [1, 0.5, 0.1, 0.01];\n\n% a) Display the exact derivative at t0\n\n\n% b) Forward-difference estimate for each h -> dEst\n\n\n% c) Absolute error for each h -> errVec, display h vs error\n\n\n% d) One-line comment on the trend\n",
+    "hints": [
+      "The forward-difference formula is the same regardless of h: estDeriv = (f(t0+h) - f(t0)) / h -- just loop over each value in hVals and evaluate it fresh each time.",
+      "Preallocate dEst = zeros(size(hVals)) before the loop, and store each estimate into dEst(k) as you compute it.",
+      "errVec = abs(dEst - dfExact(t0)) can be computed for all four step sizes at once, without a second loop, since dEst is already a vector and dfExact(t0) is a single scalar."
+    ],
+    "solutionCode": "% a) Exact derivative\nf = @(t) 50*exp(-0.2*t);\ndfExact = @(t) -0.2*50*exp(-0.2*t);\nt0 = 2;\ntrueVal = dfExact(t0);\ndisp(trueVal)\n\n% b) Forward-difference estimate for each h\nhVals = [1, 0.5, 0.1, 0.01];\ndEst = zeros(size(hVals));\nfor k = 1:length(hVals)\n    h = hVals(k);\n    dEst(k) = (f(t0 + h) - f(t0)) / h;\nend\n\n% c) Absolute error for each h\nerrVec = abs(dEst - trueVal);\nfor k = 1:length(hVals)\n    fprintf('h = %.2f -> error = %.6f\\n', hVals(k), errVec(k));\nend\n\n% d) Comment:\n% As h decreases, the error shrinks steadily and roughly proportionally to h,\n% consistent with forward difference's O(h) truncation error.",
+    "solutionExplanation": "The exact derivative at t0 = 2 is dfExact(2) = -0.2*50*exp(-0.4) ≈ -6.7032. The forward-difference estimates for h = 1, 0.5, 0.1, and 0.01 come out to roughly -6.0754, -6.3789, -6.6366, and -6.6965, giving absolute errors of about 0.6278, 0.3243, 0.0666, and 0.0067 respectively. Each time h is reduced by roughly a factor of 5-10, the error drops by close to the same factor, which is exactly the behavior predicted by the forward difference's O(h) truncation error: the leftover Taylor-series terms that the formula ignores shrink in rough proportion to h itself, so cutting h by 10x should cut that leftover error by roughly 10x as well, which is what the numbers here confirm.",
+    "concept": "Empirically observing O(h) truncation-error scaling for the forward-difference formula",
+    "tags": ["numerical differentiation", "forward difference", "truncation error", "step size", "convergence"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-A01",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "advanced",
+    "title": "Smoothing Before Differentiating a Noisy EMG Signal",
+    "context": "An electromyography (EMG) amplitude envelope recorded during a muscle contraction is noisy from sensor and motion artifacts. The clinical team wants the loading rate (how quickly EMG amplitude rises), but differentiating the raw noisy signal directly amplifies that noise into an unusable derivative estimate.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors t = 0:0.1:1 and emg = [0 4 9 11 22 18 30 25 38 33 45] (arbitrary EMG units)." },
+      { "label": "b", "prompt": "Using vectorized central differences (no loop), compute the derivative of the raw signal at all interior points: dEmg_raw = (emg(3:end)-emg(1:end-2))/(2*h). Plot dEmg_raw against the interior time points." },
+      { "label": "c", "prompt": "Smooth emg using a 3-point moving average, movmean(emg,3), storing the result in emg_smooth." },
+      { "label": "d", "prompt": "Compute the central-difference derivative of emg_smooth at the same interior points, storing it in dEmg_smooth." },
+      { "label": "e", "prompt": "Plot dEmg_raw and dEmg_smooth together on one figure with a legend, and add a one-sentence comment explaining why differentiating the smoothed signal is more useful for estimating the true underlying loading rate." }
+    ],
+    "starterCode": "% Problem: Smoothing Before Differentiating a Noisy EMG Signal\n% Name:\n% Date:\n\nclear; clc; close all;\n\nt = 0:0.1:1;\nemg = [0 4 9 11 22 18 30 25 38 33 45];\nh = t(2) - t(1);\n\n% b) Vectorized central difference of raw emg -> dEmg_raw, plot it\n\n\n% c) Smooth emg with movmean -> emg_smooth\n\n\n% d) Central difference of emg_smooth -> dEmg_smooth\n\n\n% e) Plot both derivative estimates together, add comment\n",
+    "hints": [
+      "The same vectorized central-difference formula from earlier problems, (y(3:end)-y(1:end-2))/(2*h), works on ANY vector of the right length -- it doesn't care whether that vector is raw or smoothed data.",
+      "movmean(emg, 3) replaces each point with the average of itself and its immediate neighbors, which is a quick way to reduce point-to-point noise before differentiating.",
+      "Because emg has sharp point-to-point jumps from noise, dEmg_raw will look jagged even though the underlying trend is a steady rise; dEmg_smooth, computed from the averaged data, should look noticeably less erratic."
+    ],
+    "solutionCode": "% a) Data\nt = 0:0.1:1;\nemg = [0 4 9 11 22 18 30 25 38 33 45];\nh = t(2) - t(1);\nt_interior = t(2:end-1);\n\n% b) Central difference of the raw signal\ndEmg_raw = (emg(3:end) - emg(1:end-2)) / (2*h);\nfigure\nplot(t_interior, dEmg_raw, 'o-')\nxlabel('Time (s)')\nylabel('d(EMG)/dt (raw)')\ntitle('Derivative of Raw EMG Signal')\n\n% c) Smooth the signal\nemg_smooth = movmean(emg, 3);\n\n% d) Central difference of the smoothed signal\ndEmg_smooth = (emg_smooth(3:end) - emg_smooth(1:end-2)) / (2*h);\n\n% e) Compare both derivative estimates\nfigure\nplot(t_interior, dEmg_raw, 'o-')\nhold on\nplot(t_interior, dEmg_smooth, 's-')\nhold off\nxlabel('Time (s)')\nylabel('d(EMG)/dt')\nlegend('Raw', 'Smoothed', 'Location', 'northwest')\n% Differentiating the smoothed signal gives a derivative estimate that\n% follows the true underlying trend much more consistently, because\n% averaging away point-to-point noise first prevents that noise from\n% being amplified by the division by a small h in the difference formula.",
+    "solutionExplanation": "dEmg_raw = [45, 35, 65, 35, 40, 35, 40, 40, 35] swings wildly from point to point even though the EMG signal is broadly trending upward, because central differencing divides small (and here, noisy) numerator differences by the small quantity 2h, which magnifies any noise present in emg. Applying movmean(emg,3) first averages each point with its immediate neighbors, producing emg_smooth = [2.0, 4.33, 8.0, 14.0, 17.0, 23.33, 24.33, 31.0, 32.0, 38.67, 39.0], a visibly less jagged sequence. Differentiating that smoothed sequence gives dEmg_smooth = [30.0, 48.3, 45.0, 46.7, 36.7, 38.3, 38.3, 38.3, 35.0], which -- while not perfectly flat -- no longer shows the sharp sign flips and huge jumps seen in dEmg_raw, making it a far more usable estimate of the muscle's actual loading rate. This is the same lesson Lecture 11 draws from its noisy biomarker example: any differentiation scheme amplifies existing noise in the data, so smoothing the signal before differentiating (rather than after) is standard practice when working with real, imperfect measurements.",
+    "concept": "Reducing noise amplification in numerical differentiation by smoothing before differentiating",
+    "tags": ["numerical differentiation", "central difference", "movmean", "smoothing", "noise", "EMG"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-A02",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "advanced",
+    "title": "Step-Size Sensitivity for a Constant-Rate IV Infusion Model",
+    "context": "A patient receives a continuous IV infusion of a drug at a constant rate while the drug is simultaneously eliminated proportionally to its current concentration: dC/dt = kin - kout*C. You'll implement forward Euler for this model at three step sizes and compare each against the known exact solution to see how step size affects accuracy over a full 24-hour simulation.",
+    "parts": [
+      { "label": "a", "prompt": "Define kin = 5 (mg/L/hr), kout = 0.25 (1/hr), C0 = 0, tfinal = 24 (hr). Using h = 1 (hr), implement forward Euler in a for-loop and store the result in C1 (and its time vector t1)." },
+      { "label": "b", "prompt": "Repeat the simulation with h = 2 (hr) and again with h = 0.1 (hr), storing the results as C2/t2 and C3/t3 respectively." },
+      { "label": "c", "prompt": "Plot all three simulated curves together with the exact analytical solution Cexact(t) = (kin/kout)*(1 - exp(-kout*t)) evaluated on a fine time grid, using a legend to distinguish all four curves." },
+      { "label": "d", "prompt": "For each of the three step sizes, compute and display (using fprintf) the absolute error between the simulated concentration and the exact concentration at t = 24 hours." },
+      { "label": "e", "prompt": "In a written explanation, state which step size gave the smallest error and explain why, referencing forward Euler's global error being O(h)." }
+    ],
+    "starterCode": "% Problem: Step-Size Sensitivity for a Constant-Rate IV Infusion Model\n% Name:\n% Date:\n\nclear; clc; close all;\n\nkin = 5;      % mg/L/hr\nkout = 0.25;  % 1/hr\nC0 = 0;       % mg/L\ntfinal = 24;  % hr\n\n% a) h = 1 -> C1, t1\n\n\n% b) h = 2 -> C2, t2 ; h = 0.1 -> C3, t3\n\n\n% c) Plot all three plus the exact solution\n\n\n% d) Absolute error at t = 24 for each step size\n\n\n% e) Written explanation\n",
+    "hints": [
+      "The ODE's right-hand side is f(C) = kin - kout*C -- exactly the same expression is used in every Euler step, only the step size h changes between the three simulations.",
+      "The exact solution here is Cexact(t) = (kin/kout)*(1 - exp(-kout*t)), starting at 0 and approaching kin/kout = 20 mg/L as t grows -- use this same formula to check the accuracy of each simulation.",
+      "Larger step sizes take fewer, bigger jumps and generally accumulate more global error over the full 24 hours; you should see the smallest step size (h = 0.1) come out closest to the exact solution at t = 24."
+    ],
+    "solutionCode": "% a) h = 1\nkin = 5; kout = 0.25; C0 = 0; tfinal = 24;\nh1 = 1;\nt1 = 0:h1:tfinal;\nC1 = zeros(size(t1)); C1(1) = C0;\nfor ii = 1:length(t1)-1\n    C1(ii+1) = C1(ii) + h1 * (kin - kout*C1(ii));\nend\n\n% b) h = 2 and h = 0.1\nh2 = 2;\nt2 = 0:h2:tfinal;\nC2 = zeros(size(t2)); C2(1) = C0;\nfor ii = 1:length(t2)-1\n    C2(ii+1) = C2(ii) + h2 * (kin - kout*C2(ii));\nend\n\nh3 = 0.1;\nt3 = 0:h3:tfinal;\nC3 = zeros(size(t3)); C3(1) = C0;\nfor ii = 1:length(t3)-1\n    C3(ii+1) = C3(ii) + h3 * (kin - kout*C3(ii));\nend\n\n% c) Plot all three plus the exact solution\ntt = linspace(0, tfinal, 500);\nCexact = (kin/kout) * (1 - exp(-kout*tt));\nfigure\nplot(tt, Cexact, 'k-', 'LineWidth', 1.5)\nhold on\nplot(t2, C2, 'o-')\nplot(t1, C1, 's-')\nplot(t3, C3, '.-')\nhold off\nxlabel('Time (hr)')\nylabel('Concentration (mg/L)')\nlegend('Exact', 'h = 2', 'h = 1', 'h = 0.1', 'Location', 'southeast')\n\n% d) Absolute error at t = 24 for each step size\nCexact24 = (kin/kout) * (1 - exp(-kout*tfinal));\nfprintf('h = 2.0 -> error = %.5f mg/L\\n', abs(C2(end) - Cexact24));\nfprintf('h = 1.0 -> error = %.5f mg/L\\n', abs(C1(end) - Cexact24));\nfprintf('h = 0.1 -> error = %.5f mg/L\\n', abs(C3(end) - Cexact24));\n\n% e) Written explanation:\n% h = 0.1 gives the smallest error (about 0.0036 mg/L) because forward\n% Euler's global error scales as O(h): the smallest step size re-evaluates\n% the rate of change most often, so its piecewise-linear path stays closest\n% to the true, continuously curving solution over the full 24-hour simulation.",
+    "solutionExplanation": "The exact steady-state solution approaches Cexact(24) ≈ 19.9504 mg/L. Forward Euler with h = 2 gives a final value of about 19.9951 mg/L (error ≈ 0.0447), h = 1 gives about 19.9799 mg/L (error ≈ 0.0295), and h = 0.1 gives about 19.9541 mg/L (error ≈ 0.0036) -- the error shrinks as the step size shrinks, consistent with forward Euler's O(h) global error. Every simulation uses the identical formula C(ii+1) = C(ii) + h*(kin - kout*C(ii)); only the number and size of the steps change. Because a smaller h takes many more, smaller jumps, it re-evaluates the (mildly changing) elimination rate far more often over the same 24-hour span, letting its piecewise-linear approximation hug the true, smoothly saturating exponential curve much more closely than a handful of large steps can.",
+    "concept": "Comparing forward-Euler accuracy across multiple step sizes for a linear infusion/elimination ODE",
+    "tags": ["forward euler", "IVP", "step size", "pharmacokinetics", "global error"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-A03",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "advanced",
+    "title": "Simulating Logistic Wound-Healing Dynamics and the Effect of a Coarse Step Size",
+    "context": "As a wound heals, the closed (re-epithelialized) area grows following logistic dynamics, dA/dt = r*A*(1 - A/Amax), since healing tissue growth slows as it approaches the total wound area. You'll simulate the healing curve, detect when it nears full closure, and see how a much coarser step size distorts the early rapid-growth phase.",
+    "parts": [
+      { "label": "a", "prompt": "Define r = 0.2 (1/day), Amax = 500 (mm^2), A0 = 10 (mm^2), h = 0.5 (day), tfinal = 40 (day). Implement forward Euler in a for-loop (preallocate A first) and store the result in A and its time vector t." },
+      { "label": "b", "prompt": "Plot A(t) with axis labels." },
+      { "label": "c", "prompt": "Using find and a relational expression on A (no loop), determine the first day at which the wound area reaches at least 95% of Amax (475 mm^2). Display that day using fprintf." },
+      { "label": "d", "prompt": "Re-run the simulation with a much coarser step size, h = 5 (day), storing the result as A2/t2, and overlay it on the same plot from part (b)." },
+      { "label": "e", "prompt": "In a written explanation, describe how the coarser step size changes the shape of the healing curve -- especially during the early rapid-growth phase -- compared to the finer step size, and explain in terms of Euler's method why a nonlinear ODE like this one is more sensitive to step size where its rate of change (the slope A*(1-A/Amax)) is largest." }
+    ],
+    "starterCode": "% Problem: Simulating Logistic Wound-Healing Dynamics and the Effect of a Coarse Step Size\n% Name:\n% Date:\n\nclear; clc; close all;\n\nr = 0.2;      % 1/day\nAmax = 500;   % mm^2\nA0 = 10;      % mm^2\nh = 0.5;      % day\ntfinal = 40;  % day\n\n% a) Forward Euler for-loop -> A, t\n\n\n% b) Plot A vs t\n\n\n% c) find first day A reaches 95% of Amax\n\n\n% d) Repeat with h = 5 -> A2, t2 ; overlay on the same plot\n\n\n% e) Written explanation\n",
+    "hints": [
+      "The ODE's right-hand side is f(A) = r*A*(1 - A/Amax); it depends on the CURRENT value of A, so it must be recomputed fresh inside the loop at every step using the most recent A(ii), not the initial condition.",
+      "find(A >= 0.95*Amax, 1) returns the index of the first entry crossing that threshold; use t at that same index to report a day.",
+      "The logistic curve grows fastest around the middle of its range (near A = Amax/2, where the slope A*(1-A/Amax) is largest) and grows slowly near the very start and very end -- a large step size will most visibly distort the region where the true slope is changing quickly."
+    ],
+    "solutionCode": "% a) Fine step size (h = 0.5)\nr = 0.2; Amax = 500; A0 = 10; h = 0.5; tfinal = 40;\nt = 0:h:tfinal;\nA = zeros(size(t));\nA(1) = A0;\nfor ii = 1:length(t)-1\n    A(ii+1) = A(ii) + h * r * A(ii) * (1 - A(ii)/Amax);\nend\n\n% b) Plot\nfigure\nplot(t, A, 'LineWidth', 1.5)\nxlabel('Time (day)')\nylabel('Closed wound area (mm^2)')\ntitle('Logistic Wound-Healing Curve')\n\n% c) First day A reaches 95% of Amax\nidx = find(A >= 0.95*Amax, 1);\nfprintf('Wound reaches 95%% closure on day %.1f (A = %.2f mm^2)\\n', t(idx), A(idx));\n\n% d) Coarse step size (h = 5)\nh2 = 5;\nt2 = 0:h2:tfinal;\nA2 = zeros(size(t2));\nA2(1) = A0;\nfor ii = 1:length(t2)-1\n    A2(ii+1) = A2(ii) + h2 * r * A2(ii) * (1 - A2(ii)/Amax);\nend\nhold on\nplot(t2, A2, 'o--', 'LineWidth', 1.5)\nhold off\nlegend('h = 0.5', 'h = 5', 'Location', 'southeast')\n\n% e) Written explanation:\n% With h = 5, the simulation takes only 8 giant steps across the whole\n% 40-day window, and it visibly diverges from the smooth h = 0.5 curve\n% during the early, fastest-growing phase (roughly days 5-20), because\n% during that phase the true slope A*(1-A/Amax) is changing quickly from\n% one day to the next, and Euler's method assumes the slope stays fixed\n% at its value from the START of each step. Near the very start (A small)\n% and near the end (A close to Amax) the slope itself is small and changes\n% slowly, so even the coarse step size tracks those flatter regions\n% reasonably well -- the distortion is concentrated exactly where the\n% ODE's rate of change is largest and most nonlinear.",
+    "solutionExplanation": "With h = 0.5, the wound area climbs from A0 = 10 mm^2 and crosses the 475 mm^2 (95% of Amax) threshold on day 34.5, reaching a final value of about 492.0 mm^2 by day 40 -- a smooth, S-shaped logistic curve. Re-running with h = 5 collapses the same 40-day window into only 8 steps: A2 jumps from 10 to 19.8 to 38.8 to 74.6 to 138.1 to 238.1 to 362.8 to 462.3 to 497.2 mm^2, visibly running ahead of where the fine-step curve is at the same days during the middle of the healing window, before both settle near the same final plateau. This happens because the logistic ODE's slope, r*A*(1-A/Amax), is largest when A is near Amax/2 (around 250 mm^2 here) and changes quickly with A in that region -- exactly the region Euler's method struggles with most, since it freezes the slope at the start of each step and assumes it stays constant for the whole (in this case, 5-day) jump. Near the very beginning (A still small) and very end (A near Amax) the slope is small and nearly constant, so even the coarse step tracks those flatter stretches reasonably well; the visible distortion is concentrated in the fast-changing middle section.",
+    "concept": "Forward-Euler simulation of a nonlinear logistic ODE, threshold detection, and step-size distortion",
+    "tags": ["forward euler", "IVP", "logistic growth", "nonlinear ODE", "find", "step size", "wound healing"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-A04",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "advanced",
+    "title": "Local Versus Global Error in a Forward-Euler Drug-Decay Simulation",
+    "context": "A single dose of drug decays following dC/dt = -kC. You'll separate two related but different ideas: the error introduced by just ONE Euler step (local error), and the total accumulated error after simulating many steps out to a fixed final time (global error), then see how global error scales as step size shrinks.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.3 (1/hr), C0 = 80 (mg/L). Using h = 0.5, take a single forward-Euler step from C0 and compare it to the exact value C0*exp(-k*h) at that same instant. Display this local error (the error introduced by just one step, starting from an exact initial condition) using fprintf." },
+      { "label": "b", "prompt": "Now simulate the full decay from t = 0 to t = 5 hours using forward Euler with h = 0.5 (many steps, via a for-loop), and display the global error -- the absolute error between your simulated value and the exact value C0*exp(-k*5) at the final time." },
+      { "label": "c", "prompt": "Repeat the full 5-hour simulation for h = [0.5, 0.25, 0.125, 0.0625], storing each step size's global error into a vector globErr, and display globErr." },
+      { "label": "d", "prompt": "Compute the ratio of consecutive global errors, ratio = globErr(1:end-1) ./ globErr(2:end), and display it." },
+      { "label": "e", "prompt": "In a written explanation, state whether your ratio values from part (d) support forward Euler's known global error order of O(h), and explain -- referencing the local error you found in part (a) -- why a single step's local error (order h^2, from the first dropped Taylor-series term) accumulates over the roughly (5/h) steps needed to reach t = 5 into a global error of only O(h), one order worse than the local error." }
+    ],
+    "starterCode": "% Problem: Local Versus Global Error in a Forward-Euler Drug-Decay Simulation\n% Name:\n% Date:\n\nclear; clc;\n\nk = 0.3;   % 1/hr\nC0 = 80;   % mg/L\n\n% a) Local error: one step, h = 0.5\n\n\n% b) Global error: full simulation, t = 0 to 5, h = 0.5\n\n\n% c) Global error for hVals = [0.5, 0.25, 0.125, 0.0625]\n\n\n% d) Ratio of consecutive global errors\n\n\n% e) Written explanation\n",
+    "hints": [
+      "Local error compares ONE Euler step against the exact solution over that same single step -- it isolates the error from one application of the formula, with no earlier steps' mistakes involved.",
+      "Global error compares the FINAL simulated value, after many accumulated steps, against the true value at that same final time -- earlier steps' small errors have already fed into later steps by then.",
+      "Since each hVals entry is exactly half of the previous one, if the global error is truly O(h) the ratio globErr(i)/globErr(i+1) should come out close to 2 for every consecutive pair."
+    ],
+    "solutionCode": "% a) Local error: one Euler step, h = 0.5\nk = 0.3; C0 = 80;\nh = 0.5;\nC1_euler = C0 + h * (-k * C0);\nC1_exact = C0 * exp(-k*h);\nlocalErr = abs(C1_euler - C1_exact);\nfprintf('Local error (one step, h=0.5): %.5f mg/L\\n', localErr);\n\n% b) Global error: full simulation, t = 0 to 5, h = 0.5\ntfinal = 5;\nt = 0:h:tfinal;\nC = zeros(size(t));\nC(1) = C0;\nfor ii = 1:length(t)-1\n    C(ii+1) = C(ii) + h * (-k * C(ii));\nend\nCexact5 = C0 * exp(-k*tfinal);\nglobalErr_05 = abs(C(end) - Cexact5);\nfprintf('Global error (h=0.5) at t=5: %.5f mg/L\\n', globalErr_05);\n\n% c) Global error across several step sizes\nhVals = [0.5, 0.25, 0.125, 0.0625];\nglobErr = zeros(size(hVals));\nfor j = 1:length(hVals)\n    hj = hVals(j);\n    tj = 0:hj:tfinal;\n    Cj = zeros(size(tj));\n    Cj(1) = C0;\n    for ii = 1:length(tj)-1\n        Cj(ii+1) = Cj(ii) + hj * (-k * Cj(ii));\n    end\n    globErr(j) = abs(Cj(end) - Cexact5);\nend\ndisp(globErr)\n\n% d) Ratio of consecutive global errors\nratio = globErr(1:end-1) ./ globErr(2:end);\ndisp(ratio)\n\n% e) Written explanation:\n% The ratios come out close to 2 (about 2.05, 2.02, 2.01), confirming\n% forward Euler's global error is O(h): halving h roughly halves the\n% global error. Each individual step actually has LOCAL error of order\n% h^2 (from the first dropped term in the Taylor series, as seen in part\n% a), but reaching a fixed final time with a smaller h requires taking\n% proportionally MORE steps (roughly 5/h of them); accumulating ~5/h\n% steps' worth of O(h^2) local error gives a total global error of order\n% (5/h)*h^2 = O(h), one power of h worse than the per-step local error.",
+    "solutionExplanation": "The local error for a single step compares C1_euler = 80 + 0.5*(-0.3*80) = 68 against the exact C1_exact = 80*exp(-0.3*0.5) ≈ 68.857, giving a local error of about 0.857 mg/L. Simulating the full 5-hour decay with the same h = 0.5 accumulates many such steps, ending at C(end) ≈ 15.75 mg/L versus the exact Cexact(5) ≈ 17.850 mg/L, a much larger global error of about 2.100 mg/L. Repeating the 5-hour simulation with h = 0.5, 0.25, 0.125, and 0.0625 (each exactly half the previous) gives global errors of roughly 2.100, 1.027, 0.508, and 0.252 mg/L, and the ratio of each consecutive pair comes out to about 2.05, 2.02, and 2.01 -- very close to 2, confirming that halving h roughly halves the global error, exactly as forward Euler's O(h) global-error order predicts. This is the standard relationship between local and global error for a one-step method: each step's own local error is one order better (here, O(h^2)) than the accumulated global error (O(h)), because the number of steps needed to cover a fixed time span grows as 1/h, and that growing step count is exactly what erodes one power of h from the per-step error.",
+    "concept": "Distinguishing local (single-step) error from global (accumulated) error in forward Euler",
+    "tags": ["numerical stability", "local error", "global error", "forward euler", "convergence order"],
+    "references": ["Unit 4 – Lecture 12", "Unit 4 – Lecture 13"]
+  },
+  {
+    "id": "U4-WB-A05",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "advanced",
+    "title": "Finding the Stability Threshold for Forward Euler on a Fast-Clearing Drug",
+    "context": "A fast-clearing drug follows dy/dt = -ky with a large elimination constant k. Forward Euler applied to this linear ODE is only numerically stable when the step size is small enough relative to k; too large a step size causes the simulated concentration to oscillate or diverge even though the true solution simply decays smoothly to zero.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 10 (1/s), y0 = 5. Using h = 0.05, simulate forward Euler for 2 seconds and plot the result -- it should look like smooth, well-behaved decay." },
+      { "label": "b", "prompt": "Repeat with h = 0.15 and again with h = 0.25, plotting all three curves (h = 0.05, 0.15, 0.25) together on the same figure." },
+      { "label": "c", "prompt": "For each h in hVals = [0.05 0.1 0.15 0.19 0.2 0.25 0.3], compute the amplification factor amp = 1 - k*h for this linear ODE (each Euler step multiplies y by this factor), and use a for-loop with an if statement to display, for each h, whether the method is stable (|amp| < 1) or unstable." },
+      { "label": "d", "prompt": "Using vectorized logical indexing (no loop) on hVals and the amplification factors, find and display the largest h in hVals for which the method remains stable." },
+      { "label": "e", "prompt": "In a short written explanation, describe why the rule 0 < h < 2/k determines stability for this linear ODE, and why a 'stiffer' system (larger k) forces a smaller stable step size." }
+    ],
+    "starterCode": "% Problem: Finding the Stability Threshold for Forward Euler on a Fast-Clearing Drug\n% Name:\n% Date:\n\nclear; clc; close all;\n\nk = 10;  % 1/s\ny0 = 5;\n\n% a) h = 0.05 -> plot\n\n\n% b) h = 0.15 and h = 0.25 -> overlay on the same plot\n\n\n% c) Amplification factor stability check for hVals\nhVals = [0.05 0.1 0.15 0.19 0.2 0.25 0.3];\n\n\n% d) Largest stable h, via logical indexing\n\n\n% e) Written explanation\n",
+    "hints": [
+      "For dy/dt = -ky, one Euler step is y_new = y_old + h*(-k*y_old) = y_old*(1 - k*h), so (1 - k*h) is the single number each step multiplies the previous value by -- this is the 'amplification factor'.",
+      "If |1 - k*h| < 1, repeated multiplication shrinks y toward 0 (stable, matching the true decaying solution); if |1 - k*h| > 1, repeated multiplication makes |y| grow without bound (unstable), regardless of how small y0 was.",
+      "hVals(abs(1 - k*hVals) < 1) returns only the entries of hVals that satisfy the stability condition; max() of that filtered vector gives the largest stable step size in the tested list."
+    ],
+    "solutionCode": "% a) h = 0.05\nk = 10; y0 = 5;\nh = 0.05; t = 0:h:2;\ny = zeros(size(t)); y(1) = y0;\nfor ii = 1:length(t)-1\n    y(ii+1) = y(ii) + h*(-k*y(ii));\nend\nfigure\nplot(t, y, 'LineWidth', 1.5)\nxlabel('Time (s)'); ylabel('y(t)')\ntitle('Forward Euler, h = 0.05')\n\n% b) h = 0.15 and h = 0.25\nfigure\nplot(t, y, 'LineWidth', 1.5)\nhold on\nfor h2 = [0.15 0.25]\n    t2 = 0:h2:2;\n    y2 = zeros(size(t2)); y2(1) = y0;\n    for ii = 1:length(t2)-1\n        y2(ii+1) = y2(ii) + h2*(-k*y2(ii));\n    end\n    plot(t2, y2, 'o-')\nend\nhold off\nxlabel('Time (s)'); ylabel('y(t)')\nlegend('h = 0.05', 'h = 0.15', 'h = 0.25')\n\n% c) Amplification factor stability check\nhVals = [0.05 0.1 0.15 0.19 0.2 0.25 0.3];\nfor j = 1:length(hVals)\n    amp = 1 - k*hVals(j);\n    if abs(amp) < 1\n        fprintf('h = %.2f: amp = %.2f -> stable\\n', hVals(j), amp);\n    else\n        fprintf('h = %.2f: amp = %.2f -> unstable\\n', hVals(j), amp);\n    end\nend\n\n% d) Largest stable h via logical indexing\nampVec = 1 - k*hVals;\nstableHs = hVals(abs(ampVec) < 1);\nmaxStableH = max(stableHs);\nfprintf('Largest stable h tested: %.2f\\n', maxStableH);\n\n% e) Written explanation:\n% The Euler update multiplies y by (1 - k*h) at every step, so after n\n% steps y_n = y0*(1-k*h)^n. This stays bounded and decays toward 0 only\n% when |1-k*h| < 1, i.e., 0 < k*h < 2, i.e., 0 < h < 2/k. For k = 10 that\n% means h must stay below 0.2 s; h = 0.25 violates this and the amplification\n% factor becomes -1.5, so each step flips sign and grows in magnitude,\n% producing runaway oscillation instead of decay. A larger k shrinks the\n% stable range 2/k directly, so a 'stiffer' (faster-changing) system forces\n% a proportionally smaller step size just to keep the simulation stable,\n% independent of whether that step size is small enough for good accuracy.",
+    "solutionExplanation": "Each Euler step for dy/dt = -ky multiplies the current value by the amplification factor (1 - k*h): with k = 10, hVals = [0.05, 0.1, 0.15, 0.19, 0.2, 0.25, 0.3] give amp = [0.5, 0, -0.5, -0.9, -1.0, -1.5, -2.0]. The first four (h up to 0.19) satisfy |amp| < 1 and are stable, h = 0.2 sits exactly on the boundary |amp| = 1 (marginal, not strictly stable), and h = 0.25 and h = 0.3 both exceed it, giving amp = -1.5 and -2.0 -- simulating h = 0.25 confirms this directly, with y growing to over 128 by t = 2 s instead of decaying to 0. Filtering hVals with abs(amp) < 1 and taking max() of the surviving entries returns 0.19, the largest tested step size that stays stable. This all follows from y_n = y0*(1-k*h)^n: repeated multiplication by a factor whose magnitude is below 1 shrinks toward zero (matching the true exponential decay), while a factor whose magnitude exceeds 1 blows up regardless of the true solution's behavior, which is why the theoretical cutoff 0 < h < 2/k -- here, h < 0.2 -- exactly separates the two regimes and why a larger k (a faster-acting, 'stiffer' process) forces a correspondingly smaller stable step size.",
+    "concept": "Deriving and testing the forward-Euler stability threshold for a linear decay ODE",
+    "tags": ["numerical stability", "forward euler", "amplification factor", "stiffness", "step size", "logical indexing"],
+    "references": ["Unit 4 – Lecture 12"]
+  },
+  {
+    "id": "U4-WB-X01",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "expert",
+    "title": "The Optimal Step Size for a Central-Difference Derivative: Truncation vs. Round-off",
+    "context": "A damped oscillatory tissue-displacement signal is modeled by f(t) = 3*sin(2t)*exp(-0.5t) + 5. You'll search for the step size that minimizes the error of a central-difference derivative estimate, and confront the surprising fact that shrinking h forever does NOT keep improving the estimate.",
+    "parts": [
+      { "label": "a", "prompt": "Define f = @(t) 3*sin(2*t).*exp(-0.5*t)+5 and its exact derivative df_exact = @(t) 3*exp(-0.5*t).*(2*cos(2*t) - 0.5*sin(2*t)) (given). At t0 = 1, compute and display the true derivative value trueVal = df_exact(t0)." },
+      { "label": "b", "prompt": "For h = logspace(-8,-1,50), compute the central-difference estimate of the derivative at t0 = 1 for every h (vectorized, no loop), and compute the absolute error between each estimate and trueVal, storing the result in errVec." },
+      { "label": "c", "prompt": "Plot errVec against h using loglog, and note where on the plot the error stops decreasing and starts increasing again as h continues to shrink toward the left edge of the plot." },
+      { "label": "d", "prompt": "Using min with two output arguments, find the h value (within the tested range) that gives the smallest error, and display both the minimizing h and the minimum error using fprintf." },
+      { "label": "e", "prompt": "In a written explanation (2-4 sentences), explain why the error does NOT keep shrinking forever as h decreases toward 0: describe the trade-off between truncation error (which shrinks as h decreases, per the central-difference O(h^2) formula) and floating-point round-off error (which grows as h decreases, because f(t0+h) and f(t0-h) become nearly equal numbers whose difference is divided by a very small 2h)." }
+    ],
+    "starterCode": "% Problem: The Optimal Step Size for a Central-Difference Derivative: Truncation vs. Round-off\n% Name:\n% Date:\n\nclear; clc; close all;\n\nf = @(t) 3*sin(2*t).*exp(-0.5*t)+5;\ndf_exact = @(t) 3*exp(-0.5*t).*(2*cos(2*t) - 0.5*sin(2*t));\nt0 = 1;\n\n% a) True derivative at t0\n\n\n% b) Central-difference estimate and error for h = logspace(-8,-1,50)\n\n\n% c) loglog plot of errVec vs h\n\n\n% d) min error and its h, using two-output min\n\n\n% e) Written explanation\n",
+    "hints": [
+      "The central-difference formula (f(t0+h)-f(t0-h))/(2*h) can be evaluated for an entire vector of h values at once, since f accepts vectorized (.*  and .^) input and h is itself a vector -- no loop is required.",
+      "[minErr, idx] = min(errVec) returns both the smallest error and its position; h(idx) then gives you the step size that achieved it.",
+      "Watch what happens at the two ends of the h range: at the large-h end, error grows because the central-difference formula itself becomes a worse approximation (truncation error); at the very small-h end, error ALSO grows, because f(t0+h) and f(t0-h) round to nearly the same double-precision floating-point number, and subtracting two nearly-equal numbers then dividing by a tiny 2h amplifies whatever tiny round-off already existed."
+    ],
+    "solutionCode": "% a) True derivative\nf = @(t) 3*sin(2*t).*exp(-0.5*t)+5;\ndf_exact = @(t) 3*exp(-0.5*t).*(2*cos(2*t) - 0.5*sin(2*t));\nt0 = 1;\ntrueVal = df_exact(t0);\ndisp(trueVal)\n\n% b) Central-difference estimate and error for many h\nh = logspace(-8, -1, 50);\nest = (f(t0 + h) - f(t0 - h)) ./ (2*h);\nerrVec = abs(est - trueVal);\n\n% c) loglog plot\nfigure\nloglog(h, errVec, 'o-')\nxlabel('Step size h')\nylabel('Absolute error')\ntitle('Central-Difference Error vs. Step Size')\n\n% d) Minimum error and its h\n[minErr, idx] = min(errVec);\nfprintf('Minimum error %.3e occurs at h = %.3e\\n', minErr, h(idx));\n\n% e) Written explanation:\n% The error does not shrink forever because two competing error sources\n% are at work. Truncation error (from the terms the central-difference\n% formula drops) shrinks as h^2, favoring SMALLER h. But floating-point\n% round-off error behaves oppositely: as h shrinks, f(t0+h) and f(t0-h)\n% become closer and closer together in value, so their difference loses\n% significant digits to rounding, and dividing that increasingly corrupted\n% difference by an increasingly tiny 2h amplifies the round-off, favoring\n% LARGER h. The observed minimum sits at the h where these two competing\n% effects roughly balance -- pushing h any smaller past that point makes\n% the round-off term dominate and the total error rises again.",
+    "solutionExplanation": "The exact derivative at t0 = 1 is trueVal ≈ -2.3417. Evaluating the central-difference formula across h = logspace(-8,-1,50) produces a classic U-shaped error curve: at the largest tested h (0.1), truncation error dominates and the error is about 0.024; at the smallest tested h (1e-8), the error is about 2.6e-8 -- larger than it needs to be, not smaller, because round-off has already begun creeping in; and in between, the error plunges to a minimum of roughly 4.4e-12 around h ≈ 1.93e-6. This is exactly the truncation-versus-round-off trade-off described in part (e): central difference's own formula error shrinks as h^2 (favoring small h), but MATLAB's double-precision arithmetic can only represent about 15-16 significant decimal digits, so once h is small enough that f(t0+h) and f(t0-h) agree in most of their digits, subtracting them and dividing by a tiny 2h amplifies whatever digits were lost to rounding -- which is why blindly making h smaller and smaller is not a universally good strategy, and why a moderate, not extreme, step size gives the best real-world result.",
+    "concept": "The truncation-versus-round-off error trade-off that sets an optimal (non-zero) step size",
+    "tags": ["numerical differentiation", "central difference", "truncation error", "round-off error", "step size", "loglog"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-X02",
+    "unit": 4,
+    "topic": "numerical-differentiation",
+    "difficulty": "expert",
+    "title": "Real-Time Accuracy vs. Latency: Backward vs. Central Differences for a Heart-Rate Monitor",
+    "context": "A wearable heart-rate monitor streams a new reading every 2 seconds. At the CURRENT instant, only a backward-difference estimate of dHR/dt is possible in real time, since no future reading exists yet; a more accurate central-difference estimate for that same instant only becomes available one sample later, once the 'future' point has actually arrived.",
+    "parts": [
+      { "label": "a", "prompt": "Given t = 0:2:20 and HR = [72 75 80 88 95 100 102 99 92 85 78] (bpm), compute the causal (backward-difference) estimate of dHR/dt at every point from the 2nd sample onward, using vectorized indexing: dHR_backward = (HR(2:end) - HR(1:end-1))/h. These estimates correspond to t(2:end)." },
+      { "label": "b", "prompt": "One sample 'later,' a central-difference estimate becomes available for each interior point: compute dHR_central = (HR(3:end) - HR(1:end-2))/(2*h) (vectorized). These correspond to t(2:end-1)." },
+      { "label": "c", "prompt": "For the time points where both a backward estimate and a (retrospective) central estimate exist, compute the absolute difference between them. Using max, display the largest such difference and the time at which it occurs." },
+      { "label": "d", "prompt": "In a written explanation (3-5 sentences), discuss why a real-time monitor is forced to accept the less accurate backward-difference estimate at the current instant, why waiting one sample to use central differencing introduces a literal reporting lag, and how this is fundamentally a trade-off between estimate accuracy and reporting latency -- not simply a case where a 'better formula' is always available for free." }
+    ],
+    "starterCode": "% Problem: Real-Time Accuracy vs. Latency: Backward vs. Central Differences for a Heart-Rate Monitor\n% Name:\n% Date:\n\nclear; clc;\n\nt = 0:2:20;\nHR = [72 75 80 88 95 100 102 99 92 85 78];\nh = t(2) - t(1);\n\n% a) Vectorized backward difference -> dHR_backward\n\n\n% b) Vectorized central difference -> dHR_central\n\n\n% c) Compare overlapping estimates, find max difference and its time\n\n\n% d) Written explanation\n",
+    "hints": [
+      "dHR_backward(1) is the estimate AT t(2), dHR_backward(2) is the estimate AT t(3), and so on; dHR_central(1) is ALSO the estimate at t(2), so the two vectors overlap in what time points they describe even though they have different lengths.",
+      "dHR_backward has one more entry than dHR_central (it also covers the very last time point, where no central estimate is possible); to compare like-for-like, drop dHR_backward's last entry before subtracting: dHR_backward(1:end-1) - dHR_central.",
+      "max() on the vector of absolute differences gives you the largest mismatch; use its index (the second output of max) into t(2:end-1) to report the correct time."
+    ],
+    "solutionCode": "% Setup\nt = 0:2:20;\nHR = [72 75 80 88 95 100 102 99 92 85 78];\nh = t(2) - t(1);\n\n% a) Backward difference (real-time / causal)\ndHR_backward = (HR(2:end) - HR(1:end-1)) / h;   % corresponds to t(2:end)\n\n% b) Central difference (available one sample later)\ndHR_central = (HR(3:end) - HR(1:end-2)) / (2*h); % corresponds to t(2:end-1)\n\n% c) Compare at the overlapping time points\ndiffs = abs(dHR_backward(1:end-1) - dHR_central);\n[maxDiff, idx] = max(diffs);\nt_overlap = t(2:end-1);\nfprintf('Largest backward-vs-central gap: %.2f bpm/s at t = %.1f s\\n', maxDiff, t_overlap(idx));\n\n% d) Written explanation:\n% A real-time monitor must report a derivative estimate the instant a new\n% reading arrives, but a central-difference estimate for that same instant\n% needs a 'future' reading that literally has not been measured yet, so\n% the device has no choice but to use the causal backward-difference\n% formula, even though it is generally less accurate. Waiting one extra\n% sampling interval would allow the more accurate central estimate to be\n% computed retroactively for the PREVIOUS time point, but that estimate\n% would then be reported one sample (here, 2 seconds) late -- useful for\n% offline review, but not for an alarm that needs to fire right now. This\n% is a genuine trade-off, not a free improvement: better accuracy here is\n% only purchasable by giving up immediacy, since the extra data point\n% central differencing needs literally does not exist until later.",
+    "solutionExplanation": "dHR_backward = [1.5, 2.5, 4.0, 3.5, 2.5, 1.0, -1.5, -3.5, -3.5, -3.5] bpm/s covers t = 2 through t = 20, while dHR_central = [2.0, 3.25, 3.75, 3.0, 1.75, -0.25, -2.5, -3.5, -3.5] bpm/s covers t = 2 through t = 18 -- the same nine time points as all but the last entry of dHR_backward. Comparing those nine overlapping points gives differences of [0.5, 0.75, 0.25, 0.5, 0.75, 1.25, 1.0, 0, 0], with the largest gap of 1.25 bpm/s occurring at t = 12 s, right around the peak of the heart-rate curve where the true slope is changing quickly and a one-sided (backward) estimate is at its least reliable. This mismatch is the numerical fingerprint of a broader systems trade-off: the backward estimate is what a real-time device is stuck with at the moment a reading comes in, while the more accurate central estimate for that same moment is only knowable in hindsight, one sample later -- so choosing the 'more accurate' formula is never free here, it always costs reporting latency.",
+    "concept": "Causal (backward) versus retrospective (central) difference estimates and the accuracy-latency trade-off in real-time systems",
+    "tags": ["numerical differentiation", "backward difference", "central difference", "real-time systems", "trade-off analysis"],
+    "references": ["Unit 4 – Lecture 11"]
+  },
+  {
+    "id": "U4-WB-X03",
+    "unit": 4,
+    "topic": "ivp-euler",
+    "difficulty": "expert",
+    "title": "Why Global Error Is One Order Worse Than Local Error: A Convergence Study",
+    "context": "Postoperative core-body temperature normalizes toward baseline following dT/dt = -k(T - Tbase). You'll run the same forward-Euler simulation at a sequence of halving step sizes, quantitatively confirm the method's first-order (O(h)) global convergence, and explain WHY the global error order differs from the per-step local error order.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.25 (1/hr), Tbase = 37, T0 = 34, tfinal = 8 (hr). For each h in {2, 1, 0.5, 0.25, 0.125, 0.0625}, run a fresh forward-Euler simulation from t = 0 to 8 and record the numerical estimate of T at exactly t = 8 into a vector Tnum. Also compute the exact value Texact = Tbase + (T0-Tbase)*exp(-k*tfinal)." },
+      { "label": "b", "prompt": "Compute the global error globErr = abs(Tnum - Texact) for each h, and display h alongside its globErr using fprintf in a loop." },
+      { "label": "c", "prompt": "Compute and display ratio = globErr(1:end-1) ./ globErr(2:end), the ratio of each error to the error at the next (half as large) step size." },
+      { "label": "d", "prompt": "In a written explanation (4-6 sentences), note that a single forward-Euler step has LOCAL truncation error of order h^2 (from the first dropped Taylor-series term), but explain why the GLOBAL error after simulating over a fixed time span of length T is only order h -- i.e., why the per-step errors, each of order h^2, accumulate over the roughly T/h steps needed to cover that span into a total error of order h." },
+      { "label": "e", "prompt": "Based on your ratio values from part (c), state whether this simulation's results are consistent with first-order (O(h)) global convergence, and justify your answer using the specific numbers you computed." }
+    ],
+    "starterCode": "% Problem: Why Global Error Is One Order Worse Than Local Error: A Convergence Study\n% Name:\n% Date:\n\nclear; clc;\n\nk = 0.25;    % 1/hr\nTbase = 37;\nT0 = 34;\ntfinal = 8;  % hr\nhVals = [2 1 0.5 0.25 0.125 0.0625];\n\n% a) Fresh Euler simulation for each h -> Tnum ; also Texact\n\n\n% b) globErr for each h, display h vs globErr\n\n\n% c) ratio of consecutive global errors\n\n\n% d) Written explanation: local (h^2) vs global (h) error order\n\n\n% e) Do the ratios support O(h) convergence?\n",
+    "hints": [
+      "For each h in hVals, you need a COMPLETELY FRESH simulation: a new time vector t = 0:h:tfinal, a newly preallocated T array, the initial condition reapplied, and a for-loop run from scratch -- wrap this whole process in an outer loop over hVals.",
+      "Since each entry of hVals is exactly half of the one before it, ratio = globErr(1:end-1)./globErr(2:end) should come out close to 2 across the board if the method truly has O(h) global error.",
+      "The key idea for part (d): a single step's LOCAL error is the (small) error from just that one step, which is O(h^2). But you need roughly tfinal/h steps to cover the whole simulated time span, and multiplying an O(h^2) per-step error by an O(1/h) step count gives O(h^2)*O(1/h) = O(h) for the accumulated global error -- one power of h is 'used up' by the growing number of steps."
+    ],
+    "solutionCode": "% a) Fresh Euler simulation for each h\nk = 0.25; Tbase = 37; T0 = 34; tfinal = 8;\nhVals = [2 1 0.5 0.25 0.125 0.0625];\nTexact = Tbase + (T0 - Tbase) * exp(-k*tfinal);\nTnum = zeros(size(hVals));\nfor j = 1:length(hVals)\n    h = hVals(j);\n    t = 0:h:tfinal;\n    T = zeros(size(t));\n    T(1) = T0;\n    for ii = 1:length(t)-1\n        T(ii+1) = T(ii) - h * k * (T(ii) - Tbase);\n    end\n    Tnum(j) = T(end);\nend\n\n% b) Global error for each h\nglobErr = abs(Tnum - Texact);\nfor j = 1:length(hVals)\n    fprintf('h = %.4f -> Tnum = %.6f, globErr = %.6f\\n', hVals(j), Tnum(j), globErr(j));\nend\n\n% c) Ratio of consecutive global errors\nratio = globErr(1:end-1) ./ globErr(2:end);\ndisp(ratio)\n\n% d) Written explanation:\n% A single forward-Euler step's LOCAL truncation error comes from the\n% first term the method drops out of the Taylor series expansion, which\n% is proportional to h^2. But hitting a fixed final time (here, t = 8)\n% with a smaller step size requires taking correspondingly MORE steps --\n% roughly tfinal/h of them. Each of those ~ (8/h) steps contributes its\n% own independent O(h^2) local error, and in the worst case these errors\n% add up (they do not cancel out in general), so the total accumulated\n% (global) error scales like (8/h) * O(h^2) = O(h). One power of h is\n% effectively 'traded away' by the growing step count, which is exactly\n% why a one-step method's global error order is always one worse than\n% its local error order.\n\n% e) Consistency check:\n% The ratios (about 2.07, 2.04, 2.02, 2.01, 2.01) are all close to 2, and\n% each hVals entry is exactly half of the previous one -- error halving\n% when h halves is precisely the signature of O(h) convergence, so yes,\n% this simulation's results are consistent with forward Euler's known\n% first-order global convergence.",
+    "solutionExplanation": "The exact temperature at t = 8 hr is Texact = 37 + (34-37)*exp(-0.25*8) ≈ 36.5940. Running fresh forward-Euler simulations for hVals = [2, 1, 0.5, 0.25, 0.125, 0.0625] gives Tnum ≈ [36.8125, 36.6997, 36.6458, 36.6196, 36.6067, 36.6004], with corresponding global errors of about [0.2185, 0.1057, 0.0518, 0.0256, 0.0128, 0.0064]. The ratio of each error to the next (globErr(i)/globErr(i+1)) comes out to about [2.07, 2.04, 2.02, 2.01, 2.01] -- consistently close to 2, exactly what O(h) global convergence predicts when h is repeatedly halved. This confirms the theoretical argument in part (d): although each individual Euler step's own local error is O(h^2) (a small, second-order quantity from the dropped Taylor terms), the number of steps needed to span a fixed 8-hour window grows as roughly 1/h, and multiplying an O(h^2) per-step error by an O(1/h) step count leaves an O(h) total -- global error is always one order worse than local error for a one-step method like forward Euler, and these ratio values are the direct numerical evidence of that relationship.",
+    "concept": "Local versus global error order for one-step ODE methods, verified by a step-halving convergence study",
+    "tags": ["forward euler", "IVP", "convergence order", "local error", "global error", "numerical stability"],
+    "references": ["Unit 4 – Lecture 12", "Unit 4 – Lecture 13"]
+  },
+  {
+    "id": "U4-WB-X04",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "expert",
+    "title": "The Hidden Cost of \"Just Make h Smaller\"",
+    "context": "It's tempting to think a numerical simulation can always be made more accurate simply by shrinking the step size as far as it takes. You'll quantify exactly what shrinking h buys you -- and what it costs -- for a simple decay simulation, and confront why 'smaller is always better' is not a free strategy, in either computational cost or (eventually) numerical accuracy.",
+    "parts": [
+      { "label": "a", "prompt": "Define k = 0.5 (1/s), C0 = 100 (mg/L), tfinal = 1 (s). For h in {1, 0.1, 0.01, 0.001, 1e-4, 1e-5}, simulate forward Euler from t = 0 to 1 and record, for each h, (i) the number of steps taken (tfinal/h) into a vector numSteps, and (ii) the global error at t = 1 compared to the exact value C0*exp(-k*tfinal), into a vector globErr." },
+      { "label": "b", "prompt": "Display a table-like printout of h, numSteps, and globErr for all six step sizes using a for-loop and fprintf." },
+      { "label": "c", "prompt": "Compute the ratio of consecutive global errors, globErr(1:end-1) ./ globErr(2:end), to confirm the roughly 10x error improvement expected from forward Euler's O(h) convergence each time h shrinks by a factor of 10." },
+      { "label": "d", "prompt": "Compute, and display using fprintf, (i) how many times MORE steps h = 1e-5 required compared to h = 0.01, and (ii) how many times smaller the global error became between those same two step sizes." },
+      { "label": "e", "prompt": "In a written explanation (4-6 sentences), using the numbers from part (d): first explain that computational cost (number of steps) and accuracy gain scale together almost proportionally here, so this specific comparison is not really 'wasteful' in a strict numerical sense -- then explain the PRACTICAL angle: once the error is already far smaller than any measurement or clinical precision that matters (e.g., far below what a real sensor could resolve), spending 1000x more computation for another 1000x reduction in an already-negligible error buys nothing useful in practice. Separately, as a general fact about real (not exact) floating-point arithmetic, note that pushing h far smaller than this exercise does would eventually hit a round-off floor, beyond which shrinking h further stops helping and can even make the error worse." }
+    ],
+    "starterCode": "% Problem: The Hidden Cost of \"Just Make h Smaller\"\n% Name:\n% Date:\n\nclear; clc;\n\nk = 0.5;      % 1/s\nC0 = 100;     % mg/L\ntfinal = 1;   % s\nhs = [1 0.1 0.01 0.001 1e-4 1e-5];\n\n% a) numSteps and globErr for each h\n\n\n% b) Table-like printout\n\n\n% c) Ratio of consecutive global errors\n\n\n% d) Step-count ratio and error-improvement ratio, h=1e-5 vs h=0.01\n\n\n% e) Written explanation\n",
+    "hints": [
+      "numSteps(j) is simply tfinal/hs(j); you don't need to run the simulation to know this in advance, but you DO need to run the simulation (a for-loop of that many iterations) to get globErr(j).",
+      "For h = 1e-5 the inner Euler loop runs 100,000 times -- this is a normal, if slightly slow, number of iterations for MATLAB and will complete in well under a second.",
+      "hs(3) is 0.01 and hs(6) is 1e-5 in the given list -- use those specific indices for the part (d) comparison."
+    ],
+    "solutionCode": "% a) Simulate for each h\nk = 0.5; C0 = 100; tfinal = 1;\nhs = [1 0.1 0.01 0.001 1e-4 1e-5];\nCexact = C0 * exp(-k*tfinal);\nnumSteps = tfinal ./ hs;\nglobErr = zeros(size(hs));\nfor j = 1:length(hs)\n    h = hs(j);\n    n = round(tfinal/h);\n    C = C0;\n    for ii = 1:n\n        C = C + h * (-k * C);\n    end\n    globErr(j) = abs(C - Cexact);\nend\n\n% b) Table-like printout\nfor j = 1:length(hs)\n    fprintf('h = %-10g steps = %-10.0f globErr = %.6g\\n', hs(j), numSteps(j), globErr(j));\nend\n\n% c) Ratio of consecutive global errors\nratio = globErr(1:end-1) ./ globErr(2:end);\ndisp(ratio)\n\n% d) Step-count and error-improvement ratios, h=1e-5 vs h=0.01\nstepRatio = numSteps(6) / numSteps(3);\nerrRatio = globErr(3) / globErr(6);\nfprintf('Steps: %.0fx more for h=1e-5 than h=0.01\\n', stepRatio);\nfprintf('Error improved by a factor of %.1fx\\n', errRatio);\n\n% e) Written explanation:\n% Going from h=0.01 to h=1e-5 requires 1000x more steps (100 vs 100000)\n% and the error improves by very nearly the same 1000x factor (about\n% 1003x) -- so in exact arithmetic, the cost and the benefit scale almost\n% proportionally here; this particular comparison is not 'wasteful' in a\n% strict cost-per-unit-accuracy sense. The practical issue is different:\n% once globErr is already around 7.6e-5 mg/L (from h=0.01) -- far smaller\n% than any real blood-concentration assay could resolve -- spending 1000x\n% more computation to shrink an already-clinically-meaningless error by\n% another 1000x buys nothing useful, even though the numbers keep\n% improving on paper. Separately, this is still exact-arithmetic behavior;\n% in real floating-point arithmetic, pushing h far smaller than tested\n% here would eventually reach a point where f(t+h) and f(t) round to\n% nearly the same double-precision value, and the resulting round-off\n% error would stop shrinking with h and could eventually start growing\n% again, a genuine floor that no amount of further step-size reduction\n% can get past.",
+    "solutionExplanation": "With Cexact = 100*exp(-0.5) ≈ 60.6531 mg/L, the six step sizes give numSteps = [1, 10, 100, 1000, 10000, 100000] and globErr ≈ [10.653, 0.7794, 0.0760, 0.00758, 0.000758, 0.0000758] mg/L. The ratio of consecutive errors is about [13.67, 10.25, 10.02, 10.00, 10.00] -- essentially exactly the 10x-per-10x-smaller-h behavior expected of an O(h) method once past the first, roughest step size. Comparing h=0.01 to h=1e-5 directly: the number of steps grows by exactly 1000x (100 to 100,000), while the error shrinks by about 1003x -- almost the identical factor. This is the heart of part (e): in exact arithmetic, forward Euler's cost and benefit scale together almost one-to-one, so no 'wasted' computation shows up numerically here; the real-world argument against blindly shrinking h is instead a practical one (diminishing returns relative to what accuracy is actually needed) and, separately, a hardware one (an eventual double-precision round-off floor that this particular exercise, at these step sizes, does not reach but which real floating-point arithmetic guarantees exists at some sufficiently tiny h).",
+    "concept": "Cost-versus-accuracy scaling for forward Euler and the general concept of a floating-point round-off floor",
+    "tags": ["numerical stability", "forward euler", "step size", "computational cost", "round-off error", "convergence"],
+    "references": ["Unit 4 – Lecture 12", "Unit 4 – Quiz 4"]
+  },
+  {
+    "id": "U4-WB-X05",
+    "unit": 4,
+    "topic": "numerical-stability",
+    "difficulty": "expert",
+    "title": "Diagnosing Instability in a Logistic Tumor-Growth Simulation",
+    "context": "A simplified tumor-volume model follows logistic growth, dV/dt = r*V*(1 - V/Vmax). Biologically, V should only ever climb smoothly from V0 toward Vmax -- it can never exceed Vmax or drop below zero. You'll show that forward Euler with too large a step size can produce exactly these physically impossible results, purely as a numerical-stability failure, not a flaw in the biological model.",
+    "parts": [
+      { "label": "a", "prompt": "Define r = 1.8 (1/day), Vmax = 50 (cm^3), V0 = 2 (cm^3), tfinal = 10 (day). Simulate with h = 0.1 and plot V(t) -- it should look smooth and stay between V0 and Vmax." },
+      { "label": "b", "prompt": "Repeat with h = 1.0 and h = 1.3, plotting all three simulations (h = 0.1, 1.0, 1.3) together for comparison." },
+      { "label": "c", "prompt": "For each of the three simulations, use min and max on the V vector to check for physically impossible values (V < 0, or V > 1.01*Vmax). Using fprintf, report for each simulation whether it stayed 'physically valid' or went 'unstable'." },
+      { "label": "d", "prompt": "By testing h = 1.0:0.05:2.0 in a loop, find the smallest h in that range at which the simulation first produces a negative volume at some point, and display that threshold h using fprintf." },
+      { "label": "e", "prompt": "In a written explanation (4-6 sentences), explain mechanically why a large step size can cause the discretized update V_new = V_old + h*r*V_old*(1 - V_old/Vmax) to overshoot Vmax and then oscillate or diverge, connect this to the general forward-Euler stability idea that h must be small relative to the system's fastest local rate of change, and state why this failure is a numerical-stability issue rather than a flaw in the underlying biological (logistic) model itself." }
+    ],
+    "starterCode": "% Problem: Diagnosing Instability in a Logistic Tumor-Growth Simulation\n% Name:\n% Date:\n\nclear; clc; close all;\n\nr = 1.8;      % 1/day\nVmax = 50;    % cm^3\nV0 = 2;       % cm^3\ntfinal = 10;  % day\n\n% a) h = 0.1 -> plot\n\n\n% b) h = 1.0 and h = 1.3 -> overlay\n\n\n% c) min/max validity check for each simulation\n\n\n% d) Search h = 1.0:0.05:2.0 for the first negative-volume threshold\n\n\n% e) Written explanation\n",
+    "hints": [
+      "The update rule is the same at every step regardless of h: V(ii+1) = V(ii) + h*r*V(ii)*(1 - V(ii)/Vmax); only h itself changes between the three simulations in parts (a)-(b).",
+      "A simulation is 'physically valid' if min(V) is not meaningfully below 0 and max(V) does not meaningfully exceed Vmax -- checking min(V) >= -0.01*Vmax && max(V) <= 1.01*Vmax with a small tolerance handles floating-point roundoff at the boundary.",
+      "In part (d), run a fresh simulation for each candidate h, check any(V < 0) each time, and keep the first (smallest) h in the tested range where that condition is true."
+    ],
+    "solutionCode": "% a) h = 0.1\nr = 1.8; Vmax = 50; V0 = 2; tfinal = 10;\nh = 0.1; t = 0:h:tfinal;\nV = zeros(size(t)); V(1) = V0;\nfor ii = 1:length(t)-1\n    V(ii+1) = V(ii) + h*r*V(ii)*(1 - V(ii)/Vmax);\nend\nfigure\nplot(t, V, 'LineWidth', 1.5)\nxlabel('Time (day)'); ylabel('Tumor volume (cm^3)')\ntitle('Forward Euler, h = 0.1')\n\n% b) h = 1.0 and h = 1.3, overlay\nhVals = [1.0 1.3];\nfigure\nplot(t, V, 'LineWidth', 1.5)\nhold on\nfor hh = hVals\n    tt = 0:hh:tfinal;\n    VV = zeros(size(tt)); VV(1) = V0;\n    for ii = 1:length(tt)-1\n        VV(ii+1) = VV(ii) + hh*r*VV(ii)*(1 - VV(ii)/Vmax);\n    end\n    plot(tt, VV, 'o-')\nend\nhold off\nxlabel('Time (day)'); ylabel('Tumor volume (cm^3)')\nlegend('h = 0.1', 'h = 1.0', 'h = 1.3')\n\n% c) Validity check for each simulation\nallH = [0.1 1.0 1.3];\nfor j = 1:length(allH)\n    hh = allH(j);\n    tt = 0:hh:tfinal;\n    VV = zeros(size(tt)); VV(1) = V0;\n    for ii = 1:length(tt)-1\n        VV(ii+1) = VV(ii) + hh*r*VV(ii)*(1 - VV(ii)/Vmax);\n    end\n    isValid = (min(VV) >= -0.01*Vmax) && (max(VV) <= 1.01*Vmax);\n    if isValid\n        fprintf('h = %.2f: physically valid (min=%.2f, max=%.2f)\\n', hh, min(VV), max(VV));\n    else\n        fprintf('h = %.2f: unstable (min=%.2f, max=%.2f)\\n', hh, min(VV), max(VV));\n    end\nend\n\n% d) Search for the first-negative-volume threshold\nhTest = 1.0:0.05:2.0;\nthreshold = NaN;\nfor hh = hTest\n    tt = 0:hh:tfinal;\n    VV = zeros(size(tt)); VV(1) = V0;\n    for ii = 1:length(tt)-1\n        VV(ii+1) = VV(ii) + hh*r*VV(ii)*(1 - VV(ii)/Vmax);\n    end\n    if any(VV < 0) && isnan(threshold)\n        threshold = hh;\n        break\n    end\nend\nfprintf('First negative-volume threshold: h = %.2f\\n', threshold);\n\n% e) Written explanation:\n% Each Euler step is V_new = V_old + h*r*V_old*(1-V_old/Vmax); if h is\n% large enough, this can push V_new far past Vmax in a single step. Once\n% V exceeds Vmax, the term (1-V/Vmax) turns NEGATIVE, so the NEXT step\n% actually subtracts a large amount from V, potentially overshooting past\n% zero in the other direction -- and once V is negative, the growth term\n% behaves nonsensically for a real population. This is the same forward-\n% Euler stability idea seen for the linear decay case: h must be small\n% relative to how fast the local slope, r*V*(1-V/Vmax), is changing near\n% the current V, and that slope changes fastest near V = Vmax/2. This is\n% purely a numerical-stability failure, not a biology problem -- the true\n% (continuous) logistic solution never overshoots Vmax or goes negative,\n% and shrinking h back down (as in the h = 0.1 case) recovers the correct,\n% smooth, physically sensible behavior with the exact same equation.",
+    "solutionExplanation": "With h = 0.1, V climbs smoothly from 2 to 50 cm^3, staying within [V0, Vmax] the entire simulation -- physically valid. With h = 1.0, the simulation's max volume reaches about 52.98 cm^3, already exceeding Vmax by more than 1%, and with h = 1.3 it reaches about 54.85 cm^3 -- both flagged unstable by the min/max check even though neither goes negative yet. Searching h = 1.0:0.05:2.0 finds that h = 1.75 is the first step size in that range at which V actually dips negative (min(V) ≈ -32.1), and step sizes beyond that get dramatically worse (h = 2.0 reaches a minimum around -363.5). Mechanically, once a step overshoots past Vmax, the factor (1 - V/Vmax) in the ODE flips sign, so the next Euler step subtracts rather than adds, and if h is large enough that subtraction itself overshoots past zero -- from there the dynamics spiral further from anything biologically meaningful. None of this reflects a problem with the logistic equation itself, which smoothly and monotonically approaches Vmax for any true solution; it is entirely an artifact of forward Euler's requirement that h stay small relative to the local rate of change, which for this nonlinear ODE is largest and most sensitive near V = Vmax/2.",
+    "concept": "Diagnosing forward-Euler numerical instability in a nonlinear ODE and distinguishing it from model failure",
+    "tags": ["numerical stability", "forward euler", "logistic growth", "nonlinear ODE", "instability", "tumor growth"],
+    "references": ["Unit 4 – Lecture 12", "Unit 4 – Quiz 4"]
+  }
+]

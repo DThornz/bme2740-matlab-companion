@@ -1,0 +1,508 @@
+[
+  {
+    "id": "U0-WB-B01",
+    "unit": 0,
+    "topic": "variables-operators",
+    "difficulty": "beginner",
+    "title": "Body Mass Index (BMI) Classifier",
+    "context": "Body Mass Index (BMI) is a simple screening ratio clinicians use to flag possible weight-related health risk. You'll compute it directly from a patient's height and weight and report a few basic facts about the result using MATLAB's arithmetic and relational operators.",
+    "parts": [
+      { "label": "a", "prompt": "Create the variables weight_kg = 82 and height_m = 1.75. Compute BMI using the formula BMI = weight_kg / height_m^2 and store it in a variable named bmi." },
+      { "label": "b", "prompt": "Use fprintf to display the computed BMI rounded to 1 decimal place, in the form: \"BMI: 26.8\"." },
+      { "label": "c", "prompt": "Using a single relational expression (no if statement), create a logical variable named isOverweight that is true if bmi is greater than or equal to 25, and false otherwise. Display its value with disp." },
+      { "label": "d", "prompt": "Display the class of isOverweight using MATLAB's class function, and add a one-line comment explaining why it is that type rather than a double." }
+    ],
+    "starterCode": "% Problem: Body Mass Index (BMI) Classifier\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create weight_kg, height_m, and compute bmi\n\n\n% b) Display bmi to 1 decimal place with fprintf\n\n\n% c) Create isOverweight using a relational expression (no if statement)\n\n\n% d) Display class(isOverweight); explain in a comment why\n",
+    "hints": [
+      "BMI's formula divides mass by height SQUARED — in MATLAB, squaring uses the ^ operator, e.g. height_m^2, not height_m*2.",
+      "fprintf's %.1f format specifier rounds a number to 1 decimal place when you print it, so you don't need to round bmi itself first.",
+      "A relational operator like >= applied to numbers evaluates directly to true or false — you can assign that result straight into a variable without writing any if/else at all."
+    ],
+    "solutionCode": "% a) Compute BMI\nweight_kg = 82;\nheight_m = 1.75;\nbmi = weight_kg / height_m^2;\n\n% b) Display to 1 decimal place\nfprintf('BMI: %.1f\\n', bmi);\n\n% c) Logical flag via a relational expression -- no if needed\nisOverweight = bmi >= 25;\ndisp(isOverweight)\n\n% d) Data type of a relational-expression result\ndisp(class(isOverweight))\n% isOverweight is 'logical', not 'double', because the >= operator always\n% returns a true/false logical value, regardless of the numeric types being compared.",
+    "solutionExplanation": "bmi is a plain double from ordinary arithmetic (82 / 1.75^2 ≈ 26.78). fprintf's %.1f handles the display rounding for you, which is why bmi itself is left unrounded — rounding the stored value would throw away precision you might need later. The key idea for part (c) is that relational operators (<, >, ==, >=, etc.) are themselves expressions that produce a value — MATLAB doesn't need an if statement to \"decide\" true or false, the operator already returns one. That returned value has its own data type, logical, which is why class(isOverweight) reports 'logical' rather than 'double' — MATLAB keeps true/false values in a distinct type specifically so they can be used directly as array indices or loop/if conditions.",
+    "concept": "Arithmetic operators, relational operators, and MATLAB's logical data type",
+    "tags": ["operators", "relational operators", "logical", "fprintf", "class"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-B02",
+    "unit": 0,
+    "topic": "environment",
+    "difficulty": "beginner",
+    "title": "Setting Up a Clean MATLAB Workspace",
+    "context": "Before starting any new script, it's good practice to make sure your MATLAB Workspace, Command Window, and open figures are all in a known clean state, and that your variable names are actually valid. This problem checks that you understand what clear, clc, and close all each do, and how MATLAB decides whether a name is a legal variable name.",
+    "parts": [
+      { "label": "a", "prompt": "Write the standard three-line startup block that removes all variables from the Workspace, clears the Command Window text, and closes any open figure windows." },
+      { "label": "b", "prompt": "Use isvarname to test each of these candidate variable names, in this order: 'trial_2', '2ndTrial', 'clc'. Store the three results in a single 1x3 logical vector named results, and display it." },
+      { "label": "c", "prompt": "Using sum() on results, display how many of the three candidate names are valid variable names." }
+    ],
+    "starterCode": "% Problem: Setting Up a Clean MATLAB Workspace\n% Name:\n% Date:\n\n% a) Standard clean-start block\n\n\n% b) Test candidate variable names with isvarname\n\n\n% c) Display how many of the three names are valid\n",
+    "hints": [
+      "MATLAB has three separate commands for three separate jobs: one erases variables from the Workspace, one erases text from the Command Window, and one closes figure windows — none of the three does another's job.",
+      "isvarname takes a single name as text, e.g. isvarname('trial_2'), and returns true or false; call it three times and collect the results into one vector with square brackets.",
+      "'clc' is already the name of a real MATLAB command, but isvarname only checks spelling rules (must start with a letter, then only letters/digits/underscores) — it does NOT check whether the name is already taken by a function, so isvarname('clc') actually returns true. '2ndTrial' is the one that fails, because it starts with a digit."
+    ],
+    "solutionCode": "% a) Standard clean-start block\nclear;      % removes all variables from the Workspace\nclc;        % clears text from the Command Window (does not touch variables)\nclose all;  % closes all open figure windows (does not touch variables or Command Window text)\n\n% b) Test candidate variable names\nresults = [isvarname('trial_2'), isvarname('2ndTrial'), isvarname('clc')];\ndisp(results)\n\n% c) Count how many are valid\ndisp(sum(results))",
+    "solutionExplanation": "Each of the three startup commands has one specific job and none of them overlaps with the others: clear empties the Workspace, clc empties the Command Window's displayed text, and close all shuts every open figure window, which is why the recommended habit is to run all three together at the top of a new script rather than assuming one implies the others. For isvarname, 'trial_2' is valid (starts with a letter, only letters/digits/underscore afterward), '2ndTrial' is invalid because MATLAB variable names must start with a letter rather than a digit, and 'clc' is, somewhat surprisingly, valid — isvarname only checks the spelling rules for a legal identifier, not whether that identifier already refers to a built-in function, so results is [true, false, true] and sum(results) is 2.",
+    "concept": "MATLAB environment reset commands and variable-naming rules",
+    "tags": ["environment", "clear", "clc", "close all", "isvarname", "variable naming"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-B03",
+    "unit": 0,
+    "topic": "vectors-matrices",
+    "difficulty": "beginner",
+    "title": "Building and Indexing a Daily Temperature Log",
+    "context": "A patient's body temperature (in degrees F) was recorded once per day for a week. You'll store these readings in a vector and practice pulling out specific values and ranges using MATLAB's indexing and the colon operator.",
+    "parts": [
+      { "label": "a", "prompt": "Create a row vector named tempF containing the seven daily readings, Monday through Sunday in order: 98.6, 99.1, 100.2, 101.0, 100.4, 99.3, 98.9." },
+      { "label": "b", "prompt": "Using indexing (not by retyping a number), extract the temperature recorded on Thursday (the 4th day) into a variable named thursdayTemp, and display it." },
+      { "label": "c", "prompt": "Using the colon operator, extract the temperatures for Wednesday through Friday (days 3-5) into a variable named midweek, and display it." }
+    ],
+    "starterCode": "% Problem: Building and Indexing a Daily Temperature Log\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create tempF\n\n\n% b) Extract Thursday's temperature by indexing\n\n\n% c) Extract Wednesday-Friday using the colon operator\n",
+    "hints": [
+      "A row vector is just a list of numbers separated by commas or spaces inside square brackets, stored in the order you type them.",
+      "MATLAB indexing starts at 1, not 0, so the 4th day (Thursday) is tempF(4).",
+      "tempF(3:5) uses the colon operator to grab a contiguous range of positions — a start index, a colon, and an end index, all inside the parentheses."
+    ],
+    "solutionCode": "% a) Create tempF\ntempF = [98.6, 99.1, 100.2, 101.0, 100.4, 99.3, 98.9];\n\n% b) Extract Thursday's temperature (4th element)\nthursdayTemp = tempF(4);\ndisp(thursdayTemp)\n\n% c) Extract Wednesday-Friday (elements 3 through 5)\nmidweek = tempF(3:5);\ndisp(midweek)",
+    "solutionExplanation": "tempF stores all seven readings in the order they were recorded, so position and day number line up directly (position 1 = Monday, position 4 = Thursday, and so on) because MATLAB uses 1-based indexing rather than starting from 0 like many other languages. thursdayTemp = tempF(4) = 101.0 pulls out a single element by its exact position. midweek = tempF(3:5) uses the colon operator to request a whole contiguous block of positions at once — start index 3, end index 5 — returning [100.2 101.0 100.4], the Wednesday-through-Friday readings, without needing to index each day separately.",
+    "concept": "Vector creation and indexing with the colon operator",
+    "tags": ["vectors", "indexing", "colon operator"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-B04",
+    "unit": 0,
+    "topic": "plotting-basics",
+    "difficulty": "beginner",
+    "title": "Plotting a Simple Dose-Response Line",
+    "context": "A pharmacology worksheet gives you five drug doses (in mg) and the corresponding measured response (in arbitrary response units). You'll plot the relationship with properly labeled axes, following the basic 2-D plotting workflow.",
+    "parts": [
+      { "label": "a", "prompt": "Create the vectors dose = [5 10 15 20 25] and response = [12 22 35 41 50]." },
+      { "label": "b", "prompt": "Plot response versus dose using a blue line with circle markers at each data point." },
+      { "label": "c", "prompt": "Label the x-axis 'Dose (mg)', the y-axis 'Response (units)', and add the title 'Dose-Response Relationship'." }
+    ],
+    "starterCode": "% Problem: Plotting a Simple Dose-Response Line\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Create dose and response vectors\n\n\n% b) Plot response vs. dose with a blue line and circle markers\n\n\n% c) Label the axes and add a title\n",
+    "hints": [
+      "plot(x, y, style) always takes the x-values first and the y-values second — here dose belongs on the x-axis and response on the y-axis.",
+      "A style string can combine a color letter and a marker/line type in one short string, e.g. 'b-o' for a blue solid line with circle markers at each data point.",
+      "xlabel, ylabel, and title are each separate function calls made after the plot command, each taking a single text string in quotes."
+    ],
+    "solutionCode": "% a) Create the data vectors\ndose = [5 10 15 20 25];\nresponse = [12 22 35 41 50];\n\n% b) Plot response vs. dose\nfigure\nplot(dose, response, 'b-o')\n\n% c) Label axes and add a title\nxlabel('Dose (mg)')\nylabel('Response (units)')\ntitle('Dose-Response Relationship')",
+    "solutionExplanation": "plot(x, y, style) always plots the first vector along the horizontal axis and the second along the vertical axis, so dose (the input we control) belongs first and response (the measured outcome) belongs second. The style string 'b-o' packs three pieces of information into one short code: 'b' for blue, '-' for a solid connecting line, and 'o' for a circle marker drawn at every actual data point, which is why the plotted line clearly shows both the overall trend and the five individual measurements it's built from. xlabel, ylabel, and title are separate commands that each attach one piece of text to the current figure — without them, a viewer would have no way to know what the axes represent.",
+    "concept": "Basic 2-D plotting with plot, xlabel, ylabel, and title",
+    "tags": ["plotting", "plot", "xlabel", "ylabel", "title"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – MATLAB Example Presentation"]
+  },
+  {
+    "id": "U0-WB-B05",
+    "unit": 0,
+    "topic": "control-flow",
+    "difficulty": "beginner",
+    "title": "Classifying a Single Blood Glucose Reading",
+    "context": "A single fasting blood glucose reading (mg/dL) needs to be classified using standard screening cutoffs: below 70 is 'Low', 70-99 is 'Normal', 100-125 is 'Prediabetic', and 126 or above is 'Diabetic range'. You'll implement this using a simple if/elseif/else chain for one reading.",
+    "parts": [
+      { "label": "a", "prompt": "Create the variable glucose = 112." },
+      { "label": "b", "prompt": "Write an if/elseif/else chain that stores the correct category ('Low', 'Normal', 'Prediabetic', or 'Diabetic range') from the rule above into a variable named category." },
+      { "label": "c", "prompt": "Display category using disp." }
+    ],
+    "starterCode": "% Problem: Classifying a Single Blood Glucose Reading\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create glucose\nglucose = 112;\n\n% b) if/elseif/else chain -> category\n\n\n% c) Display category\n",
+    "hints": [
+      "Order your conditions from one extreme to the other (check < 70 first, then the next range, and so on) so each elseif only has to rule out the cases already tested above it.",
+      "Because the chain runs top to bottom, once you've already ruled out glucose < 70 and glucose <= 99, you don't need to re-check the lower bound of the next range — checking glucose <= 125 alone is enough to catch the 100-125 band.",
+      "With glucose = 112, the first condition that should evaluate true is the one for the 100-125 range, so category should end up as 'Prediabetic'."
+    ],
+    "solutionCode": "% a) Create glucose\nglucose = 112;\n\n% b) Classify using if/elseif/else\nif glucose < 70\n    category = 'Low';\nelseif glucose <= 99\n    category = 'Normal';\nelseif glucose <= 125\n    category = 'Prediabetic';\nelse\n    category = 'Diabetic range';\nend\n\n% c) Display the result\ndisp(category)",
+    "solutionExplanation": "An if/elseif/else chain is evaluated top to bottom, and MATLAB runs the body of the first condition that comes back true, then skips the rest of the chain entirely. With glucose = 112, the first test (glucose < 70) is false and the second (glucose <= 99) is also false, but the third (glucose <= 125) is true, so category is set to 'Prediabetic' and the else branch never runs. This is why later branches in the chain can be written as simple upper-bound checks rather than full ranges — by the time execution reaches the third condition, every value below 100 has already been ruled out by the branches above it.",
+    "concept": "if/elseif/else branching for range-based classification",
+    "tags": ["if elseif else", "control flow", "classification"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – If/Else/Switch/While/Loops Lab"]
+  },
+  {
+    "id": "U0-WB-I01",
+    "unit": 0,
+    "topic": "loops-debugging",
+    "difficulty": "intermediate",
+    "title": "Debug a Recovery Heart-Rate Averaging Script",
+    "context": "A classmate wrote a script meant to compute a patient's average heart rate over a short recovery-monitoring window and flag whether recovery looks \"Good\" (average below 100 bpm) or \"Needs Monitoring\" otherwise. It contains three separate bugs — one crashes the script, two produce wrong answers silently. Find and fix all three, then extend it.",
+    "parts": [
+      { "label": "a", "prompt": "Run the provided script. It will error out. Identify and fix Bug #1: an off-by-one loop bound that causes the last heart-rate reading to be skipped (and, as written, actually crashes the script first — see part b)." },
+      { "label": "b", "prompt": "Fix Bug #2: a variable (the running total) that is used before it has ever been initialized." },
+      { "label": "c", "prompt": "Fix Bug #3: the script runs without error but always reports the wrong recovery status — the messages in the if/else branches have been swapped." },
+      { "label": "d", "prompt": "After fixing all three bugs, add a line that also displays the minimum and maximum heart rate recorded, using min and max, via a single fprintf call." }
+    ],
+    "starterCode": "% Recovery heart-rate averaging -- contains 3 bugs, fix all of them\nhr = [142 138 130 121 115 108 102 99 95];\nn = length(hr);\n\nfor i = 1:n-1\n    total = total + hr(i);\nend\n\navgHr = total / n;\n\nif avgHr < 100\n    disp('Needs Monitoring')\nelse\n    disp('Good')\nend\n\n% d) add a display of min/max heart rate below\n",
+    "hints": [
+      "Bug 1: length(hr) already gives the correct number of readings — check whether the loop's upper bound actually reaches that final index.",
+      "Bug 2: MATLAB does not automatically create total = 0 for you before a loop. Adding to an undefined variable throws \"Undefined function or variable 'total'\" — that's the error you should see first when you run this.",
+      "Bug 3: the condition avgHr < 100 is actually correct for this problem's rules — look at which disp(...) message sits inside which branch instead."
+    ],
+    "solutionCode": "hr = [142 138 130 121 115 108 102 99 95];\nn = length(hr);\n\ntotal = 0;                  % fix: initialize the accumulator before the loop\nfor i = 1:n                 % fix: loop through all n readings, not n-1\n    total = total + hr(i);\nend\n\navgHr = total / n;\n\nif avgHr < 100\n    disp('Good')            % fix: branch messages were swapped\nelse\n    disp('Needs Monitoring')\nend\n\nfprintf('Min HR: %d, Max HR: %d\\n', min(hr), max(hr));",
+    "solutionExplanation": "The three bugs correspond to three different failure modes worth telling apart. Bug 2 (uninitialized total) is a runtime error — MATLAB refuses to run a line that references a variable that doesn't exist yet, so the script stops immediately with a clear message, which is actually the easiest kind of bug to find. Bug 1 (for i = 1:n-1) is a logic error that would run to completion without complaint if total were fixed alone — it simply drops the last reading from the average, giving a plausible-looking but wrong number. Bug 3 (swapped branch messages) is the most dangerous kind: the script runs, produces a numeric average that's completely correct, and only the final displayed label is backwards, so a genuinely healthy average gets reported as needing monitoring and vice versa — nothing about the output looks obviously broken unless you check the logic by hand.",
+    "concept": "Debugging for-loops: off-by-one bounds, uninitialized accumulators, and swapped-branch logic errors",
+    "tags": ["debugging", "for loop", "accumulator pattern", "off-by-one", "logic error"],
+    "references": ["Unit 0 – If/Else/Switch/While/Loops Lab", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-I02",
+    "unit": 0,
+    "topic": "variables-operators",
+    "difficulty": "intermediate",
+    "title": "Unit Conversion and Rounding for a Medication Order",
+    "context": "A physician's order gives a patient's weight in pounds and a weight-based drug dose rate in mg/kg. You need to convert units, compute the total dose, and format the result the way it would appear on a printed medication label.",
+    "parts": [
+      { "label": "a", "prompt": "Create weight_lb = 154 and doseRate = 5 (mg/kg). Convert weight to kilograms using 1 kg = 2.2046 lb, storing the result in weight_kg." },
+      { "label": "b", "prompt": "Compute the total dose in mg (totalDose_mg = weight_kg * doseRate) and round it to the nearest whole milligram using round(), storing the result in totalDose_rounded." },
+      { "label": "c", "prompt": "Use fprintf to display the result in the exact form: \"Total dose: 349 mg\" (using the rounded whole-number value, with no decimal places)." },
+      { "label": "d", "prompt": "Using a relational expression, create a logical variable named exceedsMaxDose that is true if totalDose_rounded is greater than 400, and display it with disp." }
+    ],
+    "starterCode": "% Problem: Unit Conversion and Rounding for a Medication Order\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Convert weight_lb to weight_kg\nweight_lb = 154;\ndoseRate = 5; % mg/kg\n\n\n% b) Compute totalDose_mg and round it\n\n\n% c) Display with fprintf in the form \"Total dose: 349 mg\"\n\n\n% d) exceedsMaxDose logical check\n",
+    "hints": [
+      "To convert pounds to kilograms, divide by the conversion factor (1 kg = 2.2046 lb) rather than multiplying — dividing by a number greater than 1 should make the value smaller, which is what going from pounds to the smaller kilogram unit should do.",
+      "round() takes a number and returns the nearest integer; round(totalDose_mg) is all you need — MATLAB doesn't require you to specify decimal places when rounding to a whole number.",
+      "fprintf's %d specifier is for integers; since totalDose_rounded is already a whole number from round(), fprintf('Total dose: %d mg\\n', totalDose_rounded) will print it cleanly."
+    ],
+    "solutionCode": "% a) Convert pounds to kilograms\nweight_lb = 154;\ndoseRate = 5; % mg/kg\nweight_kg = weight_lb / 2.2046;\n\n% b) Compute and round the total dose\ntotalDose_mg = weight_kg * doseRate;\ntotalDose_rounded = round(totalDose_mg);\n\n% c) Display in label format\nfprintf('Total dose: %d mg\\n', totalDose_rounded);\n\n% d) Check against the maximum safe dose\nexceedsMaxDose = totalDose_rounded > 400;\ndisp(exceedsMaxDose)",
+    "solutionExplanation": "Dividing weight_lb by 2.2046 converts 154 lb to about 69.854 kg, since a kilogram is a larger unit than a pound and so the same body weight needs a smaller number of them. Multiplying by the 5 mg/kg dose rate gives a total dose of about 349.27 mg, and round() collapses that to the nearest whole milligram, 349, before it's ever displayed — this is different from just using a %.0f format specifier, because here the stored value totalDose_rounded itself becomes a whole number, which matters in part (d) where it's compared directly against the 400 mg safety ceiling. Since 349 is not greater than 400, exceedsMaxDose comes out false.",
+    "concept": "Arithmetic conversion, rounding, and relational operators together",
+    "tags": ["arithmetic operators", "unit conversion", "round", "relational operators", "fprintf"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – Lecture 2"]
+  },
+  {
+    "id": "U0-WB-I03",
+    "unit": 0,
+    "topic": "loops-debugging",
+    "difficulty": "intermediate",
+    "title": "Debug a Medication Dose-Escalation Script",
+    "context": "A classmate wrote a script that is supposed to step a patient's medication dose up by a fixed increment every day until it reaches a target maintenance dose, counting how many days that takes. It contains three bugs: one crashes the script immediately, one causes an infinite loop, and one silently under-reports the correct day count. Find and fix all three.",
+    "parts": [
+      { "label": "a", "prompt": "Run the script. It errors out immediately. Identify and fix Bug #1: a typo in the while condition that references a variable name that was never actually created." },
+      { "label": "b", "prompt": "After fixing Bug #1, the script runs but never finishes (it hangs). Identify and fix Bug #2: a line inside the loop that updates the wrong variable, so the value being tested in the while condition never actually changes." },
+      { "label": "c", "prompt": "After fixing Bugs #1 and #2, the script finishes but reports one day fewer than the correct answer. Identify and fix Bug #3." },
+      { "label": "d", "prompt": "After fixing all three bugs, add a line that also displays the final dose value once the target is reached, using fprintf." }
+    ],
+    "starterCode": "% Medication dose-escalation script -- contains 3 bugs, fix all of them\ndose = 50;\nincrement = 10;\ntargetDose = 120;\ndays = 0;\n\nwhile dose < target              % Bug 1: 'target' was never created (typo for targetDose)\n    increment = increment + dose;    % Bug 2: updates the wrong variable -- dose itself never changes\n    days = days + 1;\nend\n\nfprintf('Days to reach target dose: %d\\n', days - 1);   % Bug 3: an extra, incorrect -1\n\n% d) also display the final dose below\n",
+    "hints": [
+      "MATLAB errors immediately with something like \"Undefined function or variable 'target'\" — check every variable name used inside the while condition against the ones actually created above it; a single missing word is enough to cause this.",
+      "A while loop's controlling variable must actually change inside the loop body. Read through the loop line by line and check that the variable being tested in the while condition (dose) is the one actually being reassigned each iteration, not some other variable.",
+      "Once the loop behaves correctly, days should end at 7, not 6 — look at exactly what value is passed into the final fprintf call rather than the days variable itself."
+    ],
+    "solutionCode": "dose = 50;\nincrement = 10;\ntargetDose = 120;\ndays = 0;\n\nwhile dose < targetDose        % fix: targetDose, not target\n    dose = dose + increment;   % fix: update dose itself, not increment\n    days = days + 1;\nend\n\nfprintf('Days to reach target dose: %d\\n', days);   % fix: report days directly, no extra -1\n\n% d) Also display the final dose\nfprintf('Final dose: %d mg\\n', dose);",
+    "solutionExplanation": "Bug 1 is a plain name mismatch: the while condition tests a variable called target, but nothing named target was ever created (only targetDose was), so MATLAB stops the script immediately with an undefined-variable error before the loop can even run once. Bug 2 is the more dangerous kind Lecture 2 warns about — a while loop's condition variable must actually change inside the loop body, but this script accidentally increments increment instead of dose, so dose stays at 50 forever and the condition dose < targetDose never becomes false, hanging the script. Bug 3 is a silent logic error that only shows up in the final displayed number: the loop itself correctly counts days up to 7 (50 -> 60 -> 70 -> 80 -> 90 -> 100 -> 110 -> 120, seven increments), but the fprintf call subtracts 1 from that correct count at display time, reporting 6 instead of 7 — a reminder to check the exact expression handed to fprintf or disp, not just whether the loop's internal logic looks right. After all three fixes, the corrected script reports 7 days and a final dose of 120 mg.",
+    "concept": "Debugging a while loop: crashing name errors, non-terminating conditions, and display-time logic errors",
+    "tags": ["debugging", "while loop", "infinite loop", "off-by-one", "logic error"],
+    "references": ["Unit 0 – If/Else/Switch/While/Loops Lab", "Unit 0 – Lecture 2"]
+  },
+  {
+    "id": "U0-WB-I04",
+    "unit": 0,
+    "topic": "vectors-matrices",
+    "difficulty": "intermediate",
+    "title": "Extracting and Averaging Patient Lab Panels",
+    "context": "A hospital lab stores each patient's three cholesterol measurements (Total, LDL, HDL) as one row in a matrix, one row per patient. You'll extract specific values and compute a column average using indexing and the colon operator.",
+    "parts": [
+      { "label": "a", "prompt": "Create the matrix labs = [210 130 50; 195 110 65; 240 160 45; 180 95 70], where rows are patients and columns are Total, LDL, and HDL cholesterol respectively." },
+      { "label": "b", "prompt": "Extract patient 3's full lab panel (row 3) into a variable named patient3, using the colon operator." },
+      { "label": "c", "prompt": "Extract the entire LDL column (column 2) into a column vector named ldlAll, using the colon operator." },
+      { "label": "d", "prompt": "Compute the average Total cholesterol across all 4 patients (column 1) and store it in avgTotal, using sum and length (do not use MATLAB's mean function). Display it." }
+    ],
+    "starterCode": "% Problem: Extracting and Averaging Patient Lab Panels\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create labs matrix (rows = patients, columns = Total, LDL, HDL)\n\n\n% b) Extract patient 3's row\n\n\n% c) Extract the LDL column (column 2)\n\n\n% d) Compute avgTotal using sum and length (no mean())\n",
+    "hints": [
+      "A matrix is built row by row, separated by semicolons inside one set of square brackets — each row needs the same number of comma- or space-separated values.",
+      "labs(3, :) uses the colon operator alone in the column position to mean 'every column,' which extracts an entire row at once.",
+      "labs(:, 2) works the same way in reverse — colon in the row position selects every row, pulling out an entire column as a vector; sum(labs(:,1))/length(labs(:,1)) then reproduces what mean() does internally."
+    ],
+    "solutionCode": "% a) Create the labs matrix\nlabs = [210 130 50;\n        195 110 65;\n        240 160 45;\n        180  95 70];\n\n% b) Extract patient 3's full panel\npatient3 = labs(3, :);\ndisp(patient3)\n\n% c) Extract the LDL column (column 2)\nldlAll = labs(:, 2);\ndisp(ldlAll)\n\n% d) Average Total cholesterol without mean()\navgTotal = sum(labs(:,1)) / length(labs(:,1));\ndisp(avgTotal)",
+    "solutionExplanation": "labs(3, :) uses the colon operator by itself in the column slot to mean 'every column of row 3,' returning patient3 = [240 160 45] as a full lab panel in one indexing step. labs(:, 2) is the mirror image — colon in the row slot means 'every row of column 2' — returning ldlAll = [130; 110; 160; 95] as a column vector of every patient's LDL value. For avgTotal, sum(labs(:,1)) adds the four Total-cholesterol values (210+195+240+180 = 825) and dividing by length(labs(:,1)), which is 4, gives 206.25 — exactly reproducing what MATLAB's built-in mean() function does under the hood, just written out explicitly with two simpler functions.",
+    "concept": "Matrix row/column extraction with the colon operator, and computing an average manually",
+    "tags": ["matrices", "colon operator", "indexing", "sum", "length"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-I05",
+    "unit": 0,
+    "topic": "environment",
+    "difficulty": "intermediate",
+    "title": "Tracing Execution Order and Output Suppression",
+    "context": "MATLAB executes a script strictly from top to bottom, and whether a line's result is echoed to the Command Window depends only on whether that line ends in a semicolon — not on whether the variable is used later. You'll trace a short script by hand, then adjust it to control exactly which values get echoed automatically.",
+    "parts": [
+      { "label": "a", "prompt": "Without running it, list which of the four assignment lines in the given script (a, b, c, d) will print their value to the Command Window, and what values a, b, c, and d each end up holding after all four lines run. Write your answer as comments." },
+      { "label": "b", "prompt": "Rewrite the script so that only d's own assignment line echoes its value automatically: a, b, and c should all be silent, and the separate disp(d) call should be removed entirely (since d's own assignment will already print it)." },
+      { "label": "c", "prompt": "In one sentence, explain why adding a semicolon to a line changes what's printed to the Command Window but never changes the value that gets stored in the variable." }
+    ],
+    "starterCode": "% Problem: Tracing Execution Order and Output Suppression\n% Name:\n% Date:\n\nclear; clc;\n\n% Given script (trace this by hand for part a; do not change yet)\na = 4\nb = a + 3;\nc = b * 2\nd = c - a;\ndisp(d)\n\n% b) Rewrite below so ONLY d's assignment line echoes its value automatically\n\n\n% c) One-sentence written explanation as a comment\n",
+    "hints": [
+      "Semicolons only control whether a line's result is echoed to the Command Window — every line still executes and stores its value in the variable regardless of whether it ends in a semicolon.",
+      "Work top to bottom: a=4 first, then b uses that a, then c uses that b, then d uses both c and the original a — none of the later lines change a, b, or c's already-stored values.",
+      "To make only d's own assignment line print automatically, every other assignment (a, b, c) needs a trailing semicolon, and d's assignment line itself must NOT have one — since d's assignment will then already echo 'd = 10', the separate disp(d) call becomes redundant and should be removed."
+    ],
+    "solutionCode": "% a) Trace (written as comments):\n% a = 4   -> prints \"a = 4\"   (no semicolon)\n% b = 7   -> silent           (semicolon)\n% c = 14  -> prints \"c = 14\"  (no semicolon)\n% d = 10  -> silent (semicolon), then disp(d) separately prints \"10\"\n\n% b) Rewritten so only d's own line echoes its value\na = 4;\nb = a + 3;\nc = b * 2;\nd = c - a\n\n% c) Written explanation:\n% A semicolon only suppresses the Command Window echo of a line's result;\n% the assignment and its arithmetic still happen exactly the same either way.",
+    "solutionExplanation": "Tracing top to bottom: a is assigned 4 (no semicolon, so it prints \"a = 4\"), b is assigned a + 3 = 7 (semicolon, silent), c is assigned b * 2 = 14 (no semicolon, prints \"c = 14\"), and d is assigned c - a = 14 - 4 = 10 (semicolon, silent), after which the separate disp(d) call prints just \"10\" with no variable name attached. The rewritten version in part (b) simply moves the semicolons: a, b, and c all get trailing semicolons so they compute silently, while d's assignment line is left without one so MATLAB automatically echoes \"d = 10\" itself, making the standalone disp(d) call unnecessary. The core idea is that a semicolon is purely a display instruction to the Command Window — it has no effect whatsoever on the arithmetic MATLAB performs or the value ultimately stored in the variable.",
+    "concept": "Script execution order and semicolon output suppression",
+    "tags": ["environment", "script execution", "semicolon", "command window", "tracing"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-A01",
+    "unit": 0,
+    "topic": "control-flow",
+    "difficulty": "advanced",
+    "title": "Vital Sign Alarm Classifier",
+    "context": "A bedside monitor needs to classify a patient's status from heart rate (HR) and mean arterial pressure (MAP) readings using a simplified alarm rule set: \"Critical\" if HR > 150, HR < 40, or MAP < 60; \"Warning\" if HR > 120 or MAP < 70 (and not already Critical); otherwise \"Normal\". You'll implement this for one patient, then generalize it to a small ward using a loop and, separately, using vectorized logic.",
+    "parts": [
+      { "label": "a", "prompt": "For a single patient with HR = 132 and MAP = 68, write nested if/elseif/else logic (using && and/or || as needed) that stores the result in a string variable named status set to exactly one of 'Critical', 'Warning', or 'Normal', following the rules above. Display status." },
+      { "label": "b", "prompt": "switch statements compare exact values rather than ranges, so they can't apply the HR/MAP rules directly — but they can dispatch on the status string you already computed. Write a switch statement on status that displays a recommended check-in interval for each case: Critical -> 'Check every 5 min', Warning -> 'Check every 15 min', Normal -> 'Check every 60 min'." },
+      { "label": "c", "prompt": "A night-shift ward has index-matched vectors HR = [132 158 98 41 110] and MAP = [68 55 82 58 90] for 5 patients. Using a for-loop and the same if/elseif/else rules from (a), display each patient's number (1-5) and their status." },
+      { "label": "d", "prompt": "Using relational and logical operators directly on the HR and MAP vectors (no loop), create a logical vector named needsImmediateAttention that is true for any patient meeting the Critical condition, and display how many patients that is using sum()." }
+    ],
+    "starterCode": "% Problem: Vital Sign Alarm Classifier\nclear; clc;\n\n% a) Single patient, nested if/elseif/else -> status\nHR = 132; MAP = 68;\n\n\n% b) switch on status -> recommended check-in interval\n\n\n% c) Whole ward, for-loop + if/elseif/else\nHR = [132 158 98 41 110];\nMAP = [68 55 82 58 90];\n\n\n% d) Vectorized logical expression -> needsImmediateAttention\n\n",
+    "hints": [
+      "Order matters in an if/elseif chain — test the Critical condition first, so a patient who would also trigger the Warning condition isn't misclassified as merely a Warning.",
+      "switch only compares exact values against case labels, so run your if/elseif logic first to produce a string like 'Critical', then switch on that string — not on the raw HR/MAP numbers.",
+      "For part (d), OR together three separate relational expressions applied to the whole vectors at once, e.g. (HR > 150) | (HR < 40) | (MAP < 60) — use the element-wise | operator here, not the short-circuit ||, since these compare entire vectors rather than single values."
+    ],
+    "solutionCode": "% a) Single patient\nHR = 132; MAP = 68;\nif HR > 150 || HR < 40 || MAP < 60\n    status = 'Critical';\nelseif HR > 120 || MAP < 70\n    status = 'Warning';\nelse\n    status = 'Normal';\nend\ndisp(status)\n\n% b) switch on the computed status string\nswitch status\n    case 'Critical'\n        disp('Check every 5 min')\n    case 'Warning'\n        disp('Check every 15 min')\n    case 'Normal'\n        disp('Check every 60 min')\nend\n\n% c) Whole ward, for-loop\nHR = [132 158 98 41 110];\nMAP = [68 55 82 58 90];\nfor i = 1:length(HR)\n    if HR(i) > 150 || HR(i) < 40 || MAP(i) < 60\n        status = 'Critical';\n    elseif HR(i) > 120 || MAP(i) < 70\n        status = 'Warning';\n    else\n        status = 'Normal';\n    end\n    fprintf('Patient %d: %s\\n', i, status);\nend\n\n% d) Vectorized logical expression, no loop\nneedsImmediateAttention = (HR > 150) | (HR < 40) | (MAP < 60);\ndisp(needsImmediateAttention)\nfprintf('Patients needing immediate attention: %d\\n', sum(needsImmediateAttention));",
+    "solutionExplanation": "Parts (a)-(c) all apply the identical set of rules, but at three different scales: a single reading, a single reading re-expressed through a second control-flow construct (switch), and then the same per-patient logic repeated across a ward via a for-loop. Because switch only tests for exact-match equality against each case label, it can't evaluate a range condition like HR > 150 on its own — the trick is to let the if/elseif chain do that range-based decision first and hand switch a clean, already-categorized string to dispatch on. Part (d) then abandons the loop entirely: (HR > 150), (HR < 40), and (MAP < 60) each compare an entire vector to a scalar in one step, producing three logical vectors of the same size, and the element-wise | operator combines them position-by-position. sum() then works because MATLAB treats true as 1 and false as 0, so summing a logical vector directly counts how many entries were true.",
+    "concept": "Nested conditional logic, switch statements, and vectorized logical expressions",
+    "tags": ["if elseif else", "switch", "logical operators", "vectorized comparison", "control flow"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – If/Else/Switch/While/Loops Lab"]
+  },
+  {
+    "id": "U0-WB-A02",
+    "unit": 0,
+    "topic": "variables-operators",
+    "difficulty": "advanced",
+    "title": "Scaling a Creatinine Clearance Estimate from One Patient to a Ward",
+    "context": "The Cockcroft-Gault equation estimates creatinine clearance (CrCl, in mL/min), a measure of kidney function, from age, weight, and serum creatinine: CrCl = ((140 - age) * weight_kg) / (72 * serumCr), with an extra 0.85 multiplier for female patients. You'll compute this for one patient by hand-coding the formula, then scale it up to a small ward of patients using arithmetic on vectors.",
+    "parts": [
+      { "label": "a", "prompt": "For a male patient with age = 65, weight_kg = 80, serumCr = 1.1 (mg/dL), compute CrCl using the formula above (no 0.85 factor for male) and store it in crcl1. Display it rounded to 1 decimal place using fprintf." },
+      { "label": "b", "prompt": "For a female patient with age = 58, weight_kg = 65, serumCr = 0.9, compute her CrCl including the 0.85 female correction factor, store it in crcl2, and display it rounded to 1 decimal place." },
+      { "label": "c", "prompt": "A ward has 5 male patients with ages = [65 72 45 80 55], weights = [80 68 90 72 60], and serumCr = [1.1 1.4 0.9 1.6 1.0] (index-matched). Using vectorized arithmetic (no loop), compute a vector crclWard containing all 5 patients' CrCl values in one expression." },
+      { "label": "d", "prompt": "Using a relational expression on crclWard (no loop), create a logical vector lowFunction that flags any patient with CrCl below 60 mL/min (a common threshold for reduced kidney function), and display how many patients that is using sum()." },
+      { "label": "e", "prompt": "Using indexing with lowFunction as a logical index into ages, display the ages of only the patients flagged in (d)." }
+    ],
+    "starterCode": "% Problem: Scaling a Creatinine Clearance Estimate from One Patient to a Ward\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Single male patient -> crcl1\nage = 65; weight_kg = 80; serumCr = 1.1;\n\n\n% b) Single female patient -> crcl2 (include 0.85 factor)\nage = 58; weight_kg = 65; serumCr = 0.9;\n\n\n% c) Ward of 5 male patients -> crclWard (vectorized, no loop)\nages = [65 72 45 80 55];\nweights = [80 68 90 72 60];\nserumCr = [1.1 1.4 0.9 1.6 1.0];\n\n\n% d) lowFunction logical vector + count below 60\n\n\n% e) Ages of flagged patients using logical indexing\n",
+    "hints": [
+      "Translate the formula piece by piece exactly as written -- (140 - age) times weight, all divided by (72 times serumCr) -- and only multiply by 0.85 as a separate, final step for the female patient.",
+      "For part (c), the same formula works on entire vectors at once as long as every operation between two same-size vectors is element-wise: (140 - ages) .* weights ./ (72 * serumCr) matches each patient's age with their own weight and serumCr in the same position.",
+      "A logical vector like lowFunction can be used directly inside another vector's parentheses as an index -- ages(lowFunction) returns only the entries of ages where lowFunction is true, without writing a loop or an if statement."
+    ],
+    "solutionCode": "% a) Single male patient\nage = 65; weight_kg = 80; serumCr = 1.1;\ncrcl1 = (140 - age) * weight_kg / (72 * serumCr);\nfprintf('Patient 1 CrCl: %.1f mL/min\\n', crcl1);\n\n% b) Single female patient (0.85 correction factor)\nage = 58; weight_kg = 65; serumCr = 0.9;\ncrcl2 = ((140 - age) * weight_kg / (72 * serumCr)) * 0.85;\nfprintf('Patient 2 CrCl: %.1f mL/min\\n', crcl2);\n\n% c) Ward of 5 male patients, vectorized (no loop)\nages = [65 72 45 80 55];\nweights = [80 68 90 72 60];\nserumCr = [1.1 1.4 0.9 1.6 1.0];\ncrclWard = (140 - ages) .* weights ./ (72 * serumCr);\ndisp(crclWard)\n\n% d) Flag reduced kidney function (CrCl < 60)\nlowFunction = crclWard < 60;\ndisp(lowFunction)\nfprintf('Patients with reduced function: %d\\n', sum(lowFunction));\n\n% e) Ages of the flagged patients\nflaggedAges = ages(lowFunction);\ndisp(flaggedAges)",
+    "solutionExplanation": "Applying the formula directly gives crcl1 ≈ 75.8 mL/min for the first patient and crcl2 ≈ 69.9 mL/min for the female patient once the 0.85 correction is applied as a separate final multiplication. In part (c), ages, weights, and serumCr are all vectors where position i belongs to the same patient throughout, so (140 - ages) .* weights needs the element-wise .* operator (a plain * would attempt matrix multiplication and fail, since two same-size row vectors aren't valid matrix-multiplication operands), producing crclWard ≈ [75.8, 45.9, 131.9, 37.5, 70.8]. lowFunction = crclWard < 60 compares that whole vector to 60 in one step, flagging patients 2 and 4 (values 45.9 and 37.5), so sum(lowFunction) reports 2. Finally, ages(lowFunction) uses that same logical vector directly as an index into ages, returning [72 80] — the ages of exactly the two flagged patients — without needing find() or a loop.",
+    "concept": "Applying a multi-term formula to a single case, then vectorizing it and using logical indexing across a population",
+    "tags": ["arithmetic operators", "vectorized arithmetic", "logical indexing", "element-wise operators", "modeling"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – Lecture 2"]
+  },
+  {
+    "id": "U0-WB-A03",
+    "unit": 0,
+    "topic": "plotting-basics",
+    "difficulty": "advanced",
+    "title": "Visualizing Drug Concentration Decay for Multiple Doses",
+    "context": "After an IV bolus, a drug's plasma concentration decays over time following C(t) = C0 * exp(-k*t), where C0 is the initial concentration (mg/L) and k is the elimination rate constant (1/hr). You'll plot this decay curve for one initial dose, then overlay the curves for three different initial doses to compare visually.",
+    "parts": [
+      { "label": "a", "prompt": "Create a time vector t = linspace(0, 10, 200) (hours) and, using k = 0.3, compute the concentration curve C for C0 = 100 mg/L using the formula above." },
+      { "label": "b", "prompt": "Plot C versus t as a solid blue line. Label the x-axis 'Time (hr)', the y-axis 'Concentration (mg/L)', add the title 'Single-Dose Concentration Decay', and turn the grid on." },
+      { "label": "c", "prompt": "Using the same t and k, compute two more concentration curves for C0 = 150 and C0 = 200, named C2 and C3 respectively." },
+      { "label": "d", "prompt": "On a new figure, plot all three curves (C, C2, C3) together with three different line styles/colors, label the axes and add a title, and include a legend labeling each curve by its initial dose ('C0 = 100', 'C0 = 150', 'C0 = 200')." },
+      { "label": "e", "prompt": "Using a for-loop over the three C0 values [100 150 200], compute and display (with fprintf, one line per dose) the concentration remaining at t = 5 hours for each dose, without re-plotting anything." }
+    ],
+    "starterCode": "% Problem: Visualizing Drug Concentration Decay for Multiple Doses\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Time vector and single-dose concentration curve\nk = 0.3;\n\n\n% b) Plot C vs t with labels, title, and grid\n\n\n% c) Two more concentration curves (C0 = 150, C0 = 200)\n\n\n% d) Overlay all three curves with a legend\n\n\n% e) For-loop: concentration remaining at t = 5 hr for each C0\n",
+    "hints": [
+      "exp() and the arithmetic operators all work element-wise on a vector automatically here, since t is a vector and -k*t is just a scalar times a vector -- C0 * exp(-k * t) computes the whole curve across every point in t in one expression.",
+      "plot(t, C, 'b', t, C2, 'r--', t, C3, 'g:') plots all three curves in one call, each with its own style string, which is often simpler than three separate hold-on plot calls.",
+      "legend takes one text label per curve, in the same order the curves were plotted -- match 'C0 = 100', 'C0 = 150', 'C0 = 200' to the order you listed C, C2, C3."
+    ],
+    "solutionCode": "% a) Time vector and single-dose concentration curve\nk = 0.3;\nt = linspace(0, 10, 200);\nC0 = 100;\nC = C0 * exp(-k * t);\n\n% b) Plot the single-dose curve\nfigure\nplot(t, C, 'b')\nxlabel('Time (hr)')\nylabel('Concentration (mg/L)')\ntitle('Single-Dose Concentration Decay')\ngrid on\n\n% c) Two more concentration curves\nC2 = 150 * exp(-k * t);\nC3 = 200 * exp(-k * t);\n\n% d) Overlay all three curves\nfigure\nplot(t, C, 'b', t, C2, 'r--', t, C3, 'g:')\nxlabel('Time (hr)')\nylabel('Concentration (mg/L)')\ntitle('Concentration Decay for Three Initial Doses')\nlegend('C0 = 100', 'C0 = 150', 'C0 = 200')\ngrid on\n\n% e) Concentration remaining at t = 5 hr for each dose, via a loop\ndoses = [100 150 200];\nfor i = 1:length(doses)\n    Cat5 = doses(i) * exp(-k * 5);\n    fprintf('C0 = %d: concentration at t=5 hr is %.2f mg/L\\n', doses(i), Cat5);\nend",
+    "solutionExplanation": "Because t is a vector, the expression C0 * exp(-k * t) evaluates the exponential decay formula at every one of its 200 time points in a single line, producing an entire smooth curve without a loop. Plotting all three curves in one plot() call with three (x, y, style) triples lets each curve keep its own color and line style, and matching the legend's label order to the order the curves were listed in the plot call is what keeps 'C0 = 100', 'C0 = 150', and 'C0 = 200' correctly paired with their actual lines. Part (e) then checks the same formula at one specific instant, t = 5 hr: since exp(-k*t) is identical for all three doses at a fixed t, the remaining concentrations scale directly with C0, giving about 22.31, 33.47, and 44.63 mg/L for C0 = 100, 150, and 200 respectively — each exactly 1.5x and 2x the first value, which is a useful sanity check that the formula and the loop are both working correctly.",
+    "concept": "Vectorized function evaluation, multi-curve plotting with legends, and looping over parameter values",
+    "tags": ["plotting", "exp", "legend", "for loop", "vectorized arithmetic", "pharmacokinetics"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – MATLAB Example Presentation"]
+  },
+  {
+    "id": "U0-WB-A04",
+    "unit": 0,
+    "topic": "control-flow",
+    "difficulty": "advanced",
+    "title": "Triage Priority Scoring Across an Emergency Department Queue",
+    "context": "An ED triage protocol assigns each patient a priority level based on respiratory rate (RR) and oxygen saturation (SpO2): 'Immediate' if RR > 30 or RR < 8 or SpO2 < 90; 'Urgent' if RR > 24 or SpO2 < 94 (and not already Immediate); otherwise 'Delayed'. You'll implement this for a single patient, generalize it with a for-loop and switch statement over a small queue, and then summarize results with vectorized counting.",
+    "parts": [
+      { "label": "a", "prompt": "For a single patient with RR = 26 and SpO2 = 93, write nested if/elseif/else logic to store the priority in a string variable priority set to 'Immediate', 'Urgent', or 'Delayed'. Display priority." },
+      { "label": "b", "prompt": "Write a switch statement on priority that displays a recommended reassessment interval: Immediate -> 'Reassess every 5 min', Urgent -> 'Reassess every 30 min', Delayed -> 'Reassess every 2 hours'." },
+      { "label": "c", "prompt": "A queue has RR = [32 22 10 26 18] and SpO2 = [88 96 92 93 97] for 5 index-matched patients. Using a for-loop and the same if/elseif/else rules, display each patient's number and priority." },
+      { "label": "d", "prompt": "Using vectorized logical operators (no loop) on the RR and SpO2 vectors, create three logical vectors named isImmediate, isUrgent, and isDelayed that partition all 5 patients into exactly one of the three categories each (isUrgent and isDelayed must exclude anyone already flagged Immediate, mirroring the elseif priority order)." },
+      { "label": "e", "prompt": "Display, using a single fprintf call, how many patients fall into each of the three categories using sum() on the three logical vectors from (d)." }
+    ],
+    "starterCode": "% Problem: Triage Priority Scoring Across an Emergency Department Queue\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Single patient -> priority\nRR = 26; SpO2 = 93;\n\n\n% b) switch on priority -> reassessment interval\n\n\n% c) Queue of 5 patients, for-loop + if/elseif/else\nRR = [32 22 10 26 18];\nSpO2 = [88 96 92 93 97];\n\n\n% d) Vectorized partition into isImmediate, isUrgent, isDelayed\n\n\n% e) Count and display each category with fprintf\n",
+    "hints": [
+      "Just like the vital-sign example, test the most severe condition (Immediate) first in your if/elseif chain, so a patient who also happens to meet the Urgent condition is still correctly caught as Immediate.",
+      "For the vectorized version in (d), build isImmediate first with element-wise | across the whole RR/SpO2 vectors, then combine the element-wise NOT (~isImmediate) with & so isUrgent only picks up patients that weren't already flagged Immediate -- otherwise a single patient could end up true in two categories at once.",
+      "isDelayed is simplest defined as whoever is left over: ~isImmediate & ~isUrgent, rather than rewriting the Delayed condition from scratch."
+    ],
+    "solutionCode": "% a) Single patient\nRR = 26; SpO2 = 93;\nif RR > 30 || RR < 8 || SpO2 < 90\n    priority = 'Immediate';\nelseif RR > 24 || SpO2 < 94\n    priority = 'Urgent';\nelse\n    priority = 'Delayed';\nend\ndisp(priority)\n\n% b) switch on the computed priority string\nswitch priority\n    case 'Immediate'\n        disp('Reassess every 5 min')\n    case 'Urgent'\n        disp('Reassess every 30 min')\n    case 'Delayed'\n        disp('Reassess every 2 hours')\nend\n\n% c) Whole queue, for-loop\nRR = [32 22 10 26 18];\nSpO2 = [88 96 92 93 97];\nfor i = 1:length(RR)\n    if RR(i) > 30 || RR(i) < 8 || SpO2(i) < 90\n        priority = 'Immediate';\n    elseif RR(i) > 24 || SpO2(i) < 94\n        priority = 'Urgent';\n    else\n        priority = 'Delayed';\n    end\n    fprintf('Patient %d: %s\\n', i, priority);\nend\n\n% d) Vectorized partition (no loop)\nisImmediate = (RR > 30) | (RR < 8) | (SpO2 < 90);\nisUrgent    = ~isImmediate & ((RR > 24) | (SpO2 < 94));\nisDelayed   = ~isImmediate & ~isUrgent;\n\n% e) Count each category\nfprintf('Immediate: %d, Urgent: %d, Delayed: %d\\n', sum(isImmediate), sum(isUrgent), sum(isDelayed));",
+    "solutionExplanation": "For the single patient (RR = 26, SpO2 = 93), the Immediate test fails but RR > 24 is true, so priority is 'Urgent'. Running the same rules across the queue gives priorities of Immediate, Delayed, Urgent, Urgent, Delayed for patients 1 through 5. The vectorized version in (d) has to explicitly rebuild the same priority ordering that the elseif chain gives for free: isImmediate is computed first from the raw vectors, and isUrgent then combines ~isImmediate with the Urgent condition using & so that a patient meeting both the Immediate and Urgent conditions (like patient 1, whose SpO2 of 88 is both a low reading and, on its own, would also fail the RR>24 test if checked independently) is only ever counted as Immediate. isDelayed is defined as everyone left over, ~isImmediate & ~isUrgent, which guarantees the three categories are mutually exclusive and add up to all 5 patients. The final tally is 1 Immediate, 2 Urgent, and 2 Delayed.",
+    "concept": "Multi-branch conditional classification scaled from a single case to a loop and to vectorized set operations",
+    "tags": ["if elseif else", "switch", "logical operators", "vectorized comparison", "control flow"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – If/Else/Switch/While/Loops Lab"]
+  },
+  {
+    "id": "U0-WB-A05",
+    "unit": 0,
+    "topic": "loops-debugging",
+    "difficulty": "advanced",
+    "title": "Simulating Repeated-Dose Drug Accumulation Until Steady State",
+    "context": "When a drug is given repeatedly at a fixed interval, some of the previous dose is still in the body when the next dose is given. A simple repeated-dosing model says: after each new dose, concentration becomes C_new = C_old * fractionRemaining + dose, where fractionRemaining is the fraction of the previous concentration still present right before the next dose. You'll simulate this dose by dose using a for-loop for a fixed number of doses, then use a while-loop to find out how many doses it takes to first exceed a target threshold.",
+    "parts": [
+      { "label": "a", "prompt": "Using dose = 50, fractionRemaining = 0.4, and numDoses = 6, use a for-loop to simulate 6 doses starting from C = 0 before the first dose, updating C each iteration with C = C*fractionRemaining + dose, and store each dose's resulting concentration in a vector concHistory (length 6, one value per dose)." },
+      { "label": "b", "prompt": "Display concHistory using disp, and using fprintf, display the concentration after the 6th dose rounded to 2 decimal places." },
+      { "label": "c", "prompt": "Using a separate while-loop starting fresh from C = 0, keep applying the same update rule dose-by-dose and count doses until C first exceeds threshold = 80, storing the number of doses needed in dosesNeeded. Display dosesNeeded." },
+      { "label": "d", "prompt": "As a comment, explain in one sentence why concHistory's values increase quickly at first but level off (approach a ceiling) after several doses, in terms of the two competing terms in the update rule." }
+    ],
+    "starterCode": "% Problem: Simulating Repeated-Dose Drug Accumulation Until Steady State\n% Name:\n% Date:\n\nclear; clc;\n\ndose = 50;\nfractionRemaining = 0.4;\nnumDoses = 6;\nthreshold = 80;\n\n% a) For-loop: build concHistory over numDoses doses, starting from C = 0\n\n\n% b) Display concHistory and the concentration after the 6th dose (2 decimals)\n\n\n% c) While-loop: count doses needed for C to first exceed threshold, starting fresh from C = 0\n\n\n% d) One-sentence written explanation (as a comment) of why the values level off\n",
+    "hints": [
+      "Start with C = 0 before the loop begins (no dose has been given yet), then inside the for-loop apply C = C*fractionRemaining + dose once per iteration and store that iteration's C into concHistory(i).",
+      "The while-loop needs its own fresh C = 0 and its own separate counter variable -- reusing concHistory or the for-loop's counter from part (a) will not give you a clean count for part (c).",
+      "Because fractionRemaining is less than 1, the carryover term (C*fractionRemaining) grows more and more slowly relative to the fixed 50 added each time, so the total eventually approaches a fixed ceiling instead of climbing without bound."
+    ],
+    "solutionCode": "dose = 50;\nfractionRemaining = 0.4;\nnumDoses = 6;\nthreshold = 80;\n\n% a) For-loop simulation\nC = 0;\nconcHistory = zeros(1, numDoses);\nfor i = 1:numDoses\n    C = C * fractionRemaining + dose;\n    concHistory(i) = C;\nend\n\n% b) Display results\ndisp(concHistory)\nfprintf('Concentration after dose 6: %.2f\\n', concHistory(numDoses));\n\n% c) While-loop to find doses needed to exceed threshold\nC = 0;\ndosesNeeded = 0;\nwhile C <= threshold\n    C = C * fractionRemaining + dose;\n    dosesNeeded = dosesNeeded + 1;\nend\ndisp(dosesNeeded)\n\n% d) Written explanation:\n% Each new concentration is old_C*fractionRemaining (a shrinking carryover, since\n% fractionRemaining < 1) plus a constant 50 mg/L dose, so as old_C grows the carryover\n% term approaches a fixed value and the total stops changing much dose to dose --\n% it levels off near a steady-state ceiling instead of growing without bound.",
+    "solutionExplanation": "Starting from C = 0 and repeatedly applying C = C*0.4 + 50 gives concHistory = [50, 70, 78, 81.2, 82.48, 82.992], so the concentration after the 6th dose is 82.99 mg/L. The while-loop applies the identical update rule but stops counting the instant C first exceeds the 80 mg/L threshold, which happens on the 4th dose (concentration 81.2), so dosesNeeded = 4 — consistent with the 4th entry of concHistory from part (a). The leveling-off behavior happens because the update is a recurrence with two competing terms: the carryover term C*fractionRemaining shrinks in relative influence each round since fractionRemaining is less than 1, while the fixed +50 dose stays constant, so the sequence converges geometrically toward a steady-state value (here, 50/(1-0.4) ≈ 83.33 mg/L) rather than increasing without bound.",
+    "concept": "Iterative recurrence simulation using for- and while-loops, and reasoning about convergence",
+    "tags": ["for loop", "while loop", "recurrence", "accumulator pattern", "modeling"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – If/Else/Switch/While/Loops Lab"]
+  },
+  {
+    "id": "U0-WB-X01",
+    "unit": 0,
+    "topic": "vectors-matrices",
+    "difficulty": "expert",
+    "title": "Auditing a Matrix of Simulated Patient Vitals for Data-Entry Errors",
+    "context": "A simulated dataset stores five patients' vitals as a 5x3 matrix (columns: HR, SBP, DBP). Before running any analysis, you need to audit the matrix for physiologically impossible entries (e.g., negative values, or a diastolic pressure greater than systolic) using indexing and logical operations, then write up your findings.",
+    "parts": [
+      { "label": "a", "prompt": "Create the matrix vitals = [88 120 80; 76 118 76; -60 130 85; 95 110 130; 102 125 82], where rows are patients and columns are HR, SBP, DBP in that order." },
+      { "label": "b", "prompt": "Using indexing, extract the SBP and DBP columns into a single 5x2 submatrix named bp (in that column order), without retyping any numbers." },
+      { "label": "c", "prompt": "Using a vectorized logical expression (no loop), create a logical vector negativeHR that flags any patient with a negative HR value, and display which patient row(s) that is using find()." },
+      { "label": "d", "prompt": "Using a separate vectorized logical expression comparing the two columns of bp, create a logical vector badBP that flags any patient whose DBP exceeds their SBP (a physiologically impossible reading), and display which patient row(s) using find()." },
+      { "label": "e", "prompt": "Using logical indexing, extract the full row(s) of vitals for every patient flagged by EITHER negativeHR OR badBP, into a matrix named flaggedPatients, without duplicating any row if a patient happens to trigger both flags." },
+      { "label": "f", "prompt": "In 2-3 sentences, explain (as a comment) why it's important to audit a dataset like this with logical indexing BEFORE computing any summary statistics (e.g., an average HR), rather than after." }
+    ],
+    "starterCode": "% Problem: Auditing a Matrix of Simulated Patient Vitals for Data-Entry Errors\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Create the vitals matrix (rows = patients; columns = HR, SBP, DBP)\n\n\n% b) Extract SBP and DBP into a 5x2 submatrix named bp\n\n\n% c) negativeHR: flag any patient with HR < 0; report row(s) with find()\n\n\n% d) badBP: flag any patient whose DBP > SBP; report row(s) with find()\n\n\n% e) flaggedPatients: full rows for patients flagged by EITHER check\n\n\n% f) 2-3 sentence written explanation (as a comment)\n",
+    "hints": [
+      "vitals(:, 2:3) uses the colon operator for 'every row' together with a range 2:3 for 'columns 2 through 3' to pull out SBP and DBP together in one indexing expression.",
+      "find() takes a logical vector and returns the numeric position(s) where it's true -- find(negativeHR) tells you which patient row(s) triggered that check, which is more informative to read than just the logical vector itself.",
+      "Combining negativeHR | badBP with the element-wise OR before indexing (rather than indexing twice and combining afterward) guarantees each flagged patient's row appears exactly once in flaggedPatients, even if a single patient happens to trigger both checks."
+    ],
+    "solutionCode": "% a) Create the vitals matrix\nvitals = [ 88 120  80;\n           76 118  76;\n          -60 130  85;\n           95 110 130;\n          102 125  82];\n\n% b) Extract SBP and DBP columns\nbp = vitals(:, 2:3);\ndisp(bp)\n\n% c) Flag negative HR values\nnegativeHR = vitals(:,1) < 0;\ndisp(find(negativeHR))\n\n% d) Flag DBP greater than SBP\nbadBP = bp(:,2) > bp(:,1);\ndisp(find(badBP))\n\n% e) Full rows for any patient flagged by either check\nflagged = negativeHR | badBP;\nflaggedPatients = vitals(flagged, :);\ndisp(flaggedPatients)\n\n% f) Written explanation:\n% Computing something like an average HR before removing the -60 bpm entry would silently\n% pull that average far below any physiologically real value, and the analyst might never\n% notice the summary number itself looks \"off\" without separately checking the raw data.\n% Auditing with logical indexing first lets you find and set aside exactly the impossible\n% rows -- by index -- before they can contaminate any statistic computed from the column.",
+    "solutionExplanation": "negativeHR flags only patient 3 (HR = -60, an impossible reading), and badBP flags only patient 4 (DBP = 130 exceeds SBP = 110, which is physiologically impossible since diastolic pressure cannot exceed systolic). Combining the two flags with the element-wise | operator before indexing, flagged = negativeHR | badBP, produces a single logical vector that is true for patients 3 and 4, and vitals(flagged, :) then pulls out both full rows in one step — each row appears exactly once regardless of whether a patient triggered one flag or both, because OR naturally forms a set union rather than a list that could contain duplicates. The broader point in part (f) is that a corrupted value like -60 bpm doesn't announce itself in a summary statistic; it just silently drags an average or sum to a wrong number that still looks like a plausible result, so checking the raw matrix with explicit logical conditions catches the problem at its source instead of after the damage is already baked into a computed answer.",
+    "concept": "Data auditing via vectorized logical comparisons, find(), and logical indexing across a matrix",
+    "tags": ["matrices", "logical indexing", "find", "vectorized comparison", "data validation"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-X02",
+    "unit": 0,
+    "topic": "control-flow",
+    "difficulty": "expert",
+    "title": "Designing and Justifying a Multi-Factor Fall-Risk Screening Rule",
+    "context": "A physical therapy clinic wants a simple bedside rule to flag patients at elevated fall risk using three already-measured factors: age, a timed 'get up and go' test in seconds (TUG), and whether the patient reports a fall in the past year (a logical value). You'll implement a provided scoring rule, apply it across several patients with control flow, and then critique the rule's design choices in writing.",
+    "parts": [
+      { "label": "a", "prompt": "For a single patient with age = 72, TUG = 14.5, hadFallLastYear = true, compute a riskScore by giving 1 point for each of: age >= 65, TUG > 12, and hadFallLastYear being true (riskScore ranges 0-3). Then classify riskScore into riskCategory using if/elseif/else: 2 or 3 points -> 'High Risk', 1 point -> 'Moderate Risk', 0 points -> 'Low Risk'." },
+      { "label": "b", "prompt": "A clinic has 6 patients: ages = [70 55 81 62 45 90], TUG = [11 15.2 9.8 13.1 8.0 16.5], hadFallLastYear = [true false true false false true]. Using a for-loop, compute each patient's riskScore and riskCategory, displaying \"Patient i: score = S, category\" for each." },
+      { "label": "c", "prompt": "Using a switch statement inside your loop from (b) instead of the if/elseif/else used for classification, produce the same riskCategory for each patient (dispatching on riskScore, an integer 0-3). Confirm your switch-based results match part (b)." },
+      { "label": "d", "prompt": "Using vectorized logical/arithmetic operators (no loop), compute a logical vector highRisk directly across all 6 patients that is true only where riskScore would be >= 2, and display how many patients that is." },
+      { "label": "e", "prompt": "In 3-4 sentences, critique this scoring rule: using patients from part (b), identify a scenario where two patients who seem clinically different in at least one measurement still receive the exact same riskScore and category, and explain what that reveals about a general limitation of simple additive point-based screening rules." },
+      { "label": "f", "prompt": "In 1-2 sentences, propose one small, concrete change to the rule (still expressible with if/elseif/switch and no tools beyond Unit 0 material) that would help distinguish those two patients, without implementing it in code." }
+    ],
+    "starterCode": "% Problem: Designing and Justifying a Multi-Factor Fall-Risk Screening Rule\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Single patient -> riskScore and riskCategory\nage = 72; TUG = 14.5; hadFallLastYear = true;\n\n\n% b) Clinic of 6 patients, for-loop -> riskScore and riskCategory each\nages = [70 55 81 62 45 90];\nTUG  = [11 15.2 9.8 13.1 8.0 16.5];\nhadFallLastYear = [true false true false false true];\n\n\n% c) Same loop, but classify with switch on riskScore instead of if/elseif/else\n\n\n% d) Vectorized highRisk logical vector (no loop) + count\n\n\n% e) 3-4 sentence written critique (as a comment)\n\n\n% f) 1-2 sentence proposed rule change (as a comment, no implementation needed)\n",
+    "hints": [
+      "Logical values act as 1 (true) or 0 (false) in arithmetic, so riskScore = (age >= 65) + (TUG > 12) + hadFallLastYear adds up the three point conditions directly without needing three separate if statements -- though writing it with explicit if statements that each do score = score + 1 is equally valid if you find it clearer.",
+      "switch only matches exact values, but riskScore is always a whole number from 0 to 3 here, so switch riskScore with case 0, case 1, and a combined case {2, 3} can reproduce the same category boundaries as the if/elseif/else version.",
+      "For the written critique, look specifically at two patients from part (b) who land in the same category despite one of their three inputs being quite different in magnitude -- the point rule only checks whether TUG crosses 12 seconds, not by how much, so a TUG of 13.1s and a TUG of 15.2s score identically."
+    ],
+    "solutionCode": "% a) Single patient\nage = 72; TUG = 14.5; hadFallLastYear = true;\nriskScore = (age >= 65) + (TUG > 12) + hadFallLastYear;  % logical values add as 1/0\nif riskScore >= 2\n    riskCategory = 'High Risk';\nelseif riskScore == 1\n    riskCategory = 'Moderate Risk';\nelse\n    riskCategory = 'Low Risk';\nend\nfprintf('Single patient: score = %d, %s\\n', riskScore, riskCategory);\n\n% b) Clinic of 6 patients\nages = [70 55 81 62 45 90];\nTUG  = [11 15.2 9.8 13.1 8.0 16.5];\nhadFallLastYear = [true false true false false true];\n\nfor i = 1:length(ages)\n    riskScore = (ages(i) >= 65) + (TUG(i) > 12) + hadFallLastYear(i);\n    if riskScore >= 2\n        riskCategory = 'High Risk';\n    elseif riskScore == 1\n        riskCategory = 'Moderate Risk';\n    else\n        riskCategory = 'Low Risk';\n    end\n    fprintf('Patient %d: score = %d, %s\\n', i, riskScore, riskCategory);\nend\n\n% c) Same loop, classify with switch on riskScore\nfor i = 1:length(ages)\n    riskScore = (ages(i) >= 65) + (TUG(i) > 12) + hadFallLastYear(i);\n    switch riskScore\n        case 0\n            riskCategory = 'Low Risk';\n        case 1\n            riskCategory = 'Moderate Risk';\n        case {2, 3}\n            riskCategory = 'High Risk';\n    end\n    fprintf('Patient %d (switch): score = %d, %s\\n', i, riskScore, riskCategory);\nend\n\n% d) Vectorized highRisk flag (no loop)\nriskScoreAll = (ages >= 65) + (TUG > 12) + hadFallLastYear;\nhighRisk = riskScoreAll >= 2;\ndisp(highRisk)\nfprintf('Number of high-risk patients: %d\\n', sum(highRisk));\n\n% e) Written critique:\n% Patient 2 (age 55, TUG = 15.2s, no prior fall) and Patient 4 (age 62, TUG = 13.1s, no\n% prior fall) both score 1 and are both labeled \"Moderate Risk,\" even though Patient 2's\n% gait speed is meaningfully slower than Patient 4's -- the rule only checks whether TUG\n% crosses the single 12-second cutoff, not how far past it a patient falls. Any simple\n% additive point rule like this one throws away magnitude information once a threshold is\n% crossed, so two patients who are clinically quite different on one measurement can still\n% collapse into the same score and the same recommended level of concern.\n\n% f) Proposed change:\n% Add a second, higher TUG threshold (e.g., worth an extra point if TUG > 20 seconds) so\n% a much slower gait time contributes more to riskScore than one that only barely exceeds\n% the original 12-second cutoff.",
+    "solutionExplanation": "Because true and false behave as 1 and 0 in arithmetic, riskScore = (age >= 65) + (TUG > 12) + hadFallLastYear adds the three point conditions in one line for every patient. Running this across the clinic gives scores of [2 1 2 1 0 3] and categories High, Moderate, High, Moderate, Low, High for patients 1 through 6, and the switch-based version reproduces those same categories by dispatching on the integer score, using a combined case {2, 3} to merge two integer values into one 'High Risk' outcome. The vectorized version in (d) applies the identical formula to entire vectors at once, flagging patients 1, 3, and 6 as high risk (3 total). The critique in (e) points at Patient 2 and Patient 4, whose TUG times of 15.2s and 13.1s are meaningfully different in magnitude but both simply count as 'TUG > 12 = true,' so both patients land at riskScore = 1 and 'Moderate Risk' despite one of them having noticeably slower mobility — a direct consequence of the rule reducing a continuous measurement to a single yes/no cutoff and discarding everything about how far past that cutoff a value falls.",
+    "concept": "Composite scoring with control flow (if/elseif/else and switch), vectorized scoring, and critiquing a rule's design limitations",
+    "tags": ["control flow", "switch", "logical arithmetic", "for loop", "critical reasoning", "screening rule design"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – If/Else/Switch/While/Loops Lab"]
+  },
+  {
+    "id": "U0-WB-X03",
+    "unit": 0,
+    "topic": "plotting-basics",
+    "difficulty": "expert",
+    "title": "Choosing and Justifying a Visualization for Wound-Healing Progress",
+    "context": "A wound's surface area (cm^2) was measured on the same patient once a week for 8 weeks during recovery. You'll plot the raw healing trend, add a reference target line, and then justify your formatting choices in writing, including one specific way you'd change the plot if it were shown to a patient instead of a clinician.",
+    "parts": [
+      { "label": "a", "prompt": "Create vectors week = 1:8 and area = [8.2 7.4 6.9 6.0 5.1 4.3 3.6 2.9] (cm^2, measured weekly), and targetArea = 3 (the clinically defined healed threshold)." },
+      { "label": "b", "prompt": "Plot area versus week as a line with markers (your choice of style), label both axes with units, and add a descriptive title." },
+      { "label": "c", "prompt": "On the same figure, add a second, horizontal reference line at y = targetArea spanning the full width of the plot, using a distinct line style from the healing-progress line, and add a legend distinguishing the two lines ('Measured area', 'Target area')." },
+      { "label": "d", "prompt": "Using find() combined with a relational expression on area (no loop), determine the first week at which the wound reaches or falls below targetArea, and display that week number using fprintf." },
+      { "label": "e", "prompt": "In 3-4 sentences, justify (as a comment) your choice of line style, marker, and color for the two lines in part (c), specifically explaining why the two lines need to be visually distinguishable from each other and why a reader should be able to tell them apart even without reading the legend text." },
+      { "label": "f", "prompt": "In 2-3 sentences, describe (as a comment) one concrete change you would make to this same plot if it were being shown directly to the patient rather than a clinician colleague, to help them understand their own recovery progress, and explain why that change specifically helps a non-technical audience." }
+    ],
+    "starterCode": "% Problem: Choosing and Justifying a Visualization for Wound-Healing Progress\n% Name:\n% Date:\n\nclear; clc; close all;\n\n% a) Create week and area vectors\nweek = 1:8;\narea = [8.2 7.4 6.9 6.0 5.1 4.3 3.6 2.9];\ntargetArea = 3;\n\n% b) Plot area vs week with labeled axes and a title\n\n\n% c) Add a horizontal target-area reference line and a legend\n\n\n% d) Find the first week the wound reaches/falls below the target, using find()\n\n\n% e) 3-4 sentence written justification of line/marker/color choices (as a comment)\n\n\n% f) 2-3 sentence written explanation of a patient-facing plot change (as a comment)\n",
+    "hints": [
+      "A constant reference line across the full width of the plot is just a second data series with the same x-values (week) and a y-value that never changes -- ones(size(week)) * targetArea builds that constant vector in one line.",
+      "find(area <= targetArea, 1) returns only the FIRST index where the condition is true, rather than every matching index -- that index, used on week, gives you the actual week number rather than just a position.",
+      "For the written parts, think about what happens if a reader is colorblind or the plot is printed in black and white -- color alone is often not enough to tell two lines apart, which is why line STYLE (solid vs. dashed) and MARKER shape are usually varied together with color, not instead of it."
+    ],
+    "solutionCode": "% a) Create the data\nweek = 1:8;\narea = [8.2 7.4 6.9 6.0 5.1 4.3 3.6 2.9];\ntargetArea = 3;\n\n% b) Plot the healing trend\nfigure\nplot(week, area, 'b-o', 'LineWidth', 1.5)\nxlabel('Week')\nylabel('Wound surface area (cm^2)')\ntitle('Wound-Healing Progress Over 8 Weeks')\n\n% c) Add a target reference line and legend\nhold on\nplot(week, ones(size(week)) * targetArea, 'r--', 'LineWidth', 1.5)\nhold off\nlegend('Measured area', 'Target area')\ngrid on\n\n% d) First week reaching/falling below target\nfirstWeek = week(find(area <= targetArea, 1));\nfprintf('Wound first reaches target area in week %d\\n', firstWeek);\n\n% e) Written justification:\n% The measured-area line uses a solid blue line with circle markers, and the target line\n% uses a red dashed line with no markers, so the two lines differ in color, line style, AND\n% marker presence at the same time. That redundancy matters because a reader shouldn't have\n% to rely on color alone -- someone with color vision deficiency, or viewing a black-and-white\n% printout, can still tell the two series apart purely from the solid-vs-dashed line style and\n% the presence of data-point markers, without ever reading the legend text.\n\n% f) Written explanation for a patient-facing version:\n% For a patient audience I would drop the cm^2 unit label in favor of a plain-language phrase\n% like \"Wound size (smaller is better)\" and change the title to something like \"Your Healing\n% Progress,\" since a patient is less likely to know that a downward-sloping curve toward a\n% target line is good news without that context spelled out directly on the plot.",
+    "solutionExplanation": "The reference line is built as ones(size(week)) * targetArea, a constant vector the same length as week, so plotting it against week draws a flat horizontal line spanning the entire width of the figure. find(area <= targetArea, 1) scans the area vector and returns only the position of the first entry meeting the condition, which turns out to be the very last measurement (2.9 cm^2, at position 8), so week(8) reports that the wound first reaches the target area in week 8. The written parts focus on redundant visual encoding — using color, line style, and marker presence together rather than relying on any single one of them means the two curves stay distinguishable even under color-vision deficiency or grayscale printing — and on audience-appropriate framing, since a clinician can read raw cm^2 units and infer meaning from a downward trend line, but a patient benefits more from plain-language labels that spell out what 'smaller' and 'the target line' actually mean for their recovery.",
+    "concept": "2-D plotting with reference lines, legends, first-match search with find(), and communicating visualizations to different audiences",
+    "tags": ["plotting", "legend", "find", "line style", "accessibility", "communication"],
+    "references": ["Unit 0 – Lecture 2", "Unit 0 – MATLAB Example Presentation"]
+  },
+  {
+    "id": "U0-WB-X04",
+    "unit": 0,
+    "topic": "environment",
+    "difficulty": "expert",
+    "title": "Explaining Reproducibility Failures in a Shared MATLAB Script",
+    "context": "Two lab partners are trying to reproduce each other's results from the same script, but they keep getting different numbers, and one of their scripts crashes on a computer where it worked before. You'll trace through the likely causes and explain, in writing, why MATLAB's execution model makes each one likely, then adjust the scripts to be robust.",
+    "parts": [
+      { "label": "a", "prompt": "Script A is: baseline = rand(1,3) * 10; fprintf('Baseline readings: %.2f %.2f %.2f\\n', baseline); Trace through what happens if this is run twice in a row in the same MATLAB session without clearing anything in between, then explain in 1-2 sentences (as a comment) why the two sets of printed values are different even though the code itself never changed." },
+      { "label": "b", "prompt": "Script B is: rawReading = 200; calibratedReading = rawReading * calibrationFactor; fprintf('Calibrated reading: %.2f\\n', calibratedReading); It assumes calibrationFactor already exists in the Workspace and never creates it. Explain in 1-2 sentences (as a comment) why this script might run successfully on a partner's computer immediately after they ran an earlier, unrelated script, but crash the very first time it's run in a fresh MATLAB session." },
+      { "label": "c", "prompt": "Script C creates a figure with plot(...) but never calls close all or figure at the start, so running it twice in a row draws the second run's lines directly on top of the first run's old lines in the same window. Write the single line that should be added at the top of a script to guarantee every run starts from a completely blank figure." },
+      { "label": "d", "prompt": "In 2-3 sentences (as a comment), tie parts (a)-(c) together: what do all three have in common that makes them 'reproducibility' problems, in terms of what state persists in a MATLAB session beyond just the lines of code in the script file itself?" },
+      { "label": "e", "prompt": "Write the corrected, fully self-contained version of Script B: include the clear/clc/close all startup block, define calibrationFactor = 1.05 inside the script itself (rather than assuming it exists), and display the calibrated reading (rawReading = 200) via fprintf." }
+    ],
+    "starterCode": "% Problem: Explaining Reproducibility Failures in a Shared MATLAB Script\n% Name:\n% Date:\n\n% ---- Script A (for part a) ----\n% baseline = rand(1,3) * 10;\n% fprintf('Baseline readings: %.2f %.2f %.2f\\n', baseline);\n\n% a) Written explanation (as a comment):\n\n\n% ---- Script B (for part b) ----\n% rawReading = 200;\n% calibratedReading = rawReading * calibrationFactor;   % calibrationFactor assumed to already exist\n% fprintf('Calibrated reading: %.2f\\n', calibratedReading);\n\n% b) Written explanation (as a comment):\n\n\n% ---- Script C (for part c) ----\n% figure\n% plot(1:5, [2 4 6 8 10], 'b-o')\n% % (running this script twice in a row draws over the same old figure)\n\n% c) Add the single line needed above so every run starts from a blank figure\n\n\n% d) Written synthesis (as a comment):\n\n\n% e) Fully corrected, self-contained calibration script\n",
+    "hints": [
+      "rand() is a pseudo-random generator that keeps advancing its internal state every time it's called, and that internal state lives in the current MATLAB session, not in the script file -- so two calls to rand() in the same session (or across separate runs without restarting MATLAB) draw different numbers from the same underlying sequence.",
+      "A variable created by an earlier, unrelated script does not disappear when that script finishes -- it stays sitting in the Workspace until something (clear, or closing MATLAB) removes it, which is exactly why a script written to assume a variable already exists can accidentally work on one computer's already-populated Workspace and fail immediately on a fresh one.",
+      "Adding close all (or a fresh figure command) at the very top of a plotting script guarantees the very next plot(...) call starts drawing into a brand-new window rather than adding lines onto whatever figure happened to still be open from the last run -- Lecture 1's 'clear; clc; close all;' startup block exists precisely to remove this kind of leftover-state dependency."
+    ],
+    "solutionCode": "% a) Written explanation:\n% rand() draws from MATLAB's internal random-number generator, and calling rand() again in\n% the same session advances that generator to a new state -- the numbers it returns are not\n% tied to the script's code at all, so running the exact same script twice in one session\n% naturally produces two different sets of \"random\" values.\n\n% b) Written explanation, then corrected opening lines:\n% The script never creates calibrationFactor itself -- it only uses it -- so it silently\n% depends on whatever value happens to already be sitting in the current Workspace. On a\n% partner's computer that had just run an earlier script that happened to define\n% calibrationFactor, the leftover variable is still there and the script runs by accident;\n% in a brand-new MATLAB session with an empty Workspace, that variable was never created and\n% the script crashes with an \"Undefined function or variable\" error the moment it's referenced.\nclear; clc; close all;\ncalibrationFactor = 1.05;   % now defined inside the script itself, not assumed\n\n% c) The single line to add at the top of Script C\nclose all\n\n% d) Written synthesis:\n% All three problems share the same root cause: a MATLAB session carries state -- the random\n% generator's internal position, leftover Workspace variables, and open figure windows -- that\n% persists across separate runs and separate scripts, even though none of that state lives\n% inside the script file's actual lines of code. A script that silently depends on that carried-\n% over state, rather than creating everything it needs itself, will behave differently, or fail\n% outright, depending on what state happens to already exist at the moment it's run.\n\n% e) Fully corrected, self-contained calibration script\nclear; clc; close all;\ncalibrationFactor = 1.05;\nrawReading = 200;\ncalibratedReading = rawReading * calibrationFactor;\nfprintf('Calibrated reading: %.2f\\n', calibratedReading);",
+    "solutionExplanation": "All three scripts fail for the same underlying reason: a MATLAB session keeps state that outlives any single script and is invisible if you only read the script's own lines. Script A's randomness comes from the random-number generator's internal position, which advances every time rand() is called and is never reset just because a script finishes running. Script B's crash-or-success inconsistency comes from the Workspace itself carrying over leftover variables between unrelated scripts, so a script that assumes calibrationFactor already exists is really depending on the accident of whatever ran before it, rather than defining what it needs. Script C's overlapping plots come from a figure window staying open across separate runs, so a new plot() call draws into old, leftover axes instead of a blank canvas. The corrected calibration script fixes this by making the script fully self-contained: clear; clc; close all; wipes the leftover Workspace, Command Window, and figures, and calibrationFactor = 1.05 is now created inside the script itself, so calibratedReading = 200 * 1.05 = 210.00 comes out the same every time, on any computer, regardless of what ran before it.",
+    "concept": "MATLAB session state, reproducibility, and writing self-contained scripts",
+    "tags": ["environment", "reproducibility", "rand", "workspace", "clear", "close all", "debugging"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – MATLAB Tutorial"]
+  },
+  {
+    "id": "U0-WB-X05",
+    "unit": 0,
+    "topic": "variables-operators",
+    "difficulty": "expert",
+    "title": "Comparing Floating-Point Equality Pitfalls in a Dosage Safety Check",
+    "context": "A safety check is supposed to flag when a computed cumulative dose exactly matches a maximum allowed dose after repeated additions, using ==. In practice, this exact-equality check can silently fail to fire even when the two values are 'the same' by hand-calculation. You'll reproduce the issue, explain it, and fix it using a tolerance-based comparison instead.",
+    "parts": [
+      { "label": "a", "prompt": "Create cumulativeDose = 0 and, using a for-loop that runs 3 times, add 0.1 to cumulativeDose on each iteration (simulating three separate 0.1 mg doses). Display the final value of cumulativeDose using fprintf with 20 digits after the decimal point (format specifier %.20f) to see its true stored value." },
+      { "label": "b", "prompt": "Create maxDose = 0.3. Using ==, create a logical variable exactMatch that checks whether cumulativeDose equals maxDose exactly, and display it." },
+      { "label": "c", "prompt": "In 2-3 sentences (as a comment), explain why exactMatch is false even though cumulativeDose 'should' mathematically equal 0.3, referencing what you saw when you displayed cumulativeDose to 20 decimal places in part (a)." },
+      { "label": "d", "prompt": "Fix the safety check using a tolerance-based comparison instead of ==: create closeEnough as true if the absolute difference between cumulativeDose and maxDose (using abs()) is less than a small tolerance, 1e-9, and display it." },
+      { "label": "e", "prompt": "In 1-2 sentences (as a comment), explain why a tolerance-based comparison like the one in (d) is generally the safer way to compare two computed floating-point values, and give one situation where using == on two doubles would still be perfectly safe." }
+    ],
+    "starterCode": "% Problem: Comparing Floating-Point Equality Pitfalls in a Dosage Safety Check\n% Name:\n% Date:\n\nclear; clc;\n\n% a) Build cumulativeDose from three 0.1 mg additions in a for-loop\n\n\n% b) exactMatch using == against maxDose = 0.3\n\n\n% c) 2-3 sentence written explanation (as a comment)\n\n\n% d) closeEnough using a tolerance-based comparison with abs()\n\n\n% e) 1-2 sentence written explanation (as a comment)\n",
+    "hints": [
+      "A for-loop that runs exactly 3 times can be written as for i = 1:3, with cumulativeDose = cumulativeDose + 0.1 as the only line inside it.",
+      "%.20f in fprintf forces MATLAB to print far more decimal digits than the default display normally shows, revealing tiny representation error that's always there but usually hidden from view.",
+      "abs(cumulativeDose - maxDose) computes how far apart the two numbers actually are; comparing that distance to a small tolerance like 1e-9 (instead of demanding the two numbers be bit-for-bit identical) is the standard fix for this exact situation."
+    ],
+    "solutionCode": "% a) Build cumulativeDose from three 0.1 mg additions\ncumulativeDose = 0;\nfor i = 1:3\n    cumulativeDose = cumulativeDose + 0.1;\nend\nfprintf('%.20f\\n', cumulativeDose);\n\n% b) Exact-equality safety check\nmaxDose = 0.3;\nexactMatch = (cumulativeDose == maxDose);\ndisp(exactMatch)\n\n% c) Written explanation:\n% Displaying cumulativeDose to 20 decimal places shows it is actually stored as something\n% like 0.30000000000000004441, not exactly 0.3 -- 0.1 cannot be represented exactly in\n% binary floating point, so adding it three times accumulates a tiny rounding error that\n% makes the result differ from the double-precision value MATLAB stores for the literal 0.3.\n\n% d) Tolerance-based safety check\ncloseEnough = abs(cumulativeDose - maxDose) < 1e-9;\ndisp(closeEnough)\n\n% e) Written explanation:\n% A tolerance-based comparison accepts two values as \"the same\" whenever they're closer\n% together than any realistic amount of floating-point rounding error could ever separate two\n% truly-equal quantities, which is why it's the safer default; == on two doubles is still\n% perfectly safe when both values come from the exact same unmodified variable or from integer-\n% valued arithmetic that never leaves the range where doubles are represented exactly.",
+    "solutionExplanation": "Printing cumulativeDose with %.20f reveals that three additions of 0.1 actually produce 0.30000000000000004441 rather than a mathematically exact 0.3 — this happens because 0.1 has no exact finite representation in binary floating point, so every time it's added, a tiny rounding error is introduced, and those errors accumulate across the three additions. MATLAB's stored double-precision value for the literal 0.3 is a different (also slightly imprecise) binary approximation, so the two quantities, while equal on paper, are not bit-for-bit identical in memory, which is exactly why exactMatch using == comes back false. The fix in part (d) sidesteps the whole issue: abs(cumulativeDose - maxDose) computes the actual (tiny) gap between the two values, and comparing that gap to a small tolerance like 1e-9 correctly reports closeEnough as true, since the real difference here is on the order of 10^-17, far smaller than the tolerance. This is why tolerance-based comparisons are the standard practice for comparing computed floating-point results in any language, while == on two doubles remains safe only in narrower cases, such as comparing a variable to itself or working entirely with integer-valued arithmetic that doubles can represent exactly.",
+    "concept": "Floating-point representation error and why tolerance-based comparisons are safer than exact equality",
+    "tags": ["floating point", "relational operators", "abs", "tolerance", "double precision", "arithmetic operators"],
+    "references": ["Unit 0 – Lecture 1", "Unit 0 – Lecture 2"]
+  }
+]
