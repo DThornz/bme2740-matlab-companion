@@ -327,6 +327,20 @@ body.dark-mode .exam-timer-warn{color:#f87171!important}
 .hint-btn:hover{background:var(--teal-glow)}
 .hint-box{margin:8px 0 16px;padding:10px 14px;border-left:3px solid var(--amber);background:var(--amber-bg);font-size:.85em;color:var(--muted);border-radius:0 6px 6px 0}
 
+/* ─── Problem Sets (assignment/quiz-style multi-part word problems) ── */
+.wb-list{display:flex;flex-direction:column;gap:14px}
+.wb-item{background:var(--bg2);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
+.wb-item-header{width:100%;display:flex;align-items:center;gap:14px;justify-content:space-between;padding:18px 22px;background:none;border:none;cursor:pointer;text-align:left;font:inherit;color:inherit}
+.wb-item-title{font-weight:600;font-size:.98em;flex:1 1 auto}
+.wb-item-chevron{color:var(--dim);font-size:.85em;transition:transform .15s}
+.wb-item-header[aria-expanded="true"] .wb-item-chevron{transform:rotate(180deg)}
+.wb-item-header:hover .wb-item-title{color:var(--teal)}
+.wb-item-body{padding:2px 22px 24px;border-top:1px solid var(--border)}
+.wb-context{color:var(--muted);font-size:.9em;line-height:1.65;margin:16px 0 12px}
+.wb-parts{margin:0 0 14px 20px;padding:0;display:flex;flex-direction:column;gap:9px;font-size:.92em;line-height:1.65;color:var(--text)}
+.wb-hints{display:flex;flex-direction:column;gap:2px;margin:6px 0}
+.wb-solution{margin-top:14px}
+
 /* ─── Answer inputs ───────────────────────────────────────── */
 .answer-area{margin:18px 0}
 .choice-list{display:flex;flex-direction:column;gap:8px}
@@ -460,7 +474,10 @@ body.dark-mode .btn-ghost:hover{color:#2dd4bf!important;border-color:#2dd4bf!imp
 body.dark-mode .btn-primary{background:#0b7a6e!important;color:#fff!important}
 body.dark-mode .breadcrumb,body.dark-mode .breadcrumb a{color:#94a3b8!important}
 body.dark-mode .breadcrumb span:last-child{color:#e2e8f0!important}
-body.dark-mode .stat-card,body.dark-mode .unit-card,body.dark-mode .topic-card,body.dark-mode .difficulty-card,body.dark-mode .question-card,body.dark-mode .results-summary,body.dark-mode .reference-card{background:#0a1628!important;border-color:#1c3050!important}
+body.dark-mode .stat-card,body.dark-mode .unit-card,body.dark-mode .topic-card,body.dark-mode .difficulty-card,body.dark-mode .question-card,body.dark-mode .results-summary,body.dark-mode .reference-card,body.dark-mode .wb-item{background:#0a1628!important;border-color:#1c3050!important}
+body.dark-mode .wb-item-body{border-color:#1c3050!important}
+body.dark-mode .wb-item-title{color:#e2e8f0!important}
+body.dark-mode .wb-context,body.dark-mode .wb-parts{color:#a8bcd4!important}
 body.dark-mode .stat-num{color:#2dd4bf!important}
 body.dark-mode .stat-label,body.dark-mode .mini-list{color:#94a3b8!important}
 body.dark-mode .mini-heading{color:#2dd4bf!important}

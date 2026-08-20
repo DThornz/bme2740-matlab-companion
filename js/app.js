@@ -53,6 +53,24 @@ const ROUTES = [
       const { renderLearnChapter } = await import('./review-views.js');
       await renderLearnChapter(app, decodeURIComponent(m[1]), decodeURIComponent(m[2]));
     } },
+  // Problem Sets — assignment/quiz-style multi-part word problems (see
+  // data/problems/ and js/problem-views.js). Dynamically imported for the
+  // same reason as /learn and /sandbox above.
+  { pattern: /^\/problems$/, render: async () => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderProblemSetsHome } = await import('./problem-views.js');
+      renderProblemSetsHome(app);
+    } },
+  { pattern: /^\/problems\/([^/]+)$/, render: async m => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderProblemSetUnit } = await import('./problem-views.js');
+      renderProblemSetUnit(app, decodeURIComponent(m[1]));
+    } },
+  { pattern: /^\/problems\/([^/]+)\/([^/]+)$/, render: async m => {
+      app.innerHTML = '<div class="empty-state">Loading…</div>';
+      const { renderProblemSetList } = await import('./problem-views.js');
+      renderProblemSetList(app, decodeURIComponent(m[1]), decodeURIComponent(m[2]));
+    } },
   { pattern: /^\/search$/, render: (m, params) => renderSearch(app, params.get('q') || '') },
   { pattern: /^\/instructor$/, render: () => {
       if (!isInstructorMode) { location.hash = '#/'; return; }
