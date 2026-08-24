@@ -106,7 +106,10 @@ export async function renderLearnUnit(container, unitSlug) {
         ${progressBar(exploredPct, { label: `${unit.title} review progress` })}
         <span class="unit-card-pct">${exploredPct}% explored</span>
       </div>
-      <div class="dashboard-actions"><a class="btn btn-outline" href="#/unit/${unit.id}">Go to Practice for this Unit</a></div>
+      <div class="dashboard-actions">
+        <a class="btn btn-outline" href="#/unit/${unit.id}">Go to Practice for this Unit</a>
+        <a class="btn btn-outline" href="#/problems/${unit.id}">📝 Problem Sets (assignment-style)</a>
+      </div>
       ${lectureFooterHtml(unit)}
     </div>
     <div class="section">

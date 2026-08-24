@@ -59,6 +59,7 @@ export function renderDashboard(container) {
       <div class="hero-actions">
         <a href="#/unit/0" class="btn btn-primary">Start Practicing</a>
         <a href="#/learn" class="btn btn-primary">Review the Material</a>
+        <a href="#/problems" class="btn btn-primary">Problem Sets</a>
         <a href="#units" class="btn btn-ghost">Explore Course Topics</a>
       </div>
     </div>
@@ -210,6 +211,7 @@ export function renderUnit(container, unitId) {
       <div class="dashboard-actions">
         ${hasReview ? `<a class="btn btn-primary" href="${reviewUnitHref(unit.id)}">📖 Review This Unit</a>` : ''}
         ${total ? `<a class="btn btn-outline" href="#/quiz/config?unit=${unit.id}&topic=all&difficulty=mixed">Random Quiz — Whole Unit (${total} questions)</a><a class="btn btn-outline" href="#/browse?unit=${unit.id}">Browse Questions</a>` : ''}
+        <a class="btn btn-outline" href="#/problems/${unit.id}">📝 Problem Sets (assignment-style)</a>
       </div>
     </div>
     <div class="section">

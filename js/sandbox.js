@@ -46,6 +46,11 @@ let plotCanvasBound = false;
 let plotUnavailableReason = null;
 let editor = null;
 
+// Set by js/problem-views.js's "Open in Sandbox" button before navigating
+// here — must match the constant of the same name/value duplicated there
+// (see that file's comment for why it isn't imported instead).
+const PREFILL_KEY = 'bme2740:sandboxPrefill';
+
 // Turns bindPlotCanvas()'s diagnostic result into a one-line, student-facing
 // reason — see matlab-runtime.js's bindPlotCanvas JSDoc for the field shapes.
 function describePlotUnavailable(bindResult) {
@@ -150,7 +155,9 @@ export function renderSandbox(container) {
 
   if (alreadyLoaded) refreshMemoryNote(memNote);
 
-  mountEditor(editorHost, EXAMPLES[0].code, false);
+  let prefill = null;
+  try { prefill = sessionStorage.getItem(PREFILL_KEY); sessionStorage.removeItem(PREFILL_KEY); } catch (e) { /* storage unavailable — fall through to the default example */ }
+  mountEditor(editorHost, prefill || EXAMPLES[0].code, false);
 
   container.querySelectorAll('.sandbox-example-btn').forEach(btn => {
     btn.addEventListener('click', () => {
