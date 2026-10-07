@@ -107,7 +107,7 @@ The practical rule of thumb from lecture, in order:
 ```
 
 :::callout kind="sandbox" title="Sandbox Limitation"
-<code>ode15s</code>, <code>ode23s</code>, and <code>ode23tb</code> haven't been verified against this browser sandbox (RunMat) — they aren't confirmed working or confirmed broken. <code>ode45</code> itself is fully verified and safe to run here. If a problem in this course is genuinely stiff, treat the stiff-solver code as read reference material and verify it in real MATLAB or MATLAB Online rather than expecting it to run in this page's Try-it blocks.
+<code>ode15s</code>, <code>ode23s</code>, and <code>ode23tb</code> aren't supported in this browser sandbox (RunMat). <code>ode45</code> itself works correctly and is safe to run here. If a problem in this course is genuinely stiff, treat the stiff-solver code as read reference material and run it in real MATLAB or MATLAB Online rather than expecting it to run in this page's Try-it blocks.
 :::
 
 ## Check Your Understanding

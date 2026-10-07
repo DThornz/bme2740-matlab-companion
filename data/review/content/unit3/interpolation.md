@@ -96,7 +96,7 @@ ys = spline(x, y, xx);   % xx: query points, ys: interpolated values
 ```
 
 :::callout kind="sandbox" title="Sandbox Limitation"
-<code>spline</code>/<code>ppval</code> haven't been verified to work in this browser's MATLAB sandbox, so this block is read-only. The Lagrange example above and <code>polyfit</code>/<code>polyval</code> are both confirmed to work here if you want an interactive alternative; verify <code>spline</code> in real MATLAB or MATLAB Online.
+<code>spline</code>/<code>ppval</code> aren't supported in this browser's MATLAB sandbox, so this block is read-only. The Lagrange example above and <code>polyfit</code>/<code>polyval</code> both work here if you want an interactive alternative; run <code>spline</code> in real MATLAB or MATLAB Online instead.
 :::
 
 ## Interpolation vs. Extrapolation
@@ -135,7 +135,7 @@ Before trusting any interpolated value, check whether your query point actually 
 | Quick estimate between two nearby points | Linear interpolation (point-slope, or <code>interp1</code>) |
 | Small dataset, need an analytic polynomial you can differentiate/integrate | <code>polyfit</code> / <code>polyval</code> |
 | Want to avoid solving an ill-conditioned system directly | Lagrange polynomial |
-| Larger dataset, need a smooth curve without high-degree oscillation | <code>spline</code> / <code>ppval</code> (unverified in this sandbox) |
+| Larger dataset, need a smooth curve without high-degree oscillation | <code>spline</code> / <code>ppval</code> (not supported in this sandbox) |
 
 ## Check Your Understanding
 

@@ -93,15 +93,15 @@ export function renderSandbox(container) {
       <h1 class="section-title" style="font-size:2.1em">MATLAB Sandbox</h1>
       <div class="callout callout-amber">
         <div class="callout-title">Experimental — read before use</div>
-        Code here runs in a real MATLAB-syntax interpreter (<a href="https://runmat.com" target="_blank" rel="noopener">RunMat</a>), compiled to WebAssembly and executed entirely in your browser, in a background worker — nothing is sent to any server. It is <strong>not</strong> official MATLAB and isn't 100% behavior-identical. Known gaps found while testing this prototype:
+        Code here runs in a real MATLAB-syntax interpreter (<a href="https://runmat.com" target="_blank" rel="noopener">RunMat</a>), compiled to WebAssembly and executed entirely in your browser, in a background worker — nothing is sent to any server. It is <strong>not</strong> official MATLAB and isn't 100% behavior-identical. Known gaps:
         <ul style="margin:8px 0 0 20px;line-height:1.7">
           <li>Assigning a field to an undefined variable (e.g. <code>s.age = 45;</code> without <code>s</code> already existing) does not auto-create a struct the way real MATLAB does — write <code>s = struct();</code> first as a workaround.</li>
           <li>If an assignment's right-hand side errors (e.g. adding mismatched-size arrays), the target variable is left at <code>0</code> and echoed instead of staying undefined with no output.</li>
           <li><code>switch</code>/<code>case</code> with a cell-array case (<code>case {'a','b'}</code>) for matching multiple values at once isn't supported — use separate <code>case</code> lines instead.</li>
-          <li><code>fminsearch</code> isn't implemented in this build — <code>fzero</code> and <code>fminbnd</code> both work correctly.</li>
+          <li><code>fminsearch</code> isn't implemented here — <code>fzero</code> and <code>fminbnd</code> both work correctly.</li>
           <li>Calling an anonymous function with an inline range as the argument, e.g. <code>f = @(x) x.^2; f(1:5)</code>, fails with a "Slicing only supported on tensors" error — assign the range to a variable first (<code>r = 1:5; f(r)</code>) and it works fine.</li>
           <li><code>plot(M)</code> with a single matrix argument doesn't plot one line per column the way real MATLAB does — it flattens the whole matrix into one series instead. Plot columns explicitly if you need multiple lines: <code>hold on; for i=1:size(M,2); plot(M(:,i)); end</code>.</li>
-          <li>Plotting depends on your browser's WebGPU support. If a figure doesn't appear, the output area below will now say specifically why (e.g. WebGPU unavailable) instead of just showing nothing — that's a real browser-support limit, not something you did wrong.</li>
+          <li>Plotting depends on your browser's WebGPU support. If a figure doesn't appear, the output area below will say specifically why (e.g. WebGPU unavailable) instead of just showing nothing — that's a real browser-support limit, not something you did wrong.</li>
         </ul>
         This sandbox is for free-form practice and exploration only — it is separate from the graded question bank and doesn't affect your progress stats.
       </div>
