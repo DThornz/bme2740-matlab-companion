@@ -165,7 +165,7 @@ xlabel('prey'); ylabel('predator')
 ```
 
 :::callout kind="sandbox" title="Sandbox Limitation"
-<code>quiver</code> hasn't been verified against this browser sandbox (RunMat) — treat the block above as reference, not something guaranteed to run here. A RunMat-safe way to see the same qualitative picture is to overlay several <code>ode45</code> trajectories from different initial conditions on one <code>plot</code>, which is exactly what the interactive block below does.
+<code>quiver</code> isn't supported in this browser sandbox (RunMat) — treat the block above as reference rather than something you can run here. To see the same qualitative picture in a way that does run here, overlay several <code>ode45</code> trajectories from different initial conditions on one <code>plot</code>, which is exactly what the interactive block below does.
 :::
 
 ```matlab run caption="predator-prey trajectories from several starting populations"
@@ -191,7 +191,7 @@ Closed loops around the non-trivial equilibrium are the signature of the cyclic,
 MATLAB's Symbolic Math Toolbox (<code>syms</code> to declare a symbolic variable, <code>dsolve</code> to solve an ODE analytically) can produce an exact closed-form solution for many of the equations in this chapter, when one exists. Every example above uses the numeric path (<code>ode45</code>) instead, for two reasons: it works on equations with no closed form at all (most of the interesting nonlinear ones here, including van der Pol and FitzHugh–Nagumo), and it's the approach this whole course — and this sandbox — is built around.
 
 :::callout kind="sandbox" title="Sandbox Limitation"
-The Symbolic Math Toolbox is a large, separate MATLAB component with no confirmed support in this browser sandbox (RunMat) — likely unsupported, though unverified either way. If you want to explore <code>syms</code>/<code>dsolve</code> on these equations, do it in real MATLAB or MATLAB Online; the numeric solutions throughout this chapter don't depend on it.
+The Symbolic Math Toolbox is a large, separate MATLAB component that this browser sandbox (RunMat) doesn't support. If you want to explore <code>syms</code>/<code>dsolve</code> on these equations, do it in real MATLAB or MATLAB Online; the numeric solutions throughout this chapter don't depend on it.
 :::
 
 ## Check Your Understanding

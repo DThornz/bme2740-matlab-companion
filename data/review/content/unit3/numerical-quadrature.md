@@ -109,7 +109,7 @@ I = integral(@(x) sin(x/pi).^3, 0, 4)
 ```
 
 :::callout kind="sandbox" title="Sandbox Limitation"
-<code>integral</code> hasn't been verified to work in this browser's MATLAB sandbox (it isn't on the confirmed-working list), so the block above is read-only rather than an interactive Try-it. <code>trapz</code> and the hand-rolled Simpson's rule above are both confirmed to work here if you want to experiment interactively; verify <code>integral</code> in real MATLAB or MATLAB Online.
+<code>integral</code> isn't supported in this browser's MATLAB sandbox, so the block above is read-only rather than an interactive Try-it. <code>trapz</code> and the hand-rolled Simpson's rule above both work here if you want to experiment interactively; run <code>integral</code> in real MATLAB or MATLAB Online instead.
 :::
 
 ## Worked Example: Drug Concentration AUC
@@ -137,7 +137,7 @@ Other places the same idea shows up in this course's biomedical examples: integr
 | Situation | MATLAB approach |
 | --- | --- |
 | You have sampled/measured data, not a function | <code>trapz(x, y)</code> |
-| You have a function handle and want an accurate answer fast | <code>integral(f, a, b)</code> (unverified in this sandbox) |
+| You have a function handle and want an accurate answer fast | <code>integral(f, a, b)</code> (not supported in this sandbox) |
 | You want to see the mechanics of the approximation yourself | Hand-rolled midpoint, trapezoidal, or Simpson's rule |
 
 ## Check Your Understanding

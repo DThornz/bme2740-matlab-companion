@@ -142,7 +142,7 @@ Calling <code>figure</code> opens a new, separate plot window instead of drawing
 | <code>scatter(x,y)</code> | An (x,y) scatter plot with more marker/color control than plain <code>plot(x,y,'o')</code> |
 
 :::callout kind="note" title="Note"
-These aren’t exercised as Try-it examples in this Review chapter yet. Try <code>doc bar</code> / <code>doc histogram</code> / <code>doc scatter</code> in real MATLAB.
+These aren’t exercised as Try-it examples in this Review chapter. Try <code>doc bar</code> / <code>doc histogram</code> / <code>doc scatter</code> in real MATLAB.
 :::
 
 ## Check Your Understanding
